@@ -1,9 +1,9 @@
 {
-  "name": "react-redux-poc",
+  "name": "cedir-uli",
   "version": "0.0.1",
-  "description": "React/Redux example todo application.",
-  "homepage": "https://github.com/cedir/react-redux-poc",
-  "author": "Walter",
+  "description": "Aplicacion interna ULI",
+  "homepage": "https://github.com/cedir/uli/",
+  "author": "Cedir",
   "license": "MIT",
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
@@ -67,6 +67,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/cedir/react-redux-poc"
+    "url": "https://github.com/cedir/uli"
   }
 }
