@@ -4,7 +4,8 @@ import {Link} from 'react-router';
 const HomePage = () => {
   return (
     <div>
-      <p>hola mundo</p>
+      <h1>Página Principal</h1>
+      <p>hola mundo :)</p>
     </div>
   );
 };

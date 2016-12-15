@@ -8,6 +8,7 @@ import configureStore from './app/configureStore.js';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import jQuery from 'jquery';
+import metismenu from 'metismenu';
 import bootstrap from 'bootstrap';
 
 import Custom from './../css/style.less';
