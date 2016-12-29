@@ -15,19 +15,11 @@ export class Login extends Component {
     }
 
     doLogin (userName, password) {
-        this.context.store.dispatch(function(dispatch){
-            if(userName === 'jiaguilera' && password === 'holamundo')
-            {
-                const user = {userName, name: 'Ignacio Aguilera', role: 'Administrador'};
-                setTimeout(() => dispatch({ type: 'USER_LOGIN', user}), 1000);
-            }
-        });
+        this.context.store.dispatch({type: 'DO_LOGIN', userName, password});
     }
 
     doLogout() {
-        this.context.store.dispatch(function(dispatch){
-            setTimeout(() => dispatch({ type: 'USER_LOGOUT'}), 1000);
-        });
+        this.context.store.dispatch({type: 'DO_LOGOUT'});
     }
 
     render() {
