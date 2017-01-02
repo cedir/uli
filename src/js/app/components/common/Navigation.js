@@ -6,8 +6,7 @@ import { Login } from './Login';
 class Navigation extends Component {
 
     componentDidMount() {
-        const { menu } = this.refs;
-        $(menu).metisMenu();
+        $('#side-menu').metisMenu();
     }
 
     activeRoute(routeName) {
@@ -21,7 +20,7 @@ class Navigation extends Component {
     render() {
         return (
             <nav className="navbar-default navbar-static-side" role="navigation">
-                <ul className="nav metismenu" id="side-menu" ref="menu">
+                <ul className="nav metismenu" id="side-menu">
                     <li className="nav-header">
                         <Login/>
                         <div className="logo-element">
@@ -31,8 +30,8 @@ class Navigation extends Component {
                     <li className={this.activeRoute("/")}>
                         <Link to="/"><i className="fa fa-th-large" /> <span className="nav-label">Pagina Principal</span></Link>
                     </li>
-                    <li className={this.activeRoute("/page1")}>
-                        <Link to="/page1"><i className="fa fa-user-md" /> <span className="nav-label">Página 1</span></Link>
+                    <li className={this.activeRoute("/estudios")}>
+                        <Link to="/estudios"><i className="fa fa-heartbeat" /> <span className="nav-label">Estudios</span></Link>
                     </li>
                 </ul>
 
