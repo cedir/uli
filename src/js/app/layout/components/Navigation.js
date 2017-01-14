@@ -5,9 +5,9 @@ import { Login } from './Login';
 
 class Navigation extends Component {
 
-    componentDidMount() {
-        $('#side-menu').metisMenu();
-    }
+    // componentDidMount() {
+    //     $('#side-menu').metisMenu();
+    // }
 
     activeRoute(routeName) {
         return this.props.location.pathname.endsWith(routeName) ? "active" : "";

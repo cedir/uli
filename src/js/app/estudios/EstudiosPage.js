@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {EstudiosDelDia} from '../estudio/EstudiosDelDia';
+import {EstudiosDelDia} from './components/EstudiosDelDia';
 
 const EstudiosPage = () => {
   return (

@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
-import Navigation from './components/common/Navigation';
-import { correctHeight, detectBody } from './layout/Helpers';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Navigation from './components/Navigation';
+import { correctHeight, detectBody } from './Helpers';
 
-class App extends React.Component {
+class Layout extends React.Component {
      componentDidMount() {
 
         // Run correctHeight function on load and resize window event
@@ -26,26 +26,20 @@ class App extends React.Component {
         return (
             <div id="wrapper">
                 <Navigation location={this.props.location}/>
-
                 <div id="page-wrapper" className={wrapperClass}>
-
                     <Header />
-
                     {this.props.children}
-
                     <Footer />
-
                 </div>
-
             </div>
 
         );
     }
 }
 
-App.propTypes = {
+Layout.propTypes = {
     location: PropTypes.object,
     children: PropTypes.element
 };
 
-export default App;
+export default Layout;

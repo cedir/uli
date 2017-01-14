@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { Tabla } from '../base/Tabla';
+import { Tabla } from '../../common/components/Tabla';
 import { connect } from 'react-redux';
 
 const headers = [{
@@ -51,21 +51,17 @@ const headers = [{
 }];
 
 class EstudiosDelDiaPres extends React.Component {
-
-    componentDidMount() {
-        this.props.fetch();
-    }
-
     render() {
         return (
-            <Tabla headers={headers} rows={this.props.estudios}/>
+            <Tabla headers={headers} rows={this.props.estudios} fetch={this.props.fetch} cancel={this.props.cancel}/>
         );
     }
 }
 
 EstudiosDelDiaPres.propTypes = {
     estudios: React.PropTypes.array,
-    fetch: React.PropTypes.func
+    fetch: React.PropTypes.func,
+    cancel: React.PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -76,7 +72,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetch: () => dispatch({type: 'FETCH_ESTUDIOS_DIARIOS'})
+    fetch: () => dispatch({type: 'FETCH_ESTUDIOS_DIARIOS'}),
+    cancel: () => dispatch({type: 'CANCEL_ESTUDIOS_DIARIOS'})
   };
 }
 
