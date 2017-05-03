@@ -5,46 +5,31 @@ import { connect } from 'react-redux';
 
 const headers = [{
     Descripcion: 'Fecha',
-    Sort: {
-        Field: 'fecha',
-        Order: 0
-    },
+    SortField: 'fecha',
     Format(e){
         return e.fecha;
     }        
 }, {
     Descripcion: 'Paciente',
-    Sort: {
-        Field: 'paciente.apellido',
-        Order: 0
-    },
+    SortField: 'paciente.apellido',
     Format(e){
         return `${e.paciente.apellido}, ${e.paciente.nombre}`;
     }        
 }, {
     Descripcion: 'Obra Social',
-    Sort: {
-        Field: 'obra_social.nombre',
-        Order: 0
-    },
+    SortField: 'obra_social.nombre',
     Format(e){
         return e.obra_social.nombre;
     }        
 },{
     Descripcion: 'Práctica',
-    Sort: {
-        Field: 'practica.descripcion',
-        Order: 0
-    },
+    SortField: 'practica.descripcion',
     Format(e){
         return e.practica.abreviatura || e.practica.descripcion;
     }        
 },{
     Descripcion: 'Médico',
-    Sort: {
-        Field: 'medico.apellido',
-        Order: 0
-    },
+    SortField: 'medico.apellido',
     Format(e){
         return `${e.medico.apellido}, ${e.medico.nombre}`;
     }        
