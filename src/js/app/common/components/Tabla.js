@@ -103,9 +103,7 @@ export class Tabla extends React.Component {
                     <tbody>
                     {
                         elems.map((e, i) =>
-                            <Linea key={i} values={headers.map(f => f.Format(e))}>
-                            { this.props.details(e) }
-                            </Linea>
+                            <Linea key={i} values={headers.map(f => f.Format(e))}/>
                             )
                     }
                     </tbody>
