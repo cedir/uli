@@ -15,6 +15,9 @@ class ControlPagoAnestesistaPres extends React.Component {
     constructor(props) {
         super(props);
         this.fetch = this.fetch.bind(this);
+        this.setId = this.setId.bind(this);
+        this.setMes = this.setMes.bind(this);
+        this.setAnio = this.setAnio.bind(this);
     }
 
     fetch() {
@@ -23,13 +26,25 @@ class ControlPagoAnestesistaPres extends React.Component {
         const anio = ReactDOM.findDOMNode(this.anio).value;
         this.props.fetch(id, mes, anio);
     }
+    
+    setId(id){
+        this.id = id;
+    }
+
+    setMes(mes){
+        this.mes = mes;
+    }
+
+    setAnio(anio){
+        this.anio = anio;
+    }
 
     render() {
         return (
             <Form inline>
                 <FormGroup controlId="anio">
                     <ControlLabel>Anestesista</ControlLabel>
-                    <FormControl componentClass="select" ref={x => this.id = x}>
+                    <FormControl componentClass="select" ref={this.setId}>
                         <option value="2">Jose Furno</option>
                         <option value="3">Rodolfo Novau</option>
                         <option value="4">Mariano Traglia</option>
@@ -61,13 +76,13 @@ class ControlPagoAnestesistaPres extends React.Component {
                 </FormGroup>
                 <FormGroup controlId="anio">
                     <ControlLabel>Año</ControlLabel>
-                    <FormControl componentClass="select" ref={anio => this.anio = anio}>
+                    <FormControl componentClass="select" ref={this.setAnio}>
                         { years.map(m => <option key={m} value={m}>{m}</option>) }
                     </FormControl>
                 </FormGroup>
                 <FormGroup controlId="formControlsSelect">
                     <ControlLabel>Mes</ControlLabel>
-                    <FormControl componentClass="select" ref={mes => this.mes = mes}>
+                    <FormControl componentClass="select" ref={this.setMes}>
                         { months.map(m => <option key={m} value={m}>{m}</option>) }
                     </FormControl>
                 </FormGroup>

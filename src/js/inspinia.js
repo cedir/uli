@@ -11,9 +11,9 @@ $(document).ready(function () {
 
     // Add body-small class if window less than 768px
     if ($(this).width() < 769) {
-        $('body').addClass('body-small')
+        $('body').addClass('body-small');
     } else {
-        $('body').removeClass('body-small')
+        $('body').removeClass('body-small');
     }
 
     // MetsiMenu
@@ -21,9 +21,9 @@ $(document).ready(function () {
 
     // Collapse ibox function
     $('.collapse-link').on('click', function () {
-        var ibox = $(this).closest('div.ibox');
-        var button = $(this).find('i');
-        var content = ibox.find('div.ibox-content');
+        const ibox = $(this).closest('div.ibox');
+        const button = $(this).find('i');
+        const content = ibox.find('div.ibox-content');
         content.slideToggle(200);
         button.toggleClass('fa-chevron-up').toggleClass('fa-chevron-down');
         ibox.toggleClass('').toggleClass('border-bottom');
@@ -35,14 +35,14 @@ $(document).ready(function () {
 
     // Close ibox function
     $('.close-link').on('click', function () {
-        var content = $(this).closest('div.ibox');
+        const content = $(this).closest('div.ibox');
         content.remove();
     });
 
     // Fullscreen ibox function
     $('.fullscreen-link').on('click', function () {
-        var ibox = $(this).closest('div.ibox');
-        var button = $(this).find('i');
+        const ibox = $(this).closest('div.ibox');
+        const button = $(this).find('i');
         $('body').toggleClass('fullscreen-ibox-mode');
         button.toggleClass('fa-expand').toggleClass('fa-compress');
         ibox.toggleClass('fullscreen');
@@ -89,18 +89,11 @@ $(document).ready(function () {
 
     // Small todo handler
     $('.check-link').on('click', function () {
-        var button = $(this).find('i');
-        var label = $(this).next('span');
+        const button = $(this).find('i');
+        const label = $(this).next('span');
         button.toggleClass('fa-check-square').toggleClass('fa-square-o');
         label.toggleClass('todo-completed');
         return false;
-    });
-
-    // Append config box / Only for demo purpose
-    // Uncomment on server mode to enable XHR calls
-    $.get("skin-config.html", function (data) {
-        if (!$('body').hasClass('no-skin-config'))
-            $('body').append(data);
     });
 
     // Minimalize menu
@@ -119,11 +112,11 @@ $(document).ready(function () {
 
     // Full height of sidebar
     function fix_height() {
-        var heightWithoutNavbar = $("body > #wrapper").height() - 61;
+        const heightWithoutNavbar = $("body > #wrapper").height() - 61;
         $(".sidebard-panel").css("min-height", heightWithoutNavbar + "px");
 
-        var navbarHeigh = $('nav.navbar-default').height();
-        var wrapperHeigh = $('#page-wrapper').height();
+        const navbarHeigh = $('nav.navbar-default').height();
+        const wrapperHeigh = $('#page-wrapper').height();
 
         if (navbarHeigh > wrapperHeigh) {
             $('#page-wrapper').css("min-height", navbarHeigh + "px");
@@ -176,16 +169,16 @@ $(document).ready(function () {
     // Add slimscroll to element
     $('.full-height-scroll').slimscroll({
         height: '100%'
-    })
+    });
 });
 
 
 // Minimalize menu when screen is less than 768px
 $(window).bind("resize", function () {
     if ($(this).width() < 769) {
-        $('body').addClass('body-small')
+        $('body').addClass('body-small');
     } else {
-        $('body').removeClass('body-small')
+        $('body').removeClass('body-small');
     }
 });
 
@@ -194,13 +187,13 @@ $(window).bind("resize", function () {
 $(document).ready(function () {
     if (localStorageSupport()) {
 
-        var collapse = localStorage.getItem("collapse_menu");
-        var fixedsidebar = localStorage.getItem("fixedsidebar");
-        var fixednavbar = localStorage.getItem("fixednavbar");
-        var boxedlayout = localStorage.getItem("boxedlayout");
-        var fixedfooter = localStorage.getItem("fixedfooter");
+        const collapse = localStorage.getItem("collapse_menu");
+        const fixedsidebar = localStorage.getItem("fixedsidebar");
+        const fixednavbar = localStorage.getItem("fixednavbar");
+        const boxedlayout = localStorage.getItem("boxedlayout");
+        const fixedfooter = localStorage.getItem("fixedfooter");
 
-        var body = $('body');
+        const body = $('body');
 
         if (fixedsidebar == 'on') {
             body.addClass('fixed-sidebar');
@@ -240,7 +233,7 @@ $(document).ready(function () {
 
 // check if browser support HTML5 local storage
 function localStorageSupport() {
-    return (('localStorage' in window) && window['localStorage'] !== null)
+    return (('localStorage' in window) && window['localStorage'] !== null);
 }
 
 // For demo purpose - animation css script
@@ -281,9 +274,9 @@ function SmoothlyMenu() {
 
 // Dragable panels
 function WinMove() {
-    var element = "[class*=col]";
-    var handle = ".ibox-title";
-    var connect = "[class*=col]";
+    const element = "[class*=col]";
+    const handle = ".ibox-title";
+    const connect = "[class*=col]";
     $(element).sortable(
         {
             handle: handle,
