@@ -25,7 +25,7 @@ const headers = [{
     Descripcion: 'Práctica',
     SortField: 'practica.descripcion',
     Format(e){
-        return e.practica.abreviatura || e.practica.descripcion;
+        return e.practica && (e.practica.abreviatura || e.practica.descripcion);
     }        
 },{
     Descripcion: 'Médico',
@@ -46,10 +46,6 @@ class EstudiosDelDiaPres extends React.Component {
         this.state = { 
             sort: {}
         };
-    }
-
-    componentDidMount() {
-        this.props.fetch && this.props.fetch();
     }
 
     sortColumn(i){
@@ -150,9 +146,7 @@ class EstudiosDelDiaPres extends React.Component {
 }
 
 EstudiosDelDiaPres.propTypes = {
-    estudios: React.PropTypes.array,
-    fetch: React.PropTypes.func,
-    cancel: React.PropTypes.func
+    estudios: React.PropTypes.array
 };
 
 function mapStateToProps(state) {
@@ -161,11 +155,4 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    fetch: () => dispatch({type: 'FETCH_ESTUDIOS_DIARIOS'}),
-    cancel: () => dispatch({type: 'CANCEL_ESTUDIOS_DIARIOS'})
-  };
-}
-
-export const EstudiosDelDia = connect(mapStateToProps, mapDispatchToProps)(EstudiosDelDiaPres);
+export const EstudiosDelDia = connect(mapStateToProps)(EstudiosDelDiaPres);
