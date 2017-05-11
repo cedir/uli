@@ -112,7 +112,7 @@ class EstudiosDelDiaPres extends React.Component {
     render() {
         const elems = this.sort();
         return (
-            <div>
+            <div className="ibox-content">
                 <table className="table table-stripped">
                     <thead>
                         <tr>

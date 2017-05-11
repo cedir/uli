@@ -105,7 +105,7 @@ class LineasARAPres extends React.Component {
         const elems = this.sort();
         return (
             <div>
-                <table className="table table-stripped">
+                <table className="footable table table-stripped toggle-arrow-tiny">
                     <thead>
                         <tr>
                         {

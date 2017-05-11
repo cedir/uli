@@ -10,8 +10,10 @@ const PagoAnestesistaPage = () => {
       <h1>Pago a Anestesista</h1>
       <p>Detalle del Pago</p>
       <ControlPagoAnestesista/>
-      <LineasARA/>
-      <LineasNoARA/>
+      <div className="ibox-content">
+        <LineasARA/>
+        <LineasNoARA/>
+      </div>
     </div>
   );
 };
