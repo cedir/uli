@@ -1,11 +1,14 @@
+import * as types from './actionTypes';
+
 export function estudioReducer(state=[], action){
     switch(action.type){
-        case 'FETCH_ESTUDIOS_DIARIOS':
-        case 'CANCEL_ESTUDIOS_DIARIOS':
+        case types.FETCH_ESTUDIOS_DIARIOS:
+        case types.CANCEL_ESTUDIOS_DIARIOS:
             return [];
-        case 'LOAD_ESTUDIOS_DIARIOS':
+        case types.LOAD_ESTUDIOS_DIARIOS:
             return action.data.results;
         default:
             return state;
     }
 }
+

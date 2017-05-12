@@ -1,8 +1,9 @@
 import React from 'react';
 import {Link} from 'react-router';
-import {EstudiosDelDia} from './components/EstudiosDelDia';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import * as types from './actionTypes';
+import {EstudiosDelDia} from './components/EstudiosDelDia';
 
 
 class EstudiosPagePre extends React.Component {
@@ -50,8 +51,8 @@ EstudiosPagePre.propTypes = {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetch: (fecha) => dispatch({type: 'FETCH_ESTUDIOS_DIARIOS', fecha}),
-    cancel: () => dispatch({type: 'CANCEL_ESTUDIOS_DIARIOS'})
+    fetch: (fecha) => dispatch({type: types.FETCH_ESTUDIOS_DIARIOS, fecha}),
+    cancel: () => dispatch({type: types.CANCEL_ESTUDIOS_DIARIOS})
   };
 }
 

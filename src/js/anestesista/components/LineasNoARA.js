@@ -1,8 +1,30 @@
 import React from 'react';
 import { orderBy } from 'lodash';
-import { Linea } from './Linea';
+import { connect } from 'react-redux';
 
-export class Tabla extends React.Component {
+const headers = [{
+    Descripcion: 'Fecha',
+    SortField: 'fecha',
+    Format: (e) => e.fecha
+},{
+    Descripcion: 'Paciente',
+    SortField: 'paciente.apellido',
+    Format: (e) => `${e.paciente.apellido}, ${e.paciente.nombre} (${e.paciente.edad || 'N/D'})`
+}, {
+    Descripcion: 'Obra Social',
+    SortField: 'obra_social.nombre',
+    Format: (e) => e.obra_social.nombre
+},{
+    Descripcion: 'Fórmula',
+    SortField: 'Formula',
+    Format: (e) => e.formula
+},{
+    Descripcion: 'Importe',
+    SortField: 'importe',
+    Format: (e) => e.importe
+}];
+
+class LineasNoARAPres extends React.Component {
     constructor(props){
         super(props);
 
@@ -13,10 +35,6 @@ export class Tabla extends React.Component {
         this.state = { 
             sort: {}
         };
-    }
-
-    componentDidMount() {
-        this.props.fetch && this.props.fetch();
     }
 
     sortColumn(i){
@@ -69,20 +87,19 @@ export class Tabla extends React.Component {
     sort(){
         const sInfo = this.state.sort;
         if(sInfo) {
-            const header = this.props.headers[sInfo.Index];
+            const header = headers[sInfo.Index];
             if(header)
             {
                 const direction = this.sortDescription(sInfo.Direction);
-                return orderBy(this.props.rows, header.SortField, direction) || [];
+                return orderBy(this.props.lineas, header.SortField, direction) || [];
             }
         }
 
-        return this.props.rows || [];
+        return this.props.lineas || [];
     }
 
     render() {
         const elems = this.sort();
-        const headers = this.props.headers;
         return (
             <div>
                 <table className="table table-stripped">
@@ -102,9 +119,25 @@ export class Tabla extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        elems.map((e, i) =>
-                            <Linea key={i} values={headers.map(f => f.Format(e))}/>
-                            )
+                        elems.map((e, i) => 
+                        [<tr key={2*i}>
+                            {
+                                headers.map((f,ii) => <td key={ii}>{f.Format(e)}</td>)
+                            }
+                        </tr>,
+                        <tr key={2*i+1}>
+                            <td colSpan={headers.length}>
+                                <ul>
+                                    {
+                                        e.estudios.map((g,iii) =>
+                                            <li key={iii}>{g.practica.descripcion}</li>
+                                            )
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                        ]
+                        )
                     }
                     </tbody>
                 </table>
@@ -113,9 +146,18 @@ export class Tabla extends React.Component {
     }
 }
 
-Tabla.propTypes = {
-    rows: React.PropTypes.array,
-    headers: React.PropTypes.array,
-    details: React.PropTypes.func,
-    fetch: React.PropTypes.func
+LineasNoARAPres.propTypes = {
+    lineas: React.PropTypes.array
 };
+
+function mapStateToProps(state) {
+  return {
+    lineas: state.pago_anestesista.lineas_no_ARA
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export const LineasNoARA = connect(mapStateToProps, mapDispatchToProps)(LineasNoARAPres);

@@ -1,7 +1,6 @@
 import React from 'react';
 import { orderBy } from 'lodash';
 import { Link } from 'react-router';
-import { Tabla } from '../../common/components/Tabla';
 import { connect } from 'react-redux';
 
 const headers = [{
@@ -26,7 +25,8 @@ const headers = [{
     Format: (e) => e.importe
 }];
 
-class LineasNoARAPres extends React.Component {
+class LineasARAPres extends React.Component {
+
     constructor(props){
         super(props);
 
@@ -104,7 +104,7 @@ class LineasNoARAPres extends React.Component {
         const elems = this.sort();
         return (
             <div>
-                <table className="table table-stripped">
+                <table className="footable table table-stripped toggle-arrow-tiny">
                     <thead>
                         <tr>
                         {
@@ -148,13 +148,13 @@ class LineasNoARAPres extends React.Component {
     }
 }
 
-LineasNoARAPres.propTypes = {
+LineasARAPres.propTypes = {
     lineas: React.PropTypes.array
 };
 
 function mapStateToProps(state) {
   return {
-    lineas: state.pago_anestesista.lineas_no_ARA
+    lineas: state.pago_anestesista.lineas_ARA
   };
 }
 
@@ -162,4 +162,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export const LineasNoARA = connect(mapStateToProps, mapDispatchToProps)(LineasNoARAPres);
+export const LineasARA = connect(mapStateToProps, mapDispatchToProps)(LineasARAPres);
