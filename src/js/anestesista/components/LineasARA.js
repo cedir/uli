@@ -1,9 +1,8 @@
 import React from 'react';
 import { orderBy } from 'lodash';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 
-const headers = [{
+/*const headers = [{
     Descripcion: 'Fecha',
     SortField: 'fecha',
     Format: (e) => e.fecha
@@ -23,104 +22,45 @@ const headers = [{
     Descripcion: 'Importe',
     SortField: 'importe',
     Format: (e) => e.importe
-}];
+}];*/
 
 class LineasARAPres extends React.Component {
 
     constructor(props){
         super(props);
 
-        this.sort = this.sort.bind(this);
-        this.sortColumn = this.sortColumn.bind(this);
-        this.sortSymbol = this.sortSymbol.bind(this);
-
-        this.state = { 
+        /*this.state = { 
             sort: {}
-        };
+        };*/
     }
 
-    sortColumn(i){
-        const context = this;
-        return function(ev){
-            const viejo = context.state.sort;
-            const nuevo = {};
-
-            if(viejo && viejo.Index == i) {
-                const proximo = (viejo.Direction + 1) % 3;
-                if(proximo){
-                    Object.assign(nuevo, viejo);
-                    nuevo.Direction = proximo;
-                }
-            }
-            else
-            {
-                Object.assign(nuevo, {Index: i, Direction: 1});
-            }
-
-            context.setState({
-                sort: nuevo 
-            });
-        };
+    componentDidMount() {
+        //debugger;
+        $('.footable').footable({ paginate:false, forceRefresh:true });
+        $('.footable').trigger('footable_redraw');
     }
 
-    sortDescription(value){
-        switch (value) {
-            case 1:
-                return 'asc';
-            case 2:
-                return 'desc';
-            default:
-                return '';
-        }
-    }
-
-    sortSymbol(i){
-        const actual = this.state.sort;
-        const icon = !actual || actual.Index != i
-            ? ""
-            : actual.Direction == 1
-                ? "sort-asc"
-                : "sort-desc"
-                ;
-
-        return "pull-right fa fa-" + icon;
-    }
-
-    sort(){
-        const sInfo = this.state.sort;
-        if(sInfo) {
-            const header = headers[sInfo.Index];
-            if(header)
-            {
-                const direction = this.sortDescription(sInfo.Direction);
-                return orderBy(this.props.lineas, header.SortField, direction) || [];
-            }
-        }
-
-        return this.props.lineas || [];
+    componentDidUpdate() {
+        $('.footable').footable({ paginate:false, forceRefresh:true });
+        $('.footable').trigger('footable_redraw');
     }
 
     render() {
-        const elems = this.sort();
+        const elems = this.props.lineas || [];
         return (
             <div>
                 <table className="footable table table-stripped toggle-arrow-tiny">
                     <thead>
                         <tr>
-                        {
-                            headers.map((e,i) => {
-                                return (
-                                <th key={i} onClick={this.sortColumn(i)}>
-                                    <span className={this.sortSymbol(i)}/>
-                                    <a>{e.Descripcion}</a>
-                                </th>
-                                );
-                            })
-                        }
+                            <th data-toggle="true">Fecha</th>
+                            <th>Paciente</th>
+                            <th data-hide="all">Formula</th>
+                            <th data-hide="all">Importe</th>
                         </tr>
                     </thead>
                     <tbody>
                     {
+                        /*  Esto es para mostrar dos <tr> por registro. En el segundo va el detalle
                         elems.map((e, i) => 
                         [<tr key={2*i}>
                             {
@@ -131,17 +71,32 @@ class LineasARAPres extends React.Component {
                             <td colSpan={headers.length}>
                                 <ul>
                                     {
-                                        e.estudios.map((g,iii) =>
-                                            <li key={iii}>{g.practica.descripcion}</li>
-                                            )
+                                        e.estudios.map((g,iii) => <li key={iii}>{g.practica.descripcion}</li>)
                                     }
                                 </ul>
                             </td>
                         </tr>
                         ]
-                        )
+                        )*/
+                        elems.map((e, i) => {
+                            return (
+                                <tr key={2*i}>
+                                    <td>{e.fecha}</td>
+                                    <td>{e.paciente.apellido}, {e.paciente.nombre}</td>
+                                    <td>{e.formula}</td>
+                                    <td>{e.importe}</td>
+                                </tr>
+                            );
+                        })
                     }
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colSpan="4">
+                                <ul className="pagination pull-right" />
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         );

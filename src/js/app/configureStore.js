@@ -1,10 +1,8 @@
 import { createStore, applyMiddleware } from 'redux';
 import { rootReducer, rootEpic } from './reducers';
 import { createEpicMiddleware } from 'redux-observable';
+//import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 
-
-// Middleware you want to use in production:  <-- TODO esto no se que onda!
-//const enhancer = applyMiddleware(promise);
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
 export default function configureStore() {
@@ -13,6 +11,7 @@ export default function configureStore() {
     return createStore(
       rootReducer,
       applyMiddleware(epicMiddleware)
+      //applyMiddleware(thunk, reduxImmutableStateInvariant())
       );
 }
 
