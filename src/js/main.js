@@ -11,9 +11,11 @@ import jQuery from 'jquery';
 import metismenu from 'metismenu';
 import bootstrap from 'bootstrap';
 import slimscroll from 'jquery-slimscroll';
-import inspinia from './inspinia';
+import inspinia from './app/layout/inspinia';
+import FootableJS from './app/layout/footable/footable.all.min.js';
 
-import Custom from './../css/style.less';
+import Custom from './../style/style.less';
+import FooTable from './../style/footable.core.css';
 
 const store = configureStore();
 

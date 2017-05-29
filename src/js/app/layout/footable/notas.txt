@@ -1,0 +1,27 @@
+
+Descripcion
+
+Renegue mucho para hacerla andar y encima quedo un bug (sin contar que estaba minificado con errores y warnings). En algun post lei que footable se arrastra cuando hay mas del 100 registros.
+
+
+Bugs que quedaron:
+- Si refrescas la tabla dejando expandido algun row (mostrando los detallas), al recargar esos detalles no se borran.
+- Si refrescas estando en una pagina interna (ej /anestesistas/pago), a la grilla le faltan algunos estilos como la negrita del detalle y la flechita >
+
+Problemas que tuve y solucion encotrada:
+1- No se inicializa el footable nuevemante despues del ajax
+
+http://stackoverflow.com/questions/16295763/issue-in-footable-while-adding-dynamic-data
+
+2- Problema que el footable sigue mostrando los detail-row luego de ser re-renderizada.
+https://github.com/fooplugins/FooTable/issues/128
+
+Conclucion:
+Hay que buscar otra tabla que sea responsive, que permita ocultar datos, que ordene por columna y filtre, y que tenga paginador
+ajax (que haga la llamada al server para obtener la siguiente pagina)
+
+Lugares en donde se esta usando:
+- Pago anestesista (Lineas Ara y Lineas No Ara)
+- src/js/main.js --> el import de la libreria mas el footable.core.css
+- Fonts dentro de src/style/fonts/  --> Footable.XX
+- src/style/footable.core.css
