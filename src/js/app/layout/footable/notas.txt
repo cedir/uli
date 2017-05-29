@@ -22,3 +22,6 @@ ajax (que haga la llamada al server para obtener la siguiente pagina)
 
 Lugares en donde se esta usando:
 - Pago anestesista (Lineas Ara y Lineas No Ara)
+- src/js/main.js --> el import de la libreria mas el footable.core.css
+- Fonts dentro de src/style/fonts/  --> Footable.XX
+- src/style/footable.core.css

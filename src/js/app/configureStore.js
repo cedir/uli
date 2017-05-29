@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 import { rootReducer, rootEpic } from './reducers';
 import { createEpicMiddleware } from 'redux-observable';
-//import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
+//import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';  TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
@@ -11,7 +11,7 @@ export default function configureStore() {
     return createStore(
       rootReducer,
       applyMiddleware(epicMiddleware)
-      //applyMiddleware(thunk, reduxImmutableStateInvariant())
+      //applyMiddleware(thunk, reduxImmutableStateInvariant())  TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
       );
 }
 
