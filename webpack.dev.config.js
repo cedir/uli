@@ -16,6 +16,9 @@ export default {
     publicPath: '/',
     filename: 'bundle.js'
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx', '.json'],
+  },
   devServer: {
     contentBase: './src'
   },
@@ -28,6 +31,19 @@ export default {
     })
   ],
   module: {
+    preLoaders: [
+      // Javascript
+      { 
+        test: /\.jsx?$/,
+        loader: 'eslint',
+        // include: path.join(__dirname, 'src/js/estudio'),
+        exclude: [
+          /node_modules/,
+          path.join(__dirname, 'src/js/app/layout/inspinia'),
+          path.join(__dirname, 'src/js/app/layout/footable/footable.all.min'),
+        ]
+      }
+    ],
     loaders: [
       {test: /\.js$/, include: path.join(__dirname, 'src'), loaders: ['babel']},
       {test: /(\.css)$/, loaders: ['style', 'css']},

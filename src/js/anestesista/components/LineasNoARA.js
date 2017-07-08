@@ -1,8 +1,7 @@
 import React from 'react';
-import { orderBy } from 'lodash';
 import { connect } from 'react-redux';
 
-/*const headers = [{
+/* const headers = [{
     Descripcion: 'Fecha',
     SortField: 'fecha',
     Format: (e) => e.fecha
@@ -25,27 +24,15 @@ import { connect } from 'react-redux';
 }];*/
 
 class LineasNoARAPres extends React.Component {
-    constructor(props){
-        super(props);
-
-        /*this.sort = this.sort.bind(this);
-        this.sortColumn = this.sortColumn.bind(this);
-        this.sortSymbol = this.sortSymbol.bind(this);
-
-        this.state = { 
-            sort: {}
-        };
-        */
-    }
 
     componentDidMount() {
-        //debugger;
-        $('.footable').footable({ paginate:false, forceRefresh:true });
+        // debugger;
+        $('.footable').footable({ paginate: false, forceRefresh: true });
         $('.footable').trigger('footable_redraw');
     }
 
     componentDidUpdate() {
-        $('.footable').footable({ paginate:false, forceRefresh:true });
+        $('.footable').footable({ paginate: false, forceRefresh: true });
         $('.footable').trigger('footable_redraw');
     }
 
@@ -69,7 +56,7 @@ class LineasNoARAPres extends React.Component {
             }
 
             context.setState({
-                sort: nuevo 
+                sort: nuevo
             });
         };
     }
@@ -115,7 +102,7 @@ class LineasNoARAPres extends React.Component {
         const elems = this.props.lineas || [];
         return (
             <div>
-                <table className="footable table table-stripped toggle-arrow-tiny">
+                <table className='footable table table-stripped toggle-arrow-tiny'>
                     <thead>
                         {
                             /*
@@ -129,30 +116,28 @@ class LineasNoARAPres extends React.Component {
                             })*/
                         }
                         <tr>
-                            <th data-toggle="true">Fecha</th>
+                            <th data-toggle='true'>Fecha</th>
                             <th>Paciente</th>
-                            <th data-hide="all">Formula</th>
-                            <th data-hide="all">Importe</th>
+                            <th data-hide='all'>Formula</th>
+                            <th data-hide='all'>Importe</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {
-                        elems.map((e, i) => {
-                            return (
-                                <tr key={2*i}>
+                        {
+                            elems.map((e, i) => (
+                                <tr key={ 2 * i }>
                                     <td>{e.fecha}</td>
                                     <td>{e.paciente.apellido}, {e.paciente.nombre}</td>
                                     <td>{e.formula}</td>
                                     <td>{e.importe}</td>
                                 </tr>
-                            );
-                        })
-                    }
+                            ))
+                        }
                     </tbody>
                     <tfoot>
                         <tr>
-                            <td colSpan="4">
-                                <ul className="pagination pull-right" />
+                            <td colSpan='4'>
+                                <ul className='pagination pull-right' />
                             </td>
                         </tr>
                     </tfoot>
@@ -163,17 +148,17 @@ class LineasNoARAPres extends React.Component {
 }
 
 LineasNoARAPres.propTypes = {
-    lineas: React.PropTypes.array
+    lineas: React.PropTypes.array,
 };
 
 function mapStateToProps(state) {
-  return {
-    lineas: state.pago_anestesista.lineas_no_ARA
-  };
+    return {
+        lineas: state.pago_anestesista.lineas_no_ARA,
+    };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {};
+function mapDispatchToProps() {
+    return {};
 }
 
 export const LineasNoARA = connect(mapStateToProps, mapDispatchToProps)(LineasNoARAPres);

@@ -2,18 +2,12 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
-import routes from './routes';
-import configureStore from './app/configureStore.js';
-//require('./favicon.ico'); // Tell webpack to load favicon.ico
 import { syncHistoryWithStore } from 'react-router-redux';
+import routes from './routes';
+import configureStore from './app/configureStore';
+// require('./favicon.ico'); // Tell webpack to load favicon.ico
 
-import jQuery from 'jquery';
-import metismenu from 'metismenu';
-import bootstrap from 'bootstrap';
-import slimscroll from 'jquery-slimscroll';
-import inspinia from './app/layout/inspinia';
-import FootableJS from './app/layout/footable/footable.all.min.js';
-
+/* eslint-disable no-unused-vars */
 import Custom from './../style/style.less';
 import FooTable from './../style/footable.core.css';
 
@@ -23,9 +17,9 @@ const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 render(
-    <Provider store={store}>
-        <Router history={history} routes={routes} />
+    <Provider store={ store }>
+        <Router history={ history } routes={ routes } />
     </Provider>,
-    document.getElementById('container')
+    document.getElementById('container'),
 );
 

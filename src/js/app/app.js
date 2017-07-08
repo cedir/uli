@@ -5,10 +5,9 @@ import Navigation from './layout/components/Navigation';
 import { correctHeight, detectBody } from './layout/Helpers';
 
 class App extends React.Component {
-     componentDidMount() {
-
+    componentDidMount() {
         // Run correctHeight function on load and resize window event
-        $(window).bind("load resize", function() {
+        $(window).bind('load resize', () => {
             correctHeight();
             detectBody();
         });
@@ -22,13 +21,13 @@ class App extends React.Component {
     }
 
     render() {
-        let wrapperClass = "gray-bg " + this.props.location.pathname;
+        const wrapperClass = `gray-bg ${this.props.location.pathname}`;
         return (
-            <div id="wrapper">
-                <Navigation location={this.props.location}/>
-                <div id="page-wrapper" className={wrapperClass}>
+            <div id='wrapper'>
+                <Navigation location={ this.props.location } />
+                <div id='page-wrapper' className={ wrapperClass }>
                     <Header />
-                    {this.props.children}
+                    { this.props.children }
                     <Footer />
                 </div>
             </div>
@@ -39,7 +38,7 @@ class App extends React.Component {
 
 App.propTypes = {
     location: PropTypes.object,
-    children: PropTypes.element
+    children: PropTypes.element,
 };
 
 export default App;

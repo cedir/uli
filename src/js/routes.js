@@ -6,10 +6,10 @@ import EstudiosPage from './estudio/EstudiosPage';
 import PagoAnestesistaPage from './anestesista/PagoAnestesistaPage';
 
 export default (
-    <Route path="/" component={App}>
-        <IndexRoute component={HomePage}/>
-        <Route path="/estudios" component={EstudiosPage}/>
-        <Route path="/anestesistas/pago" component={PagoAnestesistaPage}/>
+    <Route path='/' component={ App }>
+        <IndexRoute component={ HomePage } />
+        <Route path='/estudios' component={ EstudiosPage } />
+        <Route path='/anestesistas/pago' component={ PagoAnestesistaPage } />
     </Route>
 );
 
