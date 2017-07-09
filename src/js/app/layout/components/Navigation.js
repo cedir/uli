@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
-import { Login } from './Login';
+import { Link } from 'react-router-dom';
 
 class Navigation extends Component {
 
@@ -21,12 +20,6 @@ class Navigation extends Component {
         return (
             <nav className='navbar-default navbar-static-side'>
                 <ul className='nav metismenu' id='side-menu'>
-                    <li className='nav-header'>
-                        <Login />
-                        <div className='logo-element'>
-                            Uli
-                        </div>
-                    </li>
                     <li className={ this.activeRoute('/') }>
                         <Link to='/'><i className='fa fa-th-large' />
                             <span className='nav-label'>Pagina Principal</span>
@@ -44,7 +37,6 @@ class Navigation extends Component {
                         </Link>
                     </li>
                 </ul>
-
             </nav>
         );
     }
