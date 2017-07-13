@@ -135,7 +135,7 @@ class LineasNoARAPres extends React.Component {
                             <th>Practicas</th>
                             <th>Edad</th>
                             <th>Subtotal</th>
-                            <th>Retencion</th>
+                            <th>A pagar</th>
 
                             <th data-hide="all">Formula</th>
                             <th data-hide="all">Importe</th>
