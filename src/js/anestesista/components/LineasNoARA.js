@@ -131,8 +131,17 @@ class LineasNoARAPres extends React.Component {
                         <tr>
                             <th data-toggle="true">Fecha</th>
                             <th>Paciente</th>
+                            <th>Obra Social</th>
+                            <th>Practicas</th>
+                            <th>Edad</th>
+                            <th>Subtotal</th>
+                            <th>Retencion</th>
+
                             <th data-hide="all">Formula</th>
                             <th data-hide="all">Importe</th>
+                            <th data-hide="all">IVA</th>
+                            <th data-hide="all">Movimientos Caja</th>
+                            <th data-hide="all">Comprobante</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -142,8 +151,31 @@ class LineasNoARAPres extends React.Component {
                                 <tr key={2*i}>
                                     <td>{e.fecha}</td>
                                     <td>{e.paciente.apellido}, {e.paciente.nombre}</td>
-                                    <td>{e.formula}</td>
-                                    <td>{e.importe}</td>
+                                    <td>{e.obra_social.nombre}</td>
+                                    <td>
+                                        {
+                                            e.estudios.map((g,iii) => <span key={iii}>{g.practica.abreviatura} - </span>)
+                                        }
+                                    </td>
+                                    <td>{e.paciente._edad}</td>
+                                    <td>{e.sub_total}</td>
+                                    <td>{e.retencion}</td>
+
+                                    <td>{e.formula} = {e.formula_valorizada}</td>
+                                    <td>${e.importe}</td>
+                                    <td>%{e.alicuota_iva}</td>
+                                    <td>
+                                        <ul>
+                                            {
+                                                e.movimientos_caja.map((m,ii) => <li key={ii}>{m.fecha} - {m.concepto} - ${m.monto} - {m.tipo.descripcion}</li>)
+                                            }
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        {
+                                            e.comprobante ? <span> {e.comprobante.sub_tipo} {e.comprobante.numero} - {e.comprobante.gravado.descripcion} %{e.comprobante.gravado.porcentaje}</span> : ''
+                                        }
+                                    </td>
                                 </tr>
                             );
                         })
