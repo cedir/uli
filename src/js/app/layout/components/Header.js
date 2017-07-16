@@ -1,13 +1,6 @@
 import React from 'react';
-import { smoothlyMenu } from '../Helpers';
 
 class Header extends React.Component {
-
-    toggleNavigation(e) {
-        e.preventDefault();
-        $('body').toggleClass('mini-navbar');
-        smoothlyMenu();
-    }
 
     render() {
         return (
@@ -16,7 +9,6 @@ class Header extends React.Component {
                     <div className='navbar-header'>
                         <a
                           className='navbar-minimalize minimalize-styl-2 btn btn-primary'
-                          onClick={ this.toggleNavigation }
                           href='#'
                         >
                             <i className='fa fa-bars' />

@@ -40,6 +40,7 @@ export default {
         exclude: [
           /node_modules/,
           path.join(__dirname, 'src/js/app/layout/inspinia'),
+          path.join(__dirname, 'src/js/app/layout/pace.min'),
           path.join(__dirname, 'src/js/app/layout/footable/footable.all.min'),
         ]
       }
