@@ -12,8 +12,8 @@ export default function configureStore() {
     return createStore(
       rootReducer,
       applyMiddleware(epicMiddleware),
-      // applyMiddleware(thunk, reduxImmutableStateInvariant())
       // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
+      // applyMiddleware(thunk, reduxImmutableStateInvariant())
       );
 }
 

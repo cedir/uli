@@ -45,7 +45,6 @@ class App extends React.Component {
 
 App.propTypes = {
     location: PropTypes.object,
-    // children: PropTypes.element,
 };
 
 export default App;

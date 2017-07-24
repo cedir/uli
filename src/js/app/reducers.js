@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-// import { routerReducer } from 'react-router-redux';
 import { combineEpics } from 'redux-observable';
 
 import { userReducer } from '../user/userReducer';
@@ -18,7 +17,6 @@ export const rootEpic = combineEpics(
 );
 
 export const rootReducer = combineReducers({
-    // routing: routerReducer,
     user: userReducer,
     estudios: estudioReducer,
     pago_anestesista: pagoAnestesistaReducer,
