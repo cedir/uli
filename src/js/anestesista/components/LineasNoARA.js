@@ -36,6 +36,23 @@ class LineasNoARAPres extends React.Component {
         $('.footable').trigger('footable_redraw');
     }
 
+    estudios(estudios) {
+        return estudios.map((g, i) =>
+            <span key={ i }>{g.practica.abreviatura} - </span>);
+    }
+
+    movimientosCaja(movimientos) {
+        return movimientos.map((m, i) =>
+            <li key={ i }>{m.fecha} - {m.concepto} - ${m.monto} - {m.tipo.descripcion}</li>);
+    }
+
+    comprobante(comprobante) {
+        const { sub_tipo: subTipo, numero } = comprobante;
+        const { descripcion, porcentaje } = comprobante.gravado;
+        return (
+            <span> {subTipo} {numero} - {descripcion} %{porcentaje}</span>
+        );
+    }
 /*
     sortColumn(i){
         const context = this;
@@ -118,8 +135,17 @@ class LineasNoARAPres extends React.Component {
                         <tr>
                             <th data-toggle='true'>Fecha</th>
                             <th>Paciente</th>
+                            <th>Obra Social</th>
+                            <th>Practicas</th>
+                            <th>Edad</th>
+                            <th>Subtotal</th>
+                            <th>A pagar</th>
+
                             <th data-hide='all'>Formula</th>
                             <th data-hide='all'>Importe</th>
+                            <th data-hide='all'>IVA</th>
+                            <th data-hide='all'>Movimientos Caja</th>
+                            <th data-hide='all'>Comprobante</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,8 +154,28 @@ class LineasNoARAPres extends React.Component {
                                 <tr key={ 2 * i }>
                                     <td>{e.fecha}</td>
                                     <td>{e.paciente.apellido}, {e.paciente.nombre}</td>
-                                    <td>{e.formula}</td>
-                                    <td>{e.importe}</td>
+                                    <td>{e.obra_social.nombre}</td>
+                                    <td>
+                                        { this.estudios(e.estudios)}
+                                    </td>
+                                    <td>{e.paciente._edad}</td>
+                                    <td>{e.sub_total}</td>
+                                    <td>{e.retencion}</td>
+
+                                    <td>{e.formula} = {e.formula_valorizada}</td>
+                                    <td>${e.importe}</td>
+                                    <td>%{e.alicuota_iva}</td>
+                                    <td>
+                                        <ul>
+                                            {this.movimientosCaja(e.movimientos_caja)}
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        {
+                                            e.comprobante ?
+                                                this.comprobante(e.comprobante) : ''
+                                        }
+                                    </td>
                                 </tr>
                             ))
                         }

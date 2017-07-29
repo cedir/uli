@@ -25,6 +25,8 @@
         "body": 1
       }
     }],
+    // Since lot of fields in db are name with dangle underscores
+    "no-underscore-dangle": 0,
     // Temporally deactivated
     "react/require-default-props": 0,
     "react/forbid-prop-types": 0,
@@ -34,6 +36,7 @@
     "class-methods-use-this": 0,
     "react/no-find-dom-node": 0,
     "react/no-array-index-key": 0
+
   }
 }
 
