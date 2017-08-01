@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
     Descripcion: 'Importe',
     SortField: 'importe',
     Format: (e) => e.importe
-}];*/
+}]; */
 
 class LineasARAPres extends React.Component {
 
@@ -64,7 +64,6 @@ class LineasARAPres extends React.Component {
                             <th data-hide='all'>Importe</th>
                             <th data-hide='all'>Descuento</th>
                             <th data-hide='all'>Movimientos Caja</th>
-                            <th data-hide='all'>Comprobante</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,7 +86,7 @@ class LineasARAPres extends React.Component {
                             </td>
                         </tr>
                         ]
-                        )*/
+                        ) */
                             elems.map((e, i) => (
                                 <tr key={ 2 * i }>
                                     <td>{e.fecha}</td>
@@ -103,8 +102,7 @@ class LineasARAPres extends React.Component {
                                     <td>{e.formula} = {e.formula_valorizada}</td>
                                     <td>${e.importe}</td>
                                     <td>
-                                        Esto no deberia ir arriba?
-                                        (ya que es lo mismo para todos los registros)
+                                        % anestesista sacar y poner arriba del listado
                                     </td>
                                     <td>
                                         <ul>
@@ -112,9 +110,6 @@ class LineasARAPres extends React.Component {
                                                 this.movimientosCaja(e.movimientos_caja)
                                             }
                                         </ul>
-                                    </td>
-                                    <td>
-                                        Esto se puede sacar? No se necesita el comprobante para ARA
                                     </td>
                                 </tr>
                             ))

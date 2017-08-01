@@ -21,7 +21,7 @@ import { connect } from 'react-redux';
     Descripcion: 'Importe',
     SortField: 'importe',
     Format: (e) => e.importe
-}];*/
+}]; */
 
 class LineasNoARAPres extends React.Component {
 
@@ -130,7 +130,7 @@ class LineasNoARAPres extends React.Component {
                                     <a>{e.Descripcion}</a>
                                 </th>
                                 );
-                            })*/
+                            }) */
                         }
                         <tr>
                             <th data-toggle='true'>Fecha</th>
