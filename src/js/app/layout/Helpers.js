@@ -1,26 +1,25 @@
 export function correctHeight() {
-
     const pageWrapper = $('#page-wrapper');
     const navbarHeigh = $('nav.navbar-default').height();
     const wrapperHeigh = pageWrapper.height();
 
     if (navbarHeigh > wrapperHeigh) {
-        pageWrapper.css("min-height", navbarHeigh + "px");
+        pageWrapper.css('min-height', `${navbarHeigh}px`);
     }
 
     if (navbarHeigh < wrapperHeigh) {
         if (navbarHeigh < $(window).height()) {
-            pageWrapper.css("min-height", $(window).height() + "px");
+            pageWrapper.css('min-height', `${$(window).height()}px`);
         } else {
-            pageWrapper.css("min-height", navbarHeigh + "px");
+            pageWrapper.css('min-height', `${navbarHeigh}px`);
         }
     }
 
     if ($('body').hasClass('fixed-nav')) {
         if (navbarHeigh > wrapperHeigh) {
-            pageWrapper.css("min-height", navbarHeigh + "px");
+            pageWrapper.css('min-height', `${navbarHeigh}px`);
         } else {
-            pageWrapper.css("min-height", $(window).height() - 60 + "px");
+            pageWrapper.css('min-height', `${$(window).height() - 60}px`);
         }
     }
 }
@@ -39,13 +38,13 @@ export function smoothlyMenu() {
         $('#side-menu').hide();
         // For smoothly turn on menu
         setTimeout(
-            function () {
+            () => {
                 $('#side-menu').fadeIn(400);
             }, 200);
     } else if ($('body').hasClass('fixed-sidebar')) {
         $('#side-menu').hide();
         setTimeout(
-            function () {
+            () => {
                 $('#side-menu').fadeIn(400);
             }, 100);
     } else {

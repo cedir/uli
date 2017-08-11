@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { Button, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap/dist/react-bootstrap';
 
-let today = new Date();
-let currentYear = today.getFullYear();
-let currentMonth = today.getMonth();
+const today = new Date();
+const currentYear = today.getFullYear();
+const currentMonth = today.getMonth();
 
-let years = Array.from(Array(5).keys()).map(k => currentYear - k);
-let months = Array.from(Array(12).keys()).map(k => 1 + (currentMonth + k) % 12);
+const years = Array.from(Array(5).keys()).map(k => currentYear - k);
+const months = Array.from(Array(12).keys()).map(k => 1 + ((currentMonth + k) % 12));
 
 class ControlPagoAnestesistaPres extends React.Component {
     constructor(props) {
@@ -20,73 +19,73 @@ class ControlPagoAnestesistaPres extends React.Component {
         this.setAnio = this.setAnio.bind(this);
     }
 
+    setId(id) {
+        this.id = id;
+    }
+
+    setMes(mes) {
+        this.mes = mes;
+    }
+
+    setAnio(anio) {
+        this.anio = anio;
+    }
+
     fetch() {
         const id = ReactDOM.findDOMNode(this.id).value;
         const mes = ReactDOM.findDOMNode(this.mes).value;
         const anio = ReactDOM.findDOMNode(this.anio).value;
         this.props.fetch(id, mes, anio);
     }
-    
-    setId(id){
-        this.id = id;
-    }
-
-    setMes(mes){
-        this.mes = mes;
-    }
-
-    setAnio(anio){
-        this.anio = anio;
-    }
 
     render() {
         return (
             <Form inline>
-                <FormGroup controlId="anio">
+                <FormGroup controlId='anio'>
                     <ControlLabel>Anestesista</ControlLabel>
-                    <FormControl componentClass="select" ref={this.setId}>
-                        <option value="2">Jose Furno</option>
-                        <option value="3">Rodolfo Novau</option>
-                        <option value="4">Mariano Traglia</option>
-                        <option value="5">Jorge Kaller</option>
-                        <option value="6">Martin Amelong</option>
-                        <option value="7">Franco Frenquelli</option>
-                        <option value="8">Daniel Schleifer</option>
-                        <option value="9">Laura Tarrico</option>
-                        <option value="10">Mauro Yacuzzi</option>
-                        <option value="11">Nicolás Alberto Alet</option>
-                        <option value="12">Alvaro Gandolfo</option>
-                        <option value="13">Fernando Villayandre</option>
-                        <option value="14">Lucio Gioilla</option>
-                        <option value="15">Valeria Dalmau</option>
-                        <option value="16">Angelina Gagliardo</option>
-                        <option value="17">Lorena Morales</option>
-                        <option value="18">Guillermo Navarro</option>
-                        <option value="19">Cesar Domanico</option>
-                        <option value="20">Sandra Miretto</option>
-                        <option value="21">Mariana Poleri</option>
-                        <option value="22">H. Enrique  Carcar</option>
-                        <option value="23">Evelyn Cera</option>
-                        <option value="24">Sebastian San Damaso</option>
-                        <option value="25">Maria Victoria Taverna</option>
-                        <option value="26">Mariano Giardina</option>
-                        <option value="27">Veronica Corsi</option>
-                        <option value="28">Mariana Musciatti</option>
+                    <FormControl componentClass='select' ref={ this.setId }>
+                        <option value='2'>Jose Furno</option>
+                        <option value='3'>Rodolfo Novau</option>
+                        <option value='4'>Mariano Traglia</option>
+                        <option value='5'>Jorge Kaller</option>
+                        <option value='6'>Martin Amelong</option>
+                        <option value='7'>Franco Frenquelli</option>
+                        <option value='8'>Daniel Schleifer</option>
+                        <option value='9'>Laura Tarrico</option>
+                        <option value='10'>Mauro Yacuzzi</option>
+                        <option value='11'>Nicolás Alberto Alet</option>
+                        <option value='12'>Alvaro Gandolfo</option>
+                        <option value='13'>Fernando Villayandre</option>
+                        <option value='14'>Lucio Gioilla</option>
+                        <option value='15'>Valeria Dalmau</option>
+                        <option value='16'>Angelina Gagliardo</option>
+                        <option value='17'>Lorena Morales</option>
+                        <option value='18'>Guillermo Navarro</option>
+                        <option value='19'>Cesar Domanico</option>
+                        <option value='20'>Sandra Miretto</option>
+                        <option value='21'>Mariana Poleri</option>
+                        <option value='22'>H. Enrique  Carcar</option>
+                        <option value='23'>Evelyn Cera</option>
+                        <option value='24'>Sebastian San Damaso</option>
+                        <option value='25'>Maria Victoria Taverna</option>
+                        <option value='26'>Mariano Giardina</option>
+                        <option value='27'>Veronica Corsi</option>
+                        <option value='28'>Mariana Musciatti</option>
                     </FormControl>
                 </FormGroup>
-                <FormGroup controlId="anio">
+                <FormGroup controlId='anio'>
                     <ControlLabel>Año</ControlLabel>
-                    <FormControl componentClass="select" ref={this.setAnio}>
-                        { years.map(m => <option key={m} value={m}>{m}</option>) }
+                    <FormControl componentClass='select' ref={ this.setAnio }>
+                        { years.map(m => <option key={ m } value={ m }>{m}</option>) }
                     </FormControl>
                 </FormGroup>
-                <FormGroup controlId="formControlsSelect">
+                <FormGroup controlId='formControlsSelect'>
                     <ControlLabel>Mes</ControlLabel>
-                    <FormControl componentClass="select" ref={this.setMes}>
-                        { months.map(m => <option key={m} value={m}>{m}</option>) }
+                    <FormControl componentClass='select' ref={ this.setMes }>
+                        { months.map(m => <option key={ m } value={ m }>{m}</option>) }
                     </FormControl>
                 </FormGroup>
-                <Button onClick={this.fetch}>
+                <Button onClick={ this.fetch }>
                     Aceptar
                 </Button>
             </Form>
@@ -95,17 +94,18 @@ class ControlPagoAnestesistaPres extends React.Component {
 }
 
 ControlPagoAnestesistaPres.propTypes = {
-    fetch: React.PropTypes.func
+    fetch: React.PropTypes.func,
 };
 
-function mapStateToProps(state) {
-  return { };
+function mapStateToProps() {
+    return { };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-      fetch: (id, mes, año) => dispatch({ type: 'FETCH_PAGO_ANESTESISTA', id, mes, año})
-  };
+    return {
+        fetch: (id, mes, año) => dispatch({ type: 'FETCH_PAGO_ANESTESISTA', id, mes, año }),
+    };
 }
 
-export const ControlPagoAnestesista = connect(mapStateToProps, mapDispatchToProps)(ControlPagoAnestesistaPres);
+export const ControlPagoAnestesista =
+    connect(mapStateToProps, mapDispatchToProps)(ControlPagoAnestesistaPres);

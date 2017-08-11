@@ -1,7 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Dropdown } from 'react-bootstrap';
-import { Link } from 'react-router';
-import { Login } from './Login';
+import { Link } from 'react-router-dom';
 
 class Navigation extends Component {
 
@@ -10,41 +8,42 @@ class Navigation extends Component {
     // }
 
     activeRoute(routeName) {
-        return this.props.location.pathname.endsWith(routeName) ? "active" : "";
+        return this.props.location.pathname.endsWith(routeName) ? 'active' : '';
     }
 
     secondLevelActive(routeName) {
-        return this.props.location.pathname.endsWith(routeName) ? "nav nav-second-level collapse in" : "nav nav-second-level collapse";
+        return this.props.location.pathname.endsWith(routeName) ?
+            'nav nav-second-level collapse in' : 'nav nav-second-level collapse';
     }
 
     render() {
         return (
-            <nav className="navbar-default navbar-static-side" role="navigation">
-                <ul className="nav metismenu" id="side-menu">
-                    <li className="nav-header">
-                        <Login/>
-                        <div className="logo-element">
-                            Uli
-                        </div>
+            <nav className='navbar-default navbar-static-side'>
+                <ul className='nav metismenu' id='side-menu'>
+                    <li className={ this.activeRoute('/') }>
+                        <Link to='/'><i className='fa fa-th-large' />
+                            <span className='nav-label'>Pagina Principal</span>
+                        </Link>
                     </li>
-                    <li className={this.activeRoute("/")}>
-                        <Link to="/"><i className="fa fa-th-large" /> <span className="nav-label">Pagina Principal</span></Link>
+                    <li className={ this.activeRoute('/estudios') }>
+                        <Link to='/estudios'><i className='fa fa-heartbeat' />
+                            <span className='nav-label'>Estudios</span>
+                        </Link>
                     </li>
-                    <li className={this.activeRoute("/estudios")}>
-                        <Link to="/estudios"><i className="fa fa-heartbeat" /> <span className="nav-label">Estudios</span></Link>
-                    </li>
-                    <li className={this.activeRoute("/anestesistas/pago")}>
-                        <Link to="/anestesistas/pago"><i className="fa fa-heartbeat" /> <span className="nav-label">Pago Anestesista</span></Link>
+                    <li className={ this.activeRoute('/anestesistas/pago') }>
+                        <Link to='/anestesistas/pago'>
+                            <i className='fa fa-heartbeat' />
+                            <span className='nav-label'>Pago Anestesista</span>
+                        </Link>
                     </li>
                 </ul>
-
             </nav>
         );
     }
 }
 
 Navigation.propTypes = {
-    location: PropTypes.object
+    location: PropTypes.object,
 };
 
 export default Navigation;
