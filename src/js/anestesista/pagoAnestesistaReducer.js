@@ -1,6 +1,8 @@
 import * as types from './actionTypes';
 
-export function pagoAnestesistaReducer(state = {}, action) {
+const pagoAnestesistaInitialState = { lineas: [], anestesista: {} };
+
+export function pagoAnestesistaReducer(state = pagoAnestesistaInitialState, action) {
     switch (action.type) {
         case types.FETCH_PAGO_ANESTESISTA:
         case types.CANCEL_PAGO_ANESTESISTA:
