@@ -11,9 +11,6 @@ class Login extends React.Component {
             username: '',
             password: '',
         };
-        this.setId = this.setId.bind(this);
-        this.setMes = this.setMes.bind(this);
-        this.setAnio = this.setAnio.bind(this);
         this.setUsername = this.setUsername.bind(this);
         this.setPassword = this.setPassword.bind(this);
         this.submitHandler = this.submitHandler.bind(this);
@@ -29,18 +26,6 @@ class Login extends React.Component {
         if (nextProps.token) {
             this.props.history.push('/');
         }
-    }
-
-    setId(id) {
-        this.id = id;
-    }
-
-    setMes(mes) {
-        this.mes = mes;
-    }
-
-    setAnio(anio) {
-        this.anio = anio;
     }
 
     setUsername(evt) {
