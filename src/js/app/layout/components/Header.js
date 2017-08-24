@@ -1,6 +1,24 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap/dist/react-bootstrap';
+import { LOGOUT } from '../../../login/actionTypes';
 
 class Header extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.logout = this.logout.bind(this);
+    }
+
+    componentWillMount() {
+        if (!this.props.token) {
+            this.props.history.push('/login');
+        }
+    }
+
+    logout() {
+        this.props.logout();
+    }
 
     render() {
         return (
@@ -16,9 +34,9 @@ class Header extends React.Component {
                     </div>
                     <ul className='nav navbar-top-links navbar-right'>
                         <li>
-                            <a href='#'>
+                            <Button bsStyle='link' onClick={ this.logout } >
                                 <i className='fa fa-sign-out' /> Log out
-                            </a>
+                            </Button>
                         </li>
                     </ul>
                 </nav>
@@ -27,5 +45,21 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+Header.propTypes = {
+    token: PropTypes.string,
+    history: PropTypes.object,
+    logout: PropTypes.func,
+};
+
+const mapActionsToProps = dispatch => (
+    {
+        logout: () => dispatch({ type: LOGOUT }),
+    }
+);
+
+const mapStateToProps = state => ({
+    token: state.login.token,
+});
+
+export default connect(mapStateToProps, mapActionsToProps)(Header);
 

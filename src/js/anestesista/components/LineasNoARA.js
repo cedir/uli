@@ -199,7 +199,7 @@ LineasNoARAPres.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        lineas: state.pago_anestesista.lineas_no_ARA,
+        lineas: state.pago_anestesista.lineasNoAra,
     };
 }
 
