@@ -46,11 +46,9 @@ class LineasARAPres extends React.Component {
     }
 
     render() {
-        const elems = this.props.lineas || [];
-        const anestesista = this.props.anestesista || {};
         return (
             <div>
-                <div>{anestesista}</div>
+                <div>{ this.props.anestesista.porcentaje_anestesista }</div>
                 <table className='footable table table-stripped toggle-arrow-tiny'>
                     <thead>
                         <tr>
@@ -89,7 +87,7 @@ class LineasARAPres extends React.Component {
                         </tr>
                         ]
                         ) */
-                            elems.map((e, i) => (
+                            this.props.lineas.map((e, i) => (
                                 <tr key={ 2 * i }>
                                     <td>{e.fecha}</td>
                                     <td>{e.paciente.apellido}, {e.paciente.nombre}</td>
@@ -130,14 +128,21 @@ class LineasARAPres extends React.Component {
     }
 }
 
+LineasARAPres.defaultProps = {
+    lineas: [],
+    anestesista: {
+        porcentaje_anestesista: '',
+    },
+};
+
 LineasARAPres.propTypes = {
     lineas: React.PropTypes.array,
-    anestesista: React.PropTypes.string,
+    anestesista: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
-        anestesista: state.pago_anestesista.anestesista.porcentaje_anestesista,
+        anestesista: state.pago_anestesista.anestesista,
         lineas: state.pago_anestesista.lineas_ARA,
         totales: state.pago_anestesista.totales_ara,
         totales_honorarios: state.pago_anestesista.totales_honorarios_ara,
