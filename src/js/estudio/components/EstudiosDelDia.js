@@ -110,7 +110,7 @@ class EstudiosDelDiaPres extends React.Component {
     }
 
     render() {
-        const elems = this.sort();
+        const elems = this.props.estudios;
         return (
             <div className='ibox-content'>
                 <table className='table table-stripped'>
@@ -149,7 +149,7 @@ EstudiosDelDiaPres.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        estudios: state.estudios,
+        estudios: state.estudios.estudios,
     };
 }
 
