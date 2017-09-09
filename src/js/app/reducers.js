@@ -1,24 +1,24 @@
 import { combineReducers } from 'redux';
 import { combineEpics } from 'redux-observable';
 
-import { userReducer } from '../user/userReducer';
 import { estudioReducer } from '../estudio/estudioReducer';
 import { pagoAnestesistaReducer } from '../anestesista/pagoAnestesistaReducer';
+import { loginReducer } from '../login/loginReducer';
 
 // API calls configurations
-import { userEpic } from '../user/userEpic';
 import { estudioEpic } from '../estudio/estudioEpic';
 import { pagoAnestesistaEpic } from '../anestesista/pagoAnestesistaEpic';
+import { loginEpic } from '../login/loginEpic';
 
 export const rootEpic = combineEpics(
-  userEpic,
   estudioEpic,
   pagoAnestesistaEpic,
+  loginEpic,
 );
 
 export const rootReducer = combineReducers({
-    user: userReducer,
     estudios: estudioReducer,
     pago_anestesista: pagoAnestesistaReducer,
+    login: loginReducer,
 });
 

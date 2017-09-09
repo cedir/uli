@@ -119,6 +119,8 @@ class LineasNoARAPres extends React.Component {
         const elems = this.props.lineas || [];
         return (
             <div>
+                <br /><br />
+                <h2>Lista NO ARA</h2>
                 <table className='footable table table-stripped toggle-arrow-tiny'>
                     <thead>
                         {
@@ -188,18 +190,54 @@ class LineasNoARAPres extends React.Component {
                         </tr>
                     </tfoot>
                 </table>
+
+                <div>
+                    <h3>Totales</h3>
+                    <ul>
+                        <li><span>Iva Exento:</span>  ${ this.props.totales.iva00 }</li>
+                        <li><span>Iva 10.5%:</span>  ${ this.props.totales.iva105 }</li>
+                        <li><span>Iva 21%:</span>  ${ this.props.totales.iva210 }</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Honorarios</h3>
+                    <ul>
+                        <li><span>Iva Exento:</span>  ${ this.props.totalesHonorarios.iva00 }</li>
+                        <li><span>Iva 10.5%:</span>  ${ this.props.totalesHonorarios.iva105 }</li>
+                        <li><span>Iva 21%:</span>  ${ this.props.totalesHonorarios.iva210 }</li>
+                    </ul>
+                </div>
+                <br /><br />
             </div>
         );
     }
 }
 
+LineasNoARAPres.defaultProps = {
+    lineas: [],
+    totales: {
+        iva00: 0,
+        iva105: 0,
+        iva210: 0,
+    },
+    totalesHonorarios: {
+        iva00: 0,
+        iva105: 0,
+        iva210: 0,
+    },
+};
+
 LineasNoARAPres.propTypes = {
     lineas: React.PropTypes.array,
+    totales: React.PropTypes.object,
+    totalesHonorarios: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
-        lineas: state.pago_anestesista.lineas_no_ARA,
+        lineas: state.pago_anestesista.lineasNoAra,
+        totales: state.pago_anestesista.totalesNoAra,
+        totalesHonorarios: state.pago_anestesista.totalesHonorariosNoAra,
     };
 }
 
@@ -208,3 +246,4 @@ function mapDispatchToProps() {
 }
 
 export const LineasNoARA = connect(mapStateToProps, mapDispatchToProps)(LineasNoARAPres);
+

@@ -15,18 +15,18 @@ import inspinia from './app/layout/inspinia';
 // Required to load footable plugins end
 
 import App from './app/app';
-import configureStore from './app/configureStore';
+import store from './app/configureStore';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../node_modules/font-awesome/css/font-awesome.css';
 import Custom from './../style/style.less';
 import FooTable from './../style/footable.core.css';
 
-const store = configureStore();
+const renderAppComponent = props => <App { ...props } />;
 
 render(
     <Provider store={ store }>
         <Router>
-            <Route path='/' component={ App } />
+            <Route path='/' render={ renderAppComponent } />
         </Router>
     </Provider>,
     document.getElementById('wrapper'),

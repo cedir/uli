@@ -1,32 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-/* const headers = [{
-    Descripcion: 'Fecha',
-    SortField: 'fecha',
-    Format: (e) => e.fecha
-},{
-    Descripcion: 'Paciente',
-    SortField: 'paciente.apellido',
-    Format: (e) => `${e.paciente.apellido}, ${e.paciente.nombre} (${e.paciente.edad || 'N/D'})`
-}, {
-    Descripcion: 'Obra Social',
-    SortField: 'obra_social.nombre',
-    Format: (e) => e.obra_social.nombre
-},{
-    Descripcion: 'Fórmula',
-    SortField: 'Formula',
-    Format: (e) => e.formula
-},{
-    Descripcion: 'Importe',
-    SortField: 'importe',
-    Format: (e) => e.importe
-}]; */
-
 class LineasARAPres extends React.Component {
 
     componentDidMount() {
-        // debugger;
         $('.footable').footable({ paginate: false, forceRefresh: true });
         $('.footable').trigger('footable_redraw');
     }
@@ -48,7 +25,9 @@ class LineasARAPres extends React.Component {
     render() {
         return (
             <div>
-                <div>{ this.props.anestesista.porcentaje_anestesista }</div>
+                <div>Porcentaje Anestesista: { this.props.anestesista.porcentaje_anestesista }</div>
+                <br /><br />
+                <h2>Lista ARA</h2>
                 <table className='footable table table-stripped toggle-arrow-tiny'>
                     <thead>
                         <tr>
@@ -59,34 +38,13 @@ class LineasARAPres extends React.Component {
                             <th>Edad</th>
                             <th>Subtotal</th>
                             <th>Retencion</th>
-
                             <th data-hide='all'>Formula</th>
                             <th data-hide='all'>Importe</th>
-                            <th data-hide='all'>Descuento</th>
                             <th data-hide='all'>Movimientos Caja</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                        /*  Esto es para mostrar dos <tr> por registro. En el segundo va el detalle
-                        elems.map((e, i) =>
-                        [<tr key={2*i}>
-                            {
-                                headers.map((f,ii) => <td key={ii}>{f.Format(e)}</td>)
-                            }
-                        </tr>,
-                        <tr key={2*i+1}>
-                            <td colSpan={headers.length}>
-                                <ul>
-                                    {
-                                        e.estudios.map((g,iii) =>
-                                            <li key={iii}>{g.practica.descripcion}</li>)
-                                    }
-                                </ul>
-                            </td>
-                        </tr>
-                        ]
-                        ) */
                             this.props.lineas.map((e, i) => (
                                 <tr key={ 2 * i }>
                                     <td>{e.fecha}</td>
@@ -101,9 +59,6 @@ class LineasARAPres extends React.Component {
 
                                     <td>{e.formula} = {e.formula_valorizada}</td>
                                     <td>${e.importe}</td>
-                                    <td>
-                                        % anestesista sacar y poner arriba del listado
-                                    </td>
                                     <td>
                                         <ul>
                                             {
@@ -123,6 +78,23 @@ class LineasARAPres extends React.Component {
                         </tr>
                     </tfoot>
                 </table>
+
+                <div>
+                    <h3>Totales</h3>
+                    <ul>
+                        <li><span>Iva Exento:</span>  ${ this.props.totales.iva00 }</li>
+                        <li><span>Iva 10.5%:</span>  ${ this.props.totales.iva105 }</li>
+                        <li><span>Iva 21%:</span>  ${ this.props.totales.iva210 }</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Honorarios</h3>
+                    <ul>
+                        <li><span>Iva Exento:</span>  ${ this.props.totalesHonorarios.iva00 }</li>
+                        <li><span>Iva 10.5%:</span>  ${ this.props.totalesHonorarios.iva105 }</li>
+                        <li><span>Iva 21%:</span>  ${ this.props.totalesHonorarios.iva210 }</li>
+                    </ul>
+                </div>
             </div>
         );
     }
@@ -131,21 +103,33 @@ class LineasARAPres extends React.Component {
 LineasARAPres.defaultProps = {
     lineas: [],
     anestesista: {
-        porcentaje_anestesista: '',
+        porcentajeAnestesista: '',
+    },
+    totales: {
+        iva00: 0,
+        iva105: 0,
+        iva210: 0,
+    },
+    totalesHonorarios: {
+        iva00: 0,
+        iva105: 0,
+        iva210: 0,
     },
 };
 
 LineasARAPres.propTypes = {
     lineas: React.PropTypes.array,
     anestesista: React.PropTypes.object,
+    totales: React.PropTypes.object,
+    totalesHonorarios: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
         anestesista: state.pago_anestesista.anestesista,
-        lineas: state.pago_anestesista.lineas_ARA,
-        totales: state.pago_anestesista.totales_ara,
-        totales_honorarios: state.pago_anestesista.totales_honorarios_ara,
+        lineas: state.pago_anestesista.lineasAra,
+        totales: state.pago_anestesista.totalesAra,
+        totalesHonorarios: state.pago_anestesista.totalesHonorariosAra,
     };
 }
 

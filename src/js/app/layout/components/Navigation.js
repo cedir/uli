@@ -6,6 +6,12 @@ class Navigation extends Component {
     // componentDidMount() {
     //     $('#side-menu').metisMenu();
     // }
+    constructor(props) {
+        super(props);
+
+        this.activeRoute = this.activeRoute.bind(this);
+        this.secondLevelActive = this.secondLevelActive.bind(this);
+    }
 
     activeRoute(routeName) {
         return this.props.location.pathname.endsWith(routeName) ? 'active' : '';
@@ -20,8 +26,8 @@ class Navigation extends Component {
         return (
             <nav className='navbar-default navbar-static-side'>
                 <ul className='nav metismenu' id='side-menu'>
-                    <li className={ this.activeRoute('/') }>
-                        <Link to='/'><i className='fa fa-th-large' />
+                    <li className={ this.activeRoute('/home') }>
+                        <Link to='/home'><i className='fa fa-th-large' />
                             <span className='nav-label'>Pagina Principal</span>
                         </Link>
                     </li>
