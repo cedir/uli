@@ -4,6 +4,8 @@ import { Button, FormGroup, FormControl }
     from 'react-bootstrap/dist/react-bootstrap';
 import ConditionalComponent from '../../utilities/ConditionalComponent';
 
+const { func, object, string, bool } = React.PropTypes;
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -103,10 +105,10 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-    authUser: React.PropTypes.func,
-    history: React.PropTypes.object,
-    token: React.PropTypes.string,
-    loginError: React.PropTypes.bool,
+    authUser: func,
+    history: object,
+    token: string,
+    loginError: bool,
 };
 
 const mapStateToProps = state => ({

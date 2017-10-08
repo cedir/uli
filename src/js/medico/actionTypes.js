@@ -1,0 +1,3 @@
+export const FETCH_MEDICOS = 'FETCH_MEDICOS';
+export const LOAD_MEDICOS = 'LOAD_MEDICOS';
+export const LOAD_MEDICOS_ERROR = 'LOAD_MEDICOS_ERROR';
