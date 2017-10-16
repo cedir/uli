@@ -27,6 +27,14 @@ const updateSearchPage = (state, action) => {
     return newState;
 };
 
+const clearEstudiosList = (state) => {
+    const newState = {};
+
+    Object.assign(newState, state, initialState);
+
+    return newState;
+};
+
 export function estudioReducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCH_ESTUDIOS_DIARIOS:
@@ -37,6 +45,8 @@ export function estudioReducer(state = initialState, action) {
             return loadEstudiosDiariosReducer(state, action);
         case types.UPDATE_SEARCH_PAGE:
             return updateSearchPage(state, action);
+        case types.CLEAR_ESTUDIOS_LIST:
+            return clearEstudiosList();
         default:
             return state;
     }

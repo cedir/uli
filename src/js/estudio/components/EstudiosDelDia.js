@@ -13,6 +13,12 @@ const estudiosListPanel = () => (
     </Panel>
 );
 
+const noSearchResults = () => (
+    <div style={ { textAlign: 'center', marginTop: '10px' } }>
+        Su busqueda no ha arrojado resultados
+    </div>
+);
+
 const EstudiosDelDiaPres = props => (
     <div className='ibox-content'>
         <Panel header='Buscar Estudios' bsStyle='primary'>
@@ -22,8 +28,16 @@ const EstudiosDelDiaPres = props => (
           component={ estudiosListPanel }
           display={ props.estudios.length > 0 }
         />
+        <ConditionalComponents
+          component={ noSearchResults }
+          display={ props.estudios.length === 0 }
+        />
     </div>
 );
+
+EstudiosDelDiaPres.defaultProps = {
+    estudios: [],
+};
 
 EstudiosDelDiaPres.propTypes = {
     estudios: array,

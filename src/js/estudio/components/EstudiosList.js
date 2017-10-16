@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Pagination }
     from 'react-bootstrap/dist/react-bootstrap';
 import EstudiosListTable from './EstudiosListTable';
-import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES,
+    CLEAR_ESTUDIOS_LIST } from '../actionTypes';
 import initialState from '../estudioReducerInitialState';
 import ConditionalComponents from '../../utilities/ConditionalComponent';
 
@@ -16,6 +17,9 @@ class EstudiosList extends React.Component {
         super(props);
 
         this.searchEstudios = this.searchEstudios.bind(this);
+    }
+    componentWillUnmount() {
+        this.props.clearEstudiosList();
     }
     searchEstudios(actualPage) {
         const fetchEstudiosParams = {
@@ -53,6 +57,7 @@ class EstudiosList extends React.Component {
 EstudiosList.propTypes = {
     searchParams: object,
     fetchEstudios: func,
+    clearEstudiosList: func,
     resultPages: number,
     actualPage: number,
 };
@@ -76,6 +81,7 @@ function mapDispatchToProps(dispatch) {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
         fetchObrasSociales: () => dispatch({ type: FETCH_OBRAS_SOCIALES }),
+        clearEstudiosList: () => dispatch({ type: CLEAR_ESTUDIOS_LIST }),
     };
 }
 

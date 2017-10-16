@@ -26,8 +26,8 @@ class SearchEstudiosForm extends React.Component {
         this.searchEstudios = this.searchEstudios.bind(this);
     }
 
-    searchObrasSociales() {
-        this.props.fetchObrasSociales();
+    searchObrasSociales(nombre) {
+        this.props.fetchObrasSociales(nombre);
     }
 
     searchMedicos(searchText) {
@@ -79,7 +79,6 @@ class SearchEstudiosForm extends React.Component {
                                       label='Nombre'
                                       component={ AsyncTypeaheadRF }
                                       options={ this.props.obrasSociales }
-                                      placeholder='Search obra social...'
                                       labelKey='nombre'
                                       onSearch={ this.searchObrasSociales }
                                       renderMenuItemChildren={ this.renderObraSocialMenuItem }
@@ -127,6 +126,7 @@ class SearchEstudiosForm extends React.Component {
                                     <legend>Medico Solicitante</legend>
                                     <Field
                                       name='medicoSolicitante'
+                                      label='Nombe/Apellido'
                                       component={ AsyncTypeaheadRF }
                                       options={ this.props.medicos }
                                       filterBy={ this.filterByCallback }
@@ -141,6 +141,7 @@ class SearchEstudiosForm extends React.Component {
                                     <legend>Medico Actuante</legend>
                                     <Field
                                       name='medicoActuante'
+                                      label='Nombe/Apellido'
                                       component={ AsyncTypeaheadRF }
                                       options={ this.props.medicos }
                                       labelKey={ option => `${option.apellido}, ${option.nombre}` }
@@ -206,7 +207,6 @@ SearchEstudiosForm.propTypes = {
 const SearchEstudiosFormReduxForm = reduxForm({
     form: 'searchEstudios',
     initialValues: initialState,
-    destroyOnUnmount: false,
 })(SearchEstudiosForm);
 
 const selector = formValueSelector('searchEstudios');
@@ -225,7 +225,7 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
-        fetchObrasSociales: () => dispatch({ type: FETCH_OBRAS_SOCIALES }),
+        fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
         fetchMedicos: searchText => dispatch({ type: FETCH_MEDICOS, searchText }),
     };
 }
