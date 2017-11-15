@@ -82,17 +82,9 @@ class LineasARAPres extends React.Component {
                 <div>
                     <h3>Totales</h3>
                     <ul>
-                        <li><span>Iva Exento:</span>  ${ this.props.totales.iva00 }</li>
-                        <li><span>Iva 10.5%:</span>  ${ this.props.totales.iva105 }</li>
-                        <li><span>Iva 21%:</span>  ${ this.props.totales.iva210 }</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Honorarios</h3>
-                    <ul>
-                        <li><span>Iva Exento:</span>  ${ this.props.totalesHonorarios.iva00 }</li>
-                        <li><span>Iva 10.5%:</span>  ${ this.props.totalesHonorarios.iva105 }</li>
-                        <li><span>Iva 21%:</span>  ${ this.props.totalesHonorarios.iva210 }</li>
+                        <li><span>Subtotal:</span>  ${ this.props.totales.subtotal }</li>
+                        <li><span>Iva 21%:</span>  ${ this.props.totales.iva }</li>
+                        <li><span>Total:</span>  ${ this.props.totales.total }</li>
                     </ul>
                 </div>
             </div>
@@ -106,14 +98,9 @@ LineasARAPres.defaultProps = {
         porcentajeAnestesista: '',
     },
     totales: {
-        iva00: 0,
-        iva105: 0,
-        iva210: 0,
-    },
-    totalesHonorarios: {
-        iva00: 0,
-        iva105: 0,
-        iva210: 0,
+        subtotal: 0,
+        iva: 0,
+        total: 0,
     },
 };
 
@@ -121,7 +108,6 @@ LineasARAPres.propTypes = {
     lineas: React.PropTypes.array,
     anestesista: React.PropTypes.object,
     totales: React.PropTypes.object,
-    totalesHonorarios: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
@@ -129,7 +115,6 @@ function mapStateToProps(state) {
         anestesista: state.pago_anestesista.anestesista,
         lineas: state.pago_anestesista.lineasAra,
         totales: state.pago_anestesista.totalesAra,
-        totalesHonorarios: state.pago_anestesista.totalesHonorariosAra,
     };
 }
 

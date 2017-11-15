@@ -11,18 +11,18 @@ function loadPagoAnestesistaReducer(state, action) {
     const lineasNoAra = action.data.response.lineas_no_ARA;
     const anestesista = action.data.response.anestesista;
     const totalesAra = action.data.response.totales_ara;
-    const totalesHonorariosAra = action.data.response.totales_honorarios_ara;
+    const subtotalesNoAra = action.data.response.subtotales_no_ara;
+    const totalesIvaNoAra = action.data.response.totales_iva_no_ara;
     const totalesNoAra = action.data.response.totales_no_ara;
-    const totalesHonorariosNoAra = action.data.response.totales_honorarios_no_ara;
     Object.assign(newState, state,
         {
             lineasAra,
             lineasNoAra,
             anestesista,
             totalesAra,
-            totalesHonorariosAra,
+            subtotalesNoAra,
+            totalesIvaNoAra,
             totalesNoAra,
-            totalesHonorariosNoAra,
         });
     return newState;
 }

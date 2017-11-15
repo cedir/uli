@@ -194,17 +194,18 @@ class LineasNoARAPres extends React.Component {
                 <div>
                     <h3>Totales</h3>
                     <ul>
-                        <li><span>Iva Exento:</span>  ${ this.props.totales.iva00 }</li>
-                        <li><span>Iva 10.5%:</span>  ${ this.props.totales.iva105 }</li>
-                        <li><span>Iva 21%:</span>  ${ this.props.totales.iva210 }</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Honorarios</h3>
-                    <ul>
-                        <li><span>Iva Exento:</span>  ${ this.props.totalesHonorarios.iva00 }</li>
-                        <li><span>Iva 10.5%:</span>  ${ this.props.totalesHonorarios.iva105 }</li>
-                        <li><span>Iva 21%:</span>  ${ this.props.totalesHonorarios.iva210 }</li>
+                        <li><span>Iva Exento:</span>  ${ this.props.subtotales.iva00 }
+                            &nbsp;&nbsp;<span>Iva: </span> ${ this.props.totalesIva.iva00 }
+                            &nbsp;&nbsp;<span>Total:</span> ${ this.props.totales.iva00 }
+                        </li>
+                        <li><span>Iva 10.5%:</span>  ${ this.props.subtotales.iva105 }
+                            &nbsp;&nbsp;<span>Iva: </span> ${ this.props.totalesIva.iva105 }
+                            &nbsp;&nbsp;<span>Total:</span> ${ this.props.totales.iva105 }
+                        </li>
+                        <li><span>Iva 21%:</span>  ${ this.props.subtotales.iva210 }
+                            &nbsp;&nbsp;<span>Iva: </span> ${ this.props.totalesIva.iva210 }
+                            &nbsp;&nbsp;<span>Total:</span> ${ this.props.totales.iva210 }
+                        </li>
                     </ul>
                 </div>
                 <br /><br />
@@ -215,12 +216,17 @@ class LineasNoARAPres extends React.Component {
 
 LineasNoARAPres.defaultProps = {
     lineas: [],
-    totales: {
+    subtotales: {
         iva00: 0,
         iva105: 0,
         iva210: 0,
     },
-    totalesHonorarios: {
+    totalesIva: {
+        iva00: 0,
+        iva105: 0,
+        iva210: 0,
+    },
+    totales: {
         iva00: 0,
         iva105: 0,
         iva210: 0,
@@ -229,15 +235,17 @@ LineasNoARAPres.defaultProps = {
 
 LineasNoARAPres.propTypes = {
     lineas: React.PropTypes.array,
+    subtotales: React.PropTypes.object,
+    totalesIva: React.PropTypes.object,
     totales: React.PropTypes.object,
-    totalesHonorarios: React.PropTypes.object,
 };
 
 function mapStateToProps(state) {
     return {
         lineas: state.pago_anestesista.lineasNoAra,
+        subtotales: state.pago_anestesista.subtotalesNoAra,
+        totalesIva: state.pago_anestesista.totalesIvaNoAra,
         totales: state.pago_anestesista.totalesNoAra,
-        totalesHonorarios: state.pago_anestesista.totalesHonorariosNoAra,
     };
 }
 
