@@ -24,3 +24,9 @@ export function getEstudios(fetchEstudiosParams) {
     const url = `/api/estudio/${queryString}`;
     return get(url);
 }
+
+export function getEstudio(estudioId) {
+    const url = `/api/estudio/${estudioId}/`;
+
+    return get(url);
+}

@@ -7,10 +7,8 @@ const initialState = {
     dniPaciente: '',
     nombrePaciente: '',
     apellidoPaciente: '',
-    nombreMedicoActuante: '',
-    apellidoMedicoActuante: '',
-    nombreMedicoSolicitante: '',
-    apellidoMedicoSolicitante: '',
+    medicoActuante: '',
+    medicoSolicitante: '',
 };
 
 export default initialState;

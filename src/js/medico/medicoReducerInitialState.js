@@ -1,5 +1,6 @@
 const initialState = {
-    medicos: [],
+    medicosActuantes: [],
+    medicosSolicitantes: [],
 };
 
 export default initialState;

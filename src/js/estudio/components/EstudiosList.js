@@ -32,7 +32,7 @@ class EstudiosList extends React.Component {
     render() {
         return (
             <div>
-                <EstudiosListTable />
+                <EstudiosListTable history={ this.props.history } />
                 <div style={ { textAlign: 'center' } }>
                     <ConditionalComponents
                       display={ this.props.resultPages > 1 }
@@ -55,6 +55,7 @@ class EstudiosList extends React.Component {
 }
 
 EstudiosList.propTypes = {
+    history: object,
     searchParams: object,
     fetchEstudios: func,
     clearEstudiosList: func,
@@ -72,7 +73,7 @@ function mapStateToProps(state) {
     return {
         resultPages: state.estudiosReducer.resultPages,
         actualPage: state.estudiosReducer.actualPage,
-        searchParams: state.form.searchEstudios.values,
+        searchParams: state.estudiosReducer.searchEstudiosParams,
     };
 }
 

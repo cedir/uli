@@ -10,15 +10,18 @@ import { loginReducer } from '../login/loginReducer';
 
 // API calls configurations
 import { estudioEpic } from '../estudio/estudioEpic';
+import { estudioDetailEpic } from '../estudio/estudioDetailEpic';
 import { obraSocialEpic } from '../obraSocial/obraSocialEpic';
-import { medicoEpic } from '../medico/medicoEpic';
+import { medicosActuantesEpic, medicosSolicitantesEpic } from '../medico/medicoEpic';
 import { pagoAnestesistaEpic } from '../anestesista/pagoAnestesistaEpic';
 import { loginEpic } from '../login/loginEpic';
 
 export const rootEpic = combineEpics(
     estudioEpic,
+    estudioDetailEpic,
     obraSocialEpic,
-    medicoEpic,
+    medicosActuantesEpic,
+    medicosSolicitantesEpic,
     pagoAnestesistaEpic,
     loginEpic,
 );

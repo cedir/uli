@@ -10,7 +10,8 @@ export function required(value) {
 }
 
 export function alpha(value) {
-    return isEmpty(value) || isAlpha(value) ? undefined : 'Solo letras';
+    const valueWithoutSpaces = value.replace(/\s/g, '');
+    return isEmpty(valueWithoutSpaces) || isAlpha(valueWithoutSpaces) ? undefined : 'Solo letras';
 }
 
 export function dni(value) {
