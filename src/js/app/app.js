@@ -10,7 +10,9 @@ import ConditionalComponent from '../utilities/ConditionalComponent';
 import Login from '../login/components/Login';
 import HomePage from '../home/HomePage';
 import EstudiosPage from '../estudio/EstudiosPage';
+import EstudioDetailPage from '../estudio/components/EstudioDetailPage';
 import PagoAnestesistaPage from '../anestesista/PagoAnestesistaPage';
+import CreateOrEditEstudio from '../estudio/components/CreateOrEditEstudio';
 
 class App extends React.Component {
 
@@ -68,8 +70,21 @@ class App extends React.Component {
                       authenticated={ !!this.props.token }
                     />
                     <PrivateRoute
+                      exact
                       path='/estudios'
                       component={ EstudiosPage }
+                      authenticated={ !!this.props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/estudios/detail/:id'
+                      component={ EstudioDetailPage }
+                      authenticated={ !!this.props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/estudios/createoredit/:mode'
+                      component={ CreateOrEditEstudio }
                       authenticated={ !!this.props.token }
                     />
                     <PrivateRoute

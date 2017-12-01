@@ -1,12 +1,13 @@
 import { getEstudios } from './api';
-import * as types from './actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, LOAD_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS }
+    from './actionTypes';
 
 export function estudioEpic(action$) {
-    return action$.ofType('FETCH_ESTUDIOS_DIARIOS')
+    return action$.ofType(FETCH_ESTUDIOS_DIARIOS)
         .mergeMap(action =>
-            getEstudios(action.fecha.fechaDesde, action.fecha.fechaHasta)
-            .map(data => ({ type: types.LOAD_ESTUDIOS_DIARIOS, data }))
-            .takeUntil(action$.ofType(types.CANCEL_ESTUDIOS_DIARIOS)),
+            getEstudios(action.fetchEstudiosParams)
+            .map(data => ({ type: LOAD_ESTUDIOS_DIARIOS, data }))
+            .takeUntil(action$.ofType(CANCEL_ESTUDIOS_DIARIOS)),
     );
 }
 

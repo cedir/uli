@@ -2,7 +2,11 @@ import React, { PropTypes } from 'react';
 
 const ConditionalComponent = (props) => {
     if (props.display) {
-        return React.createElement(props.component, props);
+        const newProps = {};
+        Object.assign(newProps, props);
+        delete newProps.component;
+        delete newProps.display;
+        return React.createElement(props.component, newProps);
     }
 
     return null;
