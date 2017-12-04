@@ -60,7 +60,7 @@ const clearEstudiosList = (state) => {
 const setSelectedObraSocial = (state, action) => {
     const newState = {};
 
-    Object.assign(newState, state, { selectedObraSocial: [action.selectedObraSocial] });
+    Object.assign(newState, state, { selectedObraSocial: action.selectedObraSocial });
 
     return newState;
 };
