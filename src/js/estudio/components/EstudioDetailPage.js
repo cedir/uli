@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
+import { isEmpty } from 'lodash';
 import EstudioDetailMain from './EstudioDetailMain';
 import EstudioDetailMedicacion from './EstudioDetailMedicacion';
 
@@ -14,7 +15,7 @@ class EstudioDetailPage extends React.Component {
         return (
             <div>
                 <h2>Detalles estudio</h2>
-                <Row className='show-grid'>
+                { !isEmpty(this.props.estudioDetail) && <Row className='show-grid'>
                     <Col md={ 4 } style={ { border: 'none' } }>
                         <EstudioDetailMain />
                     </Col>
@@ -24,7 +25,7 @@ class EstudioDetailPage extends React.Component {
                     <Col md={ 4 } style={ { border: 'none' } }>
                         <EstudioDetailMedicacion />
                     </Col>
-                </Row>
+                </Row> }
             </div>
         );
     }
@@ -35,7 +36,14 @@ const { object, func } = React.PropTypes;
 EstudioDetailPage.propTypes = {
     match: object.isRequired,
     fetchEstudioDetail: func.isRequired,
+    estudioDetail: object.isRequired,
 };
+
+function mapStateToProps(state) {
+    return {
+        estudioDetail: state.estudiosReducer.estudioDetail,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -44,4 +52,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(EstudioDetailPage);
+export default connect(mapStateToProps, mapDispatchToProps)(EstudioDetailPage);
