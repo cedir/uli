@@ -15,7 +15,7 @@ function createSearchQueryString(fetchEstudiosParams) {
         `&paciente_nombre=${nombrePaciente}&paciente_apellido=${apellidoPaciente}` +
         `&medico_nombre=${nombreMedicoActuante}&medico_apellido=${apellidoMedicoActuante}` +
         `&medico_solicitante_nombre=${nombreMedicoSolicitante}` +
-        `&medico_solicitante_apellido=${apellidoMedicoSolicitante}&page=${actualPage}`;
+        `&medico_solicitante_apellido=${apellidoMedicoSolicitante}&page=${actualPage}&ordering=-fecha`;
     return queryString;
 }
 
