@@ -4,8 +4,9 @@ import { Table }
     from 'react-bootstrap/dist/react-bootstrap';
 
 import EstudioListTableRow from './EstudioListTableRow';
+import { RESET_ESTUDIO_DETAIL } from '../actionTypes';
 
-const { array, object } = React.PropTypes;
+const { array, object, func } = React.PropTypes;
 
 class EstudiosListTable extends React.Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class EstudiosListTable extends React.Component {
     }
 
     navigateToEstudioDetail(estudioId) {
+        this.props.resetEstudioDetail();
         this.props.history.push(`/estudios/detail/${estudioId}`);
     }
 
@@ -50,6 +52,7 @@ class EstudiosListTable extends React.Component {
 EstudiosListTable.propTypes = {
     history: object.isRequired,
     estudios: array.isRequired,
+    resetEstudioDetail: func.isRequired,
 };
 
 EstudiosListTable.defaultProps = {
@@ -62,4 +65,10 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(EstudiosListTable);
+function mapDispatchToProps(dispatch) {
+    return {
+        resetEstudioDetail: () => dispatch({ type: RESET_ESTUDIO_DETAIL }),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EstudiosListTable);

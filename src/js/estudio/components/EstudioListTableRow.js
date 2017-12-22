@@ -16,7 +16,7 @@ class EstudioListTableRow extends React.Component {
         /* If any of this requirements objects are not present in the estudio object,
         * supply a default one. This situation is exceptional and related with wrong data in db
         */
-        const paciente = this.props.estudio.paciente || { nombre: '', apellid: '' };
+        const paciente = this.props.estudio.paciente || { nombre: '', apellido: '' };
         const obraSocial = this.props.estudio.obra_social || { nombre: '' };
         const practica = this.props.estudio.practica || { descripcion: '' };
         const medico = this.props.estudio.medico || { nombre: '', apellido: '' };

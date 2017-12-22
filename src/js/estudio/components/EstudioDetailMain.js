@@ -19,6 +19,7 @@ function initEditFormObject(estudio) {
         dniPaciente: `${estudio.paciente.dni}`,
         nombrePaciente: estudio.paciente.nombre,
         apellidoPaciente: estudio.paciente.apellido,
+        practica: estudio.practica.descripcion,
     };
 }
 
@@ -150,6 +151,13 @@ class EstudioDetailMain extends Component {
                           renderMenuItemChildren={ this.renderMedicoMenuItem }
                         />
                     </fieldset>
+                    <Field
+                      name='practica'
+                      type='text'
+                      label='Practica'
+                      validate={ alpha }
+                      component={ InputRF }
+                    />
                     <Button
                       onClick={ this.saveModifiedEstudio }
                       bsStyle='primary'
@@ -178,6 +186,7 @@ EstudioDetailMain.propTypes = {
 const EstudioDetailMainReduxForm = reduxForm({
     form: 'editEstudio',
     destroyOnUnmount: true,
+    enableReinitialize: true,
 })(EstudioDetailMain);
 
 function mapStateToProps(state) {

@@ -1,7 +1,7 @@
 import initialState from './estudioReducerInitialState';
 import { FETCH_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     FETCH_ESTUDIO_DETAIL, FETCH_OBRAS_SOCIALES, LOAD_ESTUDIOS_DIARIOS,
-    LOAD_ESTUDIO_DETAIL, LOAD_ESTUDIO_DETAIL_ERROR,
+    LOAD_ESTUDIO_DETAIL, RESET_ESTUDIO_DETAIL, LOAD_ESTUDIO_DETAIL_ERROR,
     UPDATE_SEARCH_PAGE, CLEAR_ESTUDIOS_LIST, SET_SELECTED_OBRA_SOCIAL,
     SET_SEARCH_ESTUDIOS_PARAMS, SET_SELECTED_MEDICO_ACTUANTE,
     SET_SELECTED_MEDICO_SOLICITANTE } from './actionTypes';
@@ -27,6 +27,15 @@ const loadEstudiosDiariosReducer = (state, action) => {
 const loadEstudioDetail = (state, action) => {
     const newState = {};
     const estudioDetail = action.data.response;
+
+    Object.assign(newState, state, { estudioDetail });
+
+    return newState;
+};
+
+const resetEstudioDetail = (state) => {
+    const newState = {};
+    const estudioDetail = {};
 
     Object.assign(newState, state, { estudioDetail });
 
@@ -103,6 +112,8 @@ export function estudioReducer(state = initialState, action) {
             return updateSearchPage(state, action);
         case LOAD_ESTUDIO_DETAIL:
             return loadEstudioDetail(state, action);
+        case RESET_ESTUDIO_DETAIL:
+            return resetEstudioDetail(state);
         case LOAD_ESTUDIO_DETAIL_ERROR:
             return loadEstudioDetailErrorReducer(state);
         case CLEAR_ESTUDIOS_LIST:
