@@ -23,7 +23,7 @@ class EstudioListTableRow extends React.Component {
         const medicoSolicitante = this.props.estudio.medico_solicitante || { nombre: '', apellido: '' };
 
         return (
-            <tr onClick={ this.onRowClick }>
+            <tr onClick={ this.onRowClick } style={ { cursor: 'pointer' } }>
                 <td>{ this.props.estudio.fecha }</td>
                 <td>{ `${paciente.apellido}, ${paciente.nombre}` }</td>
                 <td>{ obraSocial.nombre }</td>

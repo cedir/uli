@@ -108,6 +108,7 @@ class EstudioDetailMain extends Component {
                           label='dni'
                           validate={ dni }
                           component={ InputRF }
+                          staticField
                         />
                         <Field
                           name='nombrePaciente'
@@ -115,6 +116,7 @@ class EstudioDetailMain extends Component {
                           label='Nombre'
                           validate={ alpha }
                           component={ InputRF }
+                          staticField
                         />
                         <Field
                           name='apellidoPaciente'
@@ -122,6 +124,7 @@ class EstudioDetailMain extends Component {
                           label='Apellido'
                           validate={ alpha }
                           component={ InputRF }
+                          staticField
                         />
                     </fieldset>
                     <fieldset>

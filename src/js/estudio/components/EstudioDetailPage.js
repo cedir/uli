@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { isEmpty } from 'lodash';
 import EstudioDetailMain from './EstudioDetailMain';
-import EstudioDetailMedicacion from './EstudioDetailMedicacion';
 
 import { FETCH_ESTUDIO_DETAIL } from '../actionTypes';
 
@@ -23,7 +22,7 @@ class EstudioDetailPage extends React.Component {
                         Facturacion
                     </Col>
                     <Col md={ 4 } style={ { border: 'none' } }>
-                        <EstudioDetailMedicacion />
+                        Medicacion
                     </Col>
                 </Row> }
             </div>
