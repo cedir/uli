@@ -13,14 +13,23 @@ class EstudioListTableRow extends React.Component {
         this.props.onRowClick(estudioId);
     }
     render() {
+        /* If any of this requirements objects are not present in the estudio object,
+        * supply a default one. This situation is exceptional and related with wrong data in db
+        */
+        const paciente = this.props.estudio.paciente || { nombre: '', apellido: '' };
+        const obraSocial = this.props.estudio.obra_social || { nombre: '' };
+        const practica = this.props.estudio.practica || { descripcion: '' };
+        const medico = this.props.estudio.medico || { nombre: '', apellido: '' };
+        const medicoSolicitante = this.props.estudio.medico_solicitante || { nombre: '', apellido: '' };
+
         return (
-            <tr onClick={ this.onRowClick }>
+            <tr onClick={ this.onRowClick } style={ { cursor: 'pointer' } }>
                 <td>{ this.props.estudio.fecha }</td>
-                <td>{ `${this.props.estudio.paciente.apellido}, ${this.props.estudio.paciente.nombre}` }</td>
-                <td>{ this.props.estudio.obra_social.nombre }</td>
-                <td>{ this.props.estudio.practica.descripcion }</td>
-                <td>{ `${this.props.estudio.medico.apellido}, ${this.props.estudio.medico.nombre}` }</td>
-                <td>{ `${this.props.estudio.medico_solicitante.apellido}, ${this.props.estudio.medico_solicitante.nombre}` }</td>
+                <td>{ `${paciente.apellido}, ${paciente.nombre}` }</td>
+                <td>{ obraSocial.nombre }</td>
+                <td>{ practica.descripcion }</td>
+                <td>{ `${medico.apellido}, ${medico.nombre}` }</td>
+                <td>{ `${medicoSolicitante.apellido}, ${medicoSolicitante.nombre}` }</td>
             </tr>
         );
     }
