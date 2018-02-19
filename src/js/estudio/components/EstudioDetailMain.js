@@ -11,10 +11,9 @@ import { alpha, dni } from '../../utilities/reduxFormValidators';
 
 function initEditFormObject(estudio) {
     return {
-        obraSocial: estudio.obra_social.nombre,
-        medicoActuante: `${estudio.medico.apellido}, ${estudio.medico.nombre}`,
-        medicoSolicitante:
-            `${estudio.medico_solicitante.apellido}, ${estudio.medico_solicitante.nombre}`,
+        obraSocial: [estudio.obra_social],
+        medicoActuante: [estudio.medico],
+        medicoSolicitante: [estudio.medico_solicitante],
         fecha: estudio.fecha,
         dniPaciente: `${estudio.paciente.dni}`,
         nombrePaciente: estudio.paciente.nombre,
@@ -27,12 +26,42 @@ class EstudioDetailMain extends Component {
     constructor(props) {
         super(props);
 
+        this.setSelectedObraSocial = this.setSelectedObraSocial.bind(this);
+        this.setSelectedMedicoActuante = this.setSelectedMedicoActuante.bind(this);
+        this.setSelectedMedicoSolicitante = this.setSelectedMedicoSolicitante.bind(this);
         this.saveModifiedEstudio = this.saveModifiedEstudio.bind(this);
         this.searchObrasSociales = this.searchObrasSociales.bind(this);
         this.searchMedicosActuantes = this.searchMedicosActuantes.bind(this);
         this.searchMedicosSolicitantes = this.searchMedicosSolicitantes.bind(this);
         this.renderObraSocialMenuItem = this.renderObraSocialMenuItem.bind(this);
         this.renderMedicoMenuItem = this.renderMedicoMenuItem.bind(this);
+        const estudio = this.props.estudioDetail;
+        this.state = {
+            obraSocial: estudio.obra_social,
+            medicoActuante: estudio.medico,
+            medicoSolicitante: estudio.medico_solicitante,
+            fecha: estudio.fecha,
+            paciente: estudio.paciente,
+            practica: estudio.practica,
+        };
+    }
+
+    setSelectedObraSocial(selection) {
+        if (selection[0] && selection[0].id) {
+            this.setState({ obraSocial: selection[0] });
+        }
+    }
+
+    setSelectedMedicoActuante(selection) {
+        if (selection[0] && selection[0].id) {
+            this.setState({ medicoActuante: selection[0] });
+        }
+    }
+
+    setSelectedMedicoSolicitante(selection) {
+        if (selection[0] && selection[0].id) {
+            this.setState({ medicoSolicitante: selection[0] });
+        }
     }
 
     saveModifiedEstudio() {
@@ -69,13 +98,13 @@ class EstudioDetailMain extends Component {
 
     render() {
         const estudio = this.props.estudioDetail;
-        const obraSocial = estudio.obra_social;
+        // const obraSocial = estudio.obra_social;
         const medicoActuante = estudio.medico;
         const medicoSolicitante = estudio.medico_solicitante;
 
         return (
             <div>
-                <form>
+                <form onSubmit={ this.props.handleSubmit(editParams => console.log(editParams)) }>
                     <Field
                       name='fecha'
                       type='date'
@@ -95,8 +124,9 @@ class EstudioDetailMain extends Component {
                               labelKey='nombre'
                               onSearch={ this.searchObrasSociales }
                               onChange={ this.setSelectedObraSocial }
-                              defaultSelected={ [obraSocial] }
+                              defaultSelected={ [this.state.obraSocial] }
                               renderMenuItemChildren={ this.renderObraSocialMenuItem }
+                              isLoading={ this.props.obrasSocialesApiLoading }
                             />
                         </div>
                     </fieldset>
@@ -136,8 +166,10 @@ class EstudioDetailMain extends Component {
                           options={ this.props.medicosActuantes }
                           labelKey={ option => `${option.apellido}, ${option.nombre}` }
                           onSearch={ this.searchMedicosActuantes }
+                          onChange={ this.setSelectedMedicoActuante }
                           defaultSelected={ [medicoActuante] }
                           renderMenuItemChildren={ this.renderMedicoMenuItem }
+                          isLoading={ this.props.medicoActuanteApiLoading }
                         />
                     </fieldset>
                     <fieldset>
@@ -150,8 +182,10 @@ class EstudioDetailMain extends Component {
                           filterBy={ this.filterByCallback }
                           labelKey={ option => `${option.apellido}, ${option.nombre}` }
                           onSearch={ this.searchMedicosSolicitantes }
+                          onChange={ this.setSelectedMedicoSolicitante }
                           defaultSelected={ [medicoSolicitante] }
                           renderMenuItemChildren={ this.renderMedicoMenuItem }
+                          isLoading={ this.props.medicoSolicitanteApiLoading }
                         />
                     </fieldset>
                     <Field
@@ -162,7 +196,7 @@ class EstudioDetailMain extends Component {
                       component={ InputRF }
                     />
                     <Button
-                      onClick={ this.saveModifiedEstudio }
+                      type='submit'
                       bsStyle='primary'
                     >
                         Guardar
@@ -174,9 +208,10 @@ class EstudioDetailMain extends Component {
     }
 }
 
-const { object, func, array } = React.PropTypes;
+const { object, func, array, bool } = React.PropTypes;
 
 EstudioDetailMain.propTypes = {
+    handleSubmit: func.isRequired,
     estudioDetail: object.isRequired,
     fetchObrasSociales: func.isRequired,
     fetchMedicosActuantes: func.isRequired,
@@ -184,6 +219,9 @@ EstudioDetailMain.propTypes = {
     obrasSociales: array,
     medicosActuantes: array,
     medicosSolicitantes: array,
+    obrasSocialesApiLoading: bool.isRequired,
+    medicoActuanteApiLoading: bool.isRequired,
+    medicoSolicitanteApiLoading: bool.isRequired,
 };
 
 const EstudioDetailMainReduxForm = reduxForm({
@@ -199,6 +237,9 @@ function mapStateToProps(state) {
         obrasSociales: state.obraSocialReducer.obrasSociales,
         medicosActuantes: state.medicoReducer.medicosActuantes,
         medicosSolicitantes: state.medicoReducer.medicosSolicitantes,
+        obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
+        medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
+        medicoSolicitanteApiLoading: state.medicoReducer.medicoSolicitanteApiLoading || false,
     };
 }
 

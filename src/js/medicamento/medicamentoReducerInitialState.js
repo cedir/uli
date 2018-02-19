@@ -1,5 +1,5 @@
 const initialState = {
-    obrasSociales: [],
+    medicamentos: [],
     apiLoading: false,
 };
 
