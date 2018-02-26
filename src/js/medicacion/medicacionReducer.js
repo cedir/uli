@@ -13,7 +13,7 @@ const fetchMedicacionEstudiosReducer = (state) => {
 
 const loadMedicacionReducer = (state, action) => {
     const newState = {};
-    const medicaciones = action.data.response.results;
+    const medicaciones = action.data.response;
     Object.assign(newState, state, { medicaciones });
 
     return newState;

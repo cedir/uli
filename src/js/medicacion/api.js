@@ -12,7 +12,7 @@ export function addMedicactionToEstudio(medicacion) {
 }
 
 export function removeMedicacionFromEstudio(medicacion) {
-    const url = `/api/medicacion/${medicacion.id}`;
+    const url = `/api/medicacion/${medicacion.id}/`;
 
     return remove(url);
 }
