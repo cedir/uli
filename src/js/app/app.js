@@ -13,6 +13,7 @@ import EstudiosPage from '../estudio/EstudiosPage';
 import EstudioDetailPage from '../estudio/components/EstudioDetailPage';
 import PagoAnestesistaPage from '../anestesista/PagoAnestesistaPage';
 import CreateOrEditEstudio from '../estudio/components/CreateOrEditEstudio';
+import AlertComponent from '../utilities/components/alert/AlertComponent';
 
 class App extends React.Component {
 
@@ -94,6 +95,7 @@ class App extends React.Component {
                     />
                     <Route path='/login' component={ Login } />
                     <Footer />
+                    <AlertComponent />
                 </div>
             </div>
         );

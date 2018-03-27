@@ -1,4 +1,4 @@
-import { get } from '../utilities/rest';
+import { get, update } from '../utilities/rest';
 
 function createSearchQueryString(fetchEstudiosParams) {
     const { fechaDesde, fechaHasta, obraSocial, dniPaciente, nombrePaciente, apellidoPaciente,
@@ -30,4 +30,20 @@ export function getEstudio(estudioId) {
     const url = `/api/estudio/${estudioId}/`;
 
     return get(url);
+}
+
+export function updateEstudio(estudio) {
+    const url = `/api/estudio/${estudio.id}/`;
+    const body = {
+        fecha: estudio.fecha,
+        paciente: estudio.paciente[0].id,
+        medico_solicitante: estudio.medicoSolicitante[0].id,
+        medico: estudio.medicoActuante[0].id,
+        practica: estudio.practica[0].id,
+        obra_social: estudio.obraSocial[0].id,
+        motivo: estudio.motivo,
+        informe: estudio.informe,
+    };
+
+    return update(url, body);
 }

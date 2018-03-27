@@ -21,6 +21,7 @@ class EstudiosList extends React.Component {
         this.props.searchParams.actualPage = actualPage;
         this.props.fetchEstudios(this.props.searchParams);
     }
+
     render() {
         return (
             <div>

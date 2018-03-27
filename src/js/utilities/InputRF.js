@@ -16,6 +16,11 @@ class InputRF extends React.Component {
         let message;
         const validationState = (touched && (error && 'error')) || (warning && 'warning') || null;
 
+        let componentClass;
+        if (type === 'textarea') {
+            componentClass = type;
+        }
+
         if (touched && (error || warning)) {
             message = <span className='help-block'>{ error || warning }</span>;
         }
@@ -26,12 +31,14 @@ class InputRF extends React.Component {
                 { !staticField && <FormControl
                   { ...input }
                   type={ type }
+                  componentClass={ componentClass }
                   { ...props }
                 />
                 }
                 { staticField && <FormControl.Static
-                  style={ { color: 'grey' } }
+                  style={ { color: 'grey', cursor: 'not-allowed' } }
                   type={ type }
+                  componentClass={ componentClass }
                 >
                     { input.value }
                 </FormControl.Static>

@@ -2,7 +2,7 @@ import initialState from './estudioReducerInitialState';
 import { FETCH_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     FETCH_ESTUDIO_DETAIL, FETCH_OBRAS_SOCIALES, LOAD_ESTUDIOS_DIARIOS,
     LOAD_ESTUDIO_DETAIL, RESET_ESTUDIO_DETAIL, LOAD_ESTUDIO_DETAIL_ERROR,
-    UPDATE_SEARCH_PAGE } from './actionTypes';
+    UPDATE_SEARCH_PAGE, UPDATE_ESTUDIO } from './actionTypes';
 
 const PAGE_SIZE = 100;
 
@@ -62,6 +62,7 @@ export function estudioReducer(state = initialState, action) {
         case CANCEL_ESTUDIOS_DIARIOS:
         case FETCH_ESTUDIO_DETAIL:
         case FETCH_OBRAS_SOCIALES:
+        case UPDATE_ESTUDIO:
             return fetchEstudiosReducer(state);
         case LOAD_ESTUDIOS_DIARIOS:
             return loadEstudiosDiariosReducer(state, action);
