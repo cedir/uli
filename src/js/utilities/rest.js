@@ -52,3 +52,14 @@ export function post(partialUrl, body, customHeaders = {}) {
         headers,
     });
 }
+
+export function remove(partialUrl) {
+    const defaultHeaders = getDefaultHeaders();
+    const url = `${baseUrl}${partialUrl}`;
+
+    return Rx.Observable.ajax({
+        method: 'DELETE',
+        url,
+        headers: defaultHeaders,
+    });
+}

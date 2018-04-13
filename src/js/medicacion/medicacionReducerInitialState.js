@@ -1,6 +1,5 @@
 const initialState = {
-    obrasSociales: [],
-    apiLoading: false,
+    medicaciones: [],
 };
 
 export default initialState;

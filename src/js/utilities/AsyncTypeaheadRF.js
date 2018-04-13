@@ -20,12 +20,13 @@ class AsyncTypeaheadRF extends React.Component {
             message = <span className='help-block'>{ error || warning }</span>;
         }
 
+        const inputProps = { name: input.name };
         return (
             <FormGroup validationState={ validationState }>
                 <ControlLabel>{ label }</ControlLabel>
                 <AsyncTypeahead
-                  { ...input }
-                  type={ type }
+                  inputProps={ inputProps }
+                  onChange={ input.onChange }
                   { ...props }
                 />
                 { message }

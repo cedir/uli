@@ -1,6 +1,6 @@
 const initialState = {
-    obrasSociales: [],
-    apiLoading: false,
+    medicamento: [],
+    importe: '',
 };
 
 export default initialState;

@@ -6,17 +6,6 @@ const initialState = {
     estudioDetail: {},
     actualPage: 1,
     resultPages: 0,
-    selectedObraSocial: {
-        nombre: '',
-    },
-    selectedMedicoActuante: {
-        nombre: '',
-        apellido: '',
-    },
-    selectedMedicoSolicitante: {
-        nombre: '',
-        apellido: '',
-    },
 };
 
 export default initialState;
