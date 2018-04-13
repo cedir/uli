@@ -1,17 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector, change } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Row, Col, Button }
     from 'react-bootstrap/dist/react-bootstrap';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
+import estudiosInitialState from '../estudioReducerInitialState';
 import obrasSocialesInitialState from '../../obraSocial/obraSocialReducerInitialState';
 import medicosInitialState from '../../medico/medicoReducerInitialState';
-import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, SET_SELECTED_OBRA_SOCIAL, SET_SELECTED_MEDICO_ACTUANTE,
+    SET_SELECTED_MEDICO_SOLICITANTE, SET_SEARCH_ESTUDIOS_PARAMS } from '../actionTypes';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medico/actionTypes';
-import { required, alpha, dni, dateBeforeThan, dateAfterThan }
-    from '../../utilities/reduxFormValidators';
+import { required, alpha, dni, dateBeforeThan, dateAfterThan } from '../../utilities/reduxFormValidators';
 
 class SearchEstudiosForm extends React.Component {
     constructor(props) {
@@ -31,23 +32,27 @@ class SearchEstudiosForm extends React.Component {
         this.renderObraSocialMenuItem = this.renderObraSocialMenuItem.bind(this);
         this.renderMedicoMenuItem = this.renderMedicoMenuItem.bind(this);
         this.searchEstudios = this.searchEstudios.bind(this);
+        this.handleObraSocialInputChange = this.handleObraSocialInputChange.bind(this);
+        this.handleMedicoActuanteInputChange = this.handleMedicoActuanteInputChange.bind(this);
+        this.handleMedicoSolicitanteInputChange =
+            this.handleMedicoSolicitanteInputChange.bind(this);
     }
 
     setSelectedObraSocial(selection) {
         if (selection[0] && selection[0].id) {
-            this.props.setSelectedObraSocial(selection[0]);
+            this.setState({ selectedObraSocial: selection[0] });
         }
     }
 
     setSelectedMedicoActuante(selection) {
         if (selection[0] && selection[0].id) {
-            this.props.setSelectedMedicoActuante(selection[0]);
+            this.setState({ selectedMedicoActuante: selection[0] });
         }
     }
 
     setSelectedMedicoSolicitante(selection) {
         if (selection[0] && selection[0].id) {
-            this.props.setSelectedMedicoSolicitante(selection[0]);
+            this.setState({ selectedMedicoSolicitante: selection[0] });
         }
     }
 
@@ -74,11 +79,24 @@ class SearchEstudiosForm extends React.Component {
     }
 
     searchEstudios(searchParams) {
+        const fetchEstudiosParams = {
+            searchParams,
+        };
         if (this.props.closeModal) {
             this.props.closeModal();
         }
 
-        this.props.fetchEstudios(searchParams);
+        if (this.state.selectedObraSocial) {
+            this.props.setSelectedObraSocial(this.state.selectedObraSocial);
+        }
+        if (this.state.selectedMedicoActuante) {
+            this.props.setSelectedMedicoActuante(this.state.selectedMedicoActuante);
+        }
+        if (this.state.selectedMedicoSolicitante) {
+            this.props.setSelectedMedicoSolicitante(this.state.selectedMedicoSolicitante);
+        }
+        this.props.setSearchEstudiosParams(searchParams);
+        this.props.fetchEstudios(fetchEstudiosParams);
     }
 
     filterByCallback(option, text) {
@@ -94,6 +112,25 @@ class SearchEstudiosForm extends React.Component {
         }
 
         return `${option.apellido}, ${option.nombre}`;
+    }
+
+    handleObraSocialInputChange(inputText) {
+        if (inputText === '') {
+            this.setState({ selectedObraSocial: estudiosInitialState.selectedObraSocial });
+        }
+    }
+
+    handleMedicoActuanteInputChange(inputText) {
+        if (inputText === '') {
+            this.setState({ selectedMedicoActuante: estudiosInitialState.selectedMedicoActuante });
+        }
+    }
+
+    handleMedicoSolicitanteInputChange(inputText) {
+        if (inputText === '') {
+            this.setState({ selectedMedicoSolicitante:
+                estudiosInitialState.selectedMedicoSolicitante });
+        }
     }
 
     renderObraSocialMenuItem(option) {
@@ -124,6 +161,7 @@ class SearchEstudiosForm extends React.Component {
                                     <div style={ { position: 'realtive' } }>
                                         <Field
                                           name='obraSocial'
+                                          type='text'
                                           label='Nombre'
                                           align='left'
                                           component={ AsyncTypeaheadRF }
@@ -131,9 +169,9 @@ class SearchEstudiosForm extends React.Component {
                                           labelKey='nombre'
                                           onSearch={ this.searchObrasSociales }
                                           onChange={ this.setSelectedObraSocial }
-                                          selected={ this.props.selectedObraSocial }
+                                          onInputChange={ this.handleObraSocialInputChange }
+                                          defaultSelected={ [this.props.selectedObraSocial] }
                                           renderMenuItemChildren={ this.renderObraSocialMenuItem }
-                                          isLoading={ this.props.obrasSocialesApiLoading }
                                         />
                                     </div>
                                 </fieldset>
@@ -186,11 +224,11 @@ class SearchEstudiosForm extends React.Component {
                                       labelKey={ this.medicosTypeaheadRenderFunc }
                                       onSearch={ this.searchMedicosSolicitantes }
                                       onChange={ this.setSelectedMedicoSolicitante }
-                                      selected={
-                                        this.props.selectedMedicoSolicitante
+                                      onInputChange={ this.handleMedicoSolicitanteInputChange }
+                                      defaultSelected={
+                                        [this.props.selectedMedicoSolicitante]
                                       }
                                       renderMenuItemChildren={ this.renderMedicoMenuItem }
-                                      isLoading={ false }
                                     />
                                 </fieldset>
                             </Col>
@@ -206,11 +244,11 @@ class SearchEstudiosForm extends React.Component {
                                       labelKey={ this.medicosTypeaheadRenderFunc }
                                       onSearch={ this.searchMedicosActuantes }
                                       onChange={ this.setSelectedMedicoActuante }
-                                      selected={
-                                        this.props.selectedMedicoActuante
+                                      onInputChange={ this.handleMedicoActuanteInputChange }
+                                      defaultSelected={
+                                        [this.props.selectedMedicoActuante]
                                       }
                                       renderMenuItemChildren={ this.renderMedicoMenuItem }
-                                      isLoading={ false }
                                     />
                                 </fieldset>
                             </Col>
@@ -257,7 +295,7 @@ SearchEstudiosForm.defaultProps = {
     medicos: medicosInitialState.medicos,
 };
 
-const { func, array, bool } = React.PropTypes;
+const { func, array, bool, object } = React.PropTypes;
 
 SearchEstudiosForm.propTypes = {
     handleSubmit: func.isRequired,
@@ -270,14 +308,14 @@ SearchEstudiosForm.propTypes = {
     setSelectedObraSocial: func.isRequired,
     setSelectedMedicoActuante: func.isRequired,
     setSelectedMedicoSolicitante: func.isRequired,
-    selectedObraSocial: array,
-    selectedMedicoActuante: array,
-    selectedMedicoSolicitante: array,
+    selectedObraSocial: object.isRequired,
+    selectedMedicoActuante: object.isRequired,
+    selectedMedicoSolicitante: object.isRequired,
     obrasSociales: array,
     medicosActuantes: array,
     medicosSolicitantes: array,
     closeModal: func,
-    obrasSocialesApiLoading: bool.isRequired,
+    setSearchEstudiosParams: func,
 };
 
 const SearchEstudiosFormReduxForm = reduxForm({
@@ -285,34 +323,15 @@ const SearchEstudiosFormReduxForm = reduxForm({
     destroyOnUnmount: false,
 })(SearchEstudiosForm);
 
-const selector = formValueSelector('searchEstudios');
-
 function mapStateToProps(state) {
-    let obraSocial = selector(state, 'obraSocial');
-    obraSocial = (obraSocial && Array.isArray(obraSocial))
-        ? obraSocial
-        : [];
-
-    let medicoActuante = selector(state, 'medicoActuante');
-    medicoActuante = (medicoActuante && Array.isArray(medicoActuante))
-        ? medicoActuante
-        : [];
-
-    let medicoSolicitante = selector(state, 'medicoSolicitante');
-    medicoSolicitante = (medicoSolicitante && Array.isArray(medicoSolicitante))
-            ? medicoSolicitante
-            : [];
     return {
         resultPages: state.estudiosReducer.resultPages,
         obrasSociales: state.obraSocialReducer.obrasSociales,
         medicosActuantes: state.medicoReducer.medicosActuantes,
         medicosSolicitantes: state.medicoReducer.medicosSolicitantes,
-        selectedObraSocial: obraSocial,
-        selectedMedicoActuante: medicoActuante,
-        selectedMedicoSolicitante: medicoSolicitante,
-        obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
-        medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
-        medicoSolicitanteApiLoading: state.medicoReducer.medicoSolicitanteApiLoading || false,
+        selectedObraSocial: state.estudiosReducer.selectedObraSocial,
+        selectedMedicoActuante: state.estudiosReducer.selectedMedicoActuante,
+        selectedMedicoSolicitante: state.estudiosReducer.selectedMedicoSolicitante,
         initialValues: state.estudiosReducer.searchEstudiosParams,
     };
 }
@@ -326,12 +345,17 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
         fetchMedicosSolicitantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_SOLICITANTES, searchParams }),
-        setSelectedObraSocial: obraSocial =>
-            dispatch(change('searchEstudios', 'obraSocial', obraSocial)),
-        setSelectedMedicoActuante: medicoActuante =>
-            dispatch(change('searchEstudios', 'medicoActuante', medicoActuante)),
-        setSelectedMedicoSolicitante: medicoSolicitante =>
-            dispatch(change('searchEstudios', 'medicoSolicitante', medicoSolicitante)),
+        setSelectedObraSocial:
+            selectedObraSocial => dispatch({ type: SET_SELECTED_OBRA_SOCIAL, selectedObraSocial }),
+        setSelectedMedicoActuante:
+            selectedMedicoActuante =>
+                dispatch({ type: SET_SELECTED_MEDICO_ACTUANTE, selectedMedicoActuante }),
+        setSelectedMedicoSolicitante:
+            selectedMedicoSolicitante =>
+                dispatch({ type: SET_SELECTED_MEDICO_SOLICITANTE, selectedMedicoSolicitante }),
+        setSearchEstudiosParams:
+            searchEstudiosParams =>
+                dispatch({ type: SET_SEARCH_ESTUDIOS_PARAMS, searchEstudiosParams }),
     };
 }
 

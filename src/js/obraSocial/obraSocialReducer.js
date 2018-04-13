@@ -3,21 +3,21 @@ import * as types from './actionTypes';
 
 const fetchObrasSociales = (state) => {
     const newState = {};
-    Object.assign(newState, state, { apiLoading: true });
+    Object.assign(newState, state);
 
     return newState;
 };
 
 const loadObrasSocialesReducer = (state, action) => {
     const newState = {};
-    Object.assign(newState, state, { obrasSociales: action.data.response, apiLoading: false });
+    Object.assign(newState, state, { obrasSociales: action.data.response });
 
     return newState;
 };
 
 const loadObrasSocialesErrorReducer = (state) => {
     const newState = {};
-    Object.assign(newState, state, { obrasSociales: [], apiLoading: false });
+    Object.assign(newState, state, { obrasSociales: [] });
 
     return newState;
 };
