@@ -7,6 +7,7 @@ import { ADD_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
 import addMedicamentosFormInitialState from '../addMedicamentosFormInitialState';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
+import { ESTADOS } from '../constants';
 
 class AddMedicamentosForm extends Component {
     constructor(props) {
@@ -44,6 +45,10 @@ class AddMedicamentosForm extends Component {
         const medicamentoIsSelected =
             (Array.isArray(selectedMedicamento) && selectedMedicamento[0]
             && selectedMedicamento[0].id);
+        const { presentacion } = this.props.estudioDetail;
+        const estadoPresentacion = presentacion ? presentacion.estado : undefined;
+        const lockEstudioEdition =
+            (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
         return (
             <div>
                 <form onSubmit={ this.props.handleSubmit(this.addMedicacionToEstudio) }>
@@ -53,6 +58,7 @@ class AddMedicamentosForm extends Component {
                             <Field
                               name='medicamento'
                               label='Nombre'
+                              staticField={ lockEstudioEdition }
                               align='left'
                               component={ AsyncTypeaheadRF }
                               options={ this.props.medicamentos }

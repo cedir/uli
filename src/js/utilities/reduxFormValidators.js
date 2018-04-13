@@ -1,4 +1,4 @@
-import { isAlpha, isEmpty, isInt, isLength } from 'validator';
+import { isAlpha, isAlphanumeric, isEmpty, isInt, isLength } from 'validator';
 import moment from 'moment';
 
 import constants from './constants';
@@ -6,16 +6,32 @@ import constants from './constants';
 const { dniLength } = constants.validations;
 
 export function required(value) {
-    return isEmpty(value) ? 'Campo requerido' : undefined;
+    const valCopy = typeof value === 'undefined' ? '' : value;
+    return isEmpty(valCopy) ? 'Campo requerido' : undefined;
+}
+
+export function requiredOption(value) {
+    const validity = Array.isArray(value) && value.length === 1;
+    if (validity) {
+        return undefined;
+    }
+
+    return 'Campo requerido';
 }
 
 export function alpha(value) {
-    const valueWithoutSpaces = value.replace(/\s/g, '');
+    const valueWithoutSpaces = value ? value.replace(/\s+/g, '') : '';
     return isEmpty(valueWithoutSpaces) || isAlpha(valueWithoutSpaces) ? undefined : 'Solo letras';
 }
 
+export function alphaNum(value) {
+    const valueWithoutSpaces = value ? value.replace(/\s+/g, '') : '';
+    return isEmpty(valueWithoutSpaces) || isAlphanumeric(valueWithoutSpaces) ? undefined : 'Solo alfanumericos';
+}
+
 export function dni(value) {
-    return isEmpty(value) || (isInt(value) && isLength(value, { min: dniLength, max: dniLength })) ? undefined : 'No es un dni valido';
+    const val = typeof value === 'undefined' ? '' : value;
+    return isEmpty(val) || (isInt(val) && isLength(val, { min: dniLength, max: dniLength })) ? undefined : 'No es un dni valido';
 }
 
 export function dateBeforeThan(fieldToCompareName, errorMessage) {
