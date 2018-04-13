@@ -6,6 +6,7 @@ import { estudioReducer } from '../estudio/estudioReducer';
 import { obraSocialReducer } from '../obraSocial/obraSocialReducer';
 import { medicoReducer } from '../medico/medicoReducer';
 import { pagoAnestesistaReducer } from '../anestesista/pagoAnestesistaReducer';
+import { anestesistaReducer } from '../anestesista/anestesistaReducer';
 import { medicacionReducer } from '../medicacion/medicacionReducer';
 import { medicamentoReducer } from '../medicamento/medicamentoReducer';
 import { pacienteReducer } from '../paciente/pacienteReducer';
@@ -14,11 +15,11 @@ import { loginReducer } from '../login/loginReducer';
 import { alertReducer } from '../utilities/components/alert/alertReducer';
 
 // API calls configurations
-import { estudioEpic, updateEstudioEpic } from '../estudio/estudioEpic';
+import { estudioEpic, updateEstudioEpic, createEstudioEpic } from '../estudio/estudioEpic';
 import { estudioDetailEpic } from '../estudio/estudioDetailEpic';
 import { obraSocialEpic } from '../obraSocial/obraSocialEpic';
 import { medicosActuantesEpic, medicosSolicitantesEpic } from '../medico/medicoEpic';
-import { pagoAnestesistaEpic } from '../anestesista/pagoAnestesistaEpic';
+import { pagoAnestesistaEpic, anestesistaEpic } from '../anestesista/pagoAnestesistaEpic';
 import { medicacionEpic, addMedicacionToEstudioEpic,
     removeMedicacionFromEstudioEpic } from '../medicacion/medicacionEpic';
 import { medicamentosEpic } from '../medicamento/medicamentoEpic';
@@ -29,11 +30,13 @@ import { loginEpic } from '../login/loginEpic';
 export const rootEpic = combineEpics(
     estudioEpic,
     updateEstudioEpic,
+    createEstudioEpic,
     estudioDetailEpic,
     obraSocialEpic,
     medicosActuantesEpic,
     medicosSolicitantesEpic,
     pagoAnestesistaEpic,
+    anestesistaEpic,
     medicacionEpic,
     addMedicacionToEstudioEpic,
     removeMedicacionFromEstudioEpic,
@@ -48,6 +51,7 @@ export const rootReducer = combineReducers({
     obraSocialReducer,
     medicoReducer,
     pago_anestesista: pagoAnestesistaReducer,
+    anestesistaReducer,
     medicacionReducer,
     medicamentoReducer,
     pacienteReducer,

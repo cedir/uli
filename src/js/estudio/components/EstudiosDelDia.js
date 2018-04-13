@@ -1,11 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
+import { isEmpty } from 'lodash';
 import EstudiosActionBar from './EstudiosActionBar';
 import SearchEstudiosModal from './SearchEstudiosModal';
 import EstudiosList from './EstudiosList';
 import ConditionalComponents from '../../utilities/ConditionalComponent';
+import searchEstudiosFormInitialState from '../searchEstudiosFormInitialState';
+import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 
-const { array, object } = React.PropTypes;
+const { array, object, func, number } = React.PropTypes;
 
 const estudiosListPanel = props => (
     <EstudiosList history={ props.history } />
@@ -30,6 +34,14 @@ class EstudiosDelDiaPres extends React.Component {
         };
         this.openSearchEstudiosModal = this.openSearchEstudiosModal.bind(this);
         this.closeSearchEstudiosModal = this.closeSearchEstudiosModal.bind(this);
+    }
+
+    componentDidMount() {
+        const { searchParams } = this.props;
+        if (!isEmpty(searchParams)) {
+            this.props.searchParams.actualPage = this.props.actualPage;
+            this.props.fetchEstudios(searchParams);
+        }
     }
 
     openSearchEstudiosModal() {
@@ -74,13 +86,33 @@ EstudiosDelDiaPres.defaultProps = {
 
 EstudiosDelDiaPres.propTypes = {
     estudios: array,
+    actualPage: number,
+    searchParams: object,
+    fetchEstudios: func,
     history: object.isRequired,
 };
 
+const selector = formValueSelector('searchEstudios');
+
 function mapStateToProps(state) {
+    let searchParams = selector(state, 'obraSocial', 'dniPaciente', 'nombrePaciente',
+        'apellidoPaciente', 'medicoSolicitante', 'medicoActuante', 'fechaDesde', 'fechaHasta');
+
+    if (isEmpty(searchParams)) {
+        searchParams = searchEstudiosFormInitialState;
+    }
     return {
         estudios: state.estudiosReducer.estudios,
+        searchParams,
+        actualPage: state.estudiosReducer.actualPage,
     };
 }
 
-export default connect(mapStateToProps)(EstudiosDelDiaPres);
+function mapDispatchToProps(dispatch) {
+    return {
+        fetchEstudios: fetchEstudiosParams =>
+            dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EstudiosDelDiaPres);

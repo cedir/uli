@@ -1,26 +1,29 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap/dist/react-bootstrap';
+import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap/dist/react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medico/actionTypes';
+import { FETCH_ANESTESISTAS } from '../../anestesista/actionTypes';
 import { FETCH_PACIENTES } from '../../paciente/actionTypes';
 import { FETCH_PRACTICAS } from '../../practica/actionTypes';
-import { UPDATE_ESTUDIO } from '../../estudio/actionTypes';
+import { UPDATE_ESTUDIO, CREATE_ESTUDIO } from '../../estudio/actionTypes';
+import { ESTADOS } from '../constants';
 
-import { requiredOption, alphaNum } from '../../utilities/reduxFormValidators';
+import { requiredOption, alphaNum, required } from '../../utilities/reduxFormValidators';
 // import { stat } from 'fs';
 
 function initEditFormObject(estudio) {
     return {
-        obraSocial: [estudio.obra_social],
-        medicoActuante: [estudio.medico],
-        medicoSolicitante: [estudio.medico_solicitante],
-        paciente: [estudio.paciente],
+        obraSocial: estudio.obra_social ? [estudio.obra_social] : undefined,
+        medicoActuante: estudio.medico ? [estudio.medico] : undefined,
+        medicoSolicitante: estudio.medico_solicitante ? [estudio.medico_solicitante] : undefined,
+        anestesista: estudio.anestesista ? [estudio.anestesista] : undefined,
+        paciente: estudio.paciente ? [estudio.paciente] : undefined,
         fecha: estudio.fecha,
-        practica: [estudio.practica],
+        practica: estudio.practica ? [estudio.practica] : undefined,
         informe: estudio.informe,
         motivo: estudio.motivo,
     };
@@ -33,19 +36,17 @@ class EstudioDetailMain extends Component {
         this.setSelectedObraSocial = this.setSelectedObraSocial.bind(this);
         this.setSelectedMedicoActuante = this.setSelectedMedicoActuante.bind(this);
         this.setSelectedMedicoSolicitante = this.setSelectedMedicoSolicitante.bind(this);
+        this.setSelectedAnestesista = this.setSelectedAnestesista.bind(this);
         this.setSelectedPaciente = this.setSelectedPaciente.bind(this);
         this.setSelectedPractica = this.setSelectedPractica.bind(this);
         this.searchObrasSociales = this.searchObrasSociales.bind(this);
         this.searchMedicosActuantes = this.searchMedicosActuantes.bind(this);
         this.searchMedicosSolicitantes = this.searchMedicosSolicitantes.bind(this);
+        this.searchAnestesista = this.searchAnestesista.bind(this);
         this.searchPacientes = this.searchPacientes.bind(this);
         this.searchPracticas = this.searchPracticas.bind(this);
-        this.medicosTypeaheadRenderFunc = this.medicosTypeaheadRenderFunc.bind(this);
-        this.pacientesTypeaheadRenderFunc = this.pacientesTypeaheadRenderFunc.bind(this);
-        this.renderObraSocialMenuItem = this.renderObraSocialMenuItem.bind(this);
-        this.renderMedicoMenuItem = this.renderMedicoMenuItem.bind(this);
-        this.renderPacienteMenuItem = this.renderPacienteMenuItem.bind(this);
         this.updateEstudio = this.updateEstudio.bind(this);
+        this.createEstudio = this.createEstudio.bind(this);
     }
 
     setSelectedObraSocial(selection) {
@@ -66,6 +67,12 @@ class EstudioDetailMain extends Component {
         }
     }
 
+    setSelectedAnestesista(selection) {
+        if (selection[0] && selection[0].id) {
+            this.props.setSelectedAnestesista(selection[0]);
+        }
+    }
+
     setSelectedPaciente(selection) {
         if (selection[0] && selection[0].id) {
             this.props.setSelectedPaciente(selection[0]);
@@ -78,9 +85,49 @@ class EstudioDetailMain extends Component {
         }
     }
 
+    getObraSocialText(obraSocial) {
+        if (obraSocial.length === 1) {
+            const { nombre } = obraSocial[0];
+            return nombre;
+        }
+
+        return 'vacio';
+    }
+
+    getPacienteText(paciente) {
+        if (paciente.length === 1) {
+            const { apellido, nombre, dni } = paciente[0];
+            return `${apellido}, ${nombre} - DNI: ${dni}`;
+        }
+
+        return 'vacio';
+    }
+
+    getMedicoText(medico) {
+        if (medico.length === 1) {
+            const { apellido, nombre, matricula } = medico[0];
+            return `${apellido}, ${nombre} - Mat: ${matricula}`;
+        }
+
+        return 'vacio';
+    }
+
     updateEstudio(estudio) {
         const params = Object.assign({}, estudio, { id: this.props.estudioDetail.id });
         this.props.updateEstudio(params);
+    }
+
+    createEstudio(newEstudio) {
+        this.props.createEstudio(newEstudio);
+    }
+
+    handleFormSubmit(estudio) {
+        const { estudioDetailFormMode } = this.props;
+        if (estudioDetailFormMode === 'edit') {
+            this.updateEstudio(estudio);
+        } else {
+            this.createEstudio(estudio);
+        }
     }
 
     searchObrasSociales(nombre) {
@@ -105,6 +152,10 @@ class EstudioDetailMain extends Component {
         }
     }
 
+    searchAnestesista(searchText) {
+        this.props.fetchAnestesista(searchText);
+    }
+
     searchPacientes(searchText) {
         this.props.fetchPacientes(searchText);
     }
@@ -113,12 +164,23 @@ class EstudioDetailMain extends Component {
         this.props.fetchPracticas(searchText);
     }
 
+    anestesistaTypeaheadRenderFunc(option) {
+        if (!option.nombre || !option.apellido) {
+            return '';
+        }
+        const matricula = option.matricula || '-';
+
+        return `${option.nombre}, ${option.apellido}, Mat: ${matricula}`;
+    }
+
     medicosTypeaheadRenderFunc(option) {
         if (!option.nombre || !option.apellido) {
             return '';
         }
 
-        return `${option.apellido}, ${option.nombre}`;
+        const matricula = option.matricula || '-';
+
+        return `${option.apellido}, ${option.nombre}, Mat: ${matricula}`;
     }
 
     pacientesTypeaheadRenderFunc(option) {
@@ -146,9 +208,21 @@ class EstudioDetailMain extends Component {
     }
 
     renderMedicoMenuItem(option) {
+        const matricula = option.matricula || '-';
         return (
             <div style={ { width: '100%' } } key={ option.id }>
                 { `${option.apellido}, ${option.nombre}` }
+                <div>Matricula: { matricula }</div>
+            </div>
+        );
+    }
+
+    renderAnestesistaMenuItem(option) {
+        const matricula = option.matricula || '-';
+        return (
+            <div style={ { width: '100%' } } key={ option.id }>
+                { `${option.apellido}, ${option.nombre}` }
+                <div>Matricula: { matricula }</div>
             </div>
         );
     }
@@ -157,7 +231,7 @@ class EstudioDetailMain extends Component {
         return (
             <div style={ { width: '100%' } } key={ option.id }>
                 { `${option.apellido}, ${option.nombre}` }
-                <div>{ option.dni }</div>
+                <div>DNI: { option.dni }</div>
             </div>
         );
     }
@@ -171,101 +245,181 @@ class EstudioDetailMain extends Component {
     }
 
     render() {
+        const { presentacion } = this.props.estudioDetail;
+        const estadoPresentacion = presentacion ? presentacion.estado : undefined;
+        const lockEstudioEdition =
+            (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
+        // const { selectedPaciente } = this.props;
         return (
-            <div>
-                <form onSubmit={ this.props.handleSubmit(editParams =>
-                    this.updateEstudio(editParams)) }
+            <div className='estudio-detail-main' style={ { marginBottom: '20px' } }>
+                <form
+                  onSubmit={ this.props.handleSubmit(editParams =>
+                    this.handleFormSubmit(editParams)) }
                 >
                     <Field
                       name='fecha'
                       type='date'
                       label='fecha'
+                      staticField={ lockEstudioEdition }
                       component={ InputRF }
+                      validate={ required }
                     />
                     <fieldset>
                         <legend>Obra Social</legend>
-                        <div style={ { position: 'realtive' } }>
-                            <Field
-                              name='obraSocial'
-                              label='Nombre'
-                              placeholder='nombre'
-                              align='left'
-                              validate={ requiredOption }
-                              component={ AsyncTypeaheadRF }
-                              options={ this.props.obrasSociales }
-                              labelKey='nombre'
-                              onSearch={ this.searchObrasSociales }
-                              onChange={ this.setSelectedObraSocial }
-                              selected={ this.props.selectedObraSocial }
-                              renderMenuItemChildren={ this.renderObraSocialMenuItem }
-                              isLoading={ this.props.obrasSocialesApiLoading }
-                            />
-                        </div>
+                        <OverlayTrigger
+                          overlay={
+                              <Tooltip id={ 1 }>
+                                  { this.getObraSocialText(this.props.selectedObraSocial) }
+                              </Tooltip> }
+                          placement='top'
+                        >
+                            <div>
+                                <Field
+                                  name='obraSocial'
+                                  label='Nombre'
+                                  staticField={ lockEstudioEdition }
+                                  placeholder='nombre'
+                                  align='left'
+                                  validate={ requiredOption }
+                                  component={ AsyncTypeaheadRF }
+                                  options={ this.props.obrasSociales }
+                                  labelKey='nombre'
+                                  onSearch={ this.searchObrasSociales }
+                                  onChange={ this.setSelectedObraSocial }
+                                  selected={ this.props.selectedObraSocial }
+                                  renderMenuItemChildren={ this.renderObraSocialMenuItem }
+                                  isLoading={ this.props.obrasSocialesApiLoading }
+                                />
+                            </div>
+                        </OverlayTrigger>
                     </fieldset>
                     <fieldset>
                         <legend>Paciente</legend>
-                        <Field
-                          name='paciente'
-                          label='Nombre'
-                          placeholder='Nombre, apellido o documento'
-                          align='left'
-                          validate={ requiredOption }
-                          component={ AsyncTypeaheadRF }
-                          options={ this.props.pacientes }
-                          labelKey={ this.pacientesTypeaheadRenderFunc }
-                          onSearch={ this.searchPacientes }
-                          onChange={ this.setSelectedPaciente }
-                          selected={ this.props.selectedPaciente }
-                          renderMenuItemChildren={ this.renderPacienteMenuItem }
-                          isLoading={ this.props.pacienteApiLoading }
-                        />
+                        <OverlayTrigger
+                          overlay={
+                              <Tooltip id='t-paciente'>
+                                  { this.getPacienteText(this.props.selectedPaciente) }
+                              </Tooltip> }
+                          placement='top'
+                        >
+                            <div>
+                                <Field
+                                  name='paciente'
+                                  label='Nombre o dni'
+                                  staticField={ lockEstudioEdition }
+                                  placeholder='Nombre, apellido o documento'
+                                  align='left'
+                                  validate={ requiredOption }
+                                  component={ AsyncTypeaheadRF }
+                                  options={ this.props.pacientes }
+                                  labelKey={ this.pacientesTypeaheadRenderFunc }
+                                  onSearch={ this.searchPacientes }
+                                  onChange={ this.setSelectedPaciente }
+                                  selected={ this.props.selectedPaciente }
+                                  renderMenuItemChildren={ this.renderPacienteMenuItem }
+                                  isLoading={ this.props.pacienteApiLoading }
+                                />
+                            </div>
+                        </OverlayTrigger>
                     </fieldset>
                     <fieldset>
                         <legend>Medico Actuante</legend>
-                        <Field
-                          name='medicoActuante'
-                          label='Nombe/Apellido'
-                          placeholder='Nombre'
-                          align='left'
-                          validate={ requiredOption }
-                          component={ AsyncTypeaheadRF }
-                          options={ this.props.medicosActuantes }
-                          labelKey={ this.medicosTypeaheadRenderFunc }
-                          onSearch={ this.searchMedicosActuantes }
-                          onChange={ this.setSelectedMedicoActuante }
-                          selected={
-                            this.props.selectedMedicoActuante
-                          }
-                          renderMenuItemChildren={ this.renderMedicoMenuItem }
-                          isLoading={ this.props.medicoActuanteApiLoading }
-                        />
+                        <OverlayTrigger
+                          overlay={
+                              <Tooltip id='t-medico-actuante'>
+                                  { this.getMedicoText(this.props.selectedMedicoActuante) }
+                              </Tooltip> }
+                          placement='top'
+                        >
+                            <div>
+                                <Field
+                                  name='medicoActuante'
+                                  label='Nombe/Apellido'
+                                  staticField={ lockEstudioEdition }
+                                  placeholder='Nombre'
+                                  align='left'
+                                  validate={ requiredOption }
+                                  component={ AsyncTypeaheadRF }
+                                  options={ this.props.medicosActuantes }
+                                  labelKey={ this.medicosTypeaheadRenderFunc }
+                                  onSearch={ this.searchMedicosActuantes }
+                                  onChange={ this.setSelectedMedicoActuante }
+                                  selected={
+                                      this.props.selectedMedicoActuante
+                                  }
+                                  renderMenuItemChildren={ this.renderMedicoMenuItem }
+                                  isLoading={ this.props.medicoActuanteApiLoading }
+                                />
+                            </div>
+                        </OverlayTrigger>
                     </fieldset>
                     <fieldset>
                         <legend>Medico Solicitante</legend>
-                        <Field
-                          name='medicoSolicitante'
-                          label='Nombe/Apellido'
-                          placeholder='Nombre'
-                          align='left'
-                          validate={ requiredOption }
-                          component={ AsyncTypeaheadRF }
-                          options={ this.props.medicosSolicitantes }
-                          filterBy={ this.filterByCallback }
-                          labelKey={ this.medicosTypeaheadRenderFunc }
-                          onSearch={ this.searchMedicosSolicitantes }
-                          onChange={ this.setSelectedMedicoSolicitante }
-                          selected={
-                            this.props.selectedMedicoSolicitante
-                          }
-                          renderMenuItemChildren={ this.renderMedicoMenuItem }
-                          isLoading={ this.props.medicoSolicitanteApiLoading }
-                        />
+                        <OverlayTrigger
+                          overlay={
+                              <Tooltip id='t-medico-solicitante'>
+                                  { this.getMedicoText(this.props.selectedMedicoSolicitante) }
+                              </Tooltip> }
+                          placement='top'
+                        >
+                            <div>
+                                <Field
+                                  name='medicoSolicitante'
+                                  label='Nombe/Apellido'
+                                  staticField={ lockEstudioEdition }
+                                  placeholder='Nombre'
+                                  align='left'
+                                  validate={ requiredOption }
+                                  component={ AsyncTypeaheadRF }
+                                  options={ this.props.medicosSolicitantes }
+                                  labelKey={ this.medicosTypeaheadRenderFunc }
+                                  onSearch={ this.searchMedicosSolicitantes }
+                                  onChange={ this.setSelectedMedicoSolicitante }
+                                  selected={
+                                      this.props.selectedMedicoSolicitante
+                                  }
+                                  renderMenuItemChildren={ this.renderMedicoMenuItem }
+                                  isLoading={ this.props.medicoSolicitanteApiLoading }
+                                />
+                            </div>
+                        </OverlayTrigger>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Anestesista</legend>
+                        <OverlayTrigger
+                          overlay={
+                              <Tooltip id='t-anestesista'>
+                                  { this.getMedicoText(this.props.selectedAnestesista) }
+                              </Tooltip> }
+                          placement='top'
+                        >
+                            <div>
+                                <Field
+                                  name='anestesista'
+                                  label='Nombe/Apellido o matricula'
+                                  staticField={ lockEstudioEdition }
+                                  placeholder='Nombre'
+                                  align='left'
+                                  component={ AsyncTypeaheadRF }
+                                  options={ this.props.anestesistas }
+                                  labelKey={ this.anestesistaTypeaheadRenderFunc }
+                                  onSearch={ this.searchAnestesista }
+                                  onChange={ this.setSelectedAnestesista }
+                                  selected={
+                                      this.props.selectedAnestesista
+                                  }
+                                  renderMenuItemChildren={ this.renderAnestesistaMenuItem }
+                                  isLoading={ this.props.anestesistaApiLoading }
+                                />
+                            </div>
+                        </OverlayTrigger>
                     </fieldset>
                     <fieldset>
                         <legend>Practica</legend>
                         <Field
                           name='practica'
                           label='Descripcion'
+                          staticField={ lockEstudioEdition }
                           placeholder='descripcion'
                           align='left'
                           validate={ requiredOption }
@@ -283,6 +437,7 @@ class EstudioDetailMain extends Component {
                     </fieldset>
                     <Field
                       name='motivo'
+                      staticField={ lockEstudioEdition }
                       type='text'
                       label='Motivo'
                       validate={ alphaNum }
@@ -290,18 +445,23 @@ class EstudioDetailMain extends Component {
                     />
                     <Field
                       name='informe'
+                      staticField={ lockEstudioEdition }
                       type='textarea'
                       label='Informe'
+                      style={ { height: '200px' } }
                       validate={ alphaNum }
                       component={ InputRF }
                     />
-                    <Button
-                      type='submit'
-                      bsStyle='primary'
-                      disabled={ !this.props.valid }
-                    >
-                        Guardar
-                    </Button>
+                    <div className='pull-right'>
+                        <Button
+                          type='submit'
+                          bsStyle='primary'
+                          disabled={ !this.props.valid || lockEstudioEdition }
+                        >
+                            { this.props.estudioDetailFormMode === 'edit' ? 'Guardar' : 'Crear' }
+                        </Button>
+                    </div>
+                    <div className='clearfix' />
                 </form>
 
             </div>
@@ -309,7 +469,7 @@ class EstudioDetailMain extends Component {
     }
 }
 
-const { func, array, bool, object } = React.PropTypes;
+const { func, array, bool, object, string } = React.PropTypes;
 
 EstudioDetailMain.propTypes = {
     handleSubmit: func.isRequired,
@@ -317,35 +477,42 @@ EstudioDetailMain.propTypes = {
     fetchObrasSociales: func.isRequired,
     fetchMedicosActuantes: func.isRequired,
     fetchMedicosSolicitantes: func.isRequired,
+    fetchAnestesista: func.isRequired,
     fetchPracticas: func.isRequired,
     fetchPacientes: func.isRequired,
     setSelectedObraSocial: func.isRequired,
     setSelectedMedicoActuante: func.isRequired,
     setSelectedMedicoSolicitante: func.isRequired,
+    setSelectedAnestesista: func.isRequired,
     setSelectedPaciente: func.isRequired,
     setSelectedPractica: func.isRequired,
     selectedObraSocial: array,
     selectedMedicoActuante: array,
     selectedMedicoSolicitante: array,
+    selectedAnestesista: array,
     selectedPaciente: array,
     selectedPractica: array,
     obrasSociales: array,
     medicosActuantes: array,
     medicosSolicitantes: array,
+    anestesistas: array,
     practicas: array,
     pacientes: array,
     obrasSocialesApiLoading: bool.isRequired,
     medicoActuanteApiLoading: bool.isRequired,
     medicoSolicitanteApiLoading: bool.isRequired,
+    anestesistaApiLoading: bool.isRequired,
     pacienteApiLoading: bool.isRequired,
     practicaApiLoading: bool.isRequired,
     valid: bool,
     updateEstudio: func.isRequired,
+    createEstudio: func.isRequired,
+    estudioDetailFormMode: string.isRequired,
 };
 
 const EstudioDetailMainReduxForm = reduxForm({
     form: 'editEstudio',
-    destroyOnUnmount: false,
+    // destroyOnUnmount: false,
     enableReinitialize: true,
 })(EstudioDetailMain);
 
@@ -366,6 +533,10 @@ function mapStateToProps(state) {
     medicoSolicitante = (medicoSolicitante && Array.isArray(medicoSolicitante))
             ? medicoSolicitante
             : [];
+    let anestesista = selector(state, 'anestesista');
+    anestesista = (anestesista && Array.isArray(anestesista))
+            ? anestesista
+            : [];
     let paciente = selector(state, 'paciente');
     paciente = (paciente && Array.isArray(paciente))
             ? paciente
@@ -382,16 +553,19 @@ function mapStateToProps(state) {
         obrasSociales: state.obraSocialReducer.obrasSociales,
         medicosActuantes: state.medicoReducer.medicosActuantes,
         medicosSolicitantes: state.medicoReducer.medicosSolicitantes,
+        anestesistas: state.anestesistaReducer.anestesistas,
         pacientes: state.pacienteReducer.pacientes,
         practicas: state.practicaReducer.practicas,
         selectedObraSocial: obraSocial,
         selectedMedicoActuante: medicoActuante,
         selectedMedicoSolicitante: medicoSolicitante,
+        selectedAnestesista: anestesista,
         selectedPaciente: paciente,
         selectedPractica: practica,
         obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
         medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
         medicoSolicitanteApiLoading: state.medicoReducer.medicoSolicitanteApiLoading || false,
+        anestesistaApiLoading: state.anestesistaReducer.anestesistaApiLoading || false,
         pacienteApiLoading: state.pacienteReducer.pacienteApiLoading || false,
         practicaApiLoading: state.practicaReducer.practicaApiLoading || false,
     };
@@ -404,6 +578,8 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
         fetchMedicosSolicitantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_SOLICITANTES, searchParams }),
+        fetchAnestesista: searchParams =>
+            dispatch({ type: FETCH_ANESTESISTAS, searchParams }),
         fetchPacientes: searchText =>
             dispatch({ type: FETCH_PACIENTES, searchText }),
         fetchPracticas: searchText =>
@@ -414,12 +590,16 @@ function mapDispatchToProps(dispatch) {
             dispatch(change('editEstudio', 'medicoActuante', medicoActuante)),
         setSelectedMedicoSolicitante: medicoSolicitante =>
             dispatch(change('editEstudio', 'medicoSolicitante', medicoSolicitante)),
+        setSelectedAnestesista: anestesista =>
+            dispatch(change('editEstudio', 'anestesista', anestesista)),
         setSelectedPaciente: paciente =>
             dispatch(change('editEstudio', 'paciente', paciente)),
         setSelectedPractica: practica =>
             dispatch(change('editEstudio', 'practica', practica)),
         updateEstudio: estudio =>
             dispatch({ type: UPDATE_ESTUDIO, estudio }),
+        createEstudio: estudio =>
+            dispatch({ type: CREATE_ESTUDIO, estudio }),
     };
 }
 

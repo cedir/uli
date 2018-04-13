@@ -6,7 +6,8 @@ import constants from './constants';
 const { dniLength } = constants.validations;
 
 export function required(value) {
-    return isEmpty(value) ? 'Campo requerido' : undefined;
+    const valCopy = typeof value === 'undefined' ? '' : value;
+    return isEmpty(valCopy) ? 'Campo requerido' : undefined;
 }
 
 export function requiredOption(value) {
@@ -19,12 +20,12 @@ export function requiredOption(value) {
 }
 
 export function alpha(value) {
-    const valueWithoutSpaces = value.replace(/\s+/g, '');
+    const valueWithoutSpaces = value ? value.replace(/\s+/g, '') : '';
     return isEmpty(valueWithoutSpaces) || isAlpha(valueWithoutSpaces) ? undefined : 'Solo letras';
 }
 
 export function alphaNum(value) {
-    const valueWithoutSpaces = value.replace(/\s+/g, '');
+    const valueWithoutSpaces = value ? value.replace(/\s+/g, '') : '';
     return isEmpty(valueWithoutSpaces) || isAlphanumeric(valueWithoutSpaces) ? undefined : 'Solo alfanumericos';
 }
 

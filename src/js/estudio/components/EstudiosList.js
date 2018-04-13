@@ -55,10 +55,8 @@ EstudiosList.propTypes = {
     actualPage: number,
 };
 
-const initialSerchParams = estudioReducerInitialState.searchParams;
-
 EstudiosList.defaultProps = {
-    searchParams: initialSerchParams,
+    searchParams: estudioReducerInitialState.searchParams,
     resultPages: 0,
     actualPage: 0,
 };

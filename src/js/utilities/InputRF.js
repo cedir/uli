@@ -38,7 +38,6 @@ class InputRF extends React.Component {
                 { staticField && <FormControl.Static
                   style={ { color: 'grey', cursor: 'not-allowed' } }
                   type={ type }
-                  componentClass={ componentClass }
                 >
                     { input.value }
                 </FormControl.Static>
