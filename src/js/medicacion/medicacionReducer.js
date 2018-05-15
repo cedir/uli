@@ -2,7 +2,9 @@ import initialState from './medicacionReducerInitialState';
 import { FETCH_MEDICACION_ESTUDIO, LOAD_MEDICACION_ESTUDIO,
     LOAD_MEDICACION_ESTUDIO_ERROR, ADD_MEDICACION_ESTUDIO,
     ADD_MEDICACION_ESTUDIO_ERROR,
-    DELETE_MEDICACION_ESTUDIO_ERROR } from './actionTypes';
+    DELETE_MEDICACION_ESTUDIO_ERROR,
+    ADD_DEFAULT_MEDICACION_ESTUDIO,
+    ADD_DEFAULT_MEDICACION_ESTUDIO_ERROR } from './actionTypes';
 
 const fetchMedicacionEstudiosReducer = (state) => {
     const newState = {};
@@ -45,6 +47,8 @@ export function medicacionReducer(state = initialState, action) {
         case ADD_MEDICACION_ESTUDIO:
         case ADD_MEDICACION_ESTUDIO_ERROR:
         case DELETE_MEDICACION_ESTUDIO_ERROR:
+        case ADD_DEFAULT_MEDICACION_ESTUDIO:
+        case ADD_DEFAULT_MEDICACION_ESTUDIO_ERROR:
             return addMedicacionToEstudio(state);
         default:
             return state;

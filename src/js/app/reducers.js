@@ -21,7 +21,7 @@ import { obraSocialEpic } from '../obraSocial/obraSocialEpic';
 import { medicosActuantesEpic, medicosSolicitantesEpic } from '../medico/medicoEpic';
 import { pagoAnestesistaEpic, anestesistaEpic } from '../anestesista/pagoAnestesistaEpic';
 import { medicacionEpic, addMedicacionToEstudioEpic,
-    removeMedicacionFromEstudioEpic } from '../medicacion/medicacionEpic';
+    removeMedicacionFromEstudioEpic, addDefaultMedicacionToEstudioEpic } from '../medicacion/medicacionEpic';
 import { medicamentosEpic } from '../medicamento/medicamentoEpic';
 import { pacienteEpic } from '../paciente/pacienteEpic';
 import { practicaEpic } from '../practica/practicaEpic';
@@ -40,6 +40,7 @@ export const rootEpic = combineEpics(
     medicacionEpic,
     addMedicacionToEstudioEpic,
     removeMedicacionFromEstudioEpic,
+    addDefaultMedicacionToEstudioEpic,
     medicamentosEpic,
     pacienteEpic,
     practicaEpic,

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import { FETCH_MEDICAMENTOS } from '../../medicamento/actionTypes';
-import { ADD_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
+import { ADD_MEDICACION_ESTUDIO, ADD_DEFAULT_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
 import addMedicamentosFormInitialState from '../addMedicamentosFormInitialState';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
@@ -16,6 +16,7 @@ class AddMedicamentosForm extends Component {
         this.searchMedicamentos = this.searchMedicamentos.bind(this);
         this.setSelectedMedicamento = this.setSelectedMedicamento.bind(this);
         this.addMedicacionToEstudio = this.addMedicacionToEstudio.bind(this);
+        this.addDefaultMedicacionToEstudio = this.addDefaultMedicacionToEstudio.bind(this);
     }
 
     setSelectedMedicamento(selection) {
@@ -38,6 +39,12 @@ class AddMedicamentosForm extends Component {
             importe: params.importe,
         };
         this.props.addMedicacionToEstudio(medicacion);
+    }
+
+    addDefaultMedicacionToEstudio() {
+        const estudioId = this.props.estudioDetail.id;
+
+        this.props.addDefaultMedicacionToEstudio(estudioId);
     }
 
     render() {
@@ -79,9 +86,16 @@ class AddMedicamentosForm extends Component {
                     <Button
                       type='submit'
                       bsStyle='primary'
+                      style={ { marginRight: '12px' } }
                       disabled={ !(medicamentoIsSelected && importe) }
                     >
                         Agregar a estudio
+                    </Button>
+                    <Button
+                      bsStyle='primary'
+                      onClick={ this.addDefaultMedicacionToEstudio }
+                    >
+                        Medicacion Por defecto
                     </Button>
                 </form>
             </div>
@@ -103,6 +117,7 @@ AddMedicamentosForm.propTypes = {
     setImporte: func.isRequired,
     resetImporteMedicamento: func.isRequired,
     addMedicacionToEstudio: func.isRequired,
+    addDefaultMedicacionToEstudio: func.isRequired,
 };
 
 AddMedicamentosForm.defaultProps = {
@@ -141,6 +156,8 @@ function mapDispatchToProps(dispatch) {
         resetImporteMedicamento: () => dispatch(change('searchMedicamentos', 'importe', '')),
         addMedicacionToEstudio: medicacion =>
             dispatch({ type: ADD_MEDICACION_ESTUDIO, medicacion }),
+        addDefaultMedicacionToEstudio: estudioId =>
+            dispatch({ type: ADD_DEFAULT_MEDICACION_ESTUDIO, estudioId }),
     };
 }
 

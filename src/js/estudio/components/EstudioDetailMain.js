@@ -112,6 +112,15 @@ class EstudioDetailMain extends Component {
         return 'vacio';
     }
 
+    getPracticaText(practica) {
+        if (practica.length === 1) {
+            const { descripcion, codigoMedico } = practica[0];
+            return `${descripcion}, Codigo: ${codigoMedico}`;
+        }
+
+        return 'vacio';
+    }
+
     updateEstudio(estudio) {
         const params = Object.assign({}, estudio, { id: this.props.estudioDetail.id });
         this.props.updateEstudio(params);
@@ -196,7 +205,7 @@ class EstudioDetailMain extends Component {
             return '';
         }
 
-        return option.descripcion;
+        return `${option.descripcion}, Codigo: ${option.codigoMedico}`;
     }
 
     renderObraSocialMenuItem(option) {
@@ -240,6 +249,7 @@ class EstudioDetailMain extends Component {
         return (
             <div style={ { width: '100%' } } key={ option.id }>
                 { option.descripcion }
+                <div>Codigo: { option.codigoMedico }</div>
             </div>
         );
     }
@@ -416,24 +426,35 @@ class EstudioDetailMain extends Component {
                     </fieldset>
                     <fieldset>
                         <legend>Practica</legend>
-                        <Field
-                          name='practica'
-                          label='Descripcion'
-                          staticField={ lockEstudioEdition }
-                          placeholder='descripcion'
-                          align='left'
-                          validate={ requiredOption }
-                          component={ AsyncTypeaheadRF }
-                          options={ this.props.practicas }
-                          labelKey={ this.practicaTypeaheadRenderFunc }
-                          onSearch={ this.searchPracticas }
-                          onChange={ this.setSelectedPractica }
-                          selected={
-                            this.props.selectedPractica
-                          }
-                          renderMenuItemChildren={ this.renderPractica }
-                          isLoading={ this.props.practicaApiLoading }
-                        />
+                        <OverlayTrigger
+                          overlay={
+                              <Tooltip id='t-anestesista'>
+                                  { this.getPracticaText(this.props.selectedPractica) }
+                              </Tooltip> }
+                          placement='top'
+                        >
+                            <div>
+                                <Field
+                                  name='practica'
+                                  label='Descripcion'
+                                  staticField={ lockEstudioEdition }
+                                  placeholder='descripcion'
+                                  align='left'
+                                  validate={ requiredOption }
+                                  component={ AsyncTypeaheadRF }
+                                  options={ this.props.practicas }
+                                  labelKey={ this.practicaTypeaheadRenderFunc }
+                                  onSearch={ this.searchPracticas }
+                                  onChange={ this.setSelectedPractica }
+                                  selected={
+                                    this.props.selectedPractica
+                                  }
+                                  renderMenuItemChildren={ this.renderPractica }
+                                  isLoading={ this.props.practicaApiLoading }
+                                  clearButton
+                                />
+                            </div>
+                        </OverlayTrigger>
                     </fieldset>
                     <Field
                       name='motivo'
