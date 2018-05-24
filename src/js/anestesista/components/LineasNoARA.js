@@ -48,9 +48,17 @@ class LineasNoARAPres extends React.Component {
 
     comprobante(comprobante) {
         const { sub_tipo: subTipo, numero } = comprobante;
-        const { descripcion, porcentaje } = comprobante.gravado;
+        const { nombre: nombreTipoComprobante } = comprobante.tipo_comprobante;
+        if (comprobante.gravado) {
+            const { descripcion, porcentaje } = comprobante.gravado;
+            return (
+                <span>
+                    {nombreTipoComprobante} {subTipo} {numero} - {descripcion} %{porcentaje}
+                </span>
+            );
+        }
         return (
-            <span> {subTipo} {numero} - {descripcion} %{porcentaje}</span>
+            <span> {nombreTipoComprobante} {subTipo} {numero} </span>
         );
     }
 /*
