@@ -71,6 +71,8 @@ class ControlPagoAnestesistaPres extends React.Component {
                         <option value='26'>Mariano Giardina</option>
                         <option value='27'>Veronica Corsi</option>
                         <option value='28'>Mariana Musciatti</option>
+                        <option value='32'>Cristian Klenzi</option>
+                        <option value='30'>Ivan Groisman</option>
                     </FormControl>
                 </FormGroup>
                 <FormGroup controlId='anio'>
