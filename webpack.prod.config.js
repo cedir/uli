@@ -57,7 +57,7 @@ export default {
             },
             {
                 test: /(\.css)$/,
-                loader: ExtractTextPlugin.extract('css?sourceMap'),
+                loaders: ['style', 'css'],
             },
             {
                 test: /(\.less)$/,
