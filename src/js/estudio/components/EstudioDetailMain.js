@@ -10,7 +10,7 @@ import { FETCH_ANESTESISTAS } from '../../anestesista/actionTypes';
 import { FETCH_PACIENTES } from '../../paciente/actionTypes';
 import { FETCH_PRACTICAS } from '../../practica/actionTypes';
 import { UPDATE_ESTUDIO, CREATE_ESTUDIO } from '../../estudio/actionTypes';
-import { ESTADOS } from '../constants';
+import { ESTADOS, ANESTESIA_SIN_ANESTESISTA } from '../constants';
 
 import { requiredOption, alphaNum, required } from '../../utilities/reduxFormValidators';
 // import { stat } from 'fs';
@@ -174,6 +174,9 @@ class EstudioDetailMain extends Component {
     }
 
     anestesistaTypeaheadRenderFunc(option) {
+        if (option.apellido.toLowerCase() === ANESTESIA_SIN_ANESTESISTA) {
+            return `${option.apellido}`;
+        }
         if (!option.nombre || !option.apellido) {
             return '';
         }
@@ -228,9 +231,12 @@ class EstudioDetailMain extends Component {
 
     renderAnestesistaMenuItem(option) {
         const matricula = option.matricula || '-';
+        const nombre = (option.apellido.toLowerCase() === ANESTESIA_SIN_ANESTESISTA)
+            ? option.apellido
+            : `${option.apellido}, ${option.nombre}`;
         return (
             <div style={ { width: '100%' } } key={ option.id }>
-                { `${option.apellido}, ${option.nombre}` }
+                { nombre }
                 <div>Matricula: { matricula }</div>
             </div>
         );
