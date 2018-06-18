@@ -416,6 +416,7 @@ class EstudioDetailMain extends Component {
                                   staticField={ lockEstudioEdition }
                                   placeholder='Nombre'
                                   align='left'
+                                  validate={ requiredOption }
                                   component={ AsyncTypeaheadRF }
                                   options={ this.props.anestesistas }
                                   labelKey={ this.anestesistaTypeaheadRenderFunc }
