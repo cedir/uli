@@ -1,7 +1,8 @@
 import Rx from 'rxjs';
-import { getEstudios, updateEstudio, createEstudio } from './api';
+import { getEstudios, updateEstudio, createEstudio, getEstudiosImpagos } from './api';
 import { FETCH_ESTUDIOS_DIARIOS, LOAD_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
-    UPDATE_ESTUDIO, ERROR_UPDATING_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID }
+    UPDATE_ESTUDIO, ERROR_UPDATING_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
+    FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS }
     from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
@@ -38,4 +39,13 @@ export function createEstudioEpic(action$) {
                 type: ADD_ALERT, alert: createAlert('Error al intentar guardar estudio', 'danger'),
             }))),
         );
+}
+
+export function estudioImpagosEpic(action$) {
+    return action$.ofType(FETCH_ESTUDIOS_IMPAGOS)
+        .mergeMap(action =>
+            getEstudiosImpagos(action.fetchEstudiosParams.medicoActuante)
+            .map(data => ({ type: LOAD_ESTUDIOS_IMPAGOS, data }))
+            .takeUntil(action$.ofType(CANCEL_ESTUDIOS_DIARIOS)),
+    );
 }

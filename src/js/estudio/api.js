@@ -26,6 +26,14 @@ export function getEstudios(fetchEstudiosParams) {
     return get(url);
 }
 
+export function getEstudiosImpagos(medico) {
+    const { apellido: apellidoMedicoActuante, nombre: nombreMedicoActuante }
+        = medico[0] ? medico[0] : { nombre: '', apellido: '' };
+    const url = `/api/estudio/?&medico_nombre=${nombreMedicoActuante}&` +
+        `medico_apellido=${apellidoMedicoActuante}`;
+    return get(url);
+}
+
 export function getEstudio(estudioId) {
     const url = `/api/estudio/${estudioId}/`;
 

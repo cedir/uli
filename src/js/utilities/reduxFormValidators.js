@@ -6,7 +6,7 @@ import constants from './constants';
 const { dniLength } = constants.validations;
 
 export function required(value) {
-    const valCopy = typeof value === 'undefined' ? '' : value;
+    const valCopy = typeof value === 'undefined' ? '' : `${value}`;
     return isEmpty(valCopy) ? 'Campo requerido' : undefined;
 }
 
