@@ -50,3 +50,8 @@ export function dateAfterThan(fieldToCompareName, errorMessage) {
         return isEmpty(value) || isAfter ? undefined : (errorMessage || 'El periodo es invalido');
     };
 }
+
+export function integerValue(value) {
+    const val = typeof value === 'undefined' ? '' : value;
+    return isEmpty(val) || (isInt(val)) ? undefined : 'No es numero';
+}
