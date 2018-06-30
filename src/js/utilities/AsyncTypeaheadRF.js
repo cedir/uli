@@ -9,14 +9,15 @@ class AsyncTypeaheadRF extends React.Component {
             input,
             label,
             type,
-            meta: { error, warning, touched },
+            meta: { error, warning, pristine },
+            staticField,
             ...props
         } = this.props;
 
         let message;
-        const validationState = (touched && (error && 'error')) || (warning && 'warning') || null;
+        const validationState = (!pristine && (error && 'error')) || (warning && 'warning') || null;
 
-        if (touched && (error || warning)) {
+        if (!pristine && (error || warning)) {
             message = <span className='help-block'>{ error || warning }</span>;
         }
 
@@ -27,6 +28,7 @@ class AsyncTypeaheadRF extends React.Component {
                 <AsyncTypeahead
                   inputProps={ inputProps }
                   onChange={ input.onChange }
+                  disabled={ staticField }
                   { ...props }
                 />
                 { message }
@@ -35,13 +37,14 @@ class AsyncTypeaheadRF extends React.Component {
     }
 }
 
-const { object, string } = PropTypes;
+const { object, string, bool } = PropTypes;
 
 AsyncTypeaheadRF.propTypes = {
     input: object,
     label: string,
     type: string,
     meta: object,
+    staticField: bool,
 };
 
 export default AsyncTypeaheadRF;

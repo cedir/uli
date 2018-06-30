@@ -7,7 +7,7 @@ class EstudiosActionBar extends React.Component {
         this.goToCreateEstudio = this.goToCreateEstudio.bind(this);
     }
     goToCreateEstudio() {
-        this.props.history.push('/estudios/createoredit/create');
+        this.props.history.push('/estudios/create');
     }
     render() {
         return (

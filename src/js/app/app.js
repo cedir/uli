@@ -12,7 +12,8 @@ import HomePage from '../home/HomePage';
 import EstudiosPage from '../estudio/EstudiosPage';
 import EstudioDetailPage from '../estudio/components/EstudioDetailPage';
 import PagoAnestesistaPage from '../anestesista/PagoAnestesistaPage';
-import CreateOrEditEstudio from '../estudio/components/CreateOrEditEstudio';
+import CreateEstudio from '../estudio/components/CreateEstudio';
+import AlertComponent from '../utilities/components/alert/AlertComponent';
 
 class App extends React.Component {
 
@@ -83,8 +84,8 @@ class App extends React.Component {
                     />
                     <PrivateRoute
                       exact
-                      path='/estudios/createoredit/:mode'
-                      component={ CreateOrEditEstudio }
+                      path='/estudios/create'
+                      component={ CreateEstudio }
                       authenticated={ !!this.props.token }
                     />
                     <PrivateRoute
@@ -94,6 +95,7 @@ class App extends React.Component {
                     />
                     <Route path='/login' component={ Login } />
                     <Footer />
+                    <AlertComponent />
                 </div>
             </div>
         );

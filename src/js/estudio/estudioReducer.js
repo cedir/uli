@@ -2,11 +2,19 @@ import initialState from './estudioReducerInitialState';
 import { FETCH_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     FETCH_ESTUDIO_DETAIL, FETCH_OBRAS_SOCIALES, LOAD_ESTUDIOS_DIARIOS,
     LOAD_ESTUDIO_DETAIL, RESET_ESTUDIO_DETAIL, LOAD_ESTUDIO_DETAIL_ERROR,
-    UPDATE_SEARCH_PAGE } from './actionTypes';
+    UPDATE_SEARCH_PAGE, UPDATE_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID } from './actionTypes';
 
 const PAGE_SIZE = 100;
 
-const fetchEstudiosReducer = (state) => {
+const fetchEstudiosReducer = (state, action) => {
+    const newState = {};
+    const actualPage = action.fetchEstudiosParams.actualPage;
+    Object.assign(newState, state, { actualPage });
+
+    return newState;
+};
+
+const actionsHandledByEpicReducer = (state) => {
     const newState = {};
     Object.assign(newState, state);
 
@@ -25,6 +33,18 @@ const loadEstudiosDiariosReducer = (state, action) => {
 const loadEstudioDetail = (state, action) => {
     const newState = {};
     const estudioDetail = action.data.response;
+
+    Object.assign(newState, state, { estudioDetail });
+
+    return newState;
+};
+
+const loadEstudioDetailId = (state, action) => {
+    const newState = {};
+
+    const estudioDetail = {
+        id: action.data.response.id,
+    };
 
     Object.assign(newState, state, { estudioDetail });
 
@@ -59,10 +79,13 @@ const updateSearchPage = (state, action) => {
 export function estudioReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_DIARIOS:
+            return fetchEstudiosReducer(state, action);
         case CANCEL_ESTUDIOS_DIARIOS:
         case FETCH_ESTUDIO_DETAIL:
         case FETCH_OBRAS_SOCIALES:
-            return fetchEstudiosReducer(state);
+        case UPDATE_ESTUDIO:
+        case CREATE_ESTUDIO:
+            return actionsHandledByEpicReducer(state, action);
         case LOAD_ESTUDIOS_DIARIOS:
             return loadEstudiosDiariosReducer(state, action);
         case UPDATE_SEARCH_PAGE:
@@ -71,6 +94,8 @@ export function estudioReducer(state = initialState, action) {
             return loadEstudioDetail(state, action);
         case RESET_ESTUDIO_DETAIL:
             return resetEstudioDetail(state);
+        case LOAD_ESTUDIO_DETAIL_ID:
+            return loadEstudioDetailId(state, action);
         case LOAD_ESTUDIO_DETAIL_ERROR:
             return loadEstudioDetailErrorReducer(state);
         default:

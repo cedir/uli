@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import { FETCH_MEDICAMENTOS } from '../../medicamento/actionTypes';
-import { ADD_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
+import { ADD_MEDICACION_ESTUDIO, ADD_DEFAULT_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
 import addMedicamentosFormInitialState from '../addMedicamentosFormInitialState';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
+import { ESTADOS } from '../constants';
 
 class AddMedicamentosForm extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class AddMedicamentosForm extends Component {
         this.searchMedicamentos = this.searchMedicamentos.bind(this);
         this.setSelectedMedicamento = this.setSelectedMedicamento.bind(this);
         this.addMedicacionToEstudio = this.addMedicacionToEstudio.bind(this);
+        this.addDefaultMedicacionToEstudio = this.addDefaultMedicacionToEstudio.bind(this);
     }
 
     setSelectedMedicamento(selection) {
@@ -39,11 +41,21 @@ class AddMedicamentosForm extends Component {
         this.props.addMedicacionToEstudio(medicacion);
     }
 
+    addDefaultMedicacionToEstudio() {
+        const estudioId = this.props.estudioDetail.id;
+
+        this.props.addDefaultMedicacionToEstudio(estudioId);
+    }
+
     render() {
         const { selectedMedicamento, importe } = this.props;
         const medicamentoIsSelected =
             (Array.isArray(selectedMedicamento) && selectedMedicamento[0]
             && selectedMedicamento[0].id);
+        const { presentacion } = this.props.estudioDetail;
+        const estadoPresentacion = presentacion ? presentacion.estado : undefined;
+        const lockEstudioEdition =
+            (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
         return (
             <div>
                 <form onSubmit={ this.props.handleSubmit(this.addMedicacionToEstudio) }>
@@ -53,6 +65,7 @@ class AddMedicamentosForm extends Component {
                             <Field
                               name='medicamento'
                               label='Nombre'
+                              staticField={ lockEstudioEdition }
                               align='left'
                               component={ AsyncTypeaheadRF }
                               options={ this.props.medicamentos }
@@ -73,9 +86,16 @@ class AddMedicamentosForm extends Component {
                     <Button
                       type='submit'
                       bsStyle='primary'
+                      style={ { marginRight: '12px' } }
                       disabled={ !(medicamentoIsSelected && importe) }
                     >
                         Agregar a estudio
+                    </Button>
+                    <Button
+                      bsStyle='primary'
+                      onClick={ this.addDefaultMedicacionToEstudio }
+                    >
+                        Medicacion Por defecto
                     </Button>
                 </form>
             </div>
@@ -97,6 +117,7 @@ AddMedicamentosForm.propTypes = {
     setImporte: func.isRequired,
     resetImporteMedicamento: func.isRequired,
     addMedicacionToEstudio: func.isRequired,
+    addDefaultMedicacionToEstudio: func.isRequired,
 };
 
 AddMedicamentosForm.defaultProps = {
@@ -135,6 +156,8 @@ function mapDispatchToProps(dispatch) {
         resetImporteMedicamento: () => dispatch(change('searchMedicamentos', 'importe', '')),
         addMedicacionToEstudio: medicacion =>
             dispatch({ type: ADD_MEDICACION_ESTUDIO, medicacion }),
+        addDefaultMedicacionToEstudio: estudioId =>
+            dispatch({ type: ADD_DEFAULT_MEDICACION_ESTUDIO, estudioId }),
     };
 }
 

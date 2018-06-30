@@ -16,11 +16,6 @@ import { required, alpha, dni, dateBeforeThan, dateAfterThan }
 class SearchEstudiosForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            selectedObraSocial: '',
-            selectedMedicoActuante: '',
-            selectedMedicoSolicitante: '',
-        };
 
         this.setSelectedObraSocial = this.setSelectedObraSocial.bind(this);
         this.setSelectedMedicoActuante = this.setSelectedMedicoActuante.bind(this);
