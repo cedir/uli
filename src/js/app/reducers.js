@@ -11,6 +11,7 @@ import { medicacionReducer } from '../medicacion/medicacionReducer';
 import { medicamentoReducer } from '../medicamento/medicamentoReducer';
 import { pacienteReducer } from '../paciente/pacienteReducer';
 import { practicaReducer } from '../practica/practicaReducer';
+import { presentacionReducer } from '../presentaciones/presentacionReducer';
 import { loginReducer } from '../login/loginReducer';
 import { alertReducer } from '../utilities/components/alert/alertReducer';
 
@@ -25,6 +26,7 @@ import { medicacionEpic, addMedicacionToEstudioEpic,
 import { medicamentosEpic } from '../medicamento/medicamentoEpic';
 import { pacienteEpic } from '../paciente/pacienteEpic';
 import { practicaEpic } from '../practica/practicaEpic';
+import { presentacionEpic } from '../presentaciones/presentacionEpic';
 import { loginEpic } from '../login/loginEpic';
 
 export const rootEpic = combineEpics(
@@ -44,6 +46,7 @@ export const rootEpic = combineEpics(
     medicamentosEpic,
     pacienteEpic,
     practicaEpic,
+    presentacionEpic,
     loginEpic,
 );
 
@@ -57,6 +60,7 @@ export const rootReducer = combineReducers({
     medicamentoReducer,
     pacienteReducer,
     practicaReducer,
+    presentacionReducer,
     login: loginReducer,
     alertReducer,
     // redux-form reducer
