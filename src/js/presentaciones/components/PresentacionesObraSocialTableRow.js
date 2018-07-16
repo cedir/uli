@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import { getPresentacionFormatoOsde } from '../api';
+
 class PresentacionesObraSocialTableRow extends Component {
     constructor(props) {
         super(props);
@@ -7,10 +9,11 @@ class PresentacionesObraSocialTableRow extends Component {
         this.downloadPresentacionDigitalFormat =
             this.downloadPresentacionDigitalFormat.bind(this);
     }
+
     downloadPresentacionDigitalFormat() {
-        // aca deberia ir el llamado a api que descarga el txt
-        window.location.href = 'http://www.google.com';
+        getPresentacionFormatoOsde(this.props.presentacion);
     }
+
     render() {
         const {
             fecha,
