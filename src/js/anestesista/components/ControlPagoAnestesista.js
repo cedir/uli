@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap/dist/react-bootstrap';
 
@@ -95,8 +96,10 @@ class ControlPagoAnestesistaPres extends React.Component {
     }
 }
 
+const { func } = PropTypes;
+
 ControlPagoAnestesistaPres.propTypes = {
-    fetch: React.PropTypes.func,
+    fetch: func,
 };
 
 function mapStateToProps() {

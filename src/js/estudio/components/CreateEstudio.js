@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import EstudioDetailMain from './EstudioDetailMain';
@@ -33,7 +34,7 @@ class CreateEstudio extends Component {
     }
 }
 
-const { object, func } = React.PropTypes;
+const { object, func } = PropTypes;
 
 CreateEstudio.propTypes = {
     history: object.isRequired,

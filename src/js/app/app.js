@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from './layout/components/Header';
@@ -102,10 +103,12 @@ class App extends React.Component {
     }
 }
 
+const { object, string } = PropTypes;
+
 App.propTypes = {
-    location: PropTypes.object,
-    history: PropTypes.object,
-    token: PropTypes.string,
+    location: object,
+    history: object,
+    token: string,
 };
 
 const mapStateToProps = state => ({

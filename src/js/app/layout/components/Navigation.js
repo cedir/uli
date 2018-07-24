@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Navigation extends Component {
@@ -47,9 +48,9 @@ class Navigation extends Component {
         );
     }
 }
-
+const { object } = PropTypes;
 Navigation.propTypes = {
-    location: PropTypes.object,
+    location: object,
 };
 
 export default Navigation;
