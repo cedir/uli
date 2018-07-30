@@ -11,8 +11,9 @@ function getDefaultHeaders() {
         Authorization: `Token ${token}`,
     };
 }
-
-export function get(partialUrl, customHeaders = {}) {
+// responseType parameter added to allow set it as string. This is used
+// to download the content of a file as a plain string.
+export function get(partialUrl, customHeaders = {}, responseType) {
     const defaultHeaders = getDefaultHeaders();
     const url = `${baseUrl}${partialUrl}`;
 
@@ -21,6 +22,7 @@ export function get(partialUrl, customHeaders = {}) {
         method: 'GET',
         url,
         headers,
+        responseType: responseType || 'json',
     });
 }
 
