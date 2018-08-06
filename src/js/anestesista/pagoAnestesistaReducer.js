@@ -1,8 +1,10 @@
-import * as types from './actionTypes';
+import { FETCH_PAGO_ANESTESISTA, CANCEL_PAGO_ANESTESISTA,
+    LOAD_PAGO_ANESTESISTA } from './actionTypes';
 
 const initialState = {
     lineasAra: [],
     lineasNoAra: [],
+    anestesista: {},
 };
 
 function loadPagoAnestesistaReducer(state, action) {
@@ -14,6 +16,8 @@ function loadPagoAnestesistaReducer(state, action) {
     const subtotalesNoAra = action.data.response.subtotales_no_ara;
     const totalesIvaNoAra = action.data.response.totales_iva_no_ara;
     const totalesNoAra = action.data.response.totales_no_ara;
+    const mes = action.data.response.mes;
+    const anio = action.data.response.anio;
     Object.assign(newState, state,
         {
             lineasAra,
@@ -23,16 +27,18 @@ function loadPagoAnestesistaReducer(state, action) {
             subtotalesNoAra,
             totalesIvaNoAra,
             totalesNoAra,
+            mes,
+            anio,
         });
     return newState;
 }
 
 export function pagoAnestesistaReducer(state = initialState, action) {
     switch (action.type) {
-        case types.FETCH_PAGO_ANESTESISTA:
-        case types.CANCEL_PAGO_ANESTESISTA:
+        case FETCH_PAGO_ANESTESISTA:
+        case CANCEL_PAGO_ANESTESISTA:
             return Object.assign({}, state);
-        case types.LOAD_PAGO_ANESTESISTA:
+        case LOAD_PAGO_ANESTESISTA:
             return loadPagoAnestesistaReducer(state, action);
         default:
             return state;

@@ -10,13 +10,14 @@ class InputRF extends React.Component {
             type,
             meta: { error, warning, touched },
             staticField,
+            selectOptions,
             ...props
         } = this.props;
-
+        let { componentClass } = this.props;
         let message;
         const validationState = (touched && (error && 'error')) || (warning && 'warning') || null;
 
-        let componentClass;
+        // let componentClass;
         if (type === 'textarea') {
             componentClass = type;
         }
@@ -28,12 +29,23 @@ class InputRF extends React.Component {
         return (
             <FormGroup validationState={ validationState }>
                 <ControlLabel>{ label }</ControlLabel>
-                { !staticField && <FormControl
+                { !staticField && componentClass !== 'select' && <FormControl
                   { ...input }
                   type={ type }
                   componentClass={ componentClass }
                   { ...props }
                 />
+                }
+                { !staticField && componentClass === 'select' && <FormControl
+                  { ...input }
+                  type={ type }
+                  componentClass={ componentClass }
+                  { ...props }
+                >
+                    { componentClass === 'select' && selectOptions &&
+                    selectOptions.map(o => <option key={ o } value={ o }>{o}</option>)
+                    }
+                </FormControl>
                 }
                 { staticField && <FormControl.Static
                   style={ { color: 'grey', cursor: 'not-allowed' } }
@@ -48,7 +60,7 @@ class InputRF extends React.Component {
     }
 }
 
-const { object, string, bool } = PropTypes;
+const { object, string, bool, array } = PropTypes;
 
 InputRF.propTypes = {
     input: object,
@@ -56,6 +68,8 @@ InputRF.propTypes = {
     type: string,
     meta: object,
     staticField: bool,
+    componentClass: string,
+    selectOptions: array,
 };
 
 export default InputRF;
