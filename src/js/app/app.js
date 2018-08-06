@@ -14,6 +14,7 @@ import EstudiosPage from '../estudio/EstudiosPage';
 import EstudioDetailPage from '../estudio/components/EstudioDetailPage';
 import PagoAnestesistaPage from '../anestesista/PagoAnestesistaPage';
 import CreateEstudio from '../estudio/components/CreateEstudio';
+import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 
 class App extends React.Component {
@@ -92,6 +93,11 @@ class App extends React.Component {
                     <PrivateRoute
                       path='/anestesistas/pago'
                       component={ PagoAnestesistaPage }
+                      authenticated={ !!this.props.token }
+                    />
+                    <PrivateRoute
+                      path='/presentaciones-obras-sociales'
+                      component={ PresentacionesObraSocialPage }
                       authenticated={ !!this.props.token }
                     />
                     <Route path='/login' component={ Login } />
