@@ -1,7 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Glyphicon } from 'react-bootstrap';
-
-const { object, func } = React.PropTypes;
 
 class MedicacionEstudioTableRow extends React.Component {
     constructor(props) {
@@ -35,6 +34,8 @@ class MedicacionEstudioTableRow extends React.Component {
         );
     }
 }
+
+const { object, func } = PropTypes;
 
 MedicacionEstudioTableRow.propTypes = {
     medicacion: object.isRequired,

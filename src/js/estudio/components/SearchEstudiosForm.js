@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector, change } from 'redux-form';
 import { Row, Col, Button }
@@ -252,7 +253,7 @@ SearchEstudiosForm.defaultProps = {
     medicos: medicosInitialState.medicos,
 };
 
-const { func, array, bool } = React.PropTypes;
+const { func, array, bool } = PropTypes;
 
 SearchEstudiosForm.propTypes = {
     handleSubmit: func.isRequired,

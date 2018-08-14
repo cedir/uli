@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { Pagination }
@@ -7,8 +8,6 @@ import EstudiosListTable from './EstudiosListTable';
 import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES } from '../actionTypes';
 import estudioReducerInitialState from '../estudioReducerInitialState';
 import ConditionalComponents from '../../utilities/ConditionalComponent';
-
-const { number, func, object } = React.PropTypes;
 
 class EstudiosList extends React.Component {
     constructor(props) {
@@ -46,6 +45,8 @@ class EstudiosList extends React.Component {
         );
     }
 }
+
+const { number, func, object } = PropTypes;
 
 EstudiosList.propTypes = {
     history: object,

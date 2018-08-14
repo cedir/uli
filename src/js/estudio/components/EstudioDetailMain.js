@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap/dist/react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
@@ -497,7 +498,7 @@ class EstudioDetailMain extends Component {
     }
 }
 
-const { func, array, bool, object, string } = React.PropTypes;
+const { func, array, bool, object, string } = PropTypes;
 
 EstudioDetailMain.propTypes = {
     handleSubmit: func.isRequired,

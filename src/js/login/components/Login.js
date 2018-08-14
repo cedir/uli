@@ -1,10 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, FormGroup, FormControl }
     from 'react-bootstrap/dist/react-bootstrap';
 import ConditionalComponent from '../../utilities/ConditionalComponent';
-
-const { func, object, string, bool } = React.PropTypes;
 
 class Login extends React.Component {
     constructor(props) {
@@ -103,6 +102,8 @@ class Login extends React.Component {
         );
     }
 }
+
+const { func, object, string, bool } = PropTypes;
 
 Login.propTypes = {
     authUser: func,

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import { Button, Form, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
@@ -123,7 +124,7 @@ class ControlPagoAnestesistaPres extends React.Component {
     }
 }
 
-const { func, array, bool } = React.PropTypes;
+const { func, array, bool } = PropTypes;
 
 ControlPagoAnestesistaPres.propTypes = {
     handleSubmit: func.isRequired,

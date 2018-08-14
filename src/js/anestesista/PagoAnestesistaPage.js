@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import { ControlPagoAnestesista } from './components/ControlPagoAnestesista';
@@ -33,7 +34,7 @@ const PagoAnestesistaPage = props => (
     </div>
 );
 
-const { object, number } = React.PropTypes;
+const { object, number } = PropTypes;
 
 PagoAnestesistaPage.propTypes = {
     anestesista: object,
