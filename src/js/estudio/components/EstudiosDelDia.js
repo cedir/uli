@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { isEmpty } from 'lodash';
@@ -9,7 +10,7 @@ import ConditionalComponents from '../../utilities/ConditionalComponent';
 import searchEstudiosFormInitialState from '../searchEstudiosFormInitialState';
 import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 
-const { array, object, func, number } = React.PropTypes;
+const { array, object, func, number } = PropTypes;
 
 const estudiosListPanel = props => (
     <EstudiosList history={ props.history } />

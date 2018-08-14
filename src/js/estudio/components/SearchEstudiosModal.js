@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap/dist/react-bootstrap';
 import SearchEstudiosForm from './SearchEstudiosForm';
 
@@ -21,7 +22,7 @@ class SearchEstudiosModal extends React.Component {
     }
 }
 
-const { bool, func } = React.PropTypes;
+const { bool, func } = PropTypes;
 
 SearchEstudiosModal.propTypes = {
     modalOpened: bool.isRequired,

@@ -1,7 +1,14 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Form, FormGroup, ControlLabel, FormControl } from 'react-bootstrap/dist/react-bootstrap';
+import { Field, reduxForm, change, formValueSelector } from 'redux-form';
+import { Button, Form, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
+
+import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
+import InputRF from '../../utilities/InputRF';
+import { FETCH_ANESTESISTAS } from '../actionTypes';
+import { requiredOption, required, integerValue } from '../../utilities/reduxFormValidators';
+import { ANESTESIA_SIN_ANESTESISTA } from '../../estudio/constants';
 
 const today = new Date();
 const currentYear = today.getFullYear();
@@ -9,103 +16,156 @@ const currentMonth = today.getMonth();
 
 const years = Array.from(Array(5).keys()).map(k => currentYear - k);
 const months = Array.from(Array(12).keys()).map(k => 1 + ((currentMonth + k) % 12));
+years.unshift('--');
+months.unshift('--');
 
 class ControlPagoAnestesistaPres extends React.Component {
     constructor(props) {
         super(props);
         this.fetch = this.fetch.bind(this);
-        this.setId = this.setId.bind(this);
-        this.setMes = this.setMes.bind(this);
-        this.setAnio = this.setAnio.bind(this);
+        this.setSelectedAnestesista = this.setSelectedAnestesista.bind(this);
+        this.searchAnestesistas = this.searchAnestesistas.bind(this);
     }
 
-    setId(id) {
-        this.id = id;
+    setSelectedAnestesista(selection) {
+        if (selection[0] && selection[0].id) {
+            this.props.setSelectedAnestesista(selection[0]);
+        }
     }
 
-    setMes(mes) {
-        this.mes = mes;
+    searchAnestesistas(searchText) {
+        this.props.fetchAnestesista(searchText);
     }
 
-    setAnio(anio) {
-        this.anio = anio;
+    anestesistaTypeaheadRenderFunc(option) {
+        if (!option.nombre || !option.apellido) {
+            return '';
+        }
+        const matricula = option.matricula || '-';
+
+        return `${option.nombre}, ${option.apellido}, Mat: ${matricula}`;
     }
 
-    fetch() {
-        const id = ReactDOM.findDOMNode(this.id).value;
-        const mes = ReactDOM.findDOMNode(this.mes).value;
-        const anio = ReactDOM.findDOMNode(this.anio).value;
-        this.props.fetch(id, mes, anio);
+    fetch(params) {
+        const { anestesista, mes, anio } = params;
+        this.props.fetch(anestesista[0].id, mes, anio);
+    }
+
+    renderAnestesistaMenuItem(option) {
+        const matricula = option.matricula || '-';
+        const nombre = (option.apellido.toLowerCase() === ANESTESIA_SIN_ANESTESISTA)
+            ? option.apellido
+            : `${option.apellido}, ${option.nombre}`;
+        return (
+            <div style={ { width: '100%' } } key={ option.id }>
+                { nombre }
+                <div>Matricula: { matricula }</div>
+            </div>
+        );
     }
 
     render() {
         return (
-            <Form inline>
-                <FormGroup controlId='anio'>
-                    <ControlLabel>Anestesista</ControlLabel>
-                    <FormControl componentClass='select' ref={ this.setId }>
-                        <option value='2'>Jose Furno</option>
-                        <option value='3'>Rodolfo Novau</option>
-                        <option value='4'>Mariano Traglia</option>
-                        <option value='5'>Jorge Kaller</option>
-                        <option value='6'>Martin Amelong</option>
-                        <option value='7'>Franco Frenquelli</option>
-                        <option value='8'>Daniel Schleifer</option>
-                        <option value='9'>Laura Tarrico</option>
-                        <option value='10'>Mauro Yacuzzi</option>
-                        <option value='11'>Nicolás Alberto Alet</option>
-                        <option value='12'>Alvaro Gandolfo</option>
-                        <option value='13'>Fernando Villayandre</option>
-                        <option value='14'>Lucio Gioilla</option>
-                        <option value='15'>Valeria Dalmau</option>
-                        <option value='16'>Angelina Gagliardo</option>
-                        <option value='17'>Lorena Morales</option>
-                        <option value='18'>Guillermo Navarro</option>
-                        <option value='19'>Cesar Domanico</option>
-                        <option value='20'>Sandra Miretto</option>
-                        <option value='21'>Mariana Poleri</option>
-                        <option value='22'>H. Enrique  Carcar</option>
-                        <option value='23'>Evelyn Cera</option>
-                        <option value='24'>Sebastian San Damaso</option>
-                        <option value='25'>Maria Victoria Taverna</option>
-                        <option value='26'>Mariano Giardina</option>
-                        <option value='27'>Veronica Corsi</option>
-                        <option value='28'>Mariana Musciatti</option>
-                    </FormControl>
-                </FormGroup>
-                <FormGroup controlId='anio'>
-                    <ControlLabel>Año</ControlLabel>
-                    <FormControl componentClass='select' ref={ this.setAnio }>
-                        { years.map(m => <option key={ m } value={ m }>{m}</option>) }
-                    </FormControl>
-                </FormGroup>
-                <FormGroup controlId='formControlsSelect'>
-                    <ControlLabel>Mes</ControlLabel>
-                    <FormControl componentClass='select' ref={ this.setMes }>
-                        { months.map(m => <option key={ m } value={ m }>{m}</option>) }
-                    </FormControl>
-                </FormGroup>
-                <Button onClick={ this.fetch }>
-                    Aceptar
-                </Button>
+            <Form
+              inline
+              onSubmit={ this.props.handleSubmit(params =>
+                this.fetch(params)) }
+            >
+                <Row className='show-grid'>
+                    <Col md={ 4 } style={ { border: 'none' } }>
+                        <Field
+                          name='anestesista'
+                          label='Anestesista'
+                          placeholder='nombre o matricula'
+                          align='left'
+                          validate={ requiredOption }
+                          component={ AsyncTypeaheadRF }
+                          options={ this.props.anestesistas }
+                          labelKey={ this.anestesistaTypeaheadRenderFunc }
+                          onSearch={ this.searchAnestesistas }
+                          onChange={ this.setSelectedAnestesista }
+                          selected={ this.props.selectedAnestesista }
+                          renderMenuItemChildren={ this.renderAnestesistaMenuItem }
+                          isLoading={ this.props.anestesistaApiLoading }
+                        />
+                    </Col>
+                    <Col md={ 3 } style={ { border: 'none' } }>
+                        <Field
+                          name='anio'
+                          label='Año'
+                          validate={ [required, integerValue] }
+                          component={ InputRF }
+                          componentClass='select'
+                          selectOptions={ years }
+                        />
+                    </Col>
+                    <Col md={ 3 } style={ { border: 'none' } }>
+                        <Field
+                          name='mes'
+                          label='Mes'
+                          validate={ [required, integerValue] }
+                          component={ InputRF }
+                          componentClass='select'
+                          selectOptions={ months }
+                        />
+                    </Col>
+                    <Col md={ 2 } style={ { border: 'none' } }>
+                        <Button
+                          type='submit'
+                          bsStyle='primary'
+                          disabled={ !this.props.valid }
+                        >
+                            Aceptar
+                        </Button>
+                    </Col>
+                </Row>
             </Form>
         );
     }
 }
 
+const { func, array, bool } = PropTypes;
+
 ControlPagoAnestesistaPres.propTypes = {
-    fetch: React.PropTypes.func,
+    handleSubmit: func.isRequired,
+    valid: bool,
+    fetch: func.isRequired,
+    fetchAnestesista: func.isRequired,
+    setSelectedAnestesista: func.isRequired,
+    selectedAnestesista: array.isRequired,
+    anestesistas: array.isRequired,
+    anestesistaApiLoading: bool.isRequired,
 };
 
-function mapStateToProps() {
-    return { };
+const ControlPagoAnestesistaPresReduxForm = reduxForm({
+    form: 'pagoAnestesistas',
+    destroyOnUnmount: false,
+    enableReinitialize: true,
+})(ControlPagoAnestesistaPres);
+
+const selector = formValueSelector('pagoAnestesistas');
+
+function mapStateToProps(state) {
+    let anestesista = selector(state, 'anestesista');
+    anestesista = (anestesista && Array.isArray(anestesista))
+            ? anestesista
+            : [];
+    return {
+        selectedAnestesista: anestesista,
+        anestesistas: state.anestesistaReducer.anestesistas,
+        anestesistaApiLoading: state.anestesistaReducer.anestesistaApiLoading || false,
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        fetchAnestesista: searchParams =>
+            dispatch({ type: FETCH_ANESTESISTAS, searchParams }),
+        setSelectedAnestesista: anestesista =>
+            dispatch(change('pagoAnestesistas', 'anestesista', anestesista)),
         fetch: (id, mes, año) => dispatch({ type: 'FETCH_PAGO_ANESTESISTA', id, mes, año }),
     };
 }
 
 export const ControlPagoAnestesista =
-    connect(mapStateToProps, mapDispatchToProps)(ControlPagoAnestesistaPres);
+    connect(mapStateToProps, mapDispatchToProps)(ControlPagoAnestesistaPresReduxForm);

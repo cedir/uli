@@ -1,6 +1,5 @@
 import React from 'react';
-
-const { object, func } = React.PropTypes;
+import PropTypes from 'prop-types';
 
 class EstudioListTableRow extends React.Component {
     constructor(props) {
@@ -34,6 +33,8 @@ class EstudioListTableRow extends React.Component {
         );
     }
 }
+
+const { object, func } = PropTypes;
 
 EstudioListTableRow.propTypes = {
     estudio: object.isRequired,

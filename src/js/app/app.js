@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from './layout/components/Header';
@@ -14,6 +15,8 @@ import EstudioDetailPage from '../estudio/components/EstudioDetailPage';
 import PagoAnestesistaPage from '../anestesista/PagoAnestesistaPage';
 import CreateEstudio from '../estudio/components/CreateEstudio';
 import PagoMedicos from '../estudio/components/PagoMedicos';
+import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
+
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 
 class App extends React.Component {
@@ -95,6 +98,11 @@ class App extends React.Component {
                       authenticated={ !!this.props.token }
                     />
                     <PrivateRoute
+                      path='/presentaciones-obras-sociales'
+                      component={ PresentacionesObraSocialPage }
+                      authenticated={ !!this.props.token }
+                    />
+                    <PrivateRoute
                       path='/medicos/pago'
                       component={ PagoMedicos }
                       authenticated={ !!this.props.token }
@@ -108,10 +116,12 @@ class App extends React.Component {
     }
 }
 
+const { object, string } = PropTypes;
+
 App.propTypes = {
-    location: PropTypes.object,
-    history: PropTypes.object,
-    token: PropTypes.string,
+    location: object,
+    history: object,
+    token: string,
 };
 
 const mapStateToProps = state => ({

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap/dist/react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
@@ -10,7 +11,7 @@ import { FETCH_ANESTESISTAS } from '../../anestesista/actionTypes';
 import { FETCH_PACIENTES } from '../../paciente/actionTypes';
 import { FETCH_PRACTICAS } from '../../practica/actionTypes';
 import { UPDATE_ESTUDIO, CREATE_ESTUDIO } from '../../estudio/actionTypes';
-import { ESTADOS } from '../constants';
+import { ESTADOS, ANESTESIA_SIN_ANESTESISTA } from '../constants';
 
 import { requiredOption, alphaNum, required } from '../../utilities/reduxFormValidators';
 // import { stat } from 'fs';
@@ -174,6 +175,9 @@ class EstudioDetailMain extends Component {
     }
 
     anestesistaTypeaheadRenderFunc(option) {
+        if (option.apellido.toLowerCase() === ANESTESIA_SIN_ANESTESISTA) {
+            return `${option.apellido}`;
+        }
         if (!option.nombre || !option.apellido) {
             return '';
         }
@@ -228,9 +232,12 @@ class EstudioDetailMain extends Component {
 
     renderAnestesistaMenuItem(option) {
         const matricula = option.matricula || '-';
+        const nombre = (option.apellido.toLowerCase() === ANESTESIA_SIN_ANESTESISTA)
+            ? option.apellido
+            : `${option.apellido}, ${option.nombre}`;
         return (
             <div style={ { width: '100%' } } key={ option.id }>
-                { `${option.apellido}, ${option.nombre}` }
+                { nombre }
                 <div>Matricula: { matricula }</div>
             </div>
         );
@@ -410,6 +417,7 @@ class EstudioDetailMain extends Component {
                                   staticField={ lockEstudioEdition }
                                   placeholder='Nombre'
                                   align='left'
+                                  validate={ requiredOption }
                                   component={ AsyncTypeaheadRF }
                                   options={ this.props.anestesistas }
                                   labelKey={ this.anestesistaTypeaheadRenderFunc }
@@ -490,7 +498,7 @@ class EstudioDetailMain extends Component {
     }
 }
 
-const { func, array, bool, object, string } = React.PropTypes;
+const { func, array, bool, object, string } = PropTypes;
 
 EstudioDetailMain.propTypes = {
     handleSubmit: func.isRequired,

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Navigation extends Component {
@@ -42,6 +43,12 @@ class Navigation extends Component {
                             <span className='nav-label'>Pago Anestesista</span>
                         </Link>
                     </li>
+                    <li className={ this.activeRoute('/presentaciones-obras-sociales') }>
+                        <Link to='/presentaciones-obras-sociales'>
+                            <i className='fa fa-heartbeat' />
+                            <span className='nav-label'>Presentaciones</span>
+                        </Link>
+                    </li>
                     <li className={ this.activeRoute('/medicos/pago') }>
                         <Link to='/medicos/pago'>
                             <i className='fa fa-heartbeat' />
@@ -53,9 +60,9 @@ class Navigation extends Component {
         );
     }
 }
-
+const { object } = PropTypes;
 Navigation.propTypes = {
-    location: PropTypes.object,
+    location: object,
 };
 
 export default Navigation;

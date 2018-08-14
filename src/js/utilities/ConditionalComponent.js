@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const ConditionalComponent = (props) => {
     if (props.display) {
@@ -12,9 +13,11 @@ const ConditionalComponent = (props) => {
     return null;
 };
 
+const { bool, func } = PropTypes;
+
 ConditionalComponent.propTypes = {
-    display: PropTypes.bool,
-    component: PropTypes.func,
+    display: bool,
+    component: func,
 };
 
 export default ConditionalComponent;

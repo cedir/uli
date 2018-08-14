@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import EstudiosDelDia from './components/EstudiosDelDia';
 
 const EstudiosPagePre = props => (
@@ -7,7 +8,7 @@ const EstudiosPagePre = props => (
     </div>
 );
 
-const { object } = React.PropTypes;
+const { object } = PropTypes;
 
 EstudiosPagePre.propTypes = {
     history: object,

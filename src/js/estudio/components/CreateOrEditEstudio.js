@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CreateOrEditEstudioForm from './CreateOrEditEstudioForm';
 
 
@@ -9,7 +10,7 @@ const CreateOrEditEstudio = props => (
     </div>
 );
 
-const { object } = React.PropTypes;
+const { object } = PropTypes;
 
 CreateOrEditEstudio.propTypes = {
     match: object.isRequired,

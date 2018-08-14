@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector, getFormValues, change } from 'redux-form';
 import { Table, Button } from 'react-bootstrap/dist/react-bootstrap';
@@ -79,7 +80,7 @@ class PagoMedicosTable extends Component {
     }
 }
 
-const { array, func } = React.PropTypes;
+const { array, func } = PropTypes;
 
 PagoMedicosTable.propTypes = {
     medico: array.isRequired,

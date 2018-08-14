@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector,
     change, getFormValues, isValid } from 'redux-form';
@@ -143,7 +144,7 @@ class PagoMedicos extends Component {
     }
 }
 
-const { func, array, bool, object, number } = React.PropTypes;
+const { func, array, bool, object, number } = PropTypes;
 
 PagoMedicos.propTypes = {
     handleSubmit: func.isRequired,

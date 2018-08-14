@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class Login extends Component {
 
@@ -89,7 +90,8 @@ export class Login extends Component {
         );
     }
 }
+const { object } = PropTypes;
 
 Login.contextTypes = {
-    store: React.PropTypes.object,
+    store: object,
 };

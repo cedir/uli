@@ -1,11 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table }
     from 'react-bootstrap/dist/react-bootstrap';
 
 import EstudioListTableRow from './EstudioListTableRow';
-
-const { array, object } = React.PropTypes;
 
 class EstudiosListTable extends React.Component {
     constructor(props) {
@@ -46,6 +45,8 @@ class EstudiosListTable extends React.Component {
         );
     }
 }
+
+const { array, object } = PropTypes;
 
 EstudiosListTable.propTypes = {
     history: object.isRequired,

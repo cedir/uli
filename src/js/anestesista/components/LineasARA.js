@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class LineasARAPres extends React.Component {
@@ -104,10 +105,12 @@ LineasARAPres.defaultProps = {
     },
 };
 
+const { array, object } = PropTypes;
+
 LineasARAPres.propTypes = {
-    lineas: React.PropTypes.array,
-    anestesista: React.PropTypes.object,
-    totales: React.PropTypes.object,
+    lineas: array,
+    anestesista: object,
+    totales: object,
 };
 
 function mapStateToProps(state) {

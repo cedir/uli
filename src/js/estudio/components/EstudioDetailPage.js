@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { isEmpty } from 'lodash';
@@ -45,7 +46,7 @@ class EstudioDetailPage extends React.Component {
     }
 }
 
-const { object, func } = React.PropTypes;
+const { object, func } = PropTypes;
 
 EstudioDetailPage.propTypes = {
     match: object.isRequired,
