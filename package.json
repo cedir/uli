@@ -31,6 +31,7 @@
     "metismenu": "^2.6.1",
     "moment": "^2.17.1",
     "prop-types": "^15.6.2",
+    "query-string": "^6.1.0",
     "react": "^16.4.1",
     "react-bootstrap": "^0.31.3",
     "react-bootstrap-date-picker": "^5.1.0",
