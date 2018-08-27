@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ButtonToolbar, Button } from 'react-bootstrap/dist/react-bootstrap';
 
 class EstudiosActionBar extends React.Component {
@@ -27,7 +28,7 @@ class EstudiosActionBar extends React.Component {
     }
 }
 
-const { func, object } = React.PropTypes;
+const { func, object } = PropTypes;
 
 EstudiosActionBar.propTypes = {
     history: object.isRequired,

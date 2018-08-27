@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap/dist/react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
@@ -47,6 +49,7 @@ class EstudioDetailMain extends Component {
         this.searchPracticas = this.searchPracticas.bind(this);
         this.updateEstudio = this.updateEstudio.bind(this);
         this.createEstudio = this.createEstudio.bind(this);
+        this.cloneEstudio = this.cloneEstudio.bind(this);
     }
 
     setSelectedObraSocial(selection) {
@@ -119,6 +122,10 @@ class EstudioDetailMain extends Component {
         }
 
         return 'vacio';
+    }
+
+    cloneEstudio() {
+        this.props.history.push(`/estudios/create/?estudioId=${this.props.estudioDetail.id}`);
     }
 
     updateEstudio(estudio) {
@@ -481,6 +488,12 @@ class EstudioDetailMain extends Component {
                       component={ InputRF }
                     />
                     <div className='pull-right'>
+                        { this.props.estudioDetailFormMode === 'edit' && <Button
+                          onClick={ this.cloneEstudio }
+                        >
+                            Clonar
+                        </Button>
+                        }
                         <Button
                           type='submit'
                           bsStyle='primary'
@@ -497,7 +510,7 @@ class EstudioDetailMain extends Component {
     }
 }
 
-const { func, array, bool, object, string } = React.PropTypes;
+const { func, array, bool, object, string } = PropTypes;
 
 EstudioDetailMain.propTypes = {
     handleSubmit: func.isRequired,
@@ -536,6 +549,7 @@ EstudioDetailMain.propTypes = {
     updateEstudio: func.isRequired,
     createEstudio: func.isRequired,
     estudioDetailFormMode: string.isRequired,
+    history: object.isRequired,
 };
 
 const EstudioDetailMainReduxForm = reduxForm({
@@ -631,4 +645,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EstudioDetailMainReduxForm);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EstudioDetailMainReduxForm));

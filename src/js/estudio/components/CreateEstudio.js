@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import EstudioDetailMain from './EstudioDetailMain';
-import { RESET_ESTUDIO_DETAIL } from '../actionTypes';
+import { RESET_ESTUDIO_DETAIL, CLONE_ESTUDIO } from '../actionTypes';
 
 class CreateEstudio extends Component {
+    componentDidMount() {
+        const { estudioId } = queryString.parse(this.props.location.search);
+        // if estudioId is provided via query string, get it's details
+        // to prefill the estudio creation form
+        if (estudioId) {
+            this.props.getEstudioToClone(estudioId);
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         const { estudioDetail } = nextProps;
 
@@ -25,7 +37,9 @@ class CreateEstudio extends Component {
                 </div>
                 <Row className='show-grid'>
                     <Col md={ 4 } style={ { border: 'none' } }>
-                        <EstudioDetailMain estudioDetailFormMode='create' />
+                        <EstudioDetailMain
+                          estudioDetailFormMode='create'
+                        />
                     </Col>
                 </Row>
             </div>
@@ -33,12 +47,14 @@ class CreateEstudio extends Component {
     }
 }
 
-const { object, func } = React.PropTypes;
+const { object, func } = PropTypes;
 
 CreateEstudio.propTypes = {
     history: object.isRequired,
     estudioDetail: object,
     resetEstudioDetail: func.isRequired,
+    getEstudioToClone: func.isRequired,
+    location: object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -50,7 +66,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         resetEstudioDetail: () => dispatch({ type: RESET_ESTUDIO_DETAIL }),
+        getEstudioToClone: estudioId =>
+            dispatch({ type: CLONE_ESTUDIO, estudioId }),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateEstudio);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CreateEstudio));

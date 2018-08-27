@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 /* const headers = [{
@@ -241,11 +242,13 @@ LineasNoARAPres.defaultProps = {
     },
 };
 
+const { array, object } = PropTypes;
+
 LineasNoARAPres.propTypes = {
-    lineas: React.PropTypes.array,
-    subtotales: React.PropTypes.object,
-    totalesIva: React.PropTypes.object,
-    totales: React.PropTypes.object,
+    lineas: array,
+    subtotales: object,
+    totalesIva: object,
+    totales: object,
 };
 
 function mapStateToProps(state) {

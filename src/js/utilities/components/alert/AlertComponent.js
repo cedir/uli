@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Alert, Button }
     from 'react-bootstrap/dist/react-bootstrap';
@@ -41,7 +42,7 @@ class AlertComponent extends Component {
     }
 }
 
-const { array, func } = React.PropTypes;
+const { array, func } = PropTypes;
 
 AlertComponent.propTypes = {
     alerts: array,

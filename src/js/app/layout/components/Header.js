@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { LOGOUT } from '../../../login/actionTypes';
@@ -45,10 +46,12 @@ class Header extends React.Component {
     }
 }
 
+const { string, object, func } = PropTypes;
+
 Header.propTypes = {
-    token: PropTypes.string,
-    history: PropTypes.object,
-    logout: PropTypes.func,
+    token: string,
+    history: object,
+    logout: func,
 };
 
 const mapActionsToProps = dispatch => (

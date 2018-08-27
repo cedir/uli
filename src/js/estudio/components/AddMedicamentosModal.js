@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap/dist/react-bootstrap';
 
 class AddMedicamentosModal extends React.Component {
@@ -19,7 +20,7 @@ class AddMedicamentosModal extends React.Component {
     }
 }
 
-const { bool, func } = React.PropTypes;
+const { bool, func } = PropTypes;
 
 AddMedicamentosModal.propTypes = {
     modalOpened: bool.isRequired,

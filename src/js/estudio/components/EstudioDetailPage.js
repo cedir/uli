@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { isEmpty } from 'lodash';
@@ -30,7 +31,9 @@ class EstudioDetailPage extends React.Component {
                 { !isEmpty(this.props.estudioDetail) && <Row className='show-grid'>
                     <Col md={ 4 } style={ { border: 'none' } }>
                         <h3 style={ { marginBottom: '25px' } } >Detalle</h3>
-                        <EstudioDetailMain estudioDetailFormMode='edit' />
+                        <EstudioDetailMain
+                          estudioDetailFormMode='edit'
+                        />
                     </Col>
                     <Col md={ 4 } style={ { border: 'none' } }>
                         <h3 style={ { marginBottom: '25px' } } >Facturacion</h3>
@@ -45,7 +48,7 @@ class EstudioDetailPage extends React.Component {
     }
 }
 
-const { object, func } = React.PropTypes;
+const { object, func } = PropTypes;
 
 EstudioDetailPage.propTypes = {
     match: object.isRequired,

@@ -1,12 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table }
     from 'react-bootstrap/dist/react-bootstrap';
 
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
-
-const { array, func } = React.PropTypes;
 
 class MedicacionEstudiosTable extends React.Component {
     constructor(props) {
@@ -49,6 +48,8 @@ class MedicacionEstudiosTable extends React.Component {
         );
     }
 }
+
+const { array, func } = PropTypes;
 
 MedicacionEstudiosTable.propTypes = {
     medicaciones: array.isRequired,
