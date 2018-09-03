@@ -26,7 +26,8 @@ export function estudioDetailToCloneEpic(action$) {
                 const { medico,
                     medico_solicitante,
                     obra_social,
-                    paciente } = data.response;
+                    paciente,
+                    anestesista } = data.response;
 
                 const estudioDetail = {
                     fecha: moment().format('YYYY-MM-DD'),
@@ -34,6 +35,7 @@ export function estudioDetailToCloneEpic(action$) {
                     medico_solicitante,
                     obra_social,
                     paciente,
+                    anestesista,
                 };
 
                 return { type: LOAD_ESTUDIO_DETAIL, estudioDetail };
