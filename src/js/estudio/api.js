@@ -1,4 +1,6 @@
+// import Rx from 'rxjs';
 import { get, update, post } from '../utilities/rest';
+
 
 function createSearchQueryString(fetchEstudiosParams) {
     const { fechaDesde, fechaHasta, obraSocial, dniPaciente, nombrePaciente, apellidoPaciente,
@@ -26,11 +28,12 @@ export function getEstudios(fetchEstudiosParams) {
     return get(url);
 }
 
-export function getEstudiosImpagos(medico) {
-    const { apellido: apellidoMedicoActuante, nombre: nombreMedicoActuante }
-        = medico[0] ? medico[0] : { nombre: '', apellido: '' };
-    const url = `/api/estudio/?&medico_nombre=${nombreMedicoActuante}&` +
-        `medico_apellido=${apellidoMedicoActuante}`;
+export function getEstudiosImpagos() {
+    // const { apellido: apellidoMedicoActuante, nombre: nombreMedicoActuante }
+    //     = medico[0] ? medico[0] : { nombre: '', apellido: '' };
+    // const url = `/api/estudio/?&medico_nombre=${nombreMedicoActuante}&` +
+    //     `medico_apellido=${apellidoMedicoActuante}`;
+    const url = '/api/pago-medico/get_estudios_pendientes_de_pago/';
     return get(url);
 }
 
@@ -72,4 +75,12 @@ export function createEstudio(estudio) {
     };
 
     return post(url, body);
+}
+
+export function createPagoAMedico(pago) {
+    const url = '/api/pago-medico/';
+
+    return post(url, pago);
+    // console.log(pago);
+    // return Rx.Observable.throw(true);
 }

@@ -8,51 +8,63 @@ import { isEmpty } from 'lodash';
 import InputRF from '../../utilities/InputRF';
 import { required } from '../../utilities/reduxFormValidators';
 
-function getRolMedico(estudio, medico) {
-    let rol;
-    if (estudio.medico.id === medico.id) {
-        rol = 'actuante';
-    }
-    if (estudio.medico_solicitante.id === medico.id) {
-        rol = rol ? `${rol}/solicitante` : 'solicitante';
-    }
-
-    return rol;
-}
-
 function parseToNumber(value) {
     return parseFloat(value) || 0;
 }
 
 class PagoMedicosTable extends Component {
+    componentDidMount() {
+        $('.footable').footable({ paginate: false, forceRefresh: true });
+        $('.footable').trigger('footable_redraw');
+    }
+
+    componentDidUpdate() {
+        $('.footable').footable({ paginate: false, forceRefresh: true });
+        $('.footable').trigger('footable_redraw');
+    }
     resetImporteToOriginalValue(estudioId) {
         const estudioToReset = this.props.estudiosImpagos
             .filter(estudio => estudio.id === estudioId)[0];
         // since the estudio has not the importe yet (waiting api), set
         // a custom importe just for the sake of showing the reset functionality.
-        estudioToReset.importe = 900;
-        this.props.resetImporteForEstudio(estudioId, estudioToReset.importe);
+        this.props.resetImporteForEstudio(estudioId, parseFloat(estudioToReset.total));
     }
     render() {
         return (
             <form>
-                <Table striped>
+                <Table className='footable table table-stripped toggle-arrow-tiny'>
                     <thead>
                         <tr>
                             <th>Fecha</th>
-                            <th>Rol Medico</th>
+                            <th>Fecha Cobro</th>
                             <th>Obra Social</th>
-                            <th>Tipo de estudio</th>
-                            <th>Importe</th>
+                            <th>Practica</th>
+                            <th>Paciente</th>
+                            <th>Medico Actuante</th>
+                            <th>Medico Solicitante</th>
+                            <th>Importe Total</th>
+                            <th>Reset</th>
+                            <th data-hide='all'>Gastos Administrativos</th>
+                            <th data-hide='all'>Importe Estudio</th>
+                            <th data-hide='all'>IVA 21</th>
+                            <th data-hide='all'>IVA 105</th>
+                            <th data-hide='all'>Importe Neto</th>
+                            <th data-hide='all'>Pago</th>
+                            <th data-hide='all'>Pago Contra Factura</th>
+                            <th data-hide='all'>Porcentaje medico</th>
+                            <th data-hide='all'>Retencion CEDIR</th>
                         </tr>
                     </thead>
                     <tbody>
                         { this.props.estudiosImpagos.map(estudio => (
                             <tr key={ estudio.id }>
                                 <td>{ estudio.fecha }</td>
-                                <td>{ getRolMedico(estudio, this.props.medico[0]) }</td>
+                                <td>{ estudio.fecha_cobro }</td>
                                 <td>{ estudio.obra_social.nombre }</td>
                                 <td>{ estudio.practica.descripcion }</td>
+                                <td>{ `${estudio.paciente.apellido}, ${estudio.paciente.nombre}` }</td>
+                                <td>{ `${estudio.medico_actuante.apellido}, ${estudio.medico_actuante.nombre}` }</td>
+                                <td>{ `${estudio.medico_solicitante.apellido}, ${estudio.medico_solicitante.nombre}` }</td>
                                 <td>
                                     <Field
                                       name={ `importe-${estudio.id}` }
@@ -71,6 +83,15 @@ class PagoMedicosTable extends Component {
                                         Reset
                                     </Button>
                                 </td>
+                                <td>{ estudio.gastos_adiministrativos }</td>
+                                <td>{ estudio.importe_estudio }</td>
+                                <td>{ estudio.importe_iva_21 }</td>
+                                <td>{ estudio.importe_iva_105 }</td>
+                                <td>{ estudio.importe_neto }</td>
+                                <td>{ estudio.pago }</td>
+                                <td>{ estudio.pago_contra_factura }</td>
+                                <td>{ estudio.porcentaje_medico }</td>
+                                <td>{ estudio.retencion_cedir }</td>
                             </tr>
                         ))}
                     </tbody>
@@ -83,7 +104,7 @@ class PagoMedicosTable extends Component {
 const { array, func } = PropTypes;
 
 PagoMedicosTable.propTypes = {
-    medico: array.isRequired,
+    // medico: array.isRequired,
     estudiosImpagos: array.isRequired,
     resetImporteForEstudio: func.isRequired,
 };
@@ -121,7 +142,7 @@ function mapStateToProps(state) {
                 // First I tried to use just the estudio.id to name the key for its importe,
                 // but seems that redux-form don't support numbers as names for its store keys.
                 // See https://github.com/erikras/redux-form/issues/2388
-                [`importe-${currEstudio.id}`]: Math.floor(Math.random() * 500) + 100,
+                [`importe-${currEstudio.id}`]: parseFloat(currEstudio.total),
             }), {});
     }
 

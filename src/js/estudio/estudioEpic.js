@@ -1,8 +1,10 @@
 import Rx from 'rxjs';
-import { getEstudios, updateEstudio, createEstudio, getEstudiosImpagos } from './api';
+import { destroy } from 'redux-form';
+import { getEstudios, updateEstudio, createEstudio, getEstudiosImpagos, createPagoAMedico } from './api';
 import { FETCH_ESTUDIOS_DIARIOS, LOAD_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     UPDATE_ESTUDIO, ERROR_UPDATING_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
-    FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS }
+    FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS, SEND_PAGO_MEDICO, PAGO_MEDICO_SUCCESS,
+    PAGO_MEDICO_ERROR }
     from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
@@ -48,4 +50,24 @@ export function estudioImpagosEpic(action$) {
             .map(data => ({ type: LOAD_ESTUDIOS_IMPAGOS, data }))
             .takeUntil(action$.ofType(CANCEL_ESTUDIOS_DIARIOS)),
     );
+}
+
+export function pagoAMedicoEpic(action$) {
+    return action$.ofType(SEND_PAGO_MEDICO)
+        .mergeMap(action =>
+            createPagoAMedico(action.pago)
+            .mergeMap(() => Rx.Observable.of(
+                // for a success pago creation, create an alert msg and reset all data
+                // of selected medico and estudios impagos.
+                { type: ADD_ALERT, alert: createAlert('Pago creado correctamente') },
+                { type: PAGO_MEDICO_SUCCESS },
+                destroy('editImportesPagoMedicos'),
+                destroy('searchEstudiosImpagosMedico'),
+            ))
+            .catch(() => (Rx.Observable.of(
+                // if an error happens creating a pago, alert the user.
+                { type: ADD_ALERT, alert: createAlert('Error al crear el pago') },
+                { type: PAGO_MEDICO_ERROR },
+            ))),
+        );
 }

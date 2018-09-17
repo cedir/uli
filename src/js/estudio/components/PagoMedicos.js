@@ -9,7 +9,7 @@ import { reduce } from 'lodash';
 import ConditionalComponents from '../../utilities/ConditionalComponent';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import PagoMedicosTable from './PagoMedicosTable';
-import { FETCH_ESTUDIOS_IMPAGOS } from '../actionTypes';
+import { FETCH_ESTUDIOS_IMPAGOS, SEND_PAGO_MEDICO } from '../actionTypes';
 import { FETCH_MEDICOS } from '../../medico/actionTypes';
 
 class PagoMedicos extends Component {
@@ -22,6 +22,7 @@ class PagoMedicos extends Component {
         this.fetchMedicos = this.fetchMedicos.bind(this);
         this.fetchEstudiosImpagosMedico = this.fetchEstudiosImpagosMedico.bind(this);
         this.initPagoMedico = this.initPagoMedico.bind(this);
+        this.handleCancelPago = this.handleCancelPago.bind(this);
         this.handlePago = this.handlePago.bind(this);
         this.state = {
             showConfirmPago: false,
@@ -40,13 +41,29 @@ class PagoMedicos extends Component {
     }
 
     handlePago() {
+        // hide pago confirmation modal
         this.setState({ showConfirmPago: false });
-        alert('Pago confirmado');
+        // get all importes from pago form
+        const importesEstudiosPagoMedico = this.props.editImportesPagoMedicosState;
+        // get the id of each estudio to be paid from the key of the obejct containing all importes
+        const keysEstudiosImpagos = Object.keys(importesEstudiosPagoMedico);
+        const importes = keysEstudiosImpagos
+            .map(key => ({
+                estudio_id: key.split('-')[1],
+                importe: importesEstudiosPagoMedico[key] }));
+        const pago = {
+            medico_id: this.props.selectedMedico[0].id,
+            importes,
+        };
+        this.props.sendPagoMedico(pago);
     }
 
     initPagoMedico() {
         this.setState({ showConfirmPago: true });
-        console.log((this.props.editImportesPagoMedicosState));
+    }
+
+    handleCancelPago() {
+        this.setState({ showConfirmPago: false });
     }
 
     fetchMedicos(searchText) {
@@ -128,14 +145,16 @@ class PagoMedicos extends Component {
                   display={ this.isMedicoSelectedWithUnpaidEstudios() }
                 />
                 <Modal show={ this.state.showConfirmPago }>
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         Confirmar Pago
                     </Modal.Header>
                     <Modal.Body>
-                        Esta a punto de registrar el pago de $xxx a
-                        {this.props.selectedMedico.nombre }
+                        Esta a punto de registrar el pago de ${this.props.totalImporteToPay} a
+                        { this.props.selectedMedico[0] &&
+                        ` ${this.props.selectedMedico[0].nombre} ${this.props.selectedMedico[0].apellido}` }
                     </Modal.Body>
                     <Modal.Footer>
+                        <Button onClick={ this.handleCancelPago }>Cancelar</Button>
                         <Button onClick={ this.handlePago }>Aceptar</Button>
                     </Modal.Footer>
                 </Modal>
@@ -158,6 +177,7 @@ PagoMedicos.propTypes = {
     editImportesPagoMedicosState: object,
     totalImporteToPay: number.isRequired,
     isEditImportesPagosMedicosValid: bool,
+    sendPagoMedico: func.isRequired,
 };
 
 PagoMedicos.defaultProps = {
@@ -202,6 +222,7 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: FETCH_ESTUDIOS_IMPAGOS, fetchEstudiosParams }),
         setSelectedMedico: medico =>
             dispatch(change('searchEstudiosImpagosMedico', 'medicoActuante', medico)),
+        sendPagoMedico: pago => dispatch({ type: SEND_PAGO_MEDICO, pago }),
     };
 }
 
