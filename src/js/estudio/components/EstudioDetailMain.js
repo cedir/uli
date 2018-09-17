@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap/dist/react-bootstrap';
 import { connect } from 'react-redux';
-import { Field, reduxForm, change, formValueSelector } from 'redux-form';
+import { Field, reduxForm, change, formValueSelector, destroy } from 'redux-form';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
@@ -125,6 +125,7 @@ class EstudioDetailMain extends Component {
     }
 
     cloneEstudio() {
+        destroy('editEstudio');
         this.props.history.push(`/estudios/create/?estudioId=${this.props.estudioDetail.id}`);
     }
 
