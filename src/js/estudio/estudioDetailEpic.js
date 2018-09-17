@@ -1,5 +1,4 @@
 import Rx from 'rxjs';
-import moment from 'moment';
 import { getEstudio } from './api';
 import { FETCH_ESTUDIO_DETAIL,
     LOAD_ESTUDIO_DETAIL,
@@ -23,14 +22,15 @@ export function estudioDetailToCloneEpic(action$) {
         .mergeMap(action =>
             getEstudio(action.estudioId)
             .map((data) => {
-                const { medico,
+                const { fecha,
+                    medico,
                     medico_solicitante,
                     obra_social,
                     paciente,
                     anestesista } = data.response;
 
                 const estudioDetail = {
-                    fecha: moment().format('YYYY-MM-DD'),
+                    fecha,
                     medico,
                     medico_solicitante,
                     obra_social,
