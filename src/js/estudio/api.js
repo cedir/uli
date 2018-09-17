@@ -82,5 +82,5 @@ export function createPagoAMedico(pago) {
 
     return post(url, pago);
     // console.log(pago);
-    // return Rx.Observable.throw(true);
+    // return Rx.Observable.of(true);
 }

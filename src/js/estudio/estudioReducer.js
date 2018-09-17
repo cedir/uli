@@ -86,7 +86,7 @@ const loadEstudiosImpagos = (state, action) => {
 
 const handlePagoAMedicoSuccess = (state) => {
     const newState = {};
-    Object.assign(newState, state, { estudiosImpagos: [] });
+    Object.assign(newState, state, { estudiosImpagos: initialState.estudiosImpagos });
 
     return newState;
 };
