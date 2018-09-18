@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { isEmpty } from 'lodash';
@@ -38,10 +40,28 @@ class EstudiosDelDiaPres extends React.Component {
     }
 
     componentDidMount() {
-        const { searchParams } = this.props;
-        if (!isEmpty(searchParams)) {
-            this.props.searchParams.actualPage = this.props.actualPage;
+        const { fecha, dniPaciente } = queryString.parse(this.props.location.search);
+        let searchParams;
+        // this is the case when the user arrives to EstudiosDelDia searching for specific
+        // estudios, providing parameters in the url query string.
+        // So far, this is used just to made easy clonning estudios
+        if (fecha && dniPaciente) {
+            searchParams = {
+                fechaDesde: fecha,
+                fechaHasta: fecha,
+                dniPaciente,
+            };
+
             this.props.fetchEstudios(searchParams);
+        } else {
+            // this is the normal app flow, returning to EstudioDelDia,
+            // checking if a filter were already applyied
+            // and applying the same filers again.
+            searchParams = this.props.searchParams;
+            if (!isEmpty(searchParams)) {
+                this.props.searchParams.actualPage = this.props.actualPage;
+                this.props.fetchEstudios(searchParams);
+            }
         }
     }
 
@@ -91,6 +111,7 @@ EstudiosDelDiaPres.propTypes = {
     searchParams: object,
     fetchEstudios: func,
     history: object.isRequired,
+    location: object.isRequired,
 };
 
 const selector = formValueSelector('searchEstudios');
@@ -116,4 +137,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EstudiosDelDiaPres);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EstudiosDelDiaPres));

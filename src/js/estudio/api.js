@@ -1,14 +1,15 @@
 import { get, update, post } from '../utilities/rest';
 
 function createSearchQueryString(fetchEstudiosParams) {
-    const { fechaDesde, fechaHasta, obraSocial, dniPaciente, nombrePaciente, apellidoPaciente,
-        medicoActuante, medicoSolicitante } = fetchEstudiosParams;
+    const { fechaDesde = '', fechaHasta = '', obraSocial = '', dniPaciente = '',
+        nombrePaciente = '', apellidoPaciente = '',
+        medicoActuante = '', medicoSolicitante = '' } = fetchEstudiosParams;
 
     const { apellido: apellidoMedicoActuante, nombre: nombreMedicoActuante }
-        = medicoActuante[0] ? medicoActuante[0] : { nombre: '', apellido: '' };
+        = Array.isArray(medicoActuante) && medicoActuante[0] ? medicoActuante[0] : { nombre: '', apellido: '' };
     const { apellido: apellidoMedicoSolicitante, nombre: nombreMedicoSolicitante }
-        = medicoSolicitante[0] ? medicoSolicitante[0] : { nombre: '', apellido: '' };
-    const { nombre: nombreObraSocial } = obraSocial[0] ? obraSocial[0] : { nombre: '' };
+        = Array.isArray(medicoSolicitante) && medicoSolicitante[0] ? medicoSolicitante[0] : { nombre: '', apellido: '' };
+    const { nombre: nombreObraSocial } = Array.isArray(obraSocial) && obraSocial[0] ? obraSocial[0] : { nombre: '' };
 
     const actualPage = fetchEstudiosParams.actualPage || 1;
     const queryString = `?fecha_desde=${fechaDesde}&fecha_hasta=${fechaHasta}` +

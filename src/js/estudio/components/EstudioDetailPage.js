@@ -31,7 +31,9 @@ class EstudioDetailPage extends React.Component {
                 { !isEmpty(this.props.estudioDetail) && <Row className='show-grid'>
                     <Col md={ 4 } style={ { border: 'none' } }>
                         <h3 style={ { marginBottom: '25px' } } >Detalle</h3>
-                        <EstudioDetailMain estudioDetailFormMode='edit' />
+                        <EstudioDetailMain
+                          estudioDetailFormMode='edit'
+                        />
                     </Col>
                     <Col md={ 4 } style={ { border: 'none' } }>
                         <h3 style={ { marginBottom: '25px' } } >Facturacion</h3>
