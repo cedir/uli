@@ -15,12 +15,13 @@ export function getPresentacionFormatoOsde(presentacion) {
 
     const url = `/api/presentacion/${id}/get_detalle_osde`;
     const customHeader = {
-        'Content-Type': 'text/csv',
+        'Content-Type': 'text/plain',
     };
 
     get(url, customHeader, 'string')
         .subscribe((ajaxResponse) => {
-            const fileName = `presentacion_${obraSocial.nombre}_${fecha}.csv`;
+            const fileName = `presentacion_${obraSocial.nombre}_${fecha}.txt`;
             saveFile(fileName, ajaxResponse.response);
         });
 }
+
