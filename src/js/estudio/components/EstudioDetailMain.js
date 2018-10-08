@@ -26,8 +26,8 @@ function initEditFormObject(estudio) {
         paciente: estudio.paciente ? [estudio.paciente] : undefined,
         fecha: estudio.fecha,
         practica: estudio.practica ? [estudio.practica] : undefined,
-        informe: estudio.informe,
-        motivo: estudio.motivo,
+        informe: estudio.informe !== 'undefined' ? estudio.informe : '',
+        motivo: estudio.motivo !== 'undefined' ? estudio.motivo : '',
     };
 }
 
