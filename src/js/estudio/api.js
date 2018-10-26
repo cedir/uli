@@ -43,8 +43,8 @@ export function updateEstudio(estudio) {
         anestesista: estudio.anestesista[0].id,
         practica: estudio.practica[0].id,
         obra_social: estudio.obraSocial[0].id,
-        motivo: estudio.motivo,
-        informe: estudio.informe,
+        motivo: estudio.motivo || '',
+        informe: estudio.informe || '',
     };
 
     return update(url, body);
@@ -60,8 +60,8 @@ export function createEstudio(estudio) {
         anestesista: estudio.anestesista[0].id,
         practica: estudio.practica[0].id,
         obra_social: estudio.obraSocial[0].id,
-        motivo: estudio.motivo,
-        informe: estudio.informe,
+        motivo: estudio.motivo || '',
+        informe: estudio.informe || '',
     };
 
     return post(url, body);
