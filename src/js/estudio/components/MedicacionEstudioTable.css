@@ -1,0 +1,18 @@
+.medicacion-table {
+    display: block;
+    max-height: 250px;
+    margin-bottom: 25px;
+    overflow-x: hidden;
+    overflow-y: auto;                    
+}
+
+@media print {
+    .hide-on-print {
+        display: none;
+        visibility: hidden 
+    }
+    .medicacion-table {
+        max-height: none;
+        overflow-y: visible!important;
+    }
+}
