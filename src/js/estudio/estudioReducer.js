@@ -3,7 +3,8 @@ import { FETCH_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     FETCH_ESTUDIO_DETAIL, FETCH_OBRAS_SOCIALES, LOAD_ESTUDIOS_DIARIOS,
     LOAD_ESTUDIO_DETAIL, RESET_ESTUDIO_DETAIL, LOAD_ESTUDIO_DETAIL_ERROR,
     UPDATE_SEARCH_PAGE, UPDATE_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
-    FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS, PAGO_MEDICO_SUCCESS } from './actionTypes';
+    FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS, PAGO_MEDICO_SUCCESS,
+    RESET_ESTUDIOS_IMPAGOS } from './actionTypes';
 
 const PAGE_SIZE = 100;
 
@@ -84,6 +85,13 @@ const loadEstudiosImpagos = (state, action) => {
     return newState;
 };
 
+const resetEstudiosImpagos = (state) => {
+    const newState = {};
+    Object.assign(newState, state, { estudiosImpagos: [] });
+
+    return newState;
+};
+
 const handlePagoAMedicoSuccess = (state) => {
     const newState = {};
     Object.assign(newState, state, { estudiosImpagos: initialState.estudiosImpagos });
@@ -116,6 +124,8 @@ export function estudioReducer(state = initialState, action) {
             return loadEstudioDetailErrorReducer(state);
         case LOAD_ESTUDIOS_IMPAGOS:
             return loadEstudiosImpagos(state, action);
+        case RESET_ESTUDIOS_IMPAGOS:
+            return resetEstudiosImpagos(state);
         case PAGO_MEDICO_SUCCESS:
             return handlePagoAMedicoSuccess(state);
         default:

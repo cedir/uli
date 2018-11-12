@@ -2,21 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector,
-    change, getFormValues, isValid } from 'redux-form';
+    change, getFormValues, isValid, destroy } from 'redux-form';
 import { Row, Col, Button, Modal } from 'react-bootstrap';
 import { reduce } from 'lodash';
 
 import ConditionalComponents from '../../utilities/ConditionalComponent';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import PagoMedicosTable from './PagoMedicosTable';
-import { FETCH_ESTUDIOS_IMPAGOS, SEND_PAGO_MEDICO } from '../actionTypes';
+import { FETCH_ESTUDIOS_IMPAGOS, SEND_PAGO_MEDICO, RESET_ESTUDIOS_IMPAGOS } from '../actionTypes';
 import { FETCH_MEDICOS } from '../../medico/actionTypes';
 
 class PagoMedicos extends Component {
     constructor(props) {
         super(props);
 
-        this.setSelectedMedico = this.setSelectedMedico.bind(this);
+        this.handleSelectedMedicoChange = this.handleSelectedMedicoChange.bind(this);
         this.isMedicoSelectedWithUnpaidEstudios =
             this.isMedicoSelectedWithUnpaidEstudios.bind(this);
         this.fetchMedicos = this.fetchMedicos.bind(this);
@@ -29,10 +29,12 @@ class PagoMedicos extends Component {
         };
     }
 
-    setSelectedMedico(selection) {
+    handleSelectedMedicoChange(selection) {
         if (selection[0] && selection[0].id) {
             this.props.setSelectedMedico(selection[0]);
         }
+        this.props.destroyImportesForm();
+        this.props.resetEstudiosImpagos();
     }
 
     isMedicoSelectedWithUnpaidEstudios() {
@@ -47,13 +49,13 @@ class PagoMedicos extends Component {
         const importesEstudiosPagoMedico = this.props.editImportesPagoMedicosState;
         // get the id of each estudio to be paid from the key of the obejct containing all importes
         const keysEstudiosImpagos = Object.keys(importesEstudiosPagoMedico);
-        const importes = keysEstudiosImpagos
+        const lineas = keysEstudiosImpagos
             .map(key => ({
                 estudio_id: key.split('-')[1],
                 importe: importesEstudiosPagoMedico[key] }));
         const pago = {
-            medico_id: this.props.selectedMedico[0].id,
-            importes,
+            medico: this.props.selectedMedico[0].id,
+            lineas,
         };
         this.props.sendPagoMedico(pago);
     }
@@ -110,7 +112,7 @@ class PagoMedicos extends Component {
                                   options={ this.props.medicos }
                                   labelKey={ this.medicosTypeaheadRenderFunc }
                                   onSearch={ this.fetchMedicos }
-                                  onChange={ this.setSelectedMedico }
+                                  onChange={ this.handleSelectedMedicoChange }
                                   selected={ this.props.selectedMedico }
                                   renderMenuItemChildren={ this.renderMedicoMenuItem }
                                   isLoading={ this.props.medicoApiLoading }
@@ -178,6 +180,8 @@ PagoMedicos.propTypes = {
     totalImporteToPay: number.isRequired,
     isEditImportesPagosMedicosValid: bool,
     sendPagoMedico: func.isRequired,
+    destroyImportesForm: func.isRequired,
+    resetEstudiosImpagos: func.isRequired,
 };
 
 PagoMedicos.defaultProps = {
@@ -223,6 +227,10 @@ function mapDispatchToProps(dispatch) {
         setSelectedMedico: medico =>
             dispatch(change('searchEstudiosImpagosMedico', 'medicoActuante', medico)),
         sendPagoMedico: pago => dispatch({ type: SEND_PAGO_MEDICO, pago }),
+        destroyImportesForm: () =>
+            dispatch(destroy('editImportesPagoMedicos')),
+        resetEstudiosImpagos: () =>
+            dispatch({ type: RESET_ESTUDIOS_IMPAGOS }),
     };
 }
 

@@ -46,7 +46,7 @@ export function createEstudioEpic(action$) {
 export function estudioImpagosEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_IMPAGOS)
         .mergeMap(action =>
-            getEstudiosImpagos(action.fetchEstudiosParams.medicoActuante)
+            getEstudiosImpagos(action.fetchEstudiosParams.medicoActuante[0])
             .map(data => ({ type: LOAD_ESTUDIOS_IMPAGOS, data }))
             .takeUntil(action$.ofType(CANCEL_ESTUDIOS_DIARIOS)),
     );

@@ -28,12 +28,8 @@ export function getEstudios(fetchEstudiosParams) {
     return get(url);
 }
 
-export function getEstudiosImpagos() {
-    // const { apellido: apellidoMedicoActuante, nombre: nombreMedicoActuante }
-    //     = medico[0] ? medico[0] : { nombre: '', apellido: '' };
-    // const url = `/api/estudio/?&medico_nombre=${nombreMedicoActuante}&` +
-    //     `medico_apellido=${apellidoMedicoActuante}`;
-    const url = '/api/pago-medico/get_estudios_pendientes_de_pago/';
+export function getEstudiosImpagos(medico) {
+    const url = `/api/medico/${medico.id}/get_estudios_pendientes_de_pago/`;
     return get(url);
 }
 
