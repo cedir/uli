@@ -1,28 +1,35 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ListadoInformeComprobantesTableRow extends Component {
     render() {
         return (
-            <tr onClick={ this.onRowClick } style={ { cursor: 'pointer' } }>
-                <td>Tipo Comprobante</td>
-                <td>Nro Comprobante</td>
-                <td>Estado Comprobante</td>
-                <td>Fecha Comprobante</td>
-                <td>Cliente Comprobante</td>
-                <td>Total Facturado Comprobante</td>
-                <td>Total Cobrado Comprobante</td>
+            <tr onClick={ this.onRowClick }>
+                <td>{ this.props.comprobante.tipo_comprobante.nombre }</td>
+                <td>{ this.props.comprobante.numero }</td>
+                <td>{ this.props.comprobante.estado }</td>
+                <td>{ this.props.comprobante.fecha_emision }</td>
+                <td>{ this.props.comprobante.nombre_cliente }</td>
+                <td>{ this.props.comprobante.total_facturado }</td>
+                <td>{ this.props.comprobante.total_cobrado }</td>
                 <td>Neto Comprobante</td>
-                <td>IVA Comprobante</td>
-                <td>Honorarios Comprobante</td>
-                <td>Retencion Impositiva Comprobante</td>
-                <td>Retencion Cedir(GA) Comprobante</td>
-                <td>Sala de Recuperacion Comprobante</td>
-                <td>Retencion Anestesia Comprobante</td>
-                <td>Medicamentos Comprobante</td>
-                <td>Material Especifico Comprobante</td>
+                <td>{ this.props.comprobante.retencion_impositiva }</td>
+                <td>{ this.props.comprobante.honorarios_medico }</td>
+                <td>{ this.props.comprobante.retencion_impositiva }</td>
+                <td>{ this.props.comprobante.retencion_cedir }</td>
+                <td>{ this.props.comprobante.sala_recuperacion }</td>
+                <td>{ this.props.comprobante.honorarios_anestesistas}</td>
+                <td>{ this.props.comprobante.total_medicamentos }</td>
+                <td>{ this.props.comprobante.total_material_especifico }</td>
             </tr>
         );
     }
 }
+
+const { object } = PropTypes;
+
+ListadoInformeComprobantesTableRow.propTypes = {
+    comprobante: object.isRequired,
+};
 
 export default ListadoInformeComprobantesTableRow;

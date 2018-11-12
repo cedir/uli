@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Table }
     from 'react-bootstrap/dist/react-bootstrap';
 import ListadoInformeComprobantesTableRow from './ListadoInformeComprobantesTableRow';
@@ -25,15 +27,16 @@ class ListadoInformeComprobantesTable extends Component {
                             <th>Sala de Recuperacion</th>
                             <th>Retencion Anestesia</th>
                             <th>Medicamentos</th>
-                            <th>Materia Especifico</th>
+                            <th>Material Especifico</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(index =>
+                            this.props.comprobantes.map(comprobante =>
                                 (
                                     <ListadoInformeComprobantesTableRow
-                                      key={ index }
+                                      key={ comprobante.numero }
+                                      comprobante={ comprobante }
                                     />
                                 ))
                         }
@@ -44,4 +47,19 @@ class ListadoInformeComprobantesTable extends Component {
     }
 }
 
-export default ListadoInformeComprobantesTable;
+const { array } = PropTypes;
+ListadoInformeComprobantesTable.propTypes = {
+    comprobantes: array.isRequired,
+};
+
+ListadoInformeComprobantesTable.defaultProps = {
+    comprobantes: [],
+};
+
+function mapStateToProps(state) {
+    return {
+        comprobantes: state.comprobantesReducer.comprobantes,
+    };
+}
+
+export default connect(mapStateToProps, null)(ListadoInformeComprobantesTable);
