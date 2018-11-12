@@ -22,7 +22,7 @@ class MedicacionEstudioTableRow extends React.Component {
             <tr>
                 <td>{ descripcion }</td>
                 <td>{ importe }</td>
-                <td style={ { paddingTop: '2px' } }>
+                <td className='hide-on-print' style={ { paddingTop: '2px' } }>
                     <Button
                       bsStyle='link'
                       onClick={ this.onRowClick }
