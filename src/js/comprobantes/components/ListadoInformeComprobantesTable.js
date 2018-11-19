@@ -35,7 +35,7 @@ class ListadoInformeComprobantesTable extends Component {
                             this.props.comprobantes.map(comprobante =>
                                 (
                                     <ListadoInformeComprobantesTableRow
-                                      key={ comprobante.numero }
+                                      key={ comprobante.id }
                                       comprobante={ comprobante }
                                     />
                                 ))

@@ -12,8 +12,8 @@ class ListadoInformeComprobantesTableRow extends Component {
                 <td>{ this.props.comprobante.nombre_cliente }</td>
                 <td>{ this.props.comprobante.total_facturado }</td>
                 <td>{ this.props.comprobante.total_cobrado }</td>
-                <td>Neto Comprobante</td>
-                <td>{ this.props.comprobante.retencion_impositiva }</td>
+                <td>{ this.props.comprobante.importe_gravado_afip }</td>
+                <td>{ this.props.comprobante.importe_alicuota_afip }</td>
                 <td>{ this.props.comprobante.honorarios_medico }</td>
                 <td>{ this.props.comprobante.retencion_impositiva }</td>
                 <td>{ this.props.comprobante.retencion_cedir }</td>
