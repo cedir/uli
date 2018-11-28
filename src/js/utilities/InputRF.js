@@ -11,6 +11,7 @@ class InputRF extends React.Component {
             type,
             meta: { error, warning, touched },
             staticField,
+            hideLabel,
             selectOptions,
             // in case of options being an object, use this value to
             // point the property value to be assigned to select value.
@@ -42,7 +43,7 @@ class InputRF extends React.Component {
         // This component can be used a simple input, a text area or a select
         return (
             <FormGroup validationState={ validationState }>
-                <ControlLabel>{ label }</ControlLabel>
+                { !hideLabel && <ControlLabel>{ label }</ControlLabel> }
                 { !staticField && componentClass !== 'select' && <FormControl
                   { ...input }
                   type={ type }
@@ -99,6 +100,7 @@ InputRF.propTypes = {
     type: string,
     meta: object,
     staticField: bool,
+    hideLabel: bool,
     componentClass: string,
     selectOptions: array,
     selectionValue: string,
