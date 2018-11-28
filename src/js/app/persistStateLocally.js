@@ -2,7 +2,7 @@
 /* locally. For example, If the user is logged in, the auth token is saved in local storage. */
 export function loadLocallyPersistedState() {
     try {
-        const serializedState = sessionStorage.getItem('state');
+        const serializedState = localStorage.getItem('state');
         if (serializedState === null) {
             return undefined;
         }
@@ -18,7 +18,7 @@ export function loadLocallyPersistedState() {
 export function saveStateLocally(state) {
     try {
         const serializedState = JSON.stringify(state);
-        sessionStorage.setItem('state', serializedState);
+        localStorage.setItem('state', serializedState);
     } catch (err) {
         // Do nothing if set item fails.
         (f => (f))();
@@ -27,7 +27,7 @@ export function saveStateLocally(state) {
 
 export function removeStateLocally() {
     try {
-        sessionStorage.removeItem('state');
+        localStorage.removeItem('state');
     } catch (err) {
         // Do nothing if set item fails.
         (f => (f))();

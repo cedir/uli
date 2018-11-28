@@ -34,7 +34,7 @@ const loadEstudiosDiariosReducer = (state, action) => {
 
 const loadEstudioDetail = (state, action) => {
     const newState = {};
-    const estudioDetail = action.data.response;
+    const { estudioDetail } = action;
 
     Object.assign(newState, state, { estudioDetail });
 

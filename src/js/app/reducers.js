@@ -18,7 +18,8 @@ import { alertReducer } from '../utilities/components/alert/alertReducer';
 // API calls configurations
 import { estudioEpic, updateEstudioEpic, createEstudioEpic,
     estudioImpagosEpic, pagoAMedicoEpic } from '../estudio/estudioEpic';
-import { estudioDetailEpic } from '../estudio/estudioDetailEpic';
+import { estudioDetailEpic, estudioDetailToCloneEpic } from '../estudio/estudioDetailEpic';
+
 import { obraSocialEpic } from '../obraSocial/obraSocialEpic';
 import { medicosActuantesEpic, medicosSolicitantesEpic,
     medicosEpic } from '../medico/medicoEpic';
@@ -38,6 +39,7 @@ export const rootEpic = combineEpics(
     estudioImpagosEpic,
     pagoAMedicoEpic,
     estudioDetailEpic,
+    estudioDetailToCloneEpic,
     obraSocialEpic,
     medicosActuantesEpic,
     medicosSolicitantesEpic,
