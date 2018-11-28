@@ -11,7 +11,9 @@ class InputRF extends React.Component {
             type,
             meta: { error, warning, touched },
             staticField,
+            hideLabel,
             selectOptions,
+
             ...props
         } = this.props;
         let { componentClass } = this.props;
@@ -29,7 +31,7 @@ class InputRF extends React.Component {
 
         return (
             <FormGroup validationState={ validationState }>
-                <ControlLabel>{ label }</ControlLabel>
+                { !hideLabel && <ControlLabel>{ label }</ControlLabel> }
                 { !staticField && componentClass !== 'select' && <FormControl
                   { ...input }
                   type={ type }
@@ -69,6 +71,7 @@ InputRF.propTypes = {
     type: string,
     meta: object,
     staticField: bool,
+    hideLabel: bool,
     componentClass: string,
     selectOptions: array,
 };
