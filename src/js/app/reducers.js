@@ -16,10 +16,13 @@ import { loginReducer } from '../login/loginReducer';
 import { alertReducer } from '../utilities/components/alert/alertReducer';
 
 // API calls configurations
-import { estudioEpic, updateEstudioEpic, createEstudioEpic } from '../estudio/estudioEpic';
+import { estudioEpic, updateEstudioEpic, createEstudioEpic,
+    estudioImpagosEpic, pagoAMedicoEpic } from '../estudio/estudioEpic';
 import { estudioDetailEpic, estudioDetailToCloneEpic } from '../estudio/estudioDetailEpic';
+
 import { obraSocialEpic } from '../obraSocial/obraSocialEpic';
-import { medicosActuantesEpic, medicosSolicitantesEpic } from '../medico/medicoEpic';
+import { medicosActuantesEpic, medicosSolicitantesEpic,
+    medicosEpic } from '../medico/medicoEpic';
 import { pagoAnestesistaEpic, anestesistaEpic } from '../anestesista/pagoAnestesistaEpic';
 import { medicacionEpic, addMedicacionToEstudioEpic,
     removeMedicacionFromEstudioEpic, addDefaultMedicacionToEstudioEpic } from '../medicacion/medicacionEpic';
@@ -33,11 +36,14 @@ export const rootEpic = combineEpics(
     estudioEpic,
     updateEstudioEpic,
     createEstudioEpic,
+    estudioImpagosEpic,
+    pagoAMedicoEpic,
     estudioDetailEpic,
     estudioDetailToCloneEpic,
     obraSocialEpic,
     medicosActuantesEpic,
     medicosSolicitantesEpic,
+    medicosEpic,
     pagoAnestesistaEpic,
     anestesistaEpic,
     medicacionEpic,
