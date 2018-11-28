@@ -10,3 +10,9 @@ export function getAnestesistas(searchText) {
 
     return get(url);
 }
+
+export function getAnestesistasList() {
+    const url = '/api/anestesista/';
+
+    return get(url);
+}
