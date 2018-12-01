@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Field, reduxForm, change } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Button, Form, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 
 import InputRF from '../../utilities/InputRF';
-import { FETCH_ANESTESISTAS } from '../actionTypes';
 import { required, integerValue } from '../../utilities/reduxFormValidators';
-import { ANESTESIA_SIN_ANESTESISTA } from '../../estudio/constants';
+import { FETCH_COMPROBANTES_PAGO } from '../actionTypes';
 
 const today = new Date();
 const currentYear = today.getFullYear();
@@ -15,52 +14,26 @@ const currentMonth = today.getMonth();
 
 const years = Array.from(Array(5).keys()).map(k => currentYear - k);
 const months = Array.from(Array(12).keys()).map(k => 1 + ((currentMonth + k) % 12));
+years.unshift('--');
+months.unshift('--');
 
-class ControlPagoAnestesistaPres extends React.Component {
+class SearchComprobantes extends Component {
     constructor(props) {
         super(props);
-        this.fetch = this.fetch.bind(this);
+        this.fetchComprobantesPago = this.fetchComprobantesPago.bind(this);
     }
-
-    componentDidMount() {
-        this.props.fetchAnestesista();
+    fetchComprobantesPago(params) {
+        this.props.fetchComprobantesPago(params.anio, params.mes);
     }
-
-    fetch(params) {
-        const { anestesista, mes, anio } = params;
-        this.props.fetch(anestesista, mes, anio);
-    }
-
-    renderAnestesistaMenuItem(option) {
-        const nombre = (option.apellido.toLowerCase() === ANESTESIA_SIN_ANESTESISTA)
-            ? option.apellido
-            : `${option.apellido}, ${option.nombre}`;
-        return nombre;
-    }
-
 
     render() {
         return (
             <Form
               inline
               onSubmit={ this.props.handleSubmit(params =>
-                this.fetch(params)) }
+                this.fetchComprobantesPago(params)) }
             >
                 <Row className='show-grid'>
-                    <Col md={ 4 } style={ { border: 'none' } }>
-                        <Field
-                          name='anestesista'
-                          label='Anestesista'
-                          validate={ [required, integerValue] }
-                          component={ InputRF }
-                          componentClass='select'
-                          selectOptions={ this.props.anestesistas }
-                          selectionValue='id'
-                          renderOptionHandler={ this.renderAnestesistaMenuItem }
-                          optionKey='id'
-                          customErrorMsg='No es un anestesista valido'
-                        />
-                    </Col>
                     <Col md={ 3 } style={ { border: 'none' } }>
                         <Field
                           name='anio'
@@ -96,37 +69,33 @@ class ControlPagoAnestesistaPres extends React.Component {
     }
 }
 
-const { func, array, bool } = PropTypes;
+const { func, bool } = PropTypes;
 
-ControlPagoAnestesistaPres.propTypes = {
+SearchComprobantes.propTypes = {
     handleSubmit: func.isRequired,
+    fetchComprobantesPago: func.isRequired,
     valid: bool,
-    fetch: func.isRequired,
-    fetchAnestesista: func.isRequired,
-    anestesistas: array.isRequired,
 };
 
-const ControlPagoAnestesistaPresReduxForm = reduxForm({
-    form: 'pagoAnestesistas',
+const SearchComprobantesReduxForm = reduxForm({
+    form: 'searchComprobantes',
     destroyOnUnmount: false,
     enableReinitialize: true,
-})(ControlPagoAnestesistaPres);
+})(SearchComprobantes);
 
 function mapStateToProps(state) {
     return {
-        anestesistas: state.anestesistaReducer.anestesistas,
+        comprobantes: state.comprobantesReducer.comprobantes,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchAnestesista: () =>
-            dispatch({ type: FETCH_ANESTESISTAS }),
-        setSelectedAnestesista: anestesista =>
-            dispatch(change('pagoAnestesistas', 'anestesista', anestesista)),
-        fetch: (id, mes, año) => dispatch({ type: 'FETCH_PAGO_ANESTESISTA', id, mes, año }),
+        fetchComprobantesPago(anio, mes) {
+            dispatch({ type: FETCH_COMPROBANTES_PAGO, data: { anio, mes } });
+        },
     };
 }
 
-export const ControlPagoAnestesista =
-    connect(mapStateToProps, mapDispatchToProps)(ControlPagoAnestesistaPresReduxForm);
+export default
+    connect(mapStateToProps, mapDispatchToProps)(SearchComprobantesReduxForm);

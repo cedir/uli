@@ -14,9 +14,11 @@ import EstudiosPage from '../estudio/EstudiosPage';
 import EstudioDetailPage from '../estudio/components/EstudioDetailPage';
 import PagoAnestesistaPage from '../anestesista/PagoAnestesistaPage';
 import CreateEstudio from '../estudio/components/CreateEstudio';
+import PagoMedicos from '../estudio/components/PagoMedicos';
 import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
-// import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
+import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
 import CajaMain from '../caja/components/CajaMain';
+
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 
 class App extends React.Component {
@@ -105,6 +107,16 @@ class App extends React.Component {
                     <PrivateRoute
                       path='/caja/main'
                       component={ CajaMain }
+                      authenticated={ !!this.props.token }
+                    />
+                    <PrivateRoute
+                      path='/listado-informe-comprobantes'
+                      component={ ListadoInformeComprobantes }
+                      authenticated={ !!this.props.token }
+                    />
+                    <PrivateRoute
+                      path='/medicos/pago'
+                      component={ PagoMedicos }
                       authenticated={ !!this.props.token }
                     />
                     <Route path='/login' component={ Login } />

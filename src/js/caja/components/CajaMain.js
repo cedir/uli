@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import CajaActionBar from './CajaActionBar';
 import SearchCajaModal from './search/SearchCajaModal';
+import ListadoMovimientosTable from './search/ListadoMovimientosTable';
 
 class CajaMain extends Component {
     constructor(props) {
@@ -33,6 +34,7 @@ class CajaMain extends Component {
                     />
                 </div>
                 <div className='clearfix' />
+                <ListadoMovimientosTable />
                 <SearchCajaModal
                   modalOpened={ this.state.modalOpened }
                   closeModal={ this.closeSearchCajaModal }
