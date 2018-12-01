@@ -134,12 +134,14 @@ class SearchCajaForm extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col md={ 12 } style={ { textAlign: 'right' } }>
+                            <Col md={ 12 }>
                                 <Button
+                                  className='pull-right'
                                   bsStyle='primary'
-                                  type='submit'
+                                  disabled={ !this.props.valid }
+                                  onClick={ this.props.closeModal }
                                 >
-                                    Buscar Estudios
+                                    Buscar Movimientos
                                 </Button>
                             </Col>
                         </Row>
@@ -154,6 +156,8 @@ const { func, array, bool } = PropTypes;
 
 SearchCajaForm.propTypes = {
     // handleSubmit: func.isRequired,
+    valid: bool.isRequired,
+    closeModal: func.isRequired,
     fetchMedicosSolicitantes: func.isRequired,
     setSelectedMedicoSolicitante: func.isRequired,
     selectedMedicoSolicitante: array,

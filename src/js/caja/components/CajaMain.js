@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 import CajaActionBar from './CajaActionBar';
 import SearchCajaModal from './search/SearchCajaModal';
-import ListadoMovimientosTable from './search/ListadoMovimientosTable';
+import ListadoMovimientosTable from './ListadoMovimientosTable';
 
 class CajaMain extends Component {
     constructor(props) {

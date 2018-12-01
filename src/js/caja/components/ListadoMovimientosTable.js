@@ -3,12 +3,13 @@ import { Table }
     from 'react-bootstrap/dist/react-bootstrap';
 
 import ListadoMovimientosTableRow from './ListadoMovimientosTableRow';
+import './ListadoMovimientosTable.css';
 
 class ListadoMovimientosTable extends Component {
     render() {
         return (
             <div>
-                <Table striped responsive style={ { marginTop: '20px' } }>
+                <Table striped responsive className='listado-movimientos'>
                     <thead>
                         <tr>
                             <th>Usuario</th>
