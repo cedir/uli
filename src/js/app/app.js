@@ -116,7 +116,7 @@ class App extends React.Component {
                         />
                     </div>
                     <Route path='/login' component={ Login } />
-                    <Footer style={ { marginTop: '10px' } } />
+                    <Footer />
                     <AlertComponent />
                 </div>
             </div>
