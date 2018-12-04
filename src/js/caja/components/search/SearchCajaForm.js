@@ -7,7 +7,7 @@ import { Row, Col, Button }
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
 import CheckboxRF from '../../../utilities/CheckboxRF';
-import { FETCH_MEDICOS_SOLICITANTES } from '../../../medico/actionTypes';
+import { FETCH_MEDICOS_ACTUANTES } from '../../../medico/actionTypes';
 import { required, dateBeforeThan, dateAfterThan }
     from '../../../utilities/reduxFormValidators';
 import './SearchCajaForm.css';
@@ -17,24 +17,24 @@ class SearchCajaForm extends Component {
     constructor(props) {
         super(props);
 
-        this.setSelectedMedicoSolicitante =
-            this.setSelectedMedicoSolicitante.bind(this);
-        this.searchMedicosSolicitantes =
-            this.searchMedicosSolicitantes.bind(this);
+        this.setSelectedMedicoActuante =
+            this.setSelectedMedicoActuante.bind(this);
+        this.searchMedicosActuantes =
+            this.searchMedicosActuantes.bind(this);
     }
 
-    setSelectedMedicoSolicitante(selection) {
+    setSelectedMedicoActuante(selection) {
         if (selection[0] && selection[0].id) {
-            this.props.setSelectedMedicoSolicitante(selection[0]);
+            this.props.setSelectedMedicoActuante(selection[0]);
         }
     }
 
-    searchMedicosSolicitantes(searchText) {
-        const selectedMedicoSolicitante = this.props.selectedMedicoSolicitante;
-        if (selectedMedicoSolicitante.fullName === searchText && selectedMedicoSolicitante.id) {
-            this.props.fetchMedicosSolicitantes({ id: selectedMedicoSolicitante.id });
+    searchMedicosActuantes(searchText) {
+        const selectedMedicoActuante = this.props.selectedMedicoActuante;
+        if (selectedMedicoActuante.fullName === searchText && selectedMedicoActuante.id) {
+            this.props.fetchMedicosActuantes({ id: selectedMedicoActuante.id });
         } else {
-            this.props.fetchMedicosSolicitantes({ searchText });
+            this.props.fetchMedicosActuantes({ searchText });
         }
     }
 
@@ -80,20 +80,20 @@ class SearchCajaForm extends Component {
                         <Row>
                             <Col md={ 6 }>
                                 <Field
-                                  name='medicoSolicitante'
+                                  name='medicoActuante'
                                   label='Medico'
                                   placeholder='Nombre'
                                   align='left'
                                   component={ AsyncTypeaheadRF }
-                                  options={ this.props.medicosSolicitantes }
+                                  options={ this.props.medicosActuantes }
                                   labelKey={ this.medicosTypeaheadRenderFunc }
-                                  onSearch={ this.searchMedicosSolicitantes }
-                                  onChange={ this.setSelectedMedicoSolicitante }
+                                  onSearch={ this.searchMedicosActuantes }
+                                  onChange={ this.setSelectedMedicoActuante }
                                   selected={
-                                      this.props.selectedMedicoSolicitante
+                                      this.props.selectedMedicoActuante
                                   }
                                   renderMenuItemChildren={ this.renderMedicoMenuItem }
-                                  isLoading={ this.props.medicoSolicitanteApiLoading }
+                                  isLoading={ this.props.medicoActuanteApiLoading }
                                 />
                             </Col>
                             <Col md={ 3 }>
@@ -111,7 +111,7 @@ class SearchCajaForm extends Component {
                                   type='date'
                                   label='Fecha hasta'
                                   component={ InputRF }
-                                  validate={ [required, dateAfterThan('fechaDesde', 'Debe ser mayor que la fecha desde')] }
+                                  validate={ dateAfterThan('fechaDesde', 'Debe ser mayor que la fecha desde') }
                                 />
                             </Col>
                         </Row>
@@ -158,12 +158,12 @@ SearchCajaForm.propTypes = {
     // handleSubmit: func.isRequired,
     valid: bool.isRequired,
     closeModal: func.isRequired,
-    fetchMedicosSolicitantes: func.isRequired,
-    setSelectedMedicoSolicitante: func.isRequired,
-    selectedMedicoSolicitante: array,
-    medicosSolicitantes: array,
+    fetchMedicosActuantes: func.isRequired,
+    setSelectedMedicoActuante: func.isRequired,
+    selectedMedicoActuante: array,
+    medicosActuantes: array,
     tiposMovimiento: array,
-    medicoSolicitanteApiLoading: bool.isRequired,
+    medicoActuanteApiLoading: bool.isRequired,
 };
 
 const SearchCajaFormReduxForm = reduxForm({
@@ -174,15 +174,15 @@ const SearchCajaFormReduxForm = reduxForm({
 const selector = formValueSelector('searchCaja');
 
 function mapStateToProps(state) {
-    let medicoSolicitante = selector(state, 'medicoSolicitante');
-    medicoSolicitante = (medicoSolicitante && Array.isArray(medicoSolicitante))
-            ? medicoSolicitante
+    let medicoActuante = selector(state, 'medicoActuante');
+    medicoActuante = (medicoActuante && Array.isArray(medicoActuante))
+            ? medicoActuante
             : [];
 
     return {
-        medicosSolicitantes: state.medicoReducer.medicosSolicitantes,
-        selectedMedicoSolicitante: medicoSolicitante,
-        medicoSolicitanteApiLoading: state.medicoReducer.medicoSolicitanteApiLoading || false,
+        medicosActuantes: state.medicoReducer.medicosActuantes,
+        selectedMedicoActuante: medicoActuante,
+        medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
         tiposMovimiento: [
             'Sin definir',
             'General',
@@ -196,10 +196,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchMedicosSolicitantes: searchParams =>
-            dispatch({ type: FETCH_MEDICOS_SOLICITANTES, searchParams }),
-        setSelectedMedicoSolicitante: medicoSolicitante =>
-            dispatch(change('searchEstudios', 'medicoSolicitante', medicoSolicitante)),
+        fetchMedicosActuantes: searchParams =>
+            dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
+        setSelectedMedicoActuante: medicoActuante =>
+            dispatch(change('searchCaja', 'medicoActuante', medicoActuante)),
     };
 }
 
