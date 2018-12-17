@@ -15,8 +15,8 @@ class ListadoMovimientosTable extends Component {
 
     render() {
         return (
-            <div>
-                <Table striped responsive className='listado-movimientos'>
+            <div className='listado-movimientos'>
+                <Table striped responsive>
                     <thead>
                         <tr>
                             <th>Fecha Movimiento</th>
