@@ -7,6 +7,7 @@ import { isEmpty } from 'lodash';
 
 import InputRF from '../../utilities/InputRF';
 import { required } from '../../utilities/reduxFormValidators';
+import './PagoMedicosTable.css';
 
 function parseToNumber(value) {
     return parseFloat(value) || 0;
@@ -31,7 +32,7 @@ class PagoMedicosTable extends Component {
     }
     render() {
         return (
-            <form>
+            <form className='pago-medicos-list'>
                 <Table className='footable table table-stripped toggle-arrow-tiny'>
                     <thead>
                         <tr>

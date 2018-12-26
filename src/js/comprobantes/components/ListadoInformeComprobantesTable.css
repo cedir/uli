@@ -1,0 +1,7 @@
+.listado-informe-comprobantes {
+    overflow-y: auto;
+}
+
+.listado-informe-comprobantes table {
+    margin-top: 20px;
+}
