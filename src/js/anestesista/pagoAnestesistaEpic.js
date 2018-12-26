@@ -1,5 +1,5 @@
 import Rx from 'rxjs';
-import { getPagoAnestesista, getAnestesistas } from './api';
+import { getPagoAnestesista, getAnestesistasList } from './api';
 import { FETCH_ANESTESISTAS, LOAD_ANESTESISTAS,
     LOAD_ANESTESISTAS_ERROR, FETCH_PAGO_ANESTESISTA,
     LOAD_PAGO_ANESTESISTA, CANCEL_PAGO_ANESTESISTA } from './actionTypes';
@@ -16,8 +16,8 @@ export function pagoAnestesistaEpic(action$) {
 
 export function anestesistaEpic(action$) {
     return action$.ofType(FETCH_ANESTESISTAS)
-        .mergeMap(action =>
-            getAnestesistas(action.searchParams)
+        .mergeMap(() =>
+            getAnestesistasList()
             .map(data => ({ type: LOAD_ANESTESISTAS, data }))
             .catch(() => (Rx.Observable.of({
                 type: LOAD_ANESTESISTAS_ERROR,

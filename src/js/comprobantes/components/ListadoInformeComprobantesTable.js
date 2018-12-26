@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import { Table }
     from 'react-bootstrap/dist/react-bootstrap';
 import ListadoInformeComprobantesTableRow from './ListadoInformeComprobantesTableRow';
+import './ListadoInformeComprobantesTable.css';
 
 class ListadoInformeComprobantesTable extends Component {
     render() {
         return (
-            <div>
-                <Table striped responsive style={ { marginTop: '20px' } }>
+            <div className='listado-informe-comprobantes'>
+                <Table striped responsive>
                     <thead>
                         <tr>
                             <th>Tipo</th>

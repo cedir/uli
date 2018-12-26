@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, FormControl }
     from 'react-bootstrap';
+import uuidv1 from 'uuid/v1';
 
 class InputRF extends React.Component {
     render() {
@@ -13,7 +14,15 @@ class InputRF extends React.Component {
             staticField,
             hideLabel,
             selectOptions,
-
+            // in case of options being an object, use this value to
+            // point the property value to be assigned to select value.
+            selectionValue,
+            // format the option to display in the select list
+            renderOptionHandler,
+            // custom error msg to be displayed insted of the validation error
+            customErrorMsg,
+            // this is the key to be used for tracking repeated options
+            optionKey,
             ...props
         } = this.props;
         let { componentClass } = this.props;
@@ -24,11 +33,15 @@ class InputRF extends React.Component {
         if (type === 'textarea') {
             componentClass = type;
         }
-
+        // if custom error msg was provided, use it
         if (touched && (error || warning)) {
-            message = <span className='help-block'>{ error || warning }</span>;
+            message = (
+                <span className='help-block'>
+                    { customErrorMsg || error || warning }
+                </span>
+            );
         }
-
+        // This component can be used a simple input, a text area or a select
         return (
             <FormGroup validationState={ validationState }>
                 { !hideLabel && <ControlLabel>{ label }</ControlLabel> }
@@ -46,7 +59,24 @@ class InputRF extends React.Component {
                   { ...props }
                 >
                     { componentClass === 'select' && selectOptions &&
-                    selectOptions.map(o => <option key={ o } value={ o }>{o}</option>)
+                    (() => {
+                        const options = selectOptions.map((o) => {
+                            let optionDisplay;
+                            if (typeof renderOptionHandler === 'function') {
+                                optionDisplay = renderOptionHandler(o);
+                            } else {
+                                optionDisplay = o;
+                            }
+                            const key = o[optionKey] || o;
+                            const value = (selectionValue && o[selectionValue])
+                                || o;
+                            return (
+                                <option key={ key } value={ value }>{optionDisplay}</option>
+                            );
+                        });
+                        options.unshift(<option key={ uuidv1() } value={ null }>--</option>);
+                        return options;
+                    })()
                     }
                 </FormControl>
                 }
@@ -63,7 +93,7 @@ class InputRF extends React.Component {
     }
 }
 
-const { object, string, bool, array } = PropTypes;
+const { object, string, bool, array, func } = PropTypes;
 
 InputRF.propTypes = {
     input: object,
@@ -74,6 +104,10 @@ InputRF.propTypes = {
     hideLabel: bool,
     componentClass: string,
     selectOptions: array,
+    selectionValue: string,
+    renderOptionHandler: func,
+    customErrorMsg: string,
+    optionKey: string,
 };
 
 export default InputRF;
