@@ -1,38 +1,45 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import { Table }
     from 'react-bootstrap/dist/react-bootstrap';
 
 import ListadoMovimientosTableRow from './ListadoMovimientosTableRow';
+import { FETCH_MOVIMIENTOS_CAJA } from '../actionTypes';
 import './ListadoMovimientosTable.css';
 
 class ListadoMovimientosTable extends Component {
+    componentDidMount() {
+        this.props.fetchMovimientosCaja();
+    }
+
     render() {
         return (
-            <div>
-                <Table striped responsive className='listado-movimientos'>
+            <div className='listado-movimientos'>
+                <Table striped responsive>
                     <thead>
                         <tr>
+                            <th>Fecha Movimiento</th>
                             <th>Usuario</th>
+                            <th>Tipo Movimiento</th>
                             <th>Estado</th>
-                            <th>Fecha estudio</th>
-                            <th>Practica</th>
+                            <th>Descripcion Movimiento</th>
                             <th>Monto</th>
                             <th>Monto acumulado</th>
-                            <th>Descripcion Movimiento</th>
-                            <th>Fecha Movimiento</th>
-                            <th>Tipo Movimiento</th>
-                            <th>Paciente</th>
+                            <th>Fecha estudio</th>
                             <th>Obra social</th>
+                            <th>Practica</th>
+                            <th>Paciente</th>
                             <th>Medico</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            [1, 2, 3, 4, 5, 6].map(movNum =>
+                            this.props.movimientos.map(movimiento =>
                                 (
                                     <ListadoMovimientosTableRow
-                                      key={ movNum }
-                                      movimiento={ movNum }
+                                      key={ movimiento.id }
+                                      movimiento={ movimiento }
                                     />
                                 ))
                         }
@@ -43,4 +50,24 @@ class ListadoMovimientosTable extends Component {
     }
 }
 
-export default ListadoMovimientosTable;
+const { array, func } = propTypes;
+
+ListadoMovimientosTable.propTypes = {
+    movimientos: array.isRequired,
+    fetchMovimientosCaja: func.isRequired,
+};
+
+function mapStateToProps(state) {
+    return {
+        movimientos: state.cajaReducer.movimientos,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        fetchMovimientosCaja: () =>
+            dispatch({ type: FETCH_MOVIMIENTOS_CAJA }),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListadoMovimientosTable);
