@@ -9,6 +9,7 @@ class ListadoMovimientosTableRow extends Component {
         const montoAcumulado = movimiento.monto_acumulado;
         const descripcionMovimiento = movimiento.concepto;
         const fechaMovimiento = movimiento.fecha;
+        const horaMovimiento = movimiento.hora;
         const tipoMovimiento = movimiento.tipo
             ? movimiento.tipo.descripcion
             : '--';
@@ -27,7 +28,7 @@ class ListadoMovimientosTableRow extends Component {
             : '--';
         return (
             <tr>
-                <td>{ fechaMovimiento }</td>
+                <td>{ fechaMovimiento } {horaMovimiento}</td>
                 <td> -- </td>
                 <td>{ tipoMovimiento }</td>
                 <td>{ estadoLabel }</td>
