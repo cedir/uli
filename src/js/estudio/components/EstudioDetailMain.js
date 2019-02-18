@@ -13,6 +13,7 @@ import { FETCH_PACIENTES } from '../../paciente/actionTypes';
 import { FETCH_PRACTICAS } from '../../practica/actionTypes';
 import { UPDATE_ESTUDIO, CREATE_ESTUDIO } from '../../estudio/actionTypes';
 import { ESTADOS, ANESTESIA_SIN_ANESTESISTA } from '../constants';
+import { config } from '../../app/config';
 
 import { requiredOption, alphaNum, required } from '../../utilities/reduxFormValidators';
 // import { stat } from 'fs';
@@ -26,8 +27,8 @@ function initEditFormObject(estudio) {
         paciente: estudio.paciente ? [estudio.paciente] : undefined,
         fecha: estudio.fecha,
         practica: estudio.practica ? [estudio.practica] : undefined,
-        informe: estudio.informe,
-        motivo: estudio.motivo,
+        informe: estudio.informe !== 'undefined' ? estudio.informe : '',
+        motivo: estudio.motivo !== 'undefined' ? estudio.motivo : '',
     };
 }
 
@@ -489,6 +490,16 @@ class EstudioDetailMain extends Component {
                       component={ InputRF }
                     />
                     <div className='pull-right'>
+                        { this.props.estudioDetailFormMode === 'edit' && <a
+                          className='btn btn-default'
+                          href={ `${config.baseUrl}/estudio/${this.props.estudioDetail.id}/imprimir/` }
+                          target='_blank'
+                          rel='noopener noreferrer'
+                          role='button'
+                        >
+                            Imprimir
+                        </a>
+                        }
                         { this.props.estudioDetailFormMode === 'edit' && <Button
                           onClick={ this.cloneEstudio }
                         >

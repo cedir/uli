@@ -14,8 +14,13 @@ import EstudiosPage from '../estudio/EstudiosPage';
 import EstudioDetailPage from '../estudio/components/EstudioDetailPage';
 import PagoAnestesistaPage from '../anestesista/PagoAnestesistaPage';
 import CreateEstudio from '../estudio/components/CreateEstudio';
+import PagoMedicos from '../estudio/components/PagoMedicos';
 import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
+import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
+import CajaMain from '../caja/components/CajaMain';
+
 import AlertComponent from '../utilities/components/alert/AlertComponent';
+import './app.css';
 
 class App extends React.Component {
 
@@ -56,50 +61,67 @@ class App extends React.Component {
                   location={ this.props.location }
                 />
                 <div id={ this.inLoginPage() ? 'login' : 'page-wrapper' } className={ wrapperClass }>
-                    <ConditionalComponent
-                      component={ Header }
-                      display={ !this.inLoginPage() }
-                      history={ this.props.history }
-                    />
-                    <PrivateRoute
-                      exact
-                      path='/'
-                      component={ HomePage }
-                      authenticated={ !!this.props.token }
-                    />
-                    <PrivateRoute
-                      path='/home'
-                      component={ HomePage }
-                      authenticated={ !!this.props.token }
-                    />
-                    <PrivateRoute
-                      exact
-                      path='/estudios'
-                      component={ EstudiosPage }
-                      authenticated={ !!this.props.token }
-                    />
-                    <PrivateRoute
-                      exact
-                      path='/estudios/detail/:id'
-                      component={ EstudioDetailPage }
-                      authenticated={ !!this.props.token }
-                    />
-                    <PrivateRoute
-                      exact
-                      path='/estudios/create'
-                      component={ CreateEstudio }
-                      authenticated={ !!this.props.token }
-                    />
-                    <PrivateRoute
-                      path='/anestesistas/pago'
-                      component={ PagoAnestesistaPage }
-                      authenticated={ !!this.props.token }
-                    />
-                    <PrivateRoute
-                      path='/presentaciones-obras-sociales'
-                      component={ PresentacionesObraSocialPage }
-                      authenticated={ !!this.props.token }
-                    />
+                    <div className='components-wrapper'>
+                        <ConditionalComponent
+                          component={ Header }
+                          display={ !this.inLoginPage() }
+                          history={ this.props.history }
+                        />
+                        <PrivateRoute
+                          exact
+                          path='/'
+                          component={ HomePage }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          path='/home'
+                          component={ HomePage }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          exact
+                          path='/estudios'
+                          component={ EstudiosPage }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          exact
+                          path='/estudios/detail/:id'
+                          component={ EstudioDetailPage }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          exact
+                          path='/estudios/create'
+                          component={ CreateEstudio }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          path='/anestesistas/pago'
+                          component={ PagoAnestesistaPage }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          path='/presentaciones-obras-sociales'
+                          component={ PresentacionesObraSocialPage }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          path='/caja/main'
+                          component={ CajaMain }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          path='/listado-informe-comprobantes'
+                          component={ ListadoInformeComprobantes }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          path='/medicos/pago'
+                          component={ PagoMedicos }
+                          authenticated={ !!this.props.token }
+                        />
+                    </div>
                     <Route path='/login' component={ Login } />
                     <Footer />
                     <AlertComponent />

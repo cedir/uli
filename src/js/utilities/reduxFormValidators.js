@@ -6,7 +6,7 @@ import constants from './constants';
 const { dniLength } = constants.validations;
 
 export function required(value) {
-    const valCopy = typeof value === 'undefined' ? '' : value;
+    const valCopy = typeof value === 'undefined' ? '' : `${value}`;
     return isEmpty(valCopy) ? 'Campo requerido' : undefined;
 }
 
@@ -36,18 +36,20 @@ export function dni(value) {
 
 export function dateBeforeThan(fieldToCompareName, errorMessage) {
     return (value, allValues) => {
+        const valCopy = typeof value === 'undefined' ? '' : `${value}`;
         const otherDate = allValues[fieldToCompareName];
-        const isBefore = !otherDate || moment(value).isBefore(otherDate) ||
-            moment(value).isSame(otherDate);
-        return isEmpty(value) || isBefore ? undefined : (errorMessage || 'El periodo es invalido');
+        const isBefore = !otherDate || moment(valCopy).isBefore(otherDate) ||
+            moment(valCopy).isSame(otherDate);
+        return isEmpty(valCopy) || isBefore ? undefined : (errorMessage || 'El periodo es invalido');
     };
 }
 export function dateAfterThan(fieldToCompareName, errorMessage) {
     return (value, allValues) => {
+        const valCopy = typeof value === 'undefined' ? '' : `${value}`;
         const otherDate = allValues[fieldToCompareName];
-        const isAfter = !otherDate || moment(value).isAfter(otherDate) ||
-            moment(value).isSame(otherDate);
-        return isEmpty(value) || isAfter ? undefined : (errorMessage || 'El periodo es invalido');
+        const isAfter = !otherDate || moment(valCopy).isAfter(otherDate) ||
+            moment(valCopy).isSame(otherDate);
+        return isEmpty(valCopy) || isAfter ? undefined : (errorMessage || 'El periodo es invalido');
     };
 }
 

@@ -1,4 +1,6 @@
+// import Rx from 'rxjs';
 import { get, update, post } from '../utilities/rest';
+
 
 function createSearchQueryString(fetchEstudiosParams) {
     const { fechaDesde = '', fechaHasta = '', obraSocial = '', dniPaciente = '',
@@ -27,6 +29,11 @@ export function getEstudios(fetchEstudiosParams) {
     return get(url);
 }
 
+export function getEstudiosImpagos(medico) {
+    const url = `/api/medico/${medico.id}/get_estudios_pendientes_de_pago/`;
+    return get(url);
+}
+
 export function getEstudio(estudioId) {
     const url = `/api/estudio/${estudioId}/`;
 
@@ -43,8 +50,8 @@ export function updateEstudio(estudio) {
         anestesista: estudio.anestesista[0].id,
         practica: estudio.practica[0].id,
         obra_social: estudio.obraSocial[0].id,
-        motivo: estudio.motivo,
-        informe: estudio.informe,
+        motivo: estudio.motivo || '',
+        informe: estudio.informe || '',
     };
 
     return update(url, body);
@@ -60,9 +67,17 @@ export function createEstudio(estudio) {
         anestesista: estudio.anestesista[0].id,
         practica: estudio.practica[0].id,
         obra_social: estudio.obraSocial[0].id,
-        motivo: estudio.motivo,
-        informe: estudio.informe,
+        motivo: estudio.motivo || '',
+        informe: estudio.informe || '',
     };
 
     return post(url, body);
+}
+
+export function createPagoAMedico(pago) {
+    const url = '/api/pago-medico/';
+
+    return post(url, pago);
+    // console.log(pago);
+    // return Rx.Observable.of(true);
 }

@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Navigation extends Component {
-
-    // componentDidMount() {
-    //     $('#side-menu').metisMenu();
-    // }
     constructor(props) {
         super(props);
 
         this.activeRoute = this.activeRoute.bind(this);
         this.secondLevelActive = this.secondLevelActive.bind(this);
+    }
+
+    componentDidMount() {
+        $('#side-menu').metisMenu();
     }
 
     activeRoute(routeName) {
@@ -47,6 +47,24 @@ class Navigation extends Component {
                         <Link to='/presentaciones-obras-sociales'>
                             <i className='fa fa-heartbeat' />
                             <span className='nav-label'>Presentaciones</span>
+                        </Link>
+                    </li>
+                    <li className={ this.activeRoute('/caja/main') }>
+                        <Link to='/caja/main'>
+                            <i className='fa fa-heartbeat' />
+                            <span className='nav-label'>Caja</span>
+                        </Link>
+                    </li>
+                    <li className={ this.activeRoute('/listado-informe-comprobantes') }>
+                        <Link to='/listado-informe-comprobantes'>
+                            <i className='fa fa-heartbeat' />
+                            <span className='nav-label'>Comprobantes</span>
+                        </Link>
+                    </li>
+                    <li className={ this.activeRoute('/medicos/pago') }>
+                        <Link to='/medicos/pago'>
+                            <i className='fa fa-heartbeat' />
+                            <span className='nav-label'>Pago Medicos</span>
                         </Link>
                     </li>
                 </ul>
