@@ -17,6 +17,8 @@ import CreateEstudio from '../estudio/components/CreateEstudio';
 import PagoMedicos from '../estudio/components/PagoMedicos';
 import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
 import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
+import CajaMain from '../caja/components/CajaMain';
+
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
 
@@ -102,6 +104,11 @@ class App extends React.Component {
                         <PrivateRoute
                           path='/presentaciones-obras-sociales'
                           component={ PresentacionesObraSocialPage }
+                          authenticated={ !!this.props.token }
+                        />
+                        <PrivateRoute
+                          path='/caja/main'
+                          component={ CajaMain }
                           authenticated={ !!this.props.token }
                         />
                         <PrivateRoute

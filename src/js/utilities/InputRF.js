@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, FormControl }
     from 'react-bootstrap';
+import uuidv1 from 'uuid/v1';
 
 class InputRF extends React.Component {
     render() {
@@ -73,7 +74,7 @@ class InputRF extends React.Component {
                                 <option key={ key } value={ value }>{optionDisplay}</option>
                             );
                         });
-                        options.unshift(<option key={ '--' } value={ null }>--</option>);
+                        options.unshift(<option key={ uuidv1() } value={ null }>--</option>);
                         return options;
                     })()
                     }
