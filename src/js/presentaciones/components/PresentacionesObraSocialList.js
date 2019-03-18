@@ -18,7 +18,7 @@ class PresentacionesObraSocialList extends Component {
                             <th>Obra Social</th>
                             <th>Total Facturado</th>
                             <th>Total Cobrado</th>
-                            <th>Presentacion digital (formato OSDE)</th>
+                            <th>Descarga formato Digital</th>
                         </tr>
                     </thead>
                     <tbody>
