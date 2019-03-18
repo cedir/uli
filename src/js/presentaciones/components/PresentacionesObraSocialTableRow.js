@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { getPresentacionFormatoOsde } from '../api';
+import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
 
 class PresentacionesObraSocialTableRow extends Component {
     constructor(props) {
         super(props);
 
-        this.downloadPresentacionDigitalFormat =
-            this.downloadPresentacionDigitalFormat.bind(this);
+        this.downloadPresentacionDigitalOsde =
+            this.downloadPresentacionDigitalOsde.bind(this);
+
+        this.downloadPresentacionDigitalAmr =
+            this.downloadPresentacionDigitalAmr.bind(this);
     }
 
-    downloadPresentacionDigitalFormat() {
+    downloadPresentacionDigitalOsde() {
         getPresentacionFormatoOsde(this.props.presentacion);
+    }
+
+    downloadPresentacionDigitalAmr() {
+        getPresentacionFormatoAMR(this.props.presentacion);
     }
 
     render() {
@@ -32,9 +39,16 @@ class PresentacionesObraSocialTableRow extends Component {
                 <td>
                     <a
                       href='#'
-                      onClick={ this.downloadPresentacionDigitalFormat }
+                      onClick={ this.downloadPresentacionDigitalOsde }
                     >
-                        Descargar Formato Digital
+                        Osde
+                    </a>
+                    <span>&nbsp;|&nbsp;</span>
+                    <a
+                      href='#'
+                      onClick={ this.downloadPresentacionDigitalAmr }
+                    >
+                        AMR
                     </a>
                 </td>
             </tr>
