@@ -15,13 +15,12 @@ class ListadoInformeComprobantesTable extends Component {
                         <tr>
                             <th>Tipo</th>
                             <th>Nro</th>
-                            <th>Estado</th>
                             <th>Fecha</th>
                             <th>Cliente</th>
-                            <th>Total Facturado</th>
-                            <th>Total Cobrado</th>
                             <th>Neto</th>
                             <th>IVA</th>
+                            <th>Total Facturado</th>
+                            <th>Total Cobrado</th>
                             <th>Honorarios</th>
                             <th>Retencion Impositiva</th>
                             <th>Retencion Cedir(GA)</th>
