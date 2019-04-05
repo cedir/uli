@@ -7,6 +7,7 @@ class ListadoInformeComprobantesTableRow extends Component {
             <tr onClick={ this.onRowClick }>
                 <td>{ this.props.comprobante.tipo_comprobante.nombre }</td>
                 <td>{ this.props.comprobante.numero }</td>
+                <td>{ this.props.comprobante.responsable}</td>
                 <td>{ this.props.comprobante.fecha_emision }</td>
                 <td>{ this.props.comprobante.nombre_cliente }</td>
                 <td>{ this.props.comprobante.importe_gravado_afip }</td>

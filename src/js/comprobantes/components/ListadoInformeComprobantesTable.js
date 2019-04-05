@@ -15,6 +15,7 @@ class ListadoInformeComprobantesTable extends Component {
                         <tr>
                             <th>Tipo</th>
                             <th>Nro</th>
+                            <th>Responsable</th>
                             <th>Fecha</th>
                             <th>Cliente</th>
                             <th>Neto</th>
