@@ -23,8 +23,8 @@ class ListadoInformeComprobantesTable extends Component {
                             <th>Total Facturado</th>
                             <th>Total Cobrado</th>
                             <th>Honorarios</th>
-                            <th>Retencion Impositiva</th>
-                            <th>Retencion Cedir(GA)</th>
+                            <th>Retencion Impositiva (GA)</th>
+                            <th>Retencion Cedir</th>
                             <th>Sala de Recuperacion</th>
                             <th>Retencion Anestesia</th>
                             <th>Medicamentos</th>
