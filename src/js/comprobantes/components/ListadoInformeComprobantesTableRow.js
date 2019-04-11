@@ -10,8 +10,8 @@ class ListadoInformeComprobantesTableRow extends Component {
                 <td>{ this.props.comprobante.responsable}</td>
                 <td>{ this.props.comprobante.fecha_emision }</td>
                 <td>{ this.props.comprobante.nombre_cliente }</td>
-                <td>{ this.props.comprobante.importe_gravado_afip }</td>
-                <td>{ this.props.comprobante.importe_alicuota_afip }</td>
+                <td>{ this.props.comprobante.neto }</td>
+                <td>{ this.props.comprobante.iva }</td>
                 <td>{ this.props.comprobante.total_facturado }</td>
                 <td>{ this.props.comprobante.total_cobrado }</td>
                 <td>{ this.props.comprobante.honorarios_medicos }</td>
@@ -19,6 +19,7 @@ class ListadoInformeComprobantesTableRow extends Component {
                 <td>{ this.props.comprobante.retencion_cedir }</td>
                 <td>{ this.props.comprobante.sala_recuperacion }</td>
                 <td>{ this.props.comprobante.honorarios_anestesistas}</td>
+                <td>{ this.props.comprobante.retencion_anestesia}
                 <td>{ this.props.comprobante.total_medicamentos }</td>
                 <td>{ this.props.comprobante.total_material_especifico }</td>
             </tr>

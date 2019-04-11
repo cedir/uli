@@ -26,6 +26,7 @@ class ListadoInformeComprobantesTable extends Component {
                             <th>Retencion Impositiva (GA)</th>
                             <th>Retencion Cedir</th>
                             <th>Sala de Recuperacion</th>
+                            <th>Honorarios Anestesistas</th>
                             <th>Retencion Anestesia</th>
                             <th>Medicamentos</th>
                             <th>Material Especifico</th>
