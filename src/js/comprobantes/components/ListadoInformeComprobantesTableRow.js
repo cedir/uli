@@ -19,7 +19,7 @@ class ListadoInformeComprobantesTableRow extends Component {
                 <td>{ this.props.comprobante.retencion_cedir }</td>
                 <td>{ this.props.comprobante.sala_recuperacion }</td>
                 <td>{ this.props.comprobante.honorarios_anestesistas}</td>
-                <td>{ this.props.comprobante.retencion_anestesia}
+                <td>{ this.props.comprobante.retencion_anestesia}</td>
                 <td>{ this.props.comprobante.total_medicamentos }</td>
                 <td>{ this.props.comprobante.total_material_especifico }</td>
             </tr>
