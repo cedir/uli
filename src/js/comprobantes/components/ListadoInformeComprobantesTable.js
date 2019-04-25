@@ -10,10 +10,14 @@ function comprobantesSort(comprobantes) {
     function sortBy(a, b) {
         const porResponsable = (a.responsable && b.responsable) ?
             a.responsable.localeCompare(b.responsable) : 0;
+        const porSubtipo = (a.sub_tipo && b.sub_tipo) ?
+            a.sub_tipo.localeCompare(b.sub_tipo) : 0;
         const porTipo = a.tipo_comprobante.nombre.localeCompare(b.tipo_comprobante.nombre);
         const porNumero = a.numero - b.numero;
         if (porResponsable) {
             return porResponsable;
+        } else if (porSubtipo) {
+            return porSubtipo;
         } else if (porTipo) {
             return porTipo;
         } else if (porNumero) {
