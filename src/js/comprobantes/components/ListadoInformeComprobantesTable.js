@@ -8,11 +8,12 @@ import './ListadoInformeComprobantesTable.css';
 
 function comprobantesSort(comprobantes) {
     function sortBy(a, b) {
+        const aEsLiquidacion = (a.responsable ? -1 : 1);
         const porResponsable = (a.responsable && b.responsable) ?
-            a.responsable.localeCompare(b.responsable) : 0;
+            a.responsable.localeCompare(b.responsable) : aEsLiquidacion;
         const porSubtipo = (a.sub_tipo && b.sub_tipo) ?
             a.sub_tipo.localeCompare(b.sub_tipo) : 0;
-        const porTipo = a.tipo_comprobante.nombre.localeCompare(b.tipo_comprobante.nombre);
+        const porTipo = b.tipo_comprobante.nombre.localeCompare(a.tipo_comprobante.nombre);
         const porNumero = a.numero - b.numero;
         if (porResponsable) {
             return porResponsable;
