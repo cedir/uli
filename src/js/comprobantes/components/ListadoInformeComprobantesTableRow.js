@@ -5,7 +5,8 @@ class ListadoInformeComprobantesTableRow extends Component {
     render() {
         return (
             <tr onClick={ this.onRowClick }>
-                <td>{ this.props.comprobante.tipo_comprobante.nombre }</td>
+                <td>{ this.props.comprobante.sub_tipo ? `${this.props.comprobante.tipo_comprobante.nombre} ${this.props.comprobante.sub_tipo}`
+                      : this.props.comprobante.tipo_comprobante.nombre }</td>
                 <td>{ this.props.comprobante.numero }</td>
                 <td>{ this.props.comprobante.responsable}</td>
                 <td>{ this.props.comprobante.fecha_emision }</td>
