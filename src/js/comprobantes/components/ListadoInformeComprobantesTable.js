@@ -6,6 +6,29 @@ import { Table }
 import ListadoInformeComprobantesTableRow from './ListadoInformeComprobantesTableRow';
 import './ListadoInformeComprobantesTable.css';
 
+function comprobantesSort(comprobantes) {
+    function sortBy(a, b) {
+        const aEsLiquidacion = (a.responsable ? -1 : 1);
+        const porResponsable = (a.responsable && b.responsable) ?
+            a.responsable.localeCompare(b.responsable) : aEsLiquidacion;
+        const porSubtipo = (a.sub_tipo && b.sub_tipo) ?
+            a.sub_tipo.localeCompare(b.sub_tipo) : 0;
+        const porTipo = b.tipo_comprobante.nombre.localeCompare(a.tipo_comprobante.nombre);
+        const porNumero = a.numero - b.numero;
+        if (porResponsable) {
+            return porResponsable;
+        } else if (porSubtipo) {
+            return porSubtipo;
+        } else if (porTipo) {
+            return porTipo;
+        } else if (porNumero) {
+            return porNumero;
+        }
+        return a;
+    }
+    return comprobantes.sort(sortBy);
+}
+
 class ListadoInformeComprobantesTable extends Component {
     render() {
         return (
@@ -34,7 +57,7 @@ class ListadoInformeComprobantesTable extends Component {
                     </thead>
                     <tbody>
                         {
-                            this.props.comprobantes.map(comprobante =>
+                            comprobantesSort(this.props.comprobantes).map(comprobante =>
                                 (
                                     <ListadoInformeComprobantesTableRow
                                       key={ comprobante.id }
