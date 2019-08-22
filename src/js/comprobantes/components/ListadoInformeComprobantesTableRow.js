@@ -14,7 +14,6 @@ class ListadoInformeComprobantesTableRow extends Component {
                 <td>{ this.props.comprobante.neto }</td>
                 <td>{ this.props.comprobante.iva }</td>
                 <td>{ this.props.comprobante.total_facturado }</td>
-                <td>{ this.props.comprobante.total_cobrado }</td>
                 <td>{ this.props.comprobante.honorarios_medicos }</td>
                 <td>{ this.props.comprobante.honorarios_solicitantes }</td>
                 <td>{ this.props.comprobante.uso_de_materiales }</td>
