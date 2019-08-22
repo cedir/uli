@@ -44,7 +44,6 @@ class ListadoInformeComprobantesTable extends Component {
                             <th>Neto</th>
                             <th>IVA</th>
                             <th>Total Facturado</th>
-                            <th>Total Cobrado</th>
                             <th>Honorarios</th>
                             <th>Honorarios Solicitantes</th>
                             <th>Uso de Materiales</th>
