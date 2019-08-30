@@ -1,10 +1,10 @@
 import Rx from 'rxjs';
 import { destroy } from 'redux-form';
-import { getEstudios, updateEstudio, createEstudio, getEstudiosImpagos, createPagoAMedico } from './api';
+import { getEstudios, updateEstudio, createEstudio, getEstudiosImpagos, createPagoAMedico, actualizaImportesEstudio } from './api';
 import { FETCH_ESTUDIOS_DIARIOS, LOAD_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     UPDATE_ESTUDIO, ERROR_UPDATING_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
     FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS, SEND_PAGO_MEDICO, PAGO_MEDICO_SUCCESS,
-    PAGO_MEDICO_ERROR }
+    PAGO_MEDICO_ERROR, ACTULIZA_IMPORTES_ESTUDIO }
     from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
@@ -71,3 +71,15 @@ export function pagoAMedicoEpic(action$) {
             ))),
         );
 }
+
+export function actualizaImportesEstudioEpic(action$) {
+    return action$.ofType(ACTULIZA_IMPORTES_ESTUDIO)
+        .mergeMap(action =>
+            actualizaImportesEstudio(action.estudio)
+            .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados') }))
+            .catch(() => (Rx.Observable.of({
+                type: ERROR_UPDATING_ESTUDIO,
+            }))),
+        );
+}
+

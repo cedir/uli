@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 class DetalleFacturacionEstudio extends React.Component {
 
     render() {
+        const { presentacion } = this.props.estudioDetail;
         return (
             <div>
                 <h4 style={ { marginTop: '25px' } }>Presentacion</h4>
@@ -14,7 +15,7 @@ class DetalleFacturacionEstudio extends React.Component {
 
                 <h4 style={ { marginTop: '25px' } }>Comprobante</h4>
                 <span style={ { fontWeight: 'bold' } }>Nro: </span>
-                <span>{this.props.estudioDetail.presentacion.comprobante.numero}</span>
+                <span> {presentacion ? this.props.estudioDetail.presentacion.comprobante.numero : ''}</span>
             </div>
         );
     }

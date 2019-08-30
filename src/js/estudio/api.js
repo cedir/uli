@@ -1,5 +1,4 @@
-// import Rx from 'rxjs';
-import { get, update, post } from '../utilities/rest';
+import { get, update, post, patch } from '../utilities/rest';
 
 
 function createSearchQueryString(fetchEstudiosParams) {
@@ -72,6 +71,15 @@ export function createEstudio(estudio) {
     };
 
     return post(url, body);
+}
+
+export function actualizaImportesEstudio(estudio) {
+    const url = `/api/estudio/${estudio.id}/update_importes_y_pago_contra_factura/`;
+    const body = {
+        importe: estudio.importe,
+    };
+
+    return patch(url, body);
 }
 
 export function createPagoAMedico(pago) {
