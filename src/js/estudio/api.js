@@ -73,10 +73,13 @@ export function createEstudio(estudio) {
     return post(url, body);
 }
 
-export function actualizaImportesEstudio(estudio) {
-    const url = `/api/estudio/${estudio.id}/update_importes_y_pago_contra_factura/`;
+export function actualizaImportesEstudio(importes) {
+    const url = `/api/estudio/${importes.estudio_id}/update_importes_y_pago_contra_factura/`;
     const body = {
-        importe: estudio.importe,
+        pension: importes.pension,
+        diferencia_paciente: importes.diferencia_paciente,
+        arancel_anestesia: importes.arancel_anestesia,
+        pago_contra_factura: importes.pago_contra_factura,
     };
 
     return patch(url, body);

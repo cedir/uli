@@ -43,7 +43,7 @@ class MedicacionEstudiosTable extends React.Component {
         return (
             <div>
                 { this.props.medicaciones.length === 0 &&
-                    <h5>No hay medicaciones para este estudio</h5>
+                    <h5>No hay medicaciones cargadas para este estudio</h5>
                 }
                 { this.props.medicaciones.length > 0 && <div id='medic'>
                     <Table

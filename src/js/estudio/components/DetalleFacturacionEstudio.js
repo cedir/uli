@@ -7,15 +7,38 @@ class DetalleFacturacionEstudio extends React.Component {
 
     render() {
         const { presentacion } = this.props.estudioDetail;
+        const comprobante = presentacion ? this.props.estudioDetail.presentacion.comprobante : null;
+
+        if (presentacion) {
+            return (
+                <div>
+                    <h4 style={ { marginTop: '25px' } }>Presentacion</h4>
+                    <span style={ { fontWeight: 'bold' } }>Fecha: </span>
+                    <span>{presentacion.fecha}</span> &nbsp;
+                    <span style={ { fontWeight: 'bold' } }>Estado: </span>
+                    <span>{presentacion.estado}</span>&nbsp;
+                    <div>
+                        <span style={ { fontWeight: 'bold' } }>Periodo: </span>
+                        <span>{presentacion.periodo}</span>
+                    </div>
+
+                    <h4 style={ { marginTop: '25px' } }>Comprobante</h4>
+                    <span style={ { fontWeight: 'bold' } }>
+                        {comprobante.tipo_comprobante.nombre} &quot;{comprobante.sub_tipo}&quot;
+                    </span>
+                    <span>
+                        &nbsp;nro {comprobante.numero} - {comprobante.responsable}
+                    </span>
+                    <div>
+                        <span style={ { fontWeight: 'bold' } }>Fecha de emision: </span>
+                        <span>{comprobante.fecha_emision}</span>
+                    </div>
+                </div>
+            );
+        }
         return (
             <div>
-                <h4 style={ { marginTop: '25px' } }>Presentacion</h4>
-                <span style={ { fontWeight: 'bold' } }>Nro: </span>
-                <span>{this.props.estudioDetail.fecha}</span>
-
-                <h4 style={ { marginTop: '25px' } }>Comprobante</h4>
-                <span style={ { fontWeight: 'bold' } }>Nro: </span>
-                <span> {presentacion ? this.props.estudioDetail.presentacion.comprobante.numero : ''}</span>
+                <span>El estudio no fue presentado a&uacute;n</span>
             </div>
         );
     }

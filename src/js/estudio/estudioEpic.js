@@ -75,10 +75,10 @@ export function pagoAMedicoEpic(action$) {
 export function actualizaImportesEstudioEpic(action$) {
     return action$.ofType(ACTULIZA_IMPORTES_ESTUDIO)
         .mergeMap(action =>
-            actualizaImportesEstudio(action.estudio)
+            actualizaImportesEstudio(action.importes)
             .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados') }))
             .catch(() => (Rx.Observable.of({
-                type: ERROR_UPDATING_ESTUDIO,
+                type: ADD_ALERT, alert: createAlert('Error al actualizar importes', 'danger'),
             }))),
         );
 }

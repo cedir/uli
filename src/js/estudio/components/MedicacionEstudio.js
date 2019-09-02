@@ -9,7 +9,7 @@ class MedicacionEstudio extends React.Component {
         return (
             <div>
                 <AddMedicamentosForm />
-                <h4 style={ { marginTop: '25px' } }>Medicacion Requerida</h4>
+                <h4 style={ { marginTop: '25px' } }>Medicacion Seleccionada</h4>
                 <MedicacionEstudioTable />
             </div>
         );
