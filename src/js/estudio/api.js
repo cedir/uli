@@ -1,5 +1,4 @@
-// import Rx from 'rxjs';
-import { get, update, post } from '../utilities/rest';
+import { get, update, post, patch } from '../utilities/rest';
 
 
 function createSearchQueryString(fetchEstudiosParams) {
@@ -72,6 +71,18 @@ export function createEstudio(estudio) {
     };
 
     return post(url, body);
+}
+
+export function actualizaImportesEstudio(importes) {
+    const url = `/api/estudio/${importes.estudio_id}/update_importes_y_pago_contra_factura/`;
+    const body = {
+        pension: importes.pension,
+        diferencia_paciente: importes.diferencia_paciente,
+        arancel_anestesia: importes.arancel_anestesia,
+        pago_contra_factura: importes.pago_contra_factura,
+    };
+
+    return patch(url, body);
 }
 
 export function createPagoAMedico(pago) {

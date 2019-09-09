@@ -274,7 +274,6 @@ class EstudioDetailMain extends Component {
         const estadoPresentacion = presentacion ? presentacion.estado : undefined;
         const lockEstudioEdition =
             (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
-        // const { selectedPaciente } = this.props;
         return (
             <div className='estudio-detail-main' style={ { marginBottom: '20px' } }>
                 <form

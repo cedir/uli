@@ -5,6 +5,8 @@ import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { isEmpty } from 'lodash';
 import EstudioDetailMain from './EstudioDetailMain';
 import MedicacionEstudio from './MedicacionEstudio';
+import DetalleFacturacionEstudio from './DetalleFacturacionEstudio';
+import ImportesEstudio from './ImportesEstudio';
 import { FETCH_ESTUDIO_DETAIL, RESET_ESTUDIO_DETAIL } from '../actionTypes';
 import { FETCH_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
 
@@ -36,11 +38,14 @@ class EstudioDetailPage extends React.Component {
                         />
                     </Col>
                     <Col md={ 4 } style={ { border: 'none' } }>
-                        <h3 style={ { marginBottom: '25px' } } >Facturacion</h3>
-                    </Col>
-                    <Col md={ 4 } style={ { border: 'none' } }>
                         <h3 style={ { marginBottom: '25px' } } >Medicacion</h3>
                         <MedicacionEstudio />
+                    </Col>
+                    <Col md={ 4 } style={ { border: 'none' } }>
+                        <h3 style={ { marginBottom: '25px' } } >Facturacion</h3>
+                        <DetalleFacturacionEstudio />
+                        <h3 style={ { marginTop: '25px' } } >Importes</h3>
+                        <ImportesEstudio />
                     </Col>
                 </Row> }
             </div>
