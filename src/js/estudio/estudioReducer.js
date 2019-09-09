@@ -108,7 +108,7 @@ export function estudioReducer(state = initialState, action) {
         case FETCH_OBRAS_SOCIALES:
         case UPDATE_ESTUDIO:
         case CREATE_ESTUDIO:
-        case ACTULIZA_IMPORTES_ESTUDIO:  // TODO: ver si esto esta bien??
+        case ACTULIZA_IMPORTES_ESTUDIO:
         case FETCH_ESTUDIOS_IMPAGOS:
             return actionsHandledByEpicReducer(state, action);
         case LOAD_ESTUDIOS_DIARIOS:
