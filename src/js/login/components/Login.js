@@ -62,9 +62,9 @@ class Login extends React.Component {
                         <h1 className='logo-name'>IN+</h1>
 
                     </div>
-                    <h3>Bienvenido a ULI</h3>
+                    <h3>Bienvenida/o a ULI</h3>
                     <p>
-                        App desarrollada para C.E.D.I.R
+                        App desarrollada por C.E.Di.R
                     </p>
                     <p>Logueate para comenzar.</p>
                     <form className='m-t' onSubmit={ this.submitHandler } >

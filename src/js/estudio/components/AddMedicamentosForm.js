@@ -88,13 +88,14 @@ class AddMedicamentosForm extends Component {
                       type='submit'
                       bsStyle='primary'
                       style={ { marginRight: '12px' } }
-                      disabled={ !(medicamentoIsSelected && importe) }
+                      disabled={ !(medicamentoIsSelected && importe && !lockEstudioEdition) }
                     >
-                        Agregar a estudio
+                        Agregar
                     </Button>
                     <Button
                       bsStyle='primary'
                       onClick={ this.addDefaultMedicacionToEstudio }
+                      disabled={ lockEstudioEdition }
                     >
                         Medicacion Por defecto
                     </Button>

@@ -68,6 +68,19 @@ export function update(partialUrl, body, customHeaders = {}) {
     });
 }
 
+export function patch(partialUrl, body, customHeaders = {}) {
+    const defaultHeaders = getDefaultHeaders();
+    const url = `${baseUrl}${partialUrl}`;
+
+    const headers = Object.assign(defaultHeaders, customHeaders);
+    return Rx.Observable.ajax({
+        method: 'PATCH',
+        url,
+        body,
+        headers,
+    });
+}
+
 export function remove(partialUrl) {
     const defaultHeaders = getDefaultHeaders();
     const url = `${baseUrl}${partialUrl}`;
