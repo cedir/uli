@@ -23,7 +23,7 @@ class EstudioListTableRow extends React.Component {
 
         return (
             <tr onClick={ this.onRowClick } style={ { cursor: 'pointer' } }>
-                <td>{ this.props.estudio.fecha }</td>
+                <td>{ new Date(this.props.estudio.fecha).toLocaleDateString() }</td>
                 <td>{ `${paciente.apellido}, ${paciente.nombre}` }</td>
                 <td>{ obraSocial.nombre }</td>
                 <td>{ practica.descripcion }</td>
