@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+function formatDate(dateString) {
+    const d = new Date(dateString);
+    return `${d.getUTCDate()}/${d.getUTCMonth()}/${d.getUTCFullYear()}`;
+}
+
 class EstudioListTableRow extends React.Component {
     constructor(props) {
         super(props);
@@ -23,7 +28,7 @@ class EstudioListTableRow extends React.Component {
 
         return (
             <tr onClick={ this.onRowClick } style={ { cursor: 'pointer' } }>
-                <td>{ this.props.estudio.fecha }</td>
+                <td>{ formatDate(this.props.estudio.fecha) }</td>
                 <td>{ `${paciente.apellido}, ${paciente.nombre}` }</td>
                 <td>{ obraSocial.nombre }</td>
                 <td>{ practica.descripcion }</td>
