@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function formatDate(dateString) {
     const d = new Date(dateString);
-    return `${d.getUTCDate()}/${d.getUTCMonth()}/${d.getUTCFullYear()}`;
+    return `${d.getUTCDate()}/${d.getUTCMonth() + 1}/${d.getUTCFullYear()}`;
 }
 
 class EstudioListTableRow extends React.Component {
