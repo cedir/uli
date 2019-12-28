@@ -1,7 +1,5 @@
 import initialState from './comprobantesReducuerInitialState';
-import { FETCH_COMPROBANTES_PAGO,
-    LOAD_COMPROBANTES_PAGO,
-    LOAD_COMPROBANTES_PAGO_ERROR } from './actionTypes';
+import * as types from './actionTypes';
 
 const actionsHandledByEpicReducer = (state) => {
     const newState = {};
@@ -27,14 +25,31 @@ const loadComprobantesErrorReducer = (state) => {
     return newState;
 };
 
+const loadComprobantesAsociadosReducer = (state, action) => ({
+    ...state,
+    comprobantes_lista: action.data.response.results,
+    comprobantesApiLoading: false,
+});
+
+const loadComprobantesAsociadosErrorReducer = state => ({
+    ...state,
+    comprobantesLista: initialState.comprobantesLista,
+    comprobantesApiLoading: false,
+});
+
 export function comprobantesReducer(state = initialState, action) {
     switch (action.type) {
-        case FETCH_COMPROBANTES_PAGO:
+        case types.FETCH_COMPROBANTES_PAGO:
+        case types.FETCH_COMPROBANTES_LISTA:
             return actionsHandledByEpicReducer(state);
-        case LOAD_COMPROBANTES_PAGO:
+        case types.LOAD_COMPROBANTES_PAGO:
             return loadComprobantesReducer(state, action);
-        case LOAD_COMPROBANTES_PAGO_ERROR:
+        case types.LOAD_COMPROBANTES_PAGO_ERROR:
             return loadComprobantesErrorReducer(state);
+        case types.LOAD_COMPROBANTES_LISTA_SUCCESS:
+            return loadComprobantesAsociadosReducer(state, action);
+        case types.LOAD_COMPROBANTES_LISTA_FAILED:
+            return loadComprobantesAsociadosErrorReducer(state);
         default:
             return state;
     }

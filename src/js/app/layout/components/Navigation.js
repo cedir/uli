@@ -67,6 +67,12 @@ class Navigation extends Component {
                             <span className='nav-label'>Pago Medicos</span>
                         </Link>
                     </li>
+                    <li className={ this.activeRoute('/comprobantes-asociados') }>
+                        <Link to='/comprobantes-asociados'>
+                            <i className='fa fa-heartbeat' />
+                            <span className='nav-label'>Comprobantes Asociados</span>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         );

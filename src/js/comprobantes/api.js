@@ -5,3 +5,9 @@ export function getComprobantesPago(year, month) {
 
     return get(url);
 }
+
+export function getComprobantes() {
+    const url = '/api/comprobante';
+
+    return get(url);
+}
