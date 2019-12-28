@@ -8,9 +8,10 @@ function listar({
     TotalCobrado,
     FechaEmision,
     TipoComprobante,
+    setShowImporteModal,
 }) {
     return (
-        <tr>
+        <tr onClick={ () => setShowImporteModal(true) }>
             <td>{NombreCliente}</td>
             <td>{Numero}</td>
             <td>{TotalFacturado}</td>
@@ -28,6 +29,7 @@ listar.propTypes = {
     TotalCobrado: PropTypes.string.isRequired,
     FechaEmision: PropTypes.string.isRequired,
     TipoComprobante: PropTypes.string.isRequired,
+    setShowImporteModal: PropTypes.func.isRequired,
 };
 
 export default listar;

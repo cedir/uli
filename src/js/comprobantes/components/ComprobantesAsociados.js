@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap/dist/react-bootstrap';
@@ -6,8 +6,11 @@ import { Table } from 'react-bootstrap/dist/react-bootstrap';
 import ComprobanteRow from './ComprobanteRow';
 import initialState from '../comprobantesReducuerInitialState';
 import { FETCH_COMPROBANTES_LISTA } from '../actionTypes';
+import ImporteModal from './ImporteComprobanteAsociado';
 
 function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
+    const [showImporteModal, setShowImporteModal] = useState(false);
+
     useEffect(() => {
         cargar_comprobantes();
     }, []);
@@ -15,6 +18,10 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
     return (
         <div>
             <h1>Crear comprobantes asociados</h1>
+            <ImporteModal
+              modalOpened={ showImporteModal }
+              setShowImporteModal={ setShowImporteModal }
+            />
             <Table striped responsive style={ { marginTop: '20px' } }>
                 <thead>
                     <tr>
@@ -36,6 +43,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
                           TotalCobrado={ comprobante.total_cobrado }
                           FechaEmision={ comprobante.fecha_emision }
                           TipoComprobante={ comprobante.tipo_comprobante.nombre }
+                          setShowImporteModal={ setShowImporteModal }
                         />
                     ))}
                 </tbody>
