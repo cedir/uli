@@ -1,10 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { SEND_NOTA_DE_CREDITO_ASOCIADA } from '../actionTypes';
 
-function handleSave(event) {
-    event.preventDefault();
-}
+function ImporteForm({ idComprobante, crear_nota_de_credito_asociada }) {
+    const handleSave = (event) => {
+        event.preventDefault();
+        crear_nota_de_credito_asociada(idComprobante, event.target.importe.value);
+    };
 
-function ImporteForm() {
     return (
         <form onSubmit={ handleSave }>
             <div className='form-group'>
@@ -25,4 +29,16 @@ function ImporteForm() {
     );
 }
 
-export default ImporteForm;
+ImporteForm.propTypes = {
+    idComprobante: PropTypes.number.isRequired,
+    crear_nota_de_credito_asociada: PropTypes.func.isRequired,
+};
+
+function mapDispatchToProps(dispatch) {
+    return {
+        crear_nota_de_credito_asociada: (idComp, importe) =>
+            dispatch({ type: SEND_NOTA_DE_CREDITO_ASOCIADA, idComp, importe }),
+    };
+}
+
+export default connect(null, mapDispatchToProps)(ImporteForm);

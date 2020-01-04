@@ -10,6 +10,7 @@ import ImporteModal from './ImporteComprobanteAsociado';
 
 function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
     const [showImporteModal, setShowImporteModal] = useState(false);
+    const [idComprobante, setComprobanteId] = useState(0);
 
     useEffect(() => {
         cargar_comprobantes();
@@ -21,6 +22,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
             <ImporteModal
               modalOpened={ showImporteModal }
               setShowImporteModal={ setShowImporteModal }
+              idComprobante={ idComprobante }
             />
             <Table striped responsive style={ { marginTop: '20px' } }>
                 <thead>
@@ -44,6 +46,8 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
                           FechaEmision={ comprobante.fecha_emision }
                           TipoComprobante={ comprobante.tipo_comprobante.nombre }
                           setShowImporteModal={ setShowImporteModal }
+                          setComprobanteId={ setComprobanteId }
+                          idComprobante={ comprobante.id }
                         />
                     ))}
                 </tbody>

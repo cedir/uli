@@ -37,6 +37,25 @@ const loadComprobantesAsociadosErrorReducer = state => ({
     comprobantesApiLoading: false,
 });
 
+const sendComprobanteAsociadoReducer = (state, action) => ({
+    ...state,
+    idComp: action.idComp,
+    importe: action.importe,
+    comprobantesApiLoading: true,
+});
+
+const createdComprobanteAsociadoSuccessReducer = (state, action) => ({
+    ...state,
+    comprobanteAsociado: action.comprobante,
+    comprobantesApiLoading: false,
+});
+
+const createdComprobanteAsociadoFailedReducer = state => ({
+    ...state,
+    comprobanteAsociadoCreado: false,
+    comprobantesApiLoading: false,
+});
+
 export function comprobantesReducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCH_COMPROBANTES_PAGO:
@@ -50,6 +69,12 @@ export function comprobantesReducer(state = initialState, action) {
             return loadComprobantesAsociadosReducer(state, action);
         case types.LOAD_COMPROBANTES_LISTA_FAILED:
             return loadComprobantesAsociadosErrorReducer(state);
+        case types.SEND_NOTA_DE_CREDITO_ASOCIADA:
+            return sendComprobanteAsociadoReducer(state, action);
+        case types.CREATED_NOTA_DE_CREDITO_ASOCIADA_SUCCESS:
+            return createdComprobanteAsociadoSuccessReducer(state, action);
+        case types.CREATED_NOTA_DE_CREDITO_ASOCIADA_FAILED:
+            return createdComprobanteAsociadoFailedReducer(state);
         default:
             return state;
     }

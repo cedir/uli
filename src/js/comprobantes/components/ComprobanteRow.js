@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function listar({
+function ComprobanteRow({
     NombreCliente,
     Numero,
     TotalFacturado,
@@ -9,9 +9,16 @@ function listar({
     FechaEmision,
     TipoComprobante,
     setShowImporteModal,
+    setComprobanteId,
+    idComp,
 }) {
+    const setOnClick = () => {
+        setShowImporteModal(true);
+        setComprobanteId(idComp);
+    };
+
     return (
-        <tr onClick={ () => setShowImporteModal(true) }>
+        <tr onClick={ setOnClick }>
             <td>{NombreCliente}</td>
             <td>{Numero}</td>
             <td>{TotalFacturado}</td>
@@ -22,7 +29,7 @@ function listar({
     );
 }
 
-listar.propTypes = {
+ComprobanteRow.propTypes = {
     NombreCliente: PropTypes.string.isRequired,
     Numero: PropTypes.number.isRequired,
     TotalFacturado: PropTypes.string.isRequired,
@@ -30,6 +37,8 @@ listar.propTypes = {
     FechaEmision: PropTypes.string.isRequired,
     TipoComprobante: PropTypes.string.isRequired,
     setShowImporteModal: PropTypes.func.isRequired,
+    setComprobanteId: PropTypes.func.isRequired,
+    idComp: PropTypes.number.isRequired,
 };
 
-export default listar;
+export default ComprobanteRow;
