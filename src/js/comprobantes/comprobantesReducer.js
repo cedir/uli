@@ -46,7 +46,7 @@ const sendComprobanteAsociadoReducer = (state, action) => ({
 
 const createdComprobanteAsociadoSuccessReducer = (state, action) => ({
     ...state,
-    comprobanteAsociado: action.comprobante,
+    comprobanteAsociado: action.comprobante.data,
     comprobantesApiLoading: false,
 });
 

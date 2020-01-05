@@ -14,7 +14,10 @@ function ImporteModal({ modalOpened, setShowImporteModal, idComprobante }) {
                 <Modal.Title>Crear Comprobante Asociado</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <ImporteForm idComprobante={ idComprobante } />
+                <ImporteForm
+                  idComprobante={ idComprobante }
+                  setShowImporteModal={ setShowImporteModal }
+                />
             </Modal.Body>
         </Modal>
     );

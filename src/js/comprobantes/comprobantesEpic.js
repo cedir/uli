@@ -10,6 +10,8 @@ import {
     SEND_NOTA_DE_CREDITO_ASOCIADA,
     CREATED_NOTA_DE_CREDITO_ASOCIADA_SUCCESS,
     CREATED_NOTA_DE_CREDITO_ASOCIADA_FAILED } from './actionTypes';
+import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
+import { createAlert } from '../utilities/components/alert/alertUtility';
 
 export function comprobantesEpic(action$) {
     return action$.ofType(FETCH_COMPROBANTES_PAGO)
@@ -37,11 +39,19 @@ export function guardarComprobanteAsociadoEpic(action$) {
     return action$.ofType(SEND_NOTA_DE_CREDITO_ASOCIADA)
         .mergeMap(action =>
             saveComprobanteAsociado(action.idComp, action.importe)
-            .map(data => ({
-                type: CREATED_NOTA_DE_CREDITO_ASOCIADA_SUCCESS,
-                comprobante: data.response,
-            }))
-            .catch(() => Rx.Observable.of(
-                { type: CREATED_NOTA_DE_CREDITO_ASOCIADA_FAILED },
+            .mergeMap(data => Rx.Observable.of(
+                {
+                    type: CREATED_NOTA_DE_CREDITO_ASOCIADA_SUCCESS,
+                    comprobante: data.response,
+                    mostrar: action.mostrarModal(false),
+                },
+                { type: ADD_ALERT, alert: createAlert(data.response.message) },
+            ))
+            .catch(data => Rx.Observable.of(
+                {
+                    type: CREATED_NOTA_DE_CREDITO_ASOCIADA_FAILED,
+                    mostrar: action.mostrarModal(false),
+                },
+                { type: ADD_ALERT, alert: createAlert(data.response.message, 'danger') },
             )));
 }
