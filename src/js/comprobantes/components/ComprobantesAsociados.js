@@ -11,6 +11,7 @@ import ImporteModal from './ImporteComprobanteAsociado';
 function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
     const [showImporteModal, setShowImporteModal] = useState(false);
     const [idComprobante, setComprobanteId] = useState(0);
+    const [tipoComprobante, setTipoComprobante] = useState(0);
 
     useEffect(() => {
         cargar_comprobantes();
@@ -23,6 +24,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
               modalOpened={ showImporteModal }
               setShowImporteModal={ setShowImporteModal }
               idComprobante={ idComprobante }
+              tipoComprobante={ tipoComprobante }
             />
             <Table striped responsive style={ { marginTop: '20px' } }>
                 <thead>
@@ -47,6 +49,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
                           TipoComprobante={ comprobante.tipo_comprobante.nombre }
                           setShowImporteModal={ setShowImporteModal }
                           setComprobanteId={ setComprobanteId }
+                          setTipoComprobante={ setTipoComprobante }
                           idComprobante={ comprobante.id }
                         />
                     ))}

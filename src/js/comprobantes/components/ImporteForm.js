@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { SEND_NOTA_DE_CREDITO_ASOCIADA } from '../actionTypes';
 
-function ImporteForm({ idComprobante, crear_nota_de_credito_asociada, setShowImporteModal }) {
+function ImporteForm({
+    idComprobante,
+    tipoComprobante,
+    crear_nota_de_credito_asociada,
+    setShowImporteModal,
+}) {
     const [saving, setSaving] = useState(false);
 
     const handleSave = (event) => {
@@ -12,6 +17,7 @@ function ImporteForm({ idComprobante, crear_nota_de_credito_asociada, setShowImp
         crear_nota_de_credito_asociada(
             idComprobante,
             event.target.importe.value,
+            tipoComprobante,
             setShowImporteModal,
         );
     };
@@ -40,12 +46,19 @@ ImporteForm.propTypes = {
     idComprobante: PropTypes.number.isRequired,
     crear_nota_de_credito_asociada: PropTypes.func.isRequired,
     setShowImporteModal: PropTypes.func.isRequired,
+    tipoComprobante: PropTypes.number.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        crear_nota_de_credito_asociada: (idComp, importe, mostrarModal) =>
-            dispatch({ type: SEND_NOTA_DE_CREDITO_ASOCIADA, idComp, importe, mostrarModal }),
+        crear_nota_de_credito_asociada: (idComp, importe, tipoComp, mostrarModal) =>
+            dispatch({
+                type: SEND_NOTA_DE_CREDITO_ASOCIADA,
+                idComp,
+                importe,
+                tipoComp,
+                mostrarModal,
+            }),
     };
 }
 

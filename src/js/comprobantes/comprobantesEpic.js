@@ -38,7 +38,7 @@ export function obtenerComprobantesEpic(action$) {
 export function guardarComprobanteAsociadoEpic(action$) {
     return action$.ofType(SEND_NOTA_DE_CREDITO_ASOCIADA)
         .mergeMap(action =>
-            saveComprobanteAsociado(action.idComp, action.importe)
+            saveComprobanteAsociado(action.idComp, action.importe, action.tipoComp)
             .mergeMap(data => Rx.Observable.of(
                 {
                     type: CREATED_NOTA_DE_CREDITO_ASOCIADA_SUCCESS,
