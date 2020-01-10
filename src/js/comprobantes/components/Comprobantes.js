@@ -33,6 +33,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
                         <th>Total cobrado</th>
                         <th>Fecha de emision</th>
                         <th>Tipo de comprobante</th>
+                        <th>Crear asociado</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -18,13 +18,18 @@ function ComprobanteRow({
     };
 
     return (
-        <tr onClick={ setOnClick }>
+        <tr>
             <td>{NombreCliente}</td>
             <td>{Numero}</td>
             <td>{TotalFacturado}</td>
             <td>{TotalCobrado}</td>
             <td>{FechaEmision}</td>
             <td>{TipoComprobante}</td>
+            <td>
+                <a href='#' onClick={ setOnClick }>
+                    Crear asociado
+                </a>
+            </td>
         </tr>
     );
 }
