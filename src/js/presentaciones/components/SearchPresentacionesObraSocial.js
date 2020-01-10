@@ -42,7 +42,7 @@ class SearchPresentacionesObraSocial extends Component {
               onSubmit={ this.props.handleSubmit(params =>
                 this.props.fetchPresentacionesObraSocial(params)) }
             >
-                <Row className='show-grid'>
+                <Row className='search-grid'>
                     <Col md={ 6 } style={ { border: 'none' } } >
                         <Field
                           name='obraSocial'
@@ -67,6 +67,13 @@ class SearchPresentacionesObraSocial extends Component {
                           disabled={ !this.props.valid }
                         >
                             Buscar
+                        </Button>
+                        <Button
+                          type='submit'
+                          bsStyle='primary'
+                          disabled={ !this.props.valid }
+                        >
+                            Nueva
                         </Button>
                     </Col>
                 </Row>

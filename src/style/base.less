@@ -12,6 +12,30 @@ html, body {
 
 }
 
+.search-grid [class^="col-"] {
+  height: 8rem;
+  background-color: #eee;
+  border: none;
+  display: flex;
+  align-items: center;
+  button {
+    margin-top: 2.1rem;
+    margin-right: 0.5rem;
+    width: 8.2rem;
+  }
+  button + button {
+    margin-left: 0.5rem;
+  }
+  .form-group {
+    label {
+      margin-bottom: 0.4rem;
+    }
+  }
+  .form-control {
+    width: 40rem;
+  }
+}
+
 body.full-height-layout #wrapper,
 body.full-height-layout #page-wrapper {
   height: 100%;
