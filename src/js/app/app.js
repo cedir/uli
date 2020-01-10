@@ -16,7 +16,7 @@ import PagoAnestesistaPage from '../anestesista/PagoAnestesistaPage';
 import CreateEstudio from '../estudio/components/CreateEstudio';
 import PagoMedicos from '../estudio/components/PagoMedicos';
 import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
-import NuevaPresentacionPage from '../nueva-presentacion/components/NuevaPresentacionPage';
+import NuevaPresentacionPage from '../nueva-presentacion/high-order-components/NuevaPresentacionPage';
 import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
 import CajaMain from '../caja/components/CajaMain';
 

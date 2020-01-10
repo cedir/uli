@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 class Navigation extends Component {
     constructor(props) {
@@ -28,44 +27,44 @@ class Navigation extends Component {
             <nav className='navbar-default navbar-static-side'>
                 <ul className='nav metismenu' id='side-menu'>
                     <li className={ this.activeRoute('/home') }>
-                        <Link to='/home'><i className='fa fa-th-large' />
+                        <a href='/home'><i className='fa fa-th-large' />
                             <span className='nav-label'>Pagina Principal</span>
-                        </Link>
+                        </a>
                     </li>
                     <li className={ this.activeRoute('/estudios') }>
-                        <Link to='/estudios'><i className='fa fa-heartbeat' />
+                        <a href='/estudios'><i className='fa fa-heartbeat' />
                             <span className='nav-label'>Estudios</span>
-                        </Link>
+                        </a>
                     </li>
                     <li className={ this.activeRoute('/anestesistas/pago') }>
-                        <Link to='/anestesistas/pago'>
+                        <a href='/anestesistas/pago'>
                             <i className='fa fa-heartbeat' />
                             <span className='nav-label'>Pago Anestesista</span>
-                        </Link>
+                        </a>
                     </li>
                     <li className={ this.activeRoute('/presentaciones-obras-sociales') }>
-                        <Link to='/presentaciones-obras-sociales'>
+                        <a href='/presentaciones-obras-sociales'>
                             <i className='fa fa-heartbeat' />
                             <span className='nav-label'>Presentaciones</span>
-                        </Link>
+                        </a>
                     </li>
                     <li className={ this.activeRoute('/caja/main') }>
-                        <Link to='/caja/main'>
+                        <a href='/caja/main'>
                             <i className='fa fa-heartbeat' />
                             <span className='nav-label'>Caja</span>
-                        </Link>
+                        </a>
                     </li>
                     <li className={ this.activeRoute('/listado-informe-comprobantes') }>
-                        <Link to='/listado-informe-comprobantes'>
+                        <a href='/listado-informe-comprobantes'>
                             <i className='fa fa-heartbeat' />
                             <span className='nav-label'>Comprobantes</span>
-                        </Link>
+                        </a>
                     </li>
                     <li className={ this.activeRoute('/medicos/pago') }>
-                        <Link to='/medicos/pago'>
+                        <a href='/medicos/pago'>
                             <i className='fa fa-heartbeat' />
                             <span className='nav-label'>Pago Medicos</span>
-                        </Link>
+                        </a>
                     </li>
                 </ul>
             </nav>
