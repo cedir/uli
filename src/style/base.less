@@ -13,7 +13,7 @@ html, body {
 }
 
 .search-grid [class^="col-"] {
-  height: 8rem;
+  height: 12rem;
   background-color: #eee;
   border: none;
   display: flex;
@@ -30,9 +30,26 @@ html, body {
     label {
       margin-bottom: 0.4rem;
     }
+    span {
+      display: none;
+    }
   }
   .form-control {
-    width: 40rem;
+    width: 60rem;
+  }
+  .date-picker {
+    .form-control {
+      width: 20rem;
+    }
+    label {
+      display: block;
+    }
+    margin-right: 2rem;
+  }
+  @media screen and (max-width: 768px) {
+    .form-group {
+      margin-bottom: 0rem;
+    }
   }
 }
 

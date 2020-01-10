@@ -7,6 +7,7 @@ import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import { requiredOption } from '../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
+import Fecha from '../low-order-components/Fecha';
 
 class SearchPresentacionesObraSocial extends Component {
     constructor(props) {
@@ -42,7 +43,7 @@ class SearchPresentacionesObraSocial extends Component {
                 this.props.fetchPresentacionesObraSocial(params)) }
             >
                 <Row className='search-grid'>
-                    <Col md={ 9 } style={ { border: 'none' } } >
+                    <Col md={ 8 } style={ { border: 'none' } } >
                         <Field
                           name='obraSocial'
                           label='Obra Social'
@@ -59,23 +60,15 @@ class SearchPresentacionesObraSocial extends Component {
                           isLoading={ this.props.obrasSocialesApiLoading }
                         />
                     </Col>
-                    <Col md={ 3 } style={ { border: 'none' } }>
+                    <Col md={ 4 } style={ { border: 'none' } }>
+                        <Fecha />
                         <Button
                           type='submit'
                           bsStyle='primary'
                           disabled={ !this.props.valid }
                         >
-                            Buscar
+                            Agregar
                         </Button>
-                        <a href='/nueva-presentacion'>
-                            <Button
-                              type='button'
-                              bsStyle='primary'
-                              disabled={ !this.props.valid }
-                            >
-                                Nueva
-                            </Button>
-                        </a>
                     </Col>
                 </Row>
             </Form>
