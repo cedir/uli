@@ -10,13 +10,11 @@ function ComprobanteRow({
     TipoComprobante,
     setShowImporteModal,
     setComprobanteId,
-    setTipoComprobante,
     idComprobante,
 }) {
     const setOnClick = () => {
         setShowImporteModal(true);
         setComprobanteId(idComprobante);
-        setTipoComprobante(TipoComprobante);
     };
 
     return (
@@ -40,7 +38,6 @@ ComprobanteRow.propTypes = {
     TipoComprobante: PropTypes.string.isRequired,
     setShowImporteModal: PropTypes.func.isRequired,
     setComprobanteId: PropTypes.func.isRequired,
-    setTipoComprobante: PropTypes.func.isRequired,
     idComprobante: PropTypes.number.isRequired,
 };
 

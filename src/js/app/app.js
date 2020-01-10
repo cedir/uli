@@ -18,7 +18,7 @@ import PagoMedicos from '../estudio/components/PagoMedicos';
 import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
 import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
 import CajaMain from '../caja/components/CajaMain';
-import ComprobantesAsociados from '../comprobantes/components/ComprobantesAsociados';
+import Comprobantes from '../comprobantes/components/Comprobantes';
 
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
@@ -123,8 +123,8 @@ class App extends React.Component {
                           authenticated={ !!this.props.token }
                         />
                         <PrivateRoute
-                          path='/comprobantes-asociados'
-                          component={ ComprobantesAsociados }
+                          path='/comprobantes'
+                          component={ Comprobantes }
                           authenticated={ !!this.props.token }
                         />
                     </div>

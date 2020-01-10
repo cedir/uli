@@ -5,7 +5,6 @@ import { SEND_NOTA_DE_CREDITO_ASOCIADA } from '../actionTypes';
 
 function ImporteForm({
     idComprobante,
-    tipoComprobante,
     crear_nota_de_credito_asociada,
     setShowImporteModal,
 }) {
@@ -17,7 +16,7 @@ function ImporteForm({
         crear_nota_de_credito_asociada(
             idComprobante,
             event.target.importe.value,
-            tipoComprobante,
+            event.target.concepto.value,
             setShowImporteModal,
         );
     };
@@ -28,10 +27,21 @@ function ImporteForm({
                 <label htmlFor='importe'>Importe</label>
                 <div className='field'>
                     <input
-                      type='text'
+                      type='number'
                       name='importe'
                       className='form-control'
                       placeholder='Importe'
+                    />
+                </div>
+            </div>
+            <div className='form-group'>
+                <label htmlFor='Concepto'>Concepto</label>
+                <div className='field'>
+                    <input
+                      type='text'
+                      name='concepto'
+                      className='form-control'
+                      placeholder='Concepto'
                     />
                 </div>
             </div>
@@ -46,17 +56,16 @@ ImporteForm.propTypes = {
     idComprobante: PropTypes.number.isRequired,
     crear_nota_de_credito_asociada: PropTypes.func.isRequired,
     setShowImporteModal: PropTypes.func.isRequired,
-    tipoComprobante: PropTypes.number.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        crear_nota_de_credito_asociada: (idComp, importe, tipoComp, mostrarModal) =>
+        crear_nota_de_credito_asociada: (idComp, importe, concepto, mostrarModal) =>
             dispatch({
                 type: SEND_NOTA_DE_CREDITO_ASOCIADA,
                 idComp,
                 importe,
-                tipoComp,
+                concepto,
                 mostrarModal,
             }),
     };
