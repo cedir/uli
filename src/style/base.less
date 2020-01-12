@@ -4,7 +4,6 @@ body {
   font-size: 13px;
   color: @text-color;
   overflow-x: hidden;
-
 }
 
 html, body {
@@ -53,6 +52,14 @@ html, body {
   }
 }
 
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance:textfield;
+}
+
 .tab-navigator {
   .tabs {
     button { 
@@ -89,7 +96,7 @@ html, body {
       justify-content: center;
       td {
         border-radius: 0.2rem;
-        width: 30rem;
+        width: 10rem;
         background-color: lighten(#eee, 5%);
         text-align: center;
         padding: 0.5rem 1rem 0.5rem 1rem;
@@ -101,16 +108,33 @@ html, body {
         width: 4rem;
       }
       td.practica {
-        width: 80rem;
+        text-align: left;
+        width: 40rem;
+        font-size: 1rem;
       }
       input {
         width: 7rem;
-        outline-color: @navy;
         text-align: right;
+        border-radius: 0.2rem;
+        padding: 0.2rem;
+        border: solid 2px #eee;
+        outline: none;
+        -webkit-transition: all 0.15s ease-in-out;
+        transition: all 0.15s ease-in-out;
+        -moz-transition: all 0.15s ease-in-out;
+        -ms-transition: all 0.15s ease-in-out;
+        -o-transition: all 0.15s ease-in-out;
+      }
+      input:focus {
+        border: solid 2px @navy;
+      }
+      input.required:focus {
+        border: solid 2px rgb(245, 87, 87);
       }
       i {
         outline: none;
         color: lighten(@navy, 30%);
+        font-size: 1.5rem;
         &:hover {
           color: lighten(@navy, 10%);
         }

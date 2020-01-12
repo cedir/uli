@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
@@ -67,7 +68,7 @@ class SearchPresentacionesObraSocial extends Component {
                         >
                             Buscar
                         </Button>
-                        <a href='/nueva-presentacion'>
+                        <Link to='/nueva-presentacion'>
                             <Button
                               type='button'
                               bsStyle='primary'
@@ -75,7 +76,7 @@ class SearchPresentacionesObraSocial extends Component {
                             >
                                 Nueva
                             </Button>
-                        </a>
+                        </Link>
                     </Col>
                 </Row>
             </Form>

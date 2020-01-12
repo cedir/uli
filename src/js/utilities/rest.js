@@ -4,7 +4,7 @@ import { config } from '../app/config';
 
 const baseUrl = config.baseUrl;
 
-function getDefaultHeaders() {
+export function getDefaultHeaders() {
     const token = store.getState().login.token;
 
     return {

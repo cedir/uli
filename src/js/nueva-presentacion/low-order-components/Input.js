@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 
 
 export function useInputState() {
-    cosnt [value, setValue] = useState(0);
+    const [value, setValue] = useState(0);
     const onChangeHandler = (e) => {
-        setValue(Number(e.target.value));
+        if (value >= 0) {
+            setValue(Number(e.target.value));
+        } else {
+            setValue(0);
+        }
     };
     return {
         value,
@@ -13,21 +17,20 @@ export function useInputState() {
     };
 }
 
-export function Input(props) {
+export function Input({ inputState, placeholder, className }) {
     const [required, setRequired] = useState(false);
-    const { inputState, placeholder, className } = props;
     useEffect(() => {
         if (inputState.value === 0) {
             setRequired(true);
         } else {
             setRequired(false);
         }
-    })
-    const isRequired = required ? ' required' : ''
+    });
+    const isRequired = required ? ' required' : '';
     return (
         <input
           type='number'
-          className={` ${className}${isRequired} `}
+          className={ ` ${className}${isRequired} ` }
           placeholder={ placeholder }
           value={ inputState.value }
           onChange={ inputState.onChangeHandler }
@@ -38,11 +41,8 @@ export function Input(props) {
 
 const { string, number, func } = PropTypes;
 
-TableRowInput.propTypes = {
-    type: string.isRequired,
+Input.propTypes = {
     className: string.isRequired,
     placeholder: number.isRequired,
     inputState: func.isRequired,
 };
-
-export default Input;

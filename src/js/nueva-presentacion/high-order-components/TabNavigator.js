@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
-import ConnectedNuevaPresentacionObraSocialList from '../list-rows/NuevaPresentacionObraSocialList';
+import NuevaPresentacionObraSocialList from '../list-rows/NuevaPresentacionObraSocialList';
 
 function TabNavigator() {
-    const innerRef = useRef(null);
+    const tableRef = useRef(null);
     return (
         <div className='tab-navigator'>
             <nav className='tabs'>
@@ -34,8 +34,8 @@ function TabNavigator() {
             </nav>
             <Row className='content-1'>
                 <Col md={ 12 } className='col-1'>
-                    <ConnectedNuevaPresentacionObraSocialList
-                      ref={ innerRef }
+                    <NuevaPresentacionObraSocialList
+                      ref={ tableRef }
                     />
                 </Col>
             </Row>

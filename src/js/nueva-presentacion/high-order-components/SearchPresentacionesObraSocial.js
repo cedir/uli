@@ -6,7 +6,7 @@ import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import { requiredOption } from '../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
-import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
+import { FETCH_ESTUDIO_SIN_PRESENTAR_OBRA_SOCIAL } from '../actionTypes';
 import Fecha from '../low-order-components/Fecha';
 
 class SearchPresentacionesObraSocial extends Component {
@@ -114,7 +114,7 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
         fetchPresentacionesObraSocial: params => dispatch({
-            type: FETCH_PRESENTACIONES_OBRA_SOCIAL,
+            type: FETCH_ESTUDIO_SIN_PRESENTAR_OBRA_SOCIAL,
             id: params.obraSocial[0].id,
         }),
         setSelectedObraSocial: obraSocial =>

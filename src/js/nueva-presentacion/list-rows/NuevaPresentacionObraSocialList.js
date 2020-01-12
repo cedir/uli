@@ -1,46 +1,74 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import initialState from '../presentacionReducerInitialState';
-import NuevaPresentacionObraSocialTableRow from './NuevaPresentacionObraSocialTableRow';
+import PropTypes from 'prop-types';
+import { NuevaPresentacionObraSocialTableRow } from './NuevaPresentacionObraSocialTableRow';
+import { config } from '../../app/config';
+import { getDefaultHeaders } from '../../utilities/rest';
+import initialState from '../../obraSocial/obraSocialReducerInitialState';
 
-function NuevaPresentacionObraSocialList(props) {
-    const { innerRef } = props;
-    return (
-        <div>
-            <table id='tabla' className='estudios-table'>
-                <thead>
-                    <tr className='titles'>
-                        <th className='first-row-title' />
-                        <th className='numero'>Nro</th>
-                        <th>Fecha</th>
-                        <th>Orden</th>
-                        <th>Afiliado</th>
-                        <th>Paciente</th>
-                        <th>Practica</th>
-                        <th>Actuante</th>
-                        <th>Importe</th>
-                        <th>Pension</th>
-                        <th>Dif. Paciente</th>
-                        <th>Medicacion</th>
-                        <th>Anestesista</th>
-                        <th className='last-row-title' />
-                    </tr>
-                </thead>
-                <tbody ref={ innerRef }>
-                    { rows.map(row => (
-                        <NuevaPresentacionObraSocialTableRow
-                          row={ row }
-                          key={ row.numero }
-                        />
-                    )) }
-                </tbody>
-            </table>
-        </div>
-    );
+
+class NuevaPresentacionObraSocialList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            estudios: [],
+        };
+    }
+    componentDidMount() {
+        const idObraSocial = 1;
+        console.log(this.props.fetchObrasSociales);
+        const baseUrl = config.baseUrl;
+        const url = `/api/obra_social/${idObraSocial}/estudios_sin_presentar`;
+        const myHeaders = getDefaultHeaders();
+        const options = {
+            method: 'GET',
+            headers: myHeaders,
+            url,
+        };
+        fetch(`${baseUrl}${url}`, options)
+            .then(response => response.json())
+            .then(result => this.setState({ estudios: result }))
+            .catch(error => console.log(error));
+    }
+    render() {
+        const { estudios } = this.state;
+        const { tableRef } = this.props;
+        return (
+            <div>
+                <table id='tabla' className='estudios-table'>
+                    <thead>
+                        <tr className='titles'>
+                            <th className='first-row-title' />
+                            <th className='numero'>Nro</th>
+                            <th>Fecha</th>
+                            <th>Orden</th>
+                            <th>Afiliado</th>
+                            <th>Paciente</th>
+                            <th>Practica</th>
+                            <th>Actuante</th>
+                            <th>Importe</th>
+                            <th>Pension</th>
+                            <th>Dif. Paciente</th>
+                            <th>Medicacion</th>
+                            <th>Anestesista</th>
+                            <th className='last-row-title' />
+                        </tr>
+                    </thead>
+                    <tbody ref={ tableRef }>
+                        { estudios.map(estudio => (
+                            <NuevaPresentacionObraSocialTableRow
+                              row={ estudio }
+                              key={ estudio.id }
+                            />
+                        )) }
+                    </tbody>
+                </table>
+            </div>
+        );
+    }
 }
 
-const rows = [
+/* const rows = [
     {
         numero: 1, fecha: '01/12/2020', orden: '',
         numero_de_afiliado: '1234', paciente: 'Perez',
@@ -111,29 +139,24 @@ const rows = [
         importe: 0, pension: 0, diferencia_paciente: 2800,
         medicacion: 1500, anestesista: 1234,
     },
-];
+]; */
 
-const { object } = PropTypes;
+const { object, func } = PropTypes;
 
 NuevaPresentacionObraSocialList.propTypes = {
-    innerRef: object.isRequired,
+    tableRef: object.isRequired,
+    fetchObrasSociales: func.isRequired,
 };
 
-NuevaPresentacionObraSocialList.defaultProps = {
-    presentaciones: initialState.presentaciones,
+NuevaPresentacionObraSocialList.propTypes = {
+    fetchObrasSociales: initialState.fetchObrasSociales,
 };
 
 function mapStateToProps(state) {
     return {
-        presentaciones: state.presentacionReducer.presentaciones,
+        fetchObrasSociales: state.obraSocialReducer.fetchObrasSociales,
     };
 }
 
-
-const ConnectedNuevaPresentacionObraSocialList = connect(
-    mapStateToProps,
-)(NuevaPresentacionObraSocialList);
-
-export default React.forwardRef((props, ref) =>
-    <ConnectedNuevaPresentacionObraSocialList { ...props } innerRef={ ref } />,
-);
+export default
+    connect(mapStateToProps)(NuevaPresentacionObraSocialList);

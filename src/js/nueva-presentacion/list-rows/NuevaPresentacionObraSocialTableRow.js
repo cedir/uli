@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import TableRowInput from '../low-order-components/TableRowInput';
+import { Input, useInputState } from '../low-order-components/Input';
 
-function NuevaPresentacionObraSocialTableRow({ row, parentUpdate }) {
+export function useInputValues() {
+    const inputOne = useInputState();
+    const inputTwo = useInputState();
+    const inputThree = useInputState();
+    const inputFour = useInputState();
+    return {
+        inputOne,
+        inputTwo,
+        inputThree,
+        inputFour,
+    };
+}
+
+export function NuevaPresentacionObraSocialTableRow(props) {
     const [deleteClicked, setDeleteClicked] = useState(false);
     const [renderRow, setRenderRow] = useState(true);
     const [medicacionClicked, setMedicacionClicked] = useState(false);
     const [anestesiaClicked, setAnestesiaClicked] = useState(false);
-
+    const componentState = useInputValues();
     const deleteIconClickHandler = () => {
         setDeleteClicked(!deleteClicked);
     };
@@ -20,10 +33,14 @@ function NuevaPresentacionObraSocialTableRow({ row, parentUpdate }) {
         setAnestesiaClicked(!anestesiaClicked);
     };
 
+    const { row } = props;
     const {
-        numero, fecha, orden, numero_de_afiliado: numeroAfiliado, paciente,
-        practica, actuante, importe, pension,
-        diferencia_paciente: diferenciaPaciente, medicacion, anestesista,
+        fecha, nro_de_orden: orden,
+        paciente, practica, medico,
+        importe_estudio: importe,
+        pension, diferencia_paciente: difPaciente,
+        importe_medicacion: medicacion,
+        arancel_anestesista: anestesista,
     } = row;
     const isDeleteActive = deleteClicked ? '-active' : '';
     const isMedicacionActive = medicacionClicked ? 'active' : '';
@@ -31,7 +48,7 @@ function NuevaPresentacionObraSocialTableRow({ row, parentUpdate }) {
 
     return (
         renderRow && (
-            <tr className='table-row' key={ numero }>
+            <tr className='table-row'>
                 <td className='icon'>
                     <i
                       className={ `fas fa-pills fa-1x ${isMedicacionActive}` }
@@ -46,47 +63,43 @@ function NuevaPresentacionObraSocialTableRow({ row, parentUpdate }) {
                       onClick={ anestesiaIconClickHandler }
                     />
                 </td>
-                <td className='numero'>{ numero }</td>
+                <td className='numero' />
                 <td>{ fecha }</td>
-                <td>
-                    <input type='text' placeholder={ orden } />
+                <td>{ orden }
+                    <input type='number' />
                 </td>
-                <td>{ numeroAfiliado }</td>
-                <td>{ paciente }</td>
-                <td className='practica'>{ practica }</td>
-                <td>{ actuante }</td>
+                <td>{ paciente.id }</td>
+                <td>{ `${paciente.nombre} ${paciente.apellido}` }</td>
+                <td className='practica'>{ practica.descripcion }</td>
+                <td>{ `${medico.nombre} ${medico.apellido}` }</td>
                 <td>
-                    <TableRowInput
-                      type='number'
+                    <Input
+                      inputState={ componentState.inputOne }
                       className='importe-input'
-                      onKeyUp={ parentUpdate }
                       placeholder={ importe }
                     />
                 </td>
                 <td>
-                    <TableRowInput
-                      type='number'
+                    <Input
+                      inputState={ componentState.inputTwo }
                       className='pension-input'
-                      onKeyUp={ parentUpdate }
                       placeholder={ pension }
                     />
                 </td>
                 <td>
-                    <TableRowInput
-                      type='number'
+                    <Input
+                      inputState={ componentState.inputThree }
                       className='difpaciente-input'
-                      onKeyUp={ parentUpdate }
-                      placeholder={ diferenciaPaciente }
+                      placeholder={ difPaciente }
                     />
                 </td>
                 <td className='td-medicacion'>
-                    <div>{medicacion}</div>
+                    <div>{ medicacion }</div>
                 </td>
                 <td>
-                    <TableRowInput
-                      type='number'
+                    <Input
+                      inputState={ componentState.inputFour }
                       className='anestesista-input'
-                      onKeyUp={ parentUpdate }
                       placeholder={ anestesista }
                     />
                 </td>
@@ -98,16 +111,19 @@ function NuevaPresentacionObraSocialTableRow({ row, parentUpdate }) {
                       onClick={ deleteIconClickHandler }
                     />
                 </td>
+                <td style={ { display: 'none' } }>
+                    { componentState.inputOne.value +
+                    componentState.inputTwo.value +
+                    componentState.inputThree.value +
+                    componentState.inputFour.value }
+                </td>
             </tr>
         )
     );
 }
 
-const { func, object } = PropTypes;
+const { object } = PropTypes;
 
 NuevaPresentacionObraSocialTableRow.propTypes = {
     row: object.isRequired,
-    parentUpdate: func.isRequired,
 };
-
-export default NuevaPresentacionObraSocialTableRow;
