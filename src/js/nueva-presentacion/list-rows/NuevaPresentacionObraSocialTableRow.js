@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, useInputState } from '../low-order-components/Input';
+import { ModalEliminarFila } from '../Modals';
 
 export function useInputValues() {
     const inputOne = useInputState();
@@ -25,6 +26,10 @@ export function NuevaPresentacionObraSocialTableRow(props) {
         setDeleteClicked(!deleteClicked);
     };
 
+    const deleteRowHandler = () => {
+        setRenderRow(!renderRow);
+    };
+
     const medicacionIconClickHandler = () => {
         setMedicacionClicked(!medicacionClicked);
     };
@@ -35,18 +40,18 @@ export function NuevaPresentacionObraSocialTableRow(props) {
 
     const { row } = props;
     const {
-        fecha, nro_de_orden: orden,
+        id, fecha, nro_de_orden: orden,
         paciente, practica, medico,
         importe_estudio: importe,
         pension, diferencia_paciente: difPaciente,
         importe_medicacion: medicacion,
-        arancel_anestesista: anestesista,
+        arancel_anestesia: anestesista,
     } = row;
     const isDeleteActive = deleteClicked ? '-active' : '';
     const isMedicacionActive = medicacionClicked ? 'active' : '';
     const isAnestesiaActive = anestesiaClicked ? 'active' : '';
-
     return (
+
         renderRow && (
             <tr className='table-row'>
                 <td className='icon'>
@@ -63,7 +68,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       onClick={ anestesiaIconClickHandler }
                     />
                 </td>
-                <td className='numero' />
+                <td className='numero'>{ id }</td>
                 <td>{ fecha }</td>
                 <td>{ orden }
                     <input type='number' />
@@ -117,6 +122,12 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                     componentState.inputThree.value +
                     componentState.inputFour.value }
                 </td>
+                <ModalEliminarFila
+                  show={ deleteClicked }
+                  onClickClose={ deleteIconClickHandler }
+                  onClickEliminar={ deleteRowHandler }
+                  nroFila={ id }
+                />
             </tr>
         )
     );
