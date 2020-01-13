@@ -61,6 +61,7 @@ input[type=number] {
 }
 
 .tab-navigator {
+  overflow: scroll;
   .tabs {
     button { 
       border-radius: 0;
@@ -82,11 +83,10 @@ input[type=number] {
     }
   }
   .content-1 {
-    width: 100%;
+    width: 170rem;
     height: 50rem;
-    overflow: scroll;
     table {
-      width: 150rem;
+      width: 100%;
       height: auto;
       background-color: #eee;
       border-spacing: 0.7rem;
@@ -102,9 +102,12 @@ input[type=number] {
         padding: 0.5rem 1rem 0.5rem 1rem;
       }
       td.icon {
-        width: 8rem;
+        width: 4rem;
       }
       td.numero {
+        width: 4rem;
+      }
+      td.delete {
         width: 4rem;
       }
       td.practica {
@@ -153,6 +156,10 @@ input[type=number] {
   .content-1::-webkit-scrollbar {
     display: none;
   }
+}
+
+.tab-navigator::-webkit-scrollbar {
+  display: none;
 }
 
 body.full-height-layout #wrapper,

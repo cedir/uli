@@ -39,10 +39,10 @@ export function Input({ inputState, placeholder, className }) {
 }
 
 
-const { string, number, func } = PropTypes;
+const { string, object } = PropTypes;
 
 Input.propTypes = {
     className: string.isRequired,
-    placeholder: number.isRequired,
-    inputState: func.isRequired,
+    placeholder: string.isRequired,
+    inputState: object.isRequired,
 };

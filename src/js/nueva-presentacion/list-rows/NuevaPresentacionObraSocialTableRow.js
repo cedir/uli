@@ -108,7 +108,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       placeholder={ anestesista }
                     />
                 </td>
-                <td>
+                <td className='delete'>
                     <i
                       className={ `fas fa-trash fa-1x trash-icon${isDeleteActive}` }
                       tabIndex='0'
