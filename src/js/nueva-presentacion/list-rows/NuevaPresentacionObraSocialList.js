@@ -2,37 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NuevaPresentacionObraSocialTableRow } from './NuevaPresentacionObraSocialTableRow';
-import { config } from '../../app/config';
-import { getDefaultHeaders } from '../../utilities/rest';
-import initialState from '../../obraSocial/obraSocialReducerInitialState';
+import initialState from '../estudiosSinPresentarReducerInitialState';
 
 
 class NuevaPresentacionObraSocialList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            estudios: [],
-        };
-    }
-    componentDidMount() {
-        const idObraSocial = 1;
-        console.log(this.props.fetchObrasSociales);
-        const baseUrl = config.baseUrl;
-        const url = `/api/obra_social/${idObraSocial}/estudios_sin_presentar`;
-        const myHeaders = getDefaultHeaders();
-        const options = {
-            method: 'GET',
-            headers: myHeaders,
-            url,
-        };
-        fetch(`${baseUrl}${url}`, options)
-            .then(response => response.json())
-            .then(result => this.setState({ estudios: result }))
-            .catch(error => console.log(error));
-    }
     render() {
-        const { estudios } = this.state;
-        const { tableRef } = this.props;
+        const { tableRef, estudiosSinPresentar } = this.props;
+        console.log(this.props.estudiosSinPresentar);
         return (
             <div>
                 <table id='tabla' className='estudios-table'>
@@ -55,7 +31,7 @@ class NuevaPresentacionObraSocialList extends React.Component {
                         </tr>
                     </thead>
                     <tbody ref={ tableRef }>
-                        { estudios.map(estudio => (
+                        { estudiosSinPresentar.map(estudio => (
                             <NuevaPresentacionObraSocialTableRow
                               row={ estudio }
                               key={ estudio.id }
@@ -68,95 +44,22 @@ class NuevaPresentacionObraSocialList extends React.Component {
     }
 }
 
-/* const rows = [
-    {
-        numero: 1, fecha: '01/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-    {
-        numero: 2, fecha: '02/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-    {
-        numero: 3, fecha: '03/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-    {
-        numero: 4, fecha: '04/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-    {
-        numero: 5, fecha: '05/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-    {
-        numero: 6, fecha: '06/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-    {
-        numero: 7, fecha: '07/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-    {
-        numero: 8, fecha: '08/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-    {
-        numero: 9, fecha: '09/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-    {
-        numero: 10, fecha: '10/12/2020', orden: '',
-        numero_de_afiliado: '1234', paciente: 'Perez',
-        practica: 'Video-Endoscopia', actuante: 'Doctor X',
-        importe: 0, pension: 0, diferencia_paciente: 2800,
-        medicacion: 1500, anestesista: 1234,
-    },
-]; */
-
 const { object, func } = PropTypes;
 
 NuevaPresentacionObraSocialList.propTypes = {
     tableRef: object.isRequired,
-    fetchObrasSociales: func.isRequired,
+    estudiosSinPresentar: func.isRequired,
 };
 
 NuevaPresentacionObraSocialList.propTypes = {
-    fetchObrasSociales: initialState.fetchObrasSociales,
+    estudiosSinPresentar: initialState.estudiosSinPresentar,
 };
 
 function mapStateToProps(state) {
     return {
-        fetchObrasSociales: state.obraSocialReducer.fetchObrasSociales,
+        estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
     };
 }
 
 export default
-    connect(mapStateToProps)(NuevaPresentacionObraSocialList);
+    connect(mapStateToProps, null)(NuevaPresentacionObraSocialList);

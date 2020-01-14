@@ -8,13 +8,20 @@ import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import { requiredOption } from '../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
+import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../../nueva-presentacion/actionTypes';
 
 class SearchPresentacionesObraSocial extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            buscarClicked: false,
+        };
 
         this.setSelectedObraSocial = this.setSelectedObraSocial.bind(this);
         this.searchObrasSociales = this.searchObrasSociales.bind(this);
+        this.buscarButtonClickHandler = this.buscarButtonClickHandler.bind(this);
+        this.nuevaButtonClickHandler = this.nuevaButtonClickHandler.bind(this);
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
     setSelectedObraSocial(selection) {
@@ -25,6 +32,23 @@ class SearchPresentacionesObraSocial extends Component {
 
     searchObrasSociales(nombre) {
         this.props.fetchObrasSociales(nombre);
+    }
+
+    buscarButtonClickHandler() {
+        this.setState({ buscarClicked: true });
+    }
+
+    nuevaButtonClickHandler(event) {
+        this.setState({ buscarClicked: false });
+    }
+
+    handleFormSubmit(params) {
+        const { buscarClicked } = this.state;
+        if (buscarClicked) {
+            this.props.fetchPresentacionesObraSocial(params);
+        } else {
+            this.props.fetchEstudiosSinPresentarObraSocial(params);
+        }
     }
 
     renderObraSocialMenuItem(option) {
@@ -40,7 +64,7 @@ class SearchPresentacionesObraSocial extends Component {
             <Form
               inline
               onSubmit={ this.props.handleSubmit(params =>
-                this.props.fetchPresentacionesObraSocial(params)) }
+                this.handleFormSubmit(params)) }
             >
                 <Row className='search-grid'>
                     <Col md={ 9 } style={ { border: 'none' } } >
@@ -65,16 +89,26 @@ class SearchPresentacionesObraSocial extends Component {
                           type='submit'
                           bsStyle='primary'
                           disabled={ !this.props.valid }
+                          onClick={ this.buscarButtonClickHandler }
                         >
                             Buscar
                         </Button>
-                        <Link to='/nueva-presentacion'>
+                        <Button
+                          type='submit'
+                          bsStyle='primary'
+                          disabled={ !this.props.valid }
+                          onClick={ this.nuevaButtonClickHandler }
+                        >
+                            Nueva
+                        </Button>
+                        <Link to='nueva-presentacion'>
                             <Button
-                              type='button'
+                              type='submit'
                               bsStyle='primary'
+                              style={ { width: '4rem' } }
                               disabled={ !this.props.valid }
                             >
-                                Nueva
+                                Ir
                             </Button>
                         </Link>
                     </Col>
@@ -98,6 +132,7 @@ SearchPresentacionesObraSocial.propTypes = {
     valid: bool.isRequired,
     fetchObrasSociales: func.isRequired,
     fetchPresentacionesObraSocial: func.isRequired,
+    fetchEstudiosSinPresentarObraSocial: func.isRequired,
     setSelectedObraSocial: func.isRequired,
     selectedObraSocial: array,
     obrasSociales: array,
@@ -123,6 +158,10 @@ function mapDispatchToProps(dispatch) {
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
         fetchPresentacionesObraSocial: params => dispatch({
             type: FETCH_PRESENTACIONES_OBRA_SOCIAL,
+            id: params.obraSocial[0].id,
+        }),
+        fetchEstudiosSinPresentarObraSocial: params => dispatch({
+            type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
             id: params.obraSocial[0].id,
         }),
         setSelectedObraSocial: obraSocial =>
