@@ -1,8 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import NuevaPresentacionObraSocialList from '../list-rows/NuevaPresentacionObraSocialList';
+import { ModalComprobante } from '../Modals';
 
 function TabNavigator() {
+    const [openComprobante, setOpenComprobate] = useState(false);
+    const comprobanteHandler = () => {
+        setOpenComprobate(!openComprobante);
+    };
     const tableRef = useRef(null);
     return (
         <div className='tab-navigator'>
@@ -20,6 +25,7 @@ function TabNavigator() {
                   tabIndex='0'
                   bsStyle='primary'
                   className='comprobante'
+                  onClick={ comprobanteHandler }
                 >   Comprobante
                     <i className='fas fa-file-invoice' />
                 </Button>
@@ -39,6 +45,10 @@ function TabNavigator() {
                     />
                 </Col>
             </Row>
+            <ModalComprobante
+              show={ openComprobante }
+              onClickClose={ comprobanteHandler }
+            />
         </div>
     );
 }
