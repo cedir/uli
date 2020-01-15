@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { SEND_NOTA_DE_CREDITO_ASOCIADA } from '../actionTypes';
+import { SEND_COMPROBANTE_ASOCIADO } from '../actionTypes';
 
 function ImporteForm({
     idComprobante,
@@ -46,7 +46,7 @@ function ImporteForm({
                 </div>
             </div>
             <button type='submit' disabled={ saving } className='btn btn-primary'>
-                { saving ? 'Creando nota de credito asociada...' : 'Crear Nota de credito asociada' }
+                { saving ? 'Creando comprobante asociado...' : 'Crear comprobante asociado' }
             </button>
         </form>
     );
@@ -62,7 +62,7 @@ function mapDispatchToProps(dispatch) {
     return {
         crear_nota_de_credito_asociada: (idComp, importe, concepto, mostrarModal) =>
             dispatch({
-                type: SEND_NOTA_DE_CREDITO_ASOCIADA,
+                type: SEND_COMPROBANTE_ASOCIADO,
                 idComp,
                 importe,
                 concepto,

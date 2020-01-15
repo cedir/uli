@@ -69,11 +69,11 @@ export function comprobantesReducer(state = initialState, action) {
             return loadComprobantesAsociadosReducer(state, action);
         case types.LOAD_COMPROBANTES_LISTA_FAILED:
             return loadComprobantesAsociadosErrorReducer(state);
-        case types.SEND_NOTA_DE_CREDITO_ASOCIADA:
+        case types.SEND_COMPROBANTE_ASOCIADO:
             return sendComprobanteAsociadoReducer(state, action);
-        case types.CREATED_NOTA_DE_CREDITO_ASOCIADA_SUCCESS:
+        case types.CREATED_COMPROBANTE_ASOCIADO_SUCCESS:
             return createdComprobanteAsociadoSuccessReducer(state, action);
-        case types.CREATED_NOTA_DE_CREDITO_ASOCIADA_FAILED:
+        case types.CREATED_COMPROBANTE_ASOCIADO_FAILED:
             return createdComprobanteAsociadoFailedReducer(state);
         default:
             return state;
