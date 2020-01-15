@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input, useInputState } from '../low-order-components/Input';
-import { ModalEliminarFila } from '../Modals';
+import { ModalEliminarFila, ModalAnestesia, ModalMedicacion } from '../Modals';
 
 export function useInputValues() {
     const inputOne = useInputState();
@@ -22,6 +22,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
     const [medicacionClicked, setMedicacionClicked] = useState(false);
     const [anestesiaClicked, setAnestesiaClicked] = useState(false);
     const componentState = useInputValues();
+
     const deleteIconClickHandler = () => {
         setDeleteClicked(!deleteClicked);
     };
@@ -51,18 +52,17 @@ export function NuevaPresentacionObraSocialTableRow(props) {
     const isMedicacionActive = medicacionClicked ? 'active' : '';
     const isAnestesiaActive = anestesiaClicked ? 'active' : '';
     return (
-
         renderRow && (
             <tr className='table-row'>
                 <td className='icon'>
                     <i
-                      className={ `fas fa-pills fa-1x ${isMedicacionActive}` }
+                      className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
                       tabIndex='0'
                       role='button'
                       onClick={ medicacionIconClickHandler }
                     />
                     <i
-                      className={ `fas fa-syringe fa-1x ${isAnestesiaActive}` }
+                      className={ `fa fa-plus-circle fa-1x ${isAnestesiaActive}` }
                       tabIndex='0'
                       role='button'
                       onClick={ anestesiaIconClickHandler }
@@ -110,7 +110,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                 </td>
                 <td className='delete'>
                     <i
-                      className={ `fas fa-trash fa-1x trash-icon${isDeleteActive}` }
+                      className={ `fa fa-trash trash-icon${isDeleteActive}` }
                       tabIndex='0'
                       role='button'
                       onClick={ deleteIconClickHandler }
@@ -122,12 +122,22 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                     componentState.inputThree.value +
                     componentState.inputFour.value }
                 </td>
-                <ModalEliminarFila
-                  show={ deleteClicked }
-                  onClickClose={ deleteIconClickHandler }
-                  onClickEliminar={ deleteRowHandler }
-                  nroFila={ id }
-                />
+                <td style={ { display: 'none' } }>
+                    <ModalEliminarFila
+                      show={ deleteClicked }
+                      onClickClose={ deleteIconClickHandler }
+                      onClickEliminar={ deleteRowHandler }
+                      nroFila={ id }
+                    />
+                    <ModalAnestesia
+                      show={ anestesiaClicked }
+                      onClickClose={ anestesiaIconClickHandler }
+                    />
+                    <ModalMedicacion
+                      show={ medicacionClicked }
+                      onClickClose={ medicacionIconClickHandler }
+                    />
+                </td>
             </tr>
         )
     );

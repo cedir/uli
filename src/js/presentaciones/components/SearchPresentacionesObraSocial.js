@@ -38,7 +38,7 @@ class SearchPresentacionesObraSocial extends Component {
         this.setState({ buscarClicked: true });
     }
 
-    nuevaButtonClickHandler(event) {
+    nuevaButtonClickHandler() {
         this.setState({ buscarClicked: false });
     }
 

@@ -8,7 +8,6 @@ import initialState from '../estudiosSinPresentarReducerInitialState';
 class NuevaPresentacionObraSocialList extends React.Component {
     render() {
         const { tableRef, estudiosSinPresentar } = this.props;
-        console.log(this.props.estudiosSinPresentar);
         return (
             <div>
                 <table id='tabla' className='estudios-table'>

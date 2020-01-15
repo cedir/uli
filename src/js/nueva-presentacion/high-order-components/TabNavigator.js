@@ -9,6 +9,7 @@ function TabNavigator() {
         setOpenComprobate(!openComprobante);
     };
     const tableRef = useRef(null);
+    const disableAyuda = true;
     return (
         <div className='tab-navigator'>
             <nav className='tabs'>
@@ -17,8 +18,9 @@ function TabNavigator() {
                   bsStyle='primary'
                   className='ayuda'
                   tabIndex='0'
+                  disabled={ disableAyuda }
                 >   Ayuda
-                    <i className='fas fa-question-circle' />
+                    <i className='fa fa-question-circle' />
                 </Button>
                 <Button
                   role='button'
@@ -27,7 +29,7 @@ function TabNavigator() {
                   className='comprobante'
                   onClick={ comprobanteHandler }
                 >   Comprobante
-                    <i className='fas fa-file-invoice' />
+                    <i className='fa fa-file-text' />
                 </Button>
                 <Button
                   role='button'
@@ -35,7 +37,7 @@ function TabNavigator() {
                   bsStyle='primary'
                   className='finalizar'
                 >   Finalizar
-                    <i className='fas fa-calendar-check' />
+                    <i className='fa fa-calendar-check-o' />
                 </Button>
             </nav>
             <Row className='content-1'>
