@@ -32,7 +32,7 @@ import { pacienteEpic } from '../paciente/pacienteEpic';
 import { practicaEpic } from '../practica/practicaEpic';
 import { presentacionEpic } from '../presentaciones/presentacionEpic';
 import { loginEpic } from '../login/loginEpic';
-import { comprobantesEpic } from '../comprobantes/comprobantesEpic';
+import { comprobantesEpic, obtenerComprobantesEpic, guardarComprobanteAsociadoEpic } from '../comprobantes/comprobantesEpic';
 import { movimientosCajaEpic } from '../caja/cajaEpic';
 
 export const rootEpic = combineEpics(
@@ -60,6 +60,8 @@ export const rootEpic = combineEpics(
     presentacionEpic,
     loginEpic,
     comprobantesEpic,
+    obtenerComprobantesEpic,
+    guardarComprobanteAsociadoEpic,
     movimientosCajaEpic,
 );
 
