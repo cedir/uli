@@ -55,10 +55,16 @@ class Navigation extends Component {
                             <span className='nav-label'>Caja</span>
                         </Link>
                     </li>
+                    <li className={ this.activeRoute('/comprobantes') }>
+                        <Link to='/comprobantes'>
+                            <i className='fa fa-heartbeat' />
+                            <span className='nav-label'>Comprobantes</span>
+                        </Link>
+                    </li>
                     <li className={ this.activeRoute('/listado-informe-comprobantes') }>
                         <Link to='/listado-informe-comprobantes'>
                             <i className='fa fa-heartbeat' />
-                            <span className='nav-label'>Comprobantes</span>
+                            <span className='nav-label'>Informe de Comprobantes</span>
                         </Link>
                     </li>
                     <li className={ this.activeRoute('/medicos/pago') }>

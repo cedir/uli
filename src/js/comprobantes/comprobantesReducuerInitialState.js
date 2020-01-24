@@ -1,5 +1,6 @@
 const initialState = {
     comprobantes: [],
+    comprobantesLista: [],
     comprobantesApiLoading: false,
 };
 
