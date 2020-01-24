@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
-import Comprobante from '../nueva-presentacion/low-order-components/Comprobante';
-import MedicacionEstudio from '../estudio/components/MedicacionEstudio';
+import Comprobante from './Comprobante';
+import MedicacionEstudio from '../../../estudio/components/MedicacionEstudio';
 
 export function ModalEliminarFila(props) {
     const { nroFila, show, onClickClose, onClickEliminar } = props;

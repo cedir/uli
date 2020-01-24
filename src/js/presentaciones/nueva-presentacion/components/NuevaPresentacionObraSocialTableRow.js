@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Input, useInputState } from '../low-order-components/Input';
-import { ModalEliminarFila, ModalAnestesia, ModalMedicacion } from '../Modals';
+import { Input, useInputState } from './Input';
+import { ModalEliminarFila, ModalAnestesia, ModalMedicacion } from './Modals';
 
 export function useInputValues() {
     const inputOne = useInputState();

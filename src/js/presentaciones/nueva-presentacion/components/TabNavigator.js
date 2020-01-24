@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
-import NuevaPresentacionObraSocialList from '../list-rows/NuevaPresentacionObraSocialList';
-import { ModalComprobante } from '../Modals';
+import NuevaPresentacionObraSocialList from './NuevaPresentacionObraSocialList';
+import { ModalComprobante } from './Modals';
 
 function TabNavigator() {
     const [openComprobante, setOpenComprobate] = useState(false);

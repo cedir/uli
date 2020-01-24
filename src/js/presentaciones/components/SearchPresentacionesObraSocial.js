@@ -8,7 +8,7 @@ import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import { requiredOption } from '../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
-import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../../nueva-presentacion/actionTypes';
+import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 
 class SearchPresentacionesObraSocial extends Component {
     constructor(props) {

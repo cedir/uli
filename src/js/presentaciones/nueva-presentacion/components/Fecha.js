@@ -1,7 +1,7 @@
 import { Field } from 'redux-form';
 import React from 'react';
-import { required, dateBeforeThan } from '../../utilities/reduxFormValidators';
-import InputRF from '../../utilities/InputRF';
+import { required, dateBeforeThan } from '../../../utilities/reduxFormValidators';
+import InputRF from '../../../utilities/InputRF';
 
 function Fecha() {
     return (
