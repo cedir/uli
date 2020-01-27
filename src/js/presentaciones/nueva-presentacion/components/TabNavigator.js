@@ -1,12 +1,17 @@
 import React, { useState, useRef } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import NuevaPresentacionObraSocialList from './NuevaPresentacionObraSocialList';
-import { ModalComprobante } from './Modals';
+import { ModalComprobante, ModalFinalizarGuardar } from './Modals';
 
 function TabNavigator() {
     const [openComprobante, setOpenComprobate] = useState(false);
+    const [openFinalizarGuardar, setOpenFinalizarGuardar] = useState(false);
     const comprobanteHandler = () => {
         setOpenComprobate(!openComprobante);
+    };
+
+    const finalizarGuardarHandler = () => {
+        setOpenFinalizarGuardar(!openFinalizarGuardar);
     };
     const tableRef = useRef(null);
     const disableAyuda = true;
@@ -36,6 +41,7 @@ function TabNavigator() {
                   tabIndex='0'
                   bsStyle='primary'
                   className='finalizar'
+                  onClick={ finalizarGuardarHandler }
                 >   Finalizar
                     <i className='fa fa-calendar-check-o' />
                 </Button>
@@ -50,6 +56,10 @@ function TabNavigator() {
             <ModalComprobante
               show={ openComprobante }
               onClickClose={ comprobanteHandler }
+            />
+            <ModalFinalizarGuardar
+              show={ openFinalizarGuardar }
+              onClickClose={ finalizarGuardarHandler }
             />
         </div>
     );
