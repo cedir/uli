@@ -35,7 +35,7 @@ import { practicaEpic } from '../practica/practicaEpic';
 import { presentacionEpic } from '../presentaciones/presentacionEpic';
 import { estudiosSinPresentarEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarEpic';
 import { loginEpic } from '../login/loginEpic';
-import { comprobantesEpic } from '../comprobantes/comprobantesEpic';
+import { comprobantesEpic, obtenerComprobantesEpic, guardarComprobanteAsociadoEpic } from '../comprobantes/comprobantesEpic';
 import { movimientosCajaEpic } from '../caja/cajaEpic';
 
 export const rootEpic = combineEpics(
@@ -64,6 +64,8 @@ export const rootEpic = combineEpics(
     estudiosSinPresentarEpic,
     loginEpic,
     comprobantesEpic,
+    obtenerComprobantesEpic,
+    guardarComprobanteAsociadoEpic,
     movimientosCajaEpic,
 );
 
