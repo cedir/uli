@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button, Row } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
+import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
 import MedicacionEstudio from '../../../estudio/components/MedicacionEstudio';
 
@@ -138,30 +139,10 @@ export function ModalFinalizarGuardar(props) {
                     <strong>Finalizar Presentacion</strong>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='box'>
-                        <Row>
-                            <strong>Periodo de la presentacion:</strong>
-                        </Row>
-                        <Row>
-                            <input
-                              type='text'
-                              value={ periodoValue }
-                              onChange={ e => setPeriodoValue(e.target.value) }
-                            />
-                        </Row>
-                        <Row>
-                            <Button
-                              bsStyle='primary'
-                            >
-                                Finalizar
-                            </Button>
-                            <Button
-                              bsStyle='primary'
-                            >
-                                Guardar
-                            </Button>
-                        </Row>
-                    </div>
+                    <FinalizarGuardarForm
+                      periodoValue={ periodoValue }
+                      onChangePeriodoValue={ e => setPeriodoValue(e.target.value) }
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
