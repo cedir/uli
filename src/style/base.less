@@ -22,9 +22,6 @@ html, body {
     margin-right: 1rem;
     width: 8.2rem;
   }
-  button + button {
-    margin-left: 2rem;
-  }
   .form-group {
     label {
       margin-bottom: 0.4rem;
@@ -48,6 +45,15 @@ html, body {
   @media screen and (max-width: 768px) {
     .form-group {
       margin-bottom: 0rem;
+    }
+  }
+}
+
+@media screen and (min-width: 991px) {
+  .search-grid-presentaciones {
+    div.col-md-3 {
+      display: flex;
+      justify-content: flex-end;
     }
   }
 }
