@@ -38,8 +38,12 @@ export function ModalComprobante(props) {
     const [tipo, setTipo] = useState('');
     const [subTipo, setSubTipo] = useState('');
     const [responsable, setResponsable] = useState('');
-    const [gravado, setGravado] = useState('');
-    const { show, onClickClose } = props;
+    const {
+        show,
+        onClickClose,
+        gravado,
+        onChangeGravado,
+    } = props;
 
     return (
         <div className='modal-comprobante-box'>
@@ -61,7 +65,7 @@ export function ModalComprobante(props) {
                           responsableValue={ responsable }
                           onChangeResponsable={ e => setResponsable(e.target.value) }
                           gravadoValue={ gravado }
-                          onChangeGravado={ e => setGravado(e.target.value) }
+                          onChangeGravado={ onChangeGravado }
                         />
                     </Modal.Body>
                     <Modal.Footer>
@@ -170,6 +174,8 @@ ModalEliminarFila.propTypes = {
 ModalComprobante.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
+    gravado: number.isRequired,
+    onChangeGravado: func.isRequired,
 };
 
 ModalFinalizarGuardar.propTypes = {

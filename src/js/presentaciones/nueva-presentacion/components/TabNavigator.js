@@ -6,6 +6,7 @@ import { ModalComprobante, ModalFinalizarGuardar } from './Modals';
 function TabNavigator() {
     const [openComprobante, setOpenComprobate] = useState(false);
     const [openFinalizarGuardar, setOpenFinalizarGuardar] = useState(false);
+    const [gravado, setGravado] = useState('0');
     const comprobanteHandler = () => {
         setOpenComprobate(!openComprobante);
     };
@@ -50,12 +51,15 @@ function TabNavigator() {
                 <Col md={ 12 } className='col-1'>
                     <NuevaPresentacionObraSocialList
                       ref={ tableRef }
+                      gravado={ gravado }
                     />
                 </Col>
             </Row>
             <ModalComprobante
               show={ openComprobante }
               onClickClose={ comprobanteHandler }
+              gravado={ gravado }
+              onChangeGravado={ e => setGravado(e.target.value) }
             />
             <ModalFinalizarGuardar
               show={ openFinalizarGuardar }

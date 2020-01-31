@@ -17,7 +17,8 @@ export function useInputState() {
     };
 }
 
-export function Input({ inputState, placeholder, className }) {
+export function Input(props) {
+    const { inputState, placeholder, className, onKeyUp } = props;
     const [required, setRequired] = useState(false);
     useEffect(() => {
         if (inputState.value === 0) {
@@ -34,15 +35,17 @@ export function Input({ inputState, placeholder, className }) {
           placeholder={ placeholder }
           value={ inputState.value }
           onChange={ inputState.onChangeHandler }
+          onKeyUp={ onKeyUp }
         />
     );
 }
 
 
-const { string, object } = PropTypes;
+const { func, string, object } = PropTypes;
 
 Input.propTypes = {
     className: string.isRequired,
     placeholder: string.isRequired,
     inputState: object.isRequired,
+    onKeyUp: func.isRequired,
 };

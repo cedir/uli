@@ -22,6 +22,13 @@ export function NuevaPresentacionObraSocialTableRow(props) {
     const [medicacionClicked, setMedicacionClicked] = useState(false);
     const [anestesiaClicked, setAnestesiaClicked] = useState(false);
     const componentState = useInputValues();
+    const rowCalculations =
+        componentState.inputOne.value +
+        (
+            componentState.inputTwo.value +
+            componentState.inputThree.value +
+            componentState.inputFour.value
+        );
 
     const deleteIconClickHandler = () => {
         setDeleteClicked(!deleteClicked);
@@ -39,7 +46,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
         setAnestesiaClicked(!anestesiaClicked);
     };
 
-    const { row } = props;
+    const { row, onKeyUp } = props;
     const {
         id, fecha, nro_de_orden: orden,
         paciente, practica, medico,
@@ -82,6 +89,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       inputState={ componentState.inputOne }
                       className='importe-input'
                       placeholder={ importe }
+                      onKeyUp={ onKeyUp }
                     />
                 </td>
                 <td>
@@ -89,6 +97,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       inputState={ componentState.inputTwo }
                       className='pension-input'
                       placeholder={ pension }
+                      onKeyUp={ onKeyUp }
                     />
                 </td>
                 <td>
@@ -96,6 +105,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       inputState={ componentState.inputThree }
                       className='difpaciente-input'
                       placeholder={ difPaciente }
+                      onKeyUp={ onKeyUp }
                     />
                 </td>
                 <td className='td-medicacion'>
@@ -106,6 +116,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       inputState={ componentState.inputFour }
                       className='anestesista-input'
                       placeholder={ anestesista }
+                      onKeyUp={ onKeyUp }
                     />
                 </td>
                 <td className='delete'>
@@ -116,12 +127,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       onClick={ deleteIconClickHandler }
                     />
                 </td>
-                <td style={ { display: 'none' } }>
-                    { componentState.inputOne.value +
-                    componentState.inputTwo.value +
-                    componentState.inputThree.value +
-                    componentState.inputFour.value }
-                </td>
+                <td style={ { display: 'none' } }>{ rowCalculations }</td>
                 <td style={ { display: 'none' } }>
                     <ModalEliminarFila
                       show={ deleteClicked }
@@ -143,8 +149,9 @@ export function NuevaPresentacionObraSocialTableRow(props) {
     );
 }
 
-const { object } = PropTypes;
+const { func, object } = PropTypes;
 
 NuevaPresentacionObraSocialTableRow.propTypes = {
     row: object.isRequired,
+    onKeyUp: func.isRequired,
 };
