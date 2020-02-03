@@ -5,8 +5,9 @@ import { Table } from 'react-bootstrap/dist/react-bootstrap';
 
 import ComprobanteRow from './ComprobanteRow';
 import initialState from '../comprobantesReducuerInitialState';
-import { FETCH_COMPROBANTES_LISTA } from '../actionTypes';
+import { FETCH_COMPROBANTES_LISTA, FETCH_COMPROBANTES_POR_OBRA_SOCIAL } from '../actionTypes';
 import ImporteModal from './ImporteComprobanteAsociado';
+import BuscadorObraSocialForm from '../../common/BuscadorObraSocialForm';
 
 function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
     const [showImporteModal, setShowImporteModal] = useState(false);
@@ -24,6 +25,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
               setShowImporteModal={ setShowImporteModal }
               idComprobante={ idComprobante }
             />
+            <BuscadorObraSocialForm action={ FETCH_COMPROBANTES_POR_OBRA_SOCIAL } />
             <Table striped responsive style={ { marginTop: '20px' } }>
                 <thead>
                     <tr>
