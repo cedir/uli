@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NuevaPresentacionObraSocialTableRow } from './NuevaPresentacionObraSocialTableRow';
@@ -12,11 +12,21 @@ function NuevaPresentacionObraSocialList(props) {
     const [sum, setSum] = useState(0);
     const tableRef = useRef();
 
+    useEffect(() => {
+        const setFromEvent = () => {
+            sumHandler();
+        };
+        window.addEventListener('click', setFromEvent);
+        return () => {
+            window.removeEventListener('click', setFromEvent);
+        };
+    }, []);
+
     const sumHandler = () => {
         const rows = tableRef.current.rows;
         let newSum = 0;
         for (let i = 0; i < rows.length; i += 1) {
-            newSum += parseInt(rows[i].cells[14].textContent, 10);
+            newSum += parseFloat(rows[i].cells[14].textContent, 10);
         }
         setSum(newSum);
     };

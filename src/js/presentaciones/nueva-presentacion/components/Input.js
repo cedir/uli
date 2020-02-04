@@ -1,27 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-
-export function useInputState() {
-    const [value, setValue] = useState(0);
-    const onChangeHandler = (e) => {
-        if (value >= 0) {
-            setValue(Number(e.target.value));
-        } else {
-            setValue(0);
-        }
-    };
-    return {
-        value,
-        onChangeHandler,
-    };
-}
-
 export function Input(props) {
-    const { inputState, placeholder, className, onKeyUp } = props;
+    const { value, className, onKeyUp, onChange } = props;
     const [required, setRequired] = useState(false);
     useEffect(() => {
-        if (inputState.value === 0) {
+        if (value === 0) {
             setRequired(true);
         } else {
             setRequired(false);
@@ -32,20 +16,19 @@ export function Input(props) {
         <input
           type='number'
           className={ ` ${className}${isRequired} ` }
-          placeholder={ placeholder }
-          value={ inputState.value }
-          onChange={ inputState.onChangeHandler }
+          onChange={ onChange }
+          value={ value }
           onKeyUp={ onKeyUp }
         />
     );
 }
 
 
-const { func, string, object } = PropTypes;
+const { func, string, number } = PropTypes;
 
 Input.propTypes = {
     className: string.isRequired,
-    placeholder: string.isRequired,
-    inputState: object.isRequired,
     onKeyUp: func.isRequired,
+    onChange: func.isRequired,
+    value: number.isRequired,
 };

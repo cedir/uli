@@ -162,7 +162,7 @@ export function ModalFinalizarGuardar(props) {
     );
 }
 
-const { bool, func, number } = PropTypes;
+const { bool, func, number, string } = PropTypes;
 
 ModalEliminarFila.propTypes = {
     show: bool.isRequired,
@@ -174,7 +174,7 @@ ModalEliminarFila.propTypes = {
 ModalComprobante.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
-    gravado: number.isRequired,
+    gravado: string.isRequired,
     onChangeGravado: func.isRequired,
 };
 
