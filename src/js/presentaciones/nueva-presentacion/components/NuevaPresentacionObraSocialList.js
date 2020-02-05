@@ -13,6 +13,7 @@ function NuevaPresentacionObraSocialList(props) {
     const tableRef = useRef();
 
     useEffect(() => {
+        sumHandler();
         const setFromEvent = () => {
             sumHandler();
         };
@@ -20,7 +21,7 @@ function NuevaPresentacionObraSocialList(props) {
         return () => {
             window.removeEventListener('click', setFromEvent);
         };
-    }, []);
+    });
 
     const sumHandler = () => {
         const rows = tableRef.current.rows;
@@ -31,7 +32,7 @@ function NuevaPresentacionObraSocialList(props) {
         setSum(newSum);
     };
 
-    const { estudiosSinPresentar, gravado } = props;
+    const { estudiosSinPresentar, estudiosSinPresentarApiLoading, gravado } = props;
     return (
         <div>
             <table id='tabla' className='estudios-table'>
@@ -63,28 +64,33 @@ function NuevaPresentacionObraSocialList(props) {
                     )) }
                 </tbody>
             </table>
+            { !estudiosSinPresentarApiLoading &&
             <ImportesTotales
               estudios={ sum }
               gravado={ parseFloat(gravado, 10) }
-            />
+            /> }
         </div>
     );
 }
 
-const { number, func } = PropTypes;
+const { number, func, bool } = PropTypes;
 
 NuevaPresentacionObraSocialList.propTypes = {
     estudiosSinPresentar: func.isRequired,
+    estudiosSinPresentarApiLoading: bool.isRequired,
     gravado: number.isRequired,
 };
 
 NuevaPresentacionObraSocialList.propTypes = {
     estudiosSinPresentar: initialState.estudiosSinPresentar,
+    estudiosSinPresentarApiLoading: initialState.estudiosSinPresentarApiLoading,
 };
 
 function mapStateToProps(state) {
     return {
         estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
+        estudiosSinPresentarApiLoading:
+            state.estudiosSinPresentarReducer.estudiosSinPresentarApiLoading,
     };
 }
 
