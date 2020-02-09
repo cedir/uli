@@ -104,12 +104,14 @@ class App extends React.Component {
                           authenticated={ !!this.props.token }
                         />
                         <PrivateRoute
+                          exact
                           path='/presentaciones-obras-sociales'
                           component={ PresentacionesObraSocialPage }
                           authenticated={ !!this.props.token }
                         />
                         <PrivateRoute
-                          path='/nueva-presentacion'
+                          exact
+                          path='/presentaciones-obras-sociales/nueva-presentacion'
                           component={ NuevaPresentacionPage }
                           authenticated={ !!this.props.token }
                         />
