@@ -5,9 +5,6 @@ import { NuevaPresentacionObraSocialTableRow } from './NuevaPresentacionObraSoci
 import ImportesTotales from './ImportesTotales';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 
-/* eslint-disable no-console */
-
-
 function NuevaPresentacionObraSocialList(props) {
     const [sum, setSum] = useState(0);
     const tableRef = useRef();
@@ -73,15 +70,15 @@ function NuevaPresentacionObraSocialList(props) {
     );
 }
 
-const { number, func, bool } = PropTypes;
+const { string, func, bool } = PropTypes;
 
 NuevaPresentacionObraSocialList.propTypes = {
     estudiosSinPresentar: func.isRequired,
     estudiosSinPresentarApiLoading: bool.isRequired,
-    gravado: number.isRequired,
+    gravado: string.isRequired,
 };
 
-NuevaPresentacionObraSocialList.propTypes = {
+NuevaPresentacionObraSocialList.defaultProps = {
     estudiosSinPresentar: initialState.estudiosSinPresentar,
     estudiosSinPresentarApiLoading: initialState.estudiosSinPresentarApiLoading,
 };

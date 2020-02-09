@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-/* eslint-disable no-mixed-operators */
-
 function ImportesTotales(props) {
     const { estudios, gravado } = props;
-    const total = estudios + (estudios * gravado) / 100;
+    const total = estudios + ((estudios * gravado) * 0.01);
     return (
         <div className='importes-totales'>
             <div className='col'>
                 <span>Estudios:</span>
-                <div>{ `$${estudios}` }</div>
+                <div>{ `$${estudios.toFixed(2)}` }</div>
             </div>
             <div className='col'>
                 <span>Gravado:</span>
@@ -18,7 +16,7 @@ function ImportesTotales(props) {
             </div>
             <div className='col'>
                 <span>Total:</span>
-                <div>{ `$${total}` }</div>
+                <div>{ `$${total.toFixed(2)}` }</div>
             </div>
         </div>
     );

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { Input } from './Input';
 import { ModalEliminarFila, ModalAnestesia, ModalMedicacion } from './Modals';
 
-/* eslint-disable no-unused-vars */
-
 function useInputState(props) {
     const [newValue, setValue] = useState(props);
     const changeHandler = (e) => {
@@ -53,6 +51,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
         arancel_anestesia: anestesista,
     } = row;
 
+    const inputNroDeOrden = useInputState(parseInt(orden, 10));
     const inputOne = useInputState(parseFloat(importe, 10));
     const inputTwo = useInputState(parseFloat(pension, 10));
     const inputThree = useInputState(parseFloat(difPaciente, 10));
@@ -67,6 +66,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
     const isDeleteActive = deleteClicked ? '-active' : '';
     const isMedicacionActive = medicacionClicked ? 'active' : '';
     const isAnestesiaActive = anestesiaClicked ? 'active' : '';
+
     return (
         renderRow && (
             <tr className='table-row'>
@@ -86,8 +86,13 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                 </td>
                 <td className='numero'>{ id }</td>
                 <td>{ fecha }</td>
-                <td>{ orden }
-                    <input type='number' />
+                <td>
+                    <Input
+                      className='nro-orden'
+                      value={ parseInt(inputNroDeOrden.newValue, 10) }
+                      onChange={ inputNroDeOrden.changeHandler }
+                      onKeyUp={ onKeyUp }
+                    />
                 </td>
                 <td>{ paciente.id }</td>
                 <td>{ `${paciente.nombre} ${paciente.apellido}` }</td>

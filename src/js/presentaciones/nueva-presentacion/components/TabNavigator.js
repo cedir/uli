@@ -14,6 +14,7 @@ function TabNavigator() {
     const finalizarGuardarHandler = () => {
         setOpenFinalizarGuardar(!openFinalizarGuardar);
     };
+
     const tableRef = useRef(null);
     const disableAyuda = true;
     return (
