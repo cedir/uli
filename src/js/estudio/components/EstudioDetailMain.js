@@ -485,7 +485,6 @@ class EstudioDetailMain extends Component {
                       type='textarea'
                       label='Informe'
                       style={ { height: '200px' } }
-                      validate={ alphaNum }
                       component={ InputRF }
                     />
                     <div className='pull-right'>

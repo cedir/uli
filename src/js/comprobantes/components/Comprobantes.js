@@ -7,6 +7,7 @@ import ComprobanteRow from './ComprobanteRow';
 import initialState from '../comprobantesReducuerInitialState';
 import { FETCH_COMPROBANTES_LISTA } from '../actionTypes';
 import ImporteModal from './ImporteComprobanteAsociado';
+import Buscador from './FilterComprobante';
 
 function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
     const [showImporteModal, setShowImporteModal] = useState(false);
@@ -24,6 +25,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
               setShowImporteModal={ setShowImporteModal }
               idComprobante={ idComprobante }
             />
+            <Buscador />
             <Table striped responsive style={ { marginTop: '20px' } }>
                 <thead>
                     <tr>
