@@ -1,5 +1,5 @@
 import Rx from 'rxjs';
-import { getComprobantesPago, getComprobantes, saveComprobanteAsociado } from './api';
+import { getComprobantesPago, getComprobantes, saveComprobanteAsociado, searchComprobante } from './api';
 import {
     FETCH_COMPROBANTES_PAGO,
     LOAD_COMPROBANTES_PAGO,
@@ -9,7 +9,8 @@ import {
     LOAD_COMPROBANTES_LISTA_FAILED,
     SEND_COMPROBANTE_ASOCIADO,
     CREATED_COMPROBANTE_ASOCIADO_SUCCESS,
-    CREATED_COMPROBANTE_ASOCIADO_FAILED } from './actionTypes';
+    CREATED_COMPROBANTE_ASOCIADO_FAILED,
+    FETCH_COMPROBANTES_FILTRO } from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
 
@@ -53,5 +54,18 @@ export function guardarComprobanteAsociadoEpic(action$) {
                     mostrar: action.mostrarModal(false),
                 },
                 { type: ADD_ALERT, alert: createAlert(data.response.message, 'danger') },
+            )));
+}
+
+export function obtenerComprobantesConFiltroEpic(action$) {
+    return action$.ofType(FETCH_COMPROBANTES_FILTRO)
+        .mergeMap(action =>
+            searchComprobante(action.filtro)
+            .mergeMap(data => Rx.Observable.of(
+                {
+                    type: LOAD_COMPROBANTES_LISTA_SUCCESS,
+                    data,
+                    accion: action.setSearching(false),
+                },
             )));
 }
