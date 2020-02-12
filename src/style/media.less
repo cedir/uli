@@ -131,3 +131,20 @@
 
 }
 
+@media screen and (min-width: 991px) {
+  .search-grid-presentaciones {
+    div.col-md-3 {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+.search-grid [class^="col-"] {
+  @media screen and (max-width: 768px) {
+    .form-group {
+      margin-bottom: 0rem;
+    }
+  }
+}
+

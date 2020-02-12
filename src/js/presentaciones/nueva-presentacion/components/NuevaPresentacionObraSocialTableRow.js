@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Input, useInputState } from './Input';
+import { Input } from './Input';
 import { ModalEliminarFila, ModalAnestesia, ModalMedicacion } from './Modals';
 
-export function useInputValues() {
-    const inputOne = useInputState();
-    const inputTwo = useInputState();
-    const inputThree = useInputState();
-    const inputFour = useInputState();
+function useInputState(props) {
+    const [newValue, setValue] = useState(props);
+    const changeHandler = (e) => {
+        if (e.target.value > 0) {
+            setValue(parseFloat(e.target.value, 10));
+        } else {
+            setValue(0.00);
+        }
+    };
+
     return {
-        inputOne,
-        inputTwo,
-        inputThree,
-        inputFour,
+        newValue,
+        changeHandler,
     };
 }
 
@@ -21,7 +24,6 @@ export function NuevaPresentacionObraSocialTableRow(props) {
     const [renderRow, setRenderRow] = useState(true);
     const [medicacionClicked, setMedicacionClicked] = useState(false);
     const [anestesiaClicked, setAnestesiaClicked] = useState(false);
-    const componentState = useInputValues();
 
     const deleteIconClickHandler = () => {
         setDeleteClicked(!deleteClicked);
@@ -39,7 +41,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
         setAnestesiaClicked(!anestesiaClicked);
     };
 
-    const { row } = props;
+    const { row, onKeyUp } = props;
     const {
         id, fecha, nro_de_orden: orden,
         paciente, practica, medico,
@@ -48,9 +50,23 @@ export function NuevaPresentacionObraSocialTableRow(props) {
         importe_medicacion: medicacion,
         arancel_anestesia: anestesista,
     } = row;
+
+    const inputNroDeOrden = useInputState(parseInt(orden, 10));
+    const inputOne = useInputState(parseFloat(importe, 10));
+    const inputTwo = useInputState(parseFloat(pension, 10));
+    const inputThree = useInputState(parseFloat(difPaciente, 10));
+    const inputFour = useInputState(parseFloat(anestesista, 10));
+
+    const rowCalculations =
+    parseFloat(inputOne.newValue, 10) +
+    parseFloat(inputTwo.newValue, 10) +
+    parseFloat(inputThree.newValue, 10) +
+    parseFloat(inputFour.newValue, 10);
+
     const isDeleteActive = deleteClicked ? '-active' : '';
     const isMedicacionActive = medicacionClicked ? 'active' : '';
     const isAnestesiaActive = anestesiaClicked ? 'active' : '';
+
     return (
         renderRow && (
             <tr className='table-row'>
@@ -70,8 +86,13 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                 </td>
                 <td className='numero'>{ id }</td>
                 <td>{ fecha }</td>
-                <td>{ orden }
-                    <input type='number' />
+                <td>
+                    <Input
+                      className='nro-orden'
+                      value={ parseInt(inputNroDeOrden.newValue, 10) }
+                      onChange={ inputNroDeOrden.changeHandler }
+                      onKeyUp={ onKeyUp }
+                    />
                 </td>
                 <td>{ paciente.id }</td>
                 <td>{ `${paciente.nombre} ${paciente.apellido}` }</td>
@@ -79,23 +100,26 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                 <td>{ `${medico.nombre} ${medico.apellido}` }</td>
                 <td>
                     <Input
-                      inputState={ componentState.inputOne }
                       className='importe-input'
-                      placeholder={ importe }
+                      onKeyUp={ onKeyUp }
+                      value={ parseFloat(inputOne.newValue, 10) }
+                      onChange={ inputOne.changeHandler }
                     />
                 </td>
                 <td>
                     <Input
-                      inputState={ componentState.inputTwo }
                       className='pension-input'
-                      placeholder={ pension }
+                      onKeyUp={ onKeyUp }
+                      value={ parseFloat(inputTwo.newValue, 10) }
+                      onChange={ inputTwo.changeHandler }
                     />
                 </td>
                 <td>
                     <Input
-                      inputState={ componentState.inputThree }
                       className='difpaciente-input'
-                      placeholder={ difPaciente }
+                      onKeyUp={ onKeyUp }
+                      value={ parseFloat(inputThree.newValue, 10) }
+                      onChange={ inputThree.changeHandler }
                     />
                 </td>
                 <td className='td-medicacion'>
@@ -103,9 +127,10 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                 </td>
                 <td>
                     <Input
-                      inputState={ componentState.inputFour }
                       className='anestesista-input'
-                      placeholder={ anestesista }
+                      onKeyUp={ onKeyUp }
+                      value={ parseFloat(inputFour.newValue, 10) }
+                      onChange={ inputFour.changeHandler }
                     />
                 </td>
                 <td className='delete'>
@@ -116,12 +141,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       onClick={ deleteIconClickHandler }
                     />
                 </td>
-                <td style={ { display: 'none' } }>
-                    { componentState.inputOne.value +
-                    componentState.inputTwo.value +
-                    componentState.inputThree.value +
-                    componentState.inputFour.value }
-                </td>
+                <td style={ { display: 'none' } }>{ String(rowCalculations) }</td>
                 <td style={ { display: 'none' } }>
                     <ModalEliminarFila
                       show={ deleteClicked }
@@ -143,8 +163,13 @@ export function NuevaPresentacionObraSocialTableRow(props) {
     );
 }
 
-const { object } = PropTypes;
+const { object, string, func } = PropTypes;
 
 NuevaPresentacionObraSocialTableRow.propTypes = {
     row: object.isRequired,
+    onKeyUp: func.isRequired,
+};
+
+useInputState.propTypes = {
+    value: string.isRequired,
 };
