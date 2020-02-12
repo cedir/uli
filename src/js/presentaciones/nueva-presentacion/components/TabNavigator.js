@@ -3,10 +3,58 @@ import { Button, Row, Col } from 'react-bootstrap';
 import NuevaPresentacionObraSocialList from './NuevaPresentacionObraSocialList';
 import { ModalComprobante, ModalFinalizarGuardar } from './Modals';
 
+function useComprobanteState() {
+    const [numeroShort, setNumeroShort] = useState('');
+    const [numeroLong, setNumeroLong] = useState('');
+    const [tipo, setTipo] = useState('Factura Electroncia');
+    const [subTipo, setSubTipo] = useState('A');
+    const [responsable, setResponsable] = useState('Cedir');
+    const [gravado, setGravado] = useState('0.00');
+
+    const numeroShortHandler = (e) => {
+        setNumeroShort(e.target.value);
+    };
+
+    const numeroLongHandler = (e) => {
+        setNumeroLong(e.target.value);
+    };
+
+    const tipoHandler = (e) => {
+        setTipo(e.target.value);
+    };
+
+    const subTipoHandler = (e) => {
+        setSubTipo(e.target.value);
+    };
+
+    const responsableHandler = (e) => {
+        setResponsable(e.target.value);
+    };
+
+    const gravadoHandler = (e) => {
+        setGravado(e.target.value);
+    };
+
+    return {
+        numeroShort,
+        numeroShortHandler,
+        numeroLong,
+        numeroLongHandler,
+        tipo,
+        tipoHandler,
+        subTipo,
+        subTipoHandler,
+        responsable,
+        responsableHandler,
+        gravado,
+        gravadoHandler,
+    };
+}
+
 function TabNavigator() {
     const [openComprobante, setOpenComprobate] = useState(false);
     const [openFinalizarGuardar, setOpenFinalizarGuardar] = useState(false);
-    const [gravado, setGravado] = useState('0');
+    const comprobanteState = useComprobanteState();
     const comprobanteHandler = () => {
         setOpenComprobate(!openComprobante);
     };
@@ -52,15 +100,14 @@ function TabNavigator() {
                 <Col md={ 12 } className='col-1'>
                     <NuevaPresentacionObraSocialList
                       ref={ tableRef }
-                      gravado={ gravado }
+                      gravado={ comprobanteState.gravado }
                     />
                 </Col>
             </Row>
             <ModalComprobante
               show={ openComprobante }
               onClickClose={ comprobanteHandler }
-              gravado={ gravado }
-              onChangeGravado={ e => setGravado(e.target.value) }
+              componentState={ comprobanteState }
             />
             <ModalFinalizarGuardar
               show={ openFinalizarGuardar }

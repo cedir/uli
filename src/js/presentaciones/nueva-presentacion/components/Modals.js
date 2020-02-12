@@ -33,16 +33,10 @@ export function ModalEliminarFila(props) {
 }
 
 export function ModalComprobante(props) {
-    const [numeroShort, setNumeroShort] = useState('');
-    const [numeroLong, setNumeroLong] = useState('');
-    const [tipo, setTipo] = useState('');
-    const [subTipo, setSubTipo] = useState('');
-    const [responsable, setResponsable] = useState('');
     const {
         show,
         onClickClose,
-        gravado,
-        onChangeGravado,
+        componentState,
     } = props;
 
     return (
@@ -54,18 +48,18 @@ export function ModalComprobante(props) {
                     </Modal.Header>
                     <Modal.Body>
                         <Comprobante
-                          numeroShortValue={ numeroShort }
-                          onChangeNumeroShort={ e => setNumeroShort(e.target.value) }
-                          numeroLongValue={ numeroLong }
-                          onChangeNumeroLong={ e => setNumeroLong(e.target.value) }
-                          tipoValue={ tipo }
-                          onChangeTipo={ e => setTipo(e.target.value) }
-                          subTipoValue={ subTipo }
-                          onChangeSubTipo={ e => setSubTipo(e.target.value) }
-                          responsableValue={ responsable }
-                          onChangeResponsable={ e => setResponsable(e.target.value) }
-                          gravadoValue={ gravado }
-                          onChangeGravado={ onChangeGravado }
+                          numeroShortValue={ componentState.numeroShort }
+                          onChangeNumeroShort={ componentState.numeroShortHandler }
+                          numeroLongValue={ componentState.numeroLong }
+                          onChangeNumeroLong={ componentState.numeroLongHandler }
+                          tipoValue={ componentState.tipo }
+                          onChangeTipo={ componentState.tipoHandler }
+                          subTipoValue={ componentState.subTipo }
+                          onChangeSubTipo={ componentState.subTipoHandler }
+                          responsableValue={ componentState.responsable }
+                          onChangeResponsable={ componentState.responsableHandler }
+                          gravadoValue={ componentState.gravado }
+                          onChangeGravado={ componentState.gravadoHandler }
                         />
                     </Modal.Body>
                     <Modal.Footer>
@@ -162,7 +156,7 @@ export function ModalFinalizarGuardar(props) {
     );
 }
 
-const { bool, func, number, string } = PropTypes;
+const { bool, func, number, object } = PropTypes;
 
 ModalEliminarFila.propTypes = {
     show: bool.isRequired,
@@ -174,8 +168,7 @@ ModalEliminarFila.propTypes = {
 ModalComprobante.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
-    gravado: string.isRequired,
-    onChangeGravado: func.isRequired,
+    componentState: object.isRequired,
 };
 
 ModalFinalizarGuardar.propTypes = {
