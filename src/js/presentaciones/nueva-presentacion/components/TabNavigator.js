@@ -6,9 +6,9 @@ import { ModalComprobante, ModalFinalizarGuardar } from './Modals';
 function useComprobanteState() {
     const [numeroShort, setNumeroShort] = useState('');
     const [numeroLong, setNumeroLong] = useState('');
-    const [tipo, setTipo] = useState('Factura Electroncia');
-    const [subTipo, setSubTipo] = useState('A');
-    const [responsable, setResponsable] = useState('Cedir');
+    const [tipo, setTipo] = useState('');
+    const [subTipo, setSubTipo] = useState('');
+    const [responsable, setResponsable] = useState('');
     const [gravado, setGravado] = useState('0.00');
 
     const numeroShortHandler = (e) => {
@@ -112,6 +112,7 @@ function TabNavigator() {
             <ModalFinalizarGuardar
               show={ openFinalizarGuardar }
               onClickClose={ finalizarGuardarHandler }
+              comprobanteState={ comprobanteState }
             />
         </div>
     );

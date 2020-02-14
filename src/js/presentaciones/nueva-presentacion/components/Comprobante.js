@@ -49,8 +49,12 @@ function Comprobante(props) {
                 </Col>
                 <Col className='col col-2'>
                     <select value={ tipoValue } onChange={ onChangeTipo }>
+                        <option value=''>Seleccionar...</option>
                         <option value='Factura Electronica'>
                             Factura Electronica
+                        </option>
+                        <option value='Liquidacion'>
+                            Liquidacion
                         </option>
                         <option value='Recibo'>Recibo</option>
                     </select>
@@ -62,9 +66,9 @@ function Comprobante(props) {
                       value={ subTipoValue }
                       onChange={ onChangeSubTipo }
                     >
+                        <option value=''>...</option>
                         <option value='A'>A</option>
                         <option value='B'>B</option>
-                        <option value='C'>C</option>
                     </select>
                 </Col>
             </Row>
@@ -78,6 +82,7 @@ function Comprobante(props) {
                       value={ responsableValue }
                       onChange={ onChangeResponsable }
                     >
+                        <option value=''>Seleccionar...</option>
                         <option value='CeDIR'>CeDIR</option>
                         <option value='Brunetti'>Brunetti</option>
                     </select>

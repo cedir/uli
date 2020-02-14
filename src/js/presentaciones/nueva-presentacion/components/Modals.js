@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import FinalizarGuardarForm from './FinalizarGuardarForm';
@@ -129,7 +129,35 @@ export function ModalMedicacion(props) {
 
 export function ModalFinalizarGuardar(props) {
     const [periodoValue, setPeriodoValue] = useState('');
-    const { show, onClickClose } = props;
+    const { show, onClickClose, comprobanteState } = props;
+    const [finalizarButtonDisabled, setFinalizarButtonDisabled] =
+    useState(true);
+    const [guardarButtonDisabled, setGuardarButtonDisabled] =
+    useState(true);
+    useEffect(() => {
+        if (
+            comprobanteState.tipo !== '' &&
+            comprobanteState.subTipo !== '' &&
+            comprobanteState.responsable !== '' &&
+            comprobanteState.gravado !== '' &&
+            periodoValue !== ''
+        ) {
+            setFinalizarButtonDisabled(false);
+        } else if (
+            comprobanteState.tipo === '' ||
+            comprobanteState.subTipo === '' ||
+            comprobanteState.responsable === '' ||
+            comprobanteState.gravado === '' ||
+            periodoValue === ''
+        ) {
+            setFinalizarButtonDisabled(true);
+        }
+        if (periodoValue !== '') {
+            setGuardarButtonDisabled(false);
+        } else if (periodoValue === '') {
+            setGuardarButtonDisabled(true);
+        }
+    });
     return (
         <div className='modal-finalizar-guardar-box'>
             <Modal show={ show } className='modal-finalizar-guardar'>
@@ -140,6 +168,9 @@ export function ModalFinalizarGuardar(props) {
                     <FinalizarGuardarForm
                       periodoValue={ periodoValue }
                       onChangePeriodoValue={ e => setPeriodoValue(e.target.value) }
+                      comprobanteState={ comprobanteState }
+                      finalizarButtonDisabled={ finalizarButtonDisabled }
+                      guardarButtonDisabled={ guardarButtonDisabled }
                     />
                 </Modal.Body>
                 <Modal.Footer>
@@ -174,6 +205,7 @@ ModalComprobante.propTypes = {
 ModalFinalizarGuardar.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
+    comprobanteState: object.isRequired,
 };
 
 ModalAnestesia.propTypes = {
