@@ -24,7 +24,7 @@ function NuevaPresentacionObraSocialList(props) {
         const rows = tableRef.current.rows;
         let newSum = 0;
         for (let i = 0; i < rows.length; i += 1) {
-            newSum += parseFloat(rows[i].cells[14].textContent, 10);
+            newSum += parseFloat(rows[i].cells[13].textContent, 10);
         }
         setSum(newSum);
     };
@@ -35,20 +35,19 @@ function NuevaPresentacionObraSocialList(props) {
             <table id='tabla' className='estudios-table'>
                 <thead>
                     <tr className='titles'>
-                        <th className='first-row-title' />
-                        <th className='numero'>Nro</th>
+                        <th className='first-row-title icon' />
                         <th>Fecha</th>
                         <th>Orden</th>
                         <th>Afiliado</th>
                         <th>Paciente</th>
-                        <th>Practica</th>
+                        <th className='practica'>Practica</th>
                         <th>Actuante</th>
                         <th>Importe</th>
                         <th>Pension</th>
                         <th>Dif. Paciente</th>
-                        <th>Medicacion</th>
+                        <th className='medicacion'>Medicacion</th>
                         <th>Anestesista</th>
-                        <th className='last-row-title' />
+                        <th className='last-row-title delete' />
                     </tr>
                 </thead>
                 <tbody ref={ tableRef }>
@@ -60,12 +59,12 @@ function NuevaPresentacionObraSocialList(props) {
                         />
                     )) }
                 </tbody>
+                { !estudiosSinPresentarApiLoading &&
+                <ImportesTotales
+                  estudios={ sum }
+                  gravado={ parseFloat(gravado, 10) }
+                /> }
             </table>
-            { !estudiosSinPresentarApiLoading &&
-            <ImportesTotales
-              estudios={ sum }
-              gravado={ parseFloat(gravado, 10) }
-            /> }
         </div>
     );
 }

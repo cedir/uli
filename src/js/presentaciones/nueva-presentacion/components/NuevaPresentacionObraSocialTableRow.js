@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from './Input';
-import { ModalEliminarFila, ModalAnestesia, ModalMedicacion } from './Modals';
+import { ModalMedicacion } from './Modals';
 
 function useInputState(props) {
     const [newValue, setValue] = useState(props);
@@ -20,30 +20,21 @@ function useInputState(props) {
 }
 
 export function NuevaPresentacionObraSocialTableRow(props) {
-    const [deleteClicked, setDeleteClicked] = useState(false);
     const [renderRow, setRenderRow] = useState(true);
     const [medicacionClicked, setMedicacionClicked] = useState(false);
-    const [anestesiaClicked, setAnestesiaClicked] = useState(false);
 
     const deleteIconClickHandler = () => {
-        setDeleteClicked(!deleteClicked);
-    };
-
-    const deleteRowHandler = () => {
         setRenderRow(!renderRow);
     };
+
 
     const medicacionIconClickHandler = () => {
         setMedicacionClicked(!medicacionClicked);
     };
 
-    const anestesiaIconClickHandler = () => {
-        setAnestesiaClicked(!anestesiaClicked);
-    };
-
     const { row, onKeyUp } = props;
     const {
-        id, fecha, nro_de_orden: orden,
+        fecha, nro_de_orden: orden,
         paciente, practica, medico,
         importe_estudio: importe,
         pension, diferencia_paciente: difPaciente,
@@ -63,9 +54,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
     parseFloat(inputThree.newValue, 10) +
     parseFloat(inputFour.newValue, 10);
 
-    const isDeleteActive = deleteClicked ? '-active' : '';
     const isMedicacionActive = medicacionClicked ? 'active' : '';
-    const isAnestesiaActive = anestesiaClicked ? 'active' : '';
 
     return (
         renderRow && (
@@ -77,15 +66,8 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       role='button'
                       onClick={ medicacionIconClickHandler }
                     />
-                    <i
-                      className={ `fa fa-plus-circle fa-1x ${isAnestesiaActive}` }
-                      tabIndex='0'
-                      role='button'
-                      onClick={ anestesiaIconClickHandler }
-                    />
                 </td>
-                <td className='numero'>{ id }</td>
-                <td>{ fecha }</td>
+                <td className='fecha'>{ fecha }</td>
                 <td>
                     <Input
                       className='nro-orden'
@@ -95,9 +77,15 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                     />
                 </td>
                 <td>{ paciente.id }</td>
-                <td>{ `${paciente.nombre} ${paciente.apellido}` }</td>
-                <td className='practica'>{ practica.descripcion }</td>
-                <td>{ `${medico.nombre} ${medico.apellido}` }</td>
+                <td title={ `${paciente.nombre} ${paciente.apellido}` }>
+                    { paciente.apellido }
+                </td>
+                <td title={ practica.descripcion } className='practica'>
+                    { practica.abreviatura }
+                </td>
+                <td title={ `${medico.nombre} ${medico.apellido}` }>
+                    { medico.apellido }
+                </td>
                 <td>
                     <Input
                       className='importe-input'
@@ -135,7 +123,7 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                 </td>
                 <td className='delete'>
                     <i
-                      className={ `fa fa-trash trash-icon${isDeleteActive}` }
+                      className='fa fa-trash trash-icon'
                       tabIndex='0'
                       role='button'
                       onClick={ deleteIconClickHandler }
@@ -143,16 +131,6 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                 </td>
                 <td style={ { display: 'none' } }>{ String(rowCalculations) }</td>
                 <td style={ { display: 'none' } }>
-                    <ModalEliminarFila
-                      show={ deleteClicked }
-                      onClickClose={ deleteIconClickHandler }
-                      onClickEliminar={ deleteRowHandler }
-                      nroFila={ id }
-                    />
-                    <ModalAnestesia
-                      show={ anestesiaClicked }
-                      onClickClose={ anestesiaIconClickHandler }
-                    />
                     <ModalMedicacion
                       show={ medicacionClicked }
                       onClickClose={ medicacionIconClickHandler }

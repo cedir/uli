@@ -21,8 +21,8 @@
     }
   }
   .content-1 {
-    width: 170rem;
-    height: 50rem;
+    width: 130rem;
+    height: auto;
     table {
       width: 100%;
       height: auto;
@@ -34,24 +34,21 @@
       justify-content: center;
       td {
         border-radius: 0.2rem;
-        width: 10rem;
         background-color: lighten(#eee, 5%);
         text-align: center;
         padding: 0.5rem 1rem 0.5rem 1rem;
       }
-      td.icon {
+      th {
+        width: 10rem;
+      }
+      th.icon {
         width: 4rem;
       }
-      td.numero {
+      th.delete {
         width: 4rem;
       }
-      td.delete {
-        width: 4rem;
-      }
-      td.practica {
-        text-align: left;
-        width: 40rem;
-        font-size: 1rem;
+      th.practica {
+        width: 10rem;
       }
       input {
         width: 7rem;
@@ -84,37 +81,34 @@
     }
     .importes-totales {
       padding: 2rem 0rem;
-      width: 30%;
+      width: 50rem;
       display: flex;
       align-items: center;
       justify-content: space-around;
-      float: right;
-      background-color: #eee;
-      border: 0.2rem solid @navy;
+      background-color: lighten(#eee, 5);
       border-radius: 0.5rem;
-      margin-right: 4.5rem;
-      margin-top: 2rem;
+      margin: 2rem 0rem;
+      margin-right: 0.7rem;
+      float: right;
       div.col {
         padding: 0.5rem 0rem;
         display: flex;
         align-items: center;
         justify-content: space-around;
-        width: 30%;
-        background-color: lighten(#eee, 5);
+        width: 35%;
+        border: 0.2rem solid #eee;
         border-radius: 0.2rem;
+        font-weight: 700;
         div {
           font-weight: 800;
+          color: @navy;
         }
+      }
+      div.gravado {
+        width: 25%;
       }
     }
   }
-  .content-1::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.tab-navigator::-webkit-scrollbar {
-  display: none;
 }
 
 .modal-comprobante {
