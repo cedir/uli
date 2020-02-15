@@ -1,35 +1,36 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { NuevaPresentacionObraSocialTableRow } from './NuevaPresentacionObraSocialTableRow';
+import NuevaPresentacionObraSocialTableRow from './NuevaPresentacionObraSocialTableRow';
 import ImportesTotales from './ImportesTotales';
 import initialState from '../estudiosSinPresentarReducerInitialState';
+import { SUMAR_IMPORTES_ESTUDIOS } from '../actionTypes';
+
+/* eslint-disable no-unused-vars */
 
 function NuevaPresentacionObraSocialList(props) {
-    const [sum, setSum] = useState(0);
-    const tableRef = useRef();
+    const {
+        estudiosSinPresentar,
+        estudiosSinPresentarApiLoading,
+        gravado,
+        sumarImportesEstudios,
+        suma,
+    } = props;
+    const [sumValues, setSumValues] = useState(suma);
 
     useEffect(() => {
-        sumHandler();
+        sumarImportesEstudios();
+        setSumValues(suma);
         const setFromEvent = () => {
-            sumHandler();
+            sumarImportesEstudios();
+            setSumValues(suma);
         };
-        window.addEventListener('click', setFromEvent);
+        window.addEventListener('keyup', setFromEvent);
         return () => {
-            window.removeEventListener('click', setFromEvent);
+            window.removeEventListener('keyup', setFromEvent);
         };
     });
 
-    const sumHandler = () => {
-        const rows = tableRef.current.rows;
-        let newSum = 0;
-        for (let i = 0; i < rows.length; i += 1) {
-            newSum += parseFloat(rows[i].cells[13].textContent, 10);
-        }
-        setSum(newSum);
-    };
-
-    const { estudiosSinPresentar, estudiosSinPresentarApiLoading, gravado } = props;
     return (
         <div>
             <table id='tabla' className='estudios-table'>
@@ -50,18 +51,17 @@ function NuevaPresentacionObraSocialList(props) {
                         <th className='last-row-title delete' />
                     </tr>
                 </thead>
-                <tbody ref={ tableRef }>
+                <tbody>
                     { estudiosSinPresentar.map(estudio => (
                         <NuevaPresentacionObraSocialTableRow
                           row={ estudio }
                           key={ estudio.id }
-                          onKeyUp={ sumHandler }
                         />
                     )) }
                 </tbody>
                 { !estudiosSinPresentarApiLoading &&
                 <ImportesTotales
-                  estudios={ sum }
+                  estudios={ sumValues }
                   gravado={ parseFloat(gravado, 10) }
                 /> }
             </table>
@@ -69,26 +69,39 @@ function NuevaPresentacionObraSocialList(props) {
     );
 }
 
-const { string, func, bool } = PropTypes;
+const { string, array, bool, func, number } = PropTypes;
 
 NuevaPresentacionObraSocialList.propTypes = {
-    estudiosSinPresentar: func.isRequired,
+    estudiosSinPresentar: array.isRequired,
+    suma: number.isRequired,
     estudiosSinPresentarApiLoading: bool.isRequired,
+    sumarImportesEstudios: func.isRequired,
     gravado: string.isRequired,
 };
 
 NuevaPresentacionObraSocialList.defaultProps = {
     estudiosSinPresentar: initialState.estudiosSinPresentar,
+    suma: initialState.suma,
     estudiosSinPresentarApiLoading: initialState.estudiosSinPresentarApiLoading,
 };
 
 function mapStateToProps(state) {
     return {
         estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
+        suma: state.estudiosSinPresentarReducer.suma,
         estudiosSinPresentarApiLoading:
             state.estudiosSinPresentarReducer.estudiosSinPresentarApiLoading,
     };
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        sumarImportesEstudios: () =>
+            dispatch({
+                type: SUMAR_IMPORTES_ESTUDIOS,
+            }),
+    };
+}
+
 export default
-    connect(mapStateToProps, null)(NuevaPresentacionObraSocialList);
+    connect(mapStateToProps, mapDispatchToProps)(NuevaPresentacionObraSocialList);

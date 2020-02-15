@@ -1,58 +1,56 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Input } from './Input';
 import { ModalMedicacion } from './Modals';
+import {
+    ACTUALIZAR_NRO_DE_ORDEN, ACTUALIZAR_IMPORTE, ACTUALIZAR_ANESTESISTA,
+    ACTUALIZAR_DIF_PACIENTE, ACTUALIZAR_PENSION, ELIMINAR_FILA } from '../actionTypes';
 
-function useInputState(props) {
-    const [newValue, setValue] = useState(props);
-    const changeHandler = (e) => {
-        if (e.target.value > 0) {
-            setValue(parseFloat(e.target.value, 10));
-        } else {
-            setValue(0.00);
-        }
-    };
+function NuevaPresentacionObraSocialTableRow(props) {
+    const { row, actualizarNroDeOrden,
+        actualizarImporte, actualizarAnestesista,
+        actualizarDifPaciente, actualizarPension,
+        eliminarFila } = props;
+    const {
+        id, fecha, nro_de_orden: orden,
+        paciente, practica, medico,
+        importe_estudio,
+        pension, diferencia_paciente,
+        importe_medicacion: medicacion,
+        arancel_anestesia,
+    } = row;
 
-    return {
-        newValue,
-        changeHandler,
-    };
-}
-
-export function NuevaPresentacionObraSocialTableRow(props) {
     const [renderRow, setRenderRow] = useState(true);
+    const [nroOrden, setNroOrden] = useState(orden);
+    const [importe, setImporte] = useState(importe_estudio);
+    const [pensionValue, setPension] = useState(pension);
+    const [difPaciente, setDifPaciente] = useState(diferencia_paciente);
+    const [anestesista, setAnestesista] = useState(arancel_anestesia);
     const [medicacionClicked, setMedicacionClicked] = useState(false);
 
     const deleteIconClickHandler = () => {
         setRenderRow(!renderRow);
+        eliminarFila(id);
     };
-
 
     const medicacionIconClickHandler = () => {
         setMedicacionClicked(!medicacionClicked);
     };
 
-    const { row, onKeyUp } = props;
-    const {
-        fecha, nro_de_orden: orden,
-        paciente, practica, medico,
-        importe_estudio: importe,
-        pension, diferencia_paciente: difPaciente,
-        importe_medicacion: medicacion,
-        arancel_anestesia: anestesista,
-    } = row;
-
-    const inputNroDeOrden = useInputState(parseInt(orden, 10));
-    const inputOne = useInputState(parseFloat(importe, 10));
-    const inputTwo = useInputState(parseFloat(pension, 10));
-    const inputThree = useInputState(parseFloat(difPaciente, 10));
-    const inputFour = useInputState(parseFloat(anestesista, 10));
-
-    const rowCalculations =
-    parseFloat(inputOne.newValue, 10) +
-    parseFloat(inputTwo.newValue, 10) +
-    parseFloat(inputThree.newValue, 10) +
-    parseFloat(inputFour.newValue, 10);
+    const changeHandler = (e, setValue, actualizarValue) => {
+        const idValue = {
+            value: e.target.value,
+            idEstudio: id,
+        };
+        const obj = Object.create(idValue);
+        const parsedValue = parseFloat(e.target.value);
+        if (parsedValue <= 0 || isNaN(parsedValue)) {
+            setValue(0);
+        } else {
+            setValue(e.target.value);
+        }
+        actualizarValue(obj);
+    };
 
     const isMedicacionActive = medicacionClicked ? 'active' : '';
 
@@ -69,11 +67,11 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                 </td>
                 <td className='fecha'>{ fecha }</td>
                 <td>
-                    <Input
-                      className='nro-orden'
-                      value={ parseInt(inputNroDeOrden.newValue, 10) }
-                      onChange={ inputNroDeOrden.changeHandler }
-                      onKeyUp={ onKeyUp }
+                    <input
+                      type='text'
+                      value={ nroOrden }
+                      placeholder={ nroOrden }
+                      onChange={ e => changeHandler(e, setNroOrden, actualizarNroDeOrden) }
                     />
                 </td>
                 <td>{ paciente.id }</td>
@@ -87,38 +85,30 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                     { medico.apellido }
                 </td>
                 <td>
-                    <Input
-                      className='importe-input'
-                      onKeyUp={ onKeyUp }
-                      value={ parseFloat(inputOne.newValue, 10) }
-                      onChange={ inputOne.changeHandler }
+                    <input
+                      value={ parseFloat(importe, 10) }
+                      onChange={ e => changeHandler(e, setImporte, actualizarImporte) }
                     />
                 </td>
                 <td>
-                    <Input
-                      className='pension-input'
-                      onKeyUp={ onKeyUp }
-                      value={ parseFloat(inputTwo.newValue, 10) }
-                      onChange={ inputTwo.changeHandler }
+                    <input
+                      value={ parseFloat(pensionValue, 10) }
+                      onChange={ e => changeHandler(e, setPension, actualizarPension) }
                     />
                 </td>
                 <td>
-                    <Input
-                      className='difpaciente-input'
-                      onKeyUp={ onKeyUp }
-                      value={ parseFloat(inputThree.newValue, 10) }
-                      onChange={ inputThree.changeHandler }
+                    <input
+                      value={ parseFloat(difPaciente, 10) }
+                      onChange={ e => changeHandler(e, setDifPaciente, actualizarDifPaciente) }
                     />
                 </td>
                 <td className='td-medicacion'>
-                    <div>{ medicacion }</div>
+                    <div>{ parseFloat(medicacion, 10) }</div>
                 </td>
                 <td>
-                    <Input
-                      className='anestesista-input'
-                      onKeyUp={ onKeyUp }
-                      value={ parseFloat(inputFour.newValue, 10) }
-                      onChange={ inputFour.changeHandler }
+                    <input
+                      value={ parseFloat(anestesista, 10) }
+                      onChange={ e => changeHandler(e, setAnestesista, actualizarAnestesista) }
                     />
                 </td>
                 <td className='delete'>
@@ -129,7 +119,6 @@ export function NuevaPresentacionObraSocialTableRow(props) {
                       onClick={ deleteIconClickHandler }
                     />
                 </td>
-                <td style={ { display: 'none' } }>{ String(rowCalculations) }</td>
                 <td style={ { display: 'none' } }>
                     <ModalMedicacion
                       show={ medicacionClicked }
@@ -141,13 +130,39 @@ export function NuevaPresentacionObraSocialTableRow(props) {
     );
 }
 
-const { object, string, func } = PropTypes;
+const { object } = PropTypes;
 
 NuevaPresentacionObraSocialTableRow.propTypes = {
     row: object.isRequired,
-    onKeyUp: func.isRequired,
 };
 
-useInputState.propTypes = {
-    value: string.isRequired,
-};
+function mapDispatchToProps(dispatch) {
+    return {
+        actualizarNroDeOrden: idValue =>
+            dispatch({
+                type: ACTUALIZAR_NRO_DE_ORDEN, idValue,
+            }),
+        actualizarImporte: idValue =>
+            dispatch({
+                type: ACTUALIZAR_IMPORTE, idValue,
+            }),
+        actualizarPension: idValue =>
+            dispatch({
+                type: ACTUALIZAR_PENSION, idValue,
+            }),
+        actualizarDifPaciente: idValue =>
+            dispatch({
+                type: ACTUALIZAR_DIF_PACIENTE, idValue,
+            }),
+        actualizarAnestesista: idValue =>
+            dispatch({
+                type: ACTUALIZAR_ANESTESISTA, idValue,
+            }),
+        eliminarFila: id =>
+            dispatch({
+                type: ELIMINAR_FILA, id,
+            }),
+    };
+}
+
+export default connect(null, mapDispatchToProps)(NuevaPresentacionObraSocialTableRow);

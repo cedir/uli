@@ -83,7 +83,7 @@ function Comprobante(props) {
                       onChange={ onChangeResponsable }
                     >
                         <option value=''>Seleccionar...</option>
-                        <option value='CeDIR'>CeDIR</option>
+                        <option value='Cedir'>CeDIR</option>
                         <option value='Brunetti'>Brunetti</option>
                     </select>
                 </Col>

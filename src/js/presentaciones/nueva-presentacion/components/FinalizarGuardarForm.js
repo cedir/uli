@@ -3,12 +3,31 @@ import { connect } from 'react-redux';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { FINALIZAR_PRESENTACION_OBRA_SOCIAL } from '../actionTypes';
+import initialState from '../estudiosSinPresentarReducerInitialState';
+
+/* eslint-disable arrow-body-style */
 
 function initEditFormObject(props) {
-    const { periodoValue, comprobanteState } = props;
+    const { periodoValue, comprobanteState, estudiosSinPresentar } = props;
+    const [estudiosApi, setEstudios] = useState(estudiosSinPresentar);
     const [tipoId, setTipoId] = useState(null);
     const [gravadoId, setGravadoId] = useState(null);
     const [nroTerminal, setNroTerminal] = useState(null);
+    const filterKeys = ({
+        id,
+        nro_de_orden,
+        importe_estudio,
+        pension,
+        diferencia_paciente,
+        arancel_anestesia,
+    }) => ({
+        id,
+        nro_de_orden,
+        importe_estudio,
+        pension,
+        diferencia_paciente,
+        arancel_anestesia,
+    });
     useEffect(() => {
         if (comprobanteState.tipo === 'Factura Electronica') {
             setTipoId(1);
@@ -30,23 +49,17 @@ function initEditFormObject(props) {
             setNroTerminal(2);
         }
     }, [comprobanteState]);
+
+    useEffect(() => {
+        setEstudios(estudiosSinPresentar);
+    }, [estudiosSinPresentar]);
+
     return {
-        obra_social_id: 5,
+        obra_social_id: 1,
         periodo: periodoValue,
         fecha: '2019-12-26',
         estado: 'Pendiente',
-
-        estudios: [
-            {
-                id: 4,
-                nro_de_orden: 'FE003450603',
-                importe_estudio: 5,
-                pension: 1,
-                diferencia_paciente: 1,
-                medicacion: 1,
-                arancel_anestesia: 1,
-            },
-        ],
+        estudios: estudiosApi.map(filterKeys),
         comprobante: {
             tipo_id: tipoId,
             sub_tipo: comprobanteState.subTipo,
@@ -65,8 +78,14 @@ function FinalizarGuardarForm(props) {
         comprobanteState,
         finalizarButtonDisabled,
         guardarButtonDisabled,
+        estudiosSinPresentar,
     } = props;
-    const postObject = initEditFormObject({ periodoValue, comprobanteState });
+    const postObject = initEditFormObject({
+        periodoValue,
+        comprobanteState,
+        estudiosSinPresentar,
+    });
+    console.log(postObject);
     const clickHandler = () => {
         finalizarPresentacion(postObject);
     };
@@ -104,9 +123,10 @@ function FinalizarGuardarForm(props) {
     );
 }
 
-const { string, func, object } = PropTypes;
+const { array, string, func, object } = PropTypes;
 
 FinalizarGuardarForm.propTypes = {
+    estudiosSinPresentar: array.isRequired,
     periodoValue: string.isRequired,
     onChangePeriodoValue: func.isRequired,
     finalizarPresentacion: func.isRequired,
@@ -115,6 +135,16 @@ FinalizarGuardarForm.propTypes = {
     guardarButtonDisabled: bool.isRequired,
 };
 
+FinalizarGuardarForm.defaultProps = {
+    estudiosSinPresentar: initialState.estudiosSinPresentar,
+};
+
+function mapStateToProps(state) {
+    return {
+        estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
+    };
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         finalizarPresentacion: presentacion =>
@@ -122,4 +152,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(FinalizarGuardarForm);
+export default connect(mapStateToProps, mapDispatchToProps)(FinalizarGuardarForm);
