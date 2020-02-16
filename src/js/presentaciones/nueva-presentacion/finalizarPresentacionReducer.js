@@ -1,6 +1,5 @@
 import initialState from './estudiosSinPresentarReducerInitialState';
-import { FINALIZAR_PRESENTACION_OBRA_SOCIAL,
-    FINALIZAR_PRESENTACION_OBRA_SOCIAL_ID } from './actionTypes';
+import { FINALIZAR_PRESENTACION_OBRA_SOCIAL, LOAD_PRESENTACION_DETAIL_ID } from './actionTypes';
 
 const actionsHandledByEpicReducer = (state) => {
     const newState = {};
@@ -11,6 +10,7 @@ const actionsHandledByEpicReducer = (state) => {
 
 const loadPresentacionDetailId = (state, action) => {
     const newState = {};
+
     const presentacionDetail = {
         id: action.data.response.id,
     };
@@ -23,10 +23,11 @@ const loadPresentacionDetailId = (state, action) => {
 export function finalizarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
         case FINALIZAR_PRESENTACION_OBRA_SOCIAL:
-            return actionsHandledByEpicReducer(state);
-        case FINALIZAR_PRESENTACION_OBRA_SOCIAL_ID:
+            return actionsHandledByEpicReducer(state, action);
+        case LOAD_PRESENTACION_DETAIL_ID:
             return loadPresentacionDetailId(state, action);
         default:
             return state;
     }
 }
+

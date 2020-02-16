@@ -4,7 +4,7 @@ import {
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR, ACTUALIZAR_NRO_DE_ORDEN,
     ACTUALIZAR_IMPORTE, ACTUALIZAR_ANESTESISTA,
     ACTUALIZAR_DIF_PACIENTE, ACTUALIZAR_PENSION,
-    SUMAR_IMPORTES_ESTUDIOS, ELIMINAR_FILA } from './actionTypes';
+    ELIMINAR_FILA } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
     const newState = {};
@@ -152,8 +152,6 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return actualizarDifPaciente(state, action);
         case ACTUALIZAR_PENSION:
             return actualizarPension(state, action);
-        case SUMAR_IMPORTES_ESTUDIOS:
-            return sumarImportesEstudios(state);
         case ELIMINAR_FILA:
             return eliminarFilaReducer(state, action);
         default:

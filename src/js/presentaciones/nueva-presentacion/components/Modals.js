@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import FinalizarGuardarForm from './FinalizarGuardarForm';
@@ -187,6 +188,30 @@ export function ModalFinalizarGuardar(props) {
     );
 }
 
+export function ModalSuccess(props) {
+    const { show, onClickClose } = props;
+    return (
+        <div className='modal-success-box'>
+            <Modal show={ show } className='modal-success'>
+                <Modal.Body>
+                    Su presentacion fue finalizada con exito
+                </Modal.Body>
+                <Modal.Footer>
+                    <Link to='/presentaciones-obras-sociales'>
+                        <Button
+                          bsStyle='primary'
+                          type='button'
+                          onClick={ onClickClose }
+                        >
+                            Entendido
+                        </Button>
+                    </Link>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    );
+}
+
 const { bool, func, number, object } = PropTypes;
 
 ModalEliminarFila.propTypes = {
@@ -214,6 +239,11 @@ ModalAnestesia.propTypes = {
 };
 
 ModalMedicacion.propTypes = {
+    show: bool.isRequired,
+    onClickClose: func.isRequired,
+};
+
+ModalSuccess.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
 };

@@ -5,8 +5,6 @@ import NuevaPresentacionObraSocialTableRow from './NuevaPresentacionObraSocialTa
 import ImportesTotales from './ImportesTotales';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 
-/* eslint-disable no-unused-vars */
-
 function NuevaPresentacionObraSocialList(props) {
     const {
         estudiosSinPresentar,
@@ -53,7 +51,7 @@ function NuevaPresentacionObraSocialList(props) {
     );
 }
 
-const { string, array, bool, func, number } = PropTypes;
+const { string, array, bool, number } = PropTypes;
 
 NuevaPresentacionObraSocialList.propTypes = {
     estudiosSinPresentar: array.isRequired,

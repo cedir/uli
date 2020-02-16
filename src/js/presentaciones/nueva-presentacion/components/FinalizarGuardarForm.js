@@ -1,13 +1,15 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { FINALIZAR_PRESENTACION_OBRA_SOCIAL } from '../actionTypes';
+import { ModalSuccess } from './Modals';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 
 /* eslint-disable arrow-body-style */
 
-function initEditFormObject(props) {
+/* function initEditFormObject(props) {
     const { periodoValue, comprobanteState, estudiosSinPresentar } = props;
     const [estudiosApi, setEstudios] = useState(estudiosSinPresentar);
     const [tipoId, setTipoId] = useState(null);
@@ -70,6 +72,34 @@ function initEditFormObject(props) {
             gravado_id: gravadoId,
         },
     };
+} */
+
+function initEditFormObject() {
+    return {
+        obra_social_id: 5,
+        periodo: 'SEPTIEMBRE 2019',
+        fecha: '2019-12-25',
+        estado: 'Pendiente',
+
+        estudios: [
+            {
+                id: 4,
+                nro_de_orden: 'FE003450603',
+                importe_estudio: 5,
+                pension: 1,
+                diferencia_paciente: 1,
+                medicacion: 1,
+                arancel_anestesia: 1,
+            },
+        ],
+        comprobante: {
+            tipo_id: 1,
+            sub_tipo: 'B',
+            responsable: 'Cedir',
+            nro_terminal: 104,
+            gravado_id: 1,
+        },
+    };
 }
 
 function FinalizarGuardarForm(props) {
@@ -82,15 +112,19 @@ function FinalizarGuardarForm(props) {
         guardarButtonDisabled,
         estudiosSinPresentar,
     } = props;
-    const postObject = initEditFormObject({
+    /* const postObject = initEditFormObject({
         periodoValue,
         comprobanteState,
         estudiosSinPresentar,
-    });
+    }); */
+    const postObject = initEditFormObject();
+    const [modalSuccess, setModalSuccess] = useState(false);
     console.log(postObject);
     const clickHandler = () => {
         finalizarPresentacion(postObject);
+        setModalSuccess(true);
     };
+
     return (
         <form>
             <div className='box'>
@@ -121,6 +155,10 @@ function FinalizarGuardarForm(props) {
                     </Button>
                 </Row>
             </div>
+            <ModalSuccess
+              show={ modalSuccess }
+              onClickClose={ () => setModalSuccess(false) }
+            />
         </form>
     );
 }
