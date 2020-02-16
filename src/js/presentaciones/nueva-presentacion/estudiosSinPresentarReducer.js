@@ -6,6 +6,25 @@ import {
     ACTUALIZAR_DIF_PACIENTE, ACTUALIZAR_PENSION,
     SUMAR_IMPORTES_ESTUDIOS, ELIMINAR_FILA } from './actionTypes';
 
+const sumarImportesEstudios = (state) => {
+    const newState = {};
+    const length = state.estudiosSinPresentar.length;
+    const estudios = state.estudiosSinPresentar;
+    let suma = state.suma;
+    suma = 0;
+    for (let i = 0; i < length; i += 1) {
+        suma = suma +
+            parseFloat(estudios[i].importe_estudio, 10) +
+            parseFloat(estudios[i].pension, 10) +
+            parseFloat(estudios[i].diferencia_paciente, 10) +
+            parseFloat(estudios[i].importe_medicacion) +
+            parseFloat(estudios[i].arancel_anestesia, 10);
+    }
+    Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false, suma });
+
+    return newState;
+};
+
 const actionsHandledByEpicReducer = (state) => {
     const newState = {};
     Object.assign(newState, state, { estudiosSinPresentarApiLoading: true });
@@ -18,7 +37,7 @@ const loadEstudiosSinPresentarReducer = (state, action) => {
     const estudiosSinPresentar = action.data.response;
     Object.assign(newState, state, { estudiosSinPresentar, estudiosSinPresentarApiLoading: false });
 
-    return newState;
+    return sumarImportesEstudios(newState);
 };
 
 const loadEstudiosSinPresentarErrorReducer = (state) => {
@@ -54,7 +73,7 @@ const actualizarImporte = (state, action) => {
     }
     Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
 
-    return newState;
+    return sumarImportesEstudios(newState);
 };
 
 const actualizarPension = (state, action) => {
@@ -68,7 +87,7 @@ const actualizarPension = (state, action) => {
     }
     Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
 
-    return newState;
+    return sumarImportesEstudios(newState);
 };
 
 const actualizarDifPaciente = (state, action) => {
@@ -82,7 +101,7 @@ const actualizarDifPaciente = (state, action) => {
     }
     Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
 
-    return newState;
+    return sumarImportesEstudios(newState);
 };
 
 const actualizarAnestesista = (state, action) => {
@@ -96,26 +115,7 @@ const actualizarAnestesista = (state, action) => {
     }
     Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
 
-    return newState;
-};
-
-const sumarImportesEstudios = (state) => {
-    const newState = {};
-    const length = state.estudiosSinPresentar.length;
-    const estudios = state.estudiosSinPresentar;
-    let suma = state.suma;
-    suma = 0;
-    for (let i = 0; i < length; i += 1) {
-        suma = suma +
-            parseFloat(estudios[i].importe_estudio, 10) +
-            parseFloat(estudios[i].pension, 10) +
-            parseFloat(estudios[i].diferencia_paciente, 10) +
-            parseFloat(estudios[i].importe_medicacion) +
-            parseFloat(estudios[i].arancel_anestesia, 10);
-    }
-    Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false, suma });
-
-    return newState;
+    return sumarImportesEstudios(newState);
 };
 
 const eliminarFilaReducer = (state, action) => {

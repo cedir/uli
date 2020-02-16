@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import { ModalMedicacion } from './Modals';
 import {
     ACTUALIZAR_NRO_DE_ORDEN, ACTUALIZAR_IMPORTE, ACTUALIZAR_ANESTESISTA,
@@ -20,7 +20,6 @@ function NuevaPresentacionObraSocialTableRow(props) {
         arancel_anestesia,
     } = row;
 
-    const [renderRow, setRenderRow] = useState(true);
     const [nroOrden, setNroOrden] = useState(orden);
     const [importe, setImporte] = useState(importe_estudio);
     const [pensionValue, setPension] = useState(pension);
@@ -29,7 +28,6 @@ function NuevaPresentacionObraSocialTableRow(props) {
     const [medicacionClicked, setMedicacionClicked] = useState(false);
 
     const deleteIconClickHandler = () => {
-        setRenderRow(!renderRow);
         eliminarFila(id);
     };
 
@@ -55,82 +53,80 @@ function NuevaPresentacionObraSocialTableRow(props) {
     const isMedicacionActive = medicacionClicked ? 'active' : '';
 
     return (
-        renderRow && (
-            <tr className='table-row'>
-                <td className='icon'>
-                    <i
-                      className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
-                      tabIndex='0'
-                      role='button'
-                      onClick={ medicacionIconClickHandler }
-                    />
-                </td>
-                <td className='fecha'>{ fecha }</td>
-                <td>
-                    <input
-                      type='text'
-                      value={ nroOrden }
-                      placeholder={ nroOrden }
-                      onChange={ e => changeHandler(e, setNroOrden, actualizarNroDeOrden) }
-                    />
-                </td>
-                <td>{ paciente.id }</td>
-                <td title={ `${paciente.nombre} ${paciente.apellido}` }>
-                    { paciente.apellido }
-                </td>
-                <td title={ practica.descripcion } className='practica'>
-                    { practica.abreviatura }
-                </td>
-                <td title={ `${medico.nombre} ${medico.apellido}` }>
-                    { medico.apellido }
-                </td>
-                <td>
-                    <input
-                      type='number'
-                      value={ parseFloat(importe, 10) }
-                      onChange={ e => changeHandler(e, setImporte, actualizarImporte) }
-                    />
-                </td>
-                <td>
-                    <input
-                      type='number'
-                      value={ parseFloat(pensionValue, 10) }
-                      onChange={ e => changeHandler(e, setPension, actualizarPension) }
-                    />
-                </td>
-                <td>
-                    <input
-                      type='number'
-                      value={ parseFloat(difPaciente, 10) }
-                      onChange={ e => changeHandler(e, setDifPaciente, actualizarDifPaciente) }
-                    />
-                </td>
-                <td className='td-medicacion'>
-                    <div>{ parseFloat(medicacion, 10) }</div>
-                </td>
-                <td>
-                    <input
-                      type='number'
-                      value={ parseFloat(anestesista, 10) }
-                      onChange={ e => changeHandler(e, setAnestesista, actualizarAnestesista) }
-                    />
-                </td>
-                <td className='delete'>
-                    <i
-                      className='fa fa-trash trash-icon'
-                      tabIndex='0'
-                      role='button'
-                      onClick={ deleteIconClickHandler }
-                    />
-                </td>
-                <td style={ { display: 'none' } }>
-                    <ModalMedicacion
-                      show={ medicacionClicked }
-                      onClickClose={ medicacionIconClickHandler }
-                    />
-                </td>
-            </tr>
-        )
+        <tr className='table-row'>
+            <td className='icon'>
+                <i
+                  className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
+                  tabIndex='0'
+                  role='button'
+                  onClick={ medicacionIconClickHandler }
+                />
+            </td>
+            <td className='fecha'>{ fecha }</td>
+            <td>
+                <input
+                  type='text'
+                  value={ nroOrden }
+                  placeholder={ nroOrden }
+                  onChange={ e => changeHandler(e, setNroOrden, actualizarNroDeOrden) }
+                />
+            </td>
+            <td>{ paciente.id }</td>
+            <td title={ `${paciente.nombre} ${paciente.apellido}` }>
+                { paciente.apellido }
+            </td>
+            <td title={ practica.descripcion } className='practica'>
+                { practica.abreviatura }
+            </td>
+            <td title={ `${medico.nombre} ${medico.apellido}` }>
+                { medico.apellido }
+            </td>
+            <td>
+                <input
+                  type='number'
+                  value={ parseFloat(importe, 10) }
+                  onChange={ e => changeHandler(e, setImporte, actualizarImporte) }
+                />
+            </td>
+            <td>
+                <input
+                  type='number'
+                  value={ parseFloat(pensionValue, 10) }
+                  onChange={ e => changeHandler(e, setPension, actualizarPension) }
+                />
+            </td>
+            <td>
+                <input
+                  type='number'
+                  value={ parseFloat(difPaciente, 10) }
+                  onChange={ e => changeHandler(e, setDifPaciente, actualizarDifPaciente) }
+                />
+            </td>
+            <td className='td-medicacion'>
+                <div>{ parseFloat(medicacion, 10) }</div>
+            </td>
+            <td>
+                <input
+                  type='number'
+                  value={ parseFloat(anestesista, 10) }
+                  onChange={ e => changeHandler(e, setAnestesista, actualizarAnestesista) }
+                />
+            </td>
+            <td className='delete'>
+                <i
+                  className='fa fa-trash trash-icon'
+                  tabIndex='0'
+                  role='button'
+                  onClick={ deleteIconClickHandler }
+                />
+            </td>
+            <td style={ { display: 'none' } }>
+                <ModalMedicacion
+                  show={ medicacionClicked }
+                  onClickClose={ medicacionIconClickHandler }
+                />
+            </td>
+        </tr>
     );
 }
 
@@ -138,6 +134,12 @@ const { object } = PropTypes;
 
 NuevaPresentacionObraSocialTableRow.propTypes = {
     row: object.isRequired,
+    actualizarNroDeOrden: func.isRequired,
+    actualizarImporte: func.isRequired,
+    actualizarPension: func.isRequired,
+    actualizarDifPaciente: func.isRequired,
+    actualizarAnestesista: func.isRequired,
+    eliminarFila: func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

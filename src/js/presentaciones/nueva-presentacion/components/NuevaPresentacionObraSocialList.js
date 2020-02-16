@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NuevaPresentacionObraSocialTableRow from './NuevaPresentacionObraSocialTableRow';
 import ImportesTotales from './ImportesTotales';
 import initialState from '../estudiosSinPresentarReducerInitialState';
-import { SUMAR_IMPORTES_ESTUDIOS } from '../actionTypes';
 
 /* eslint-disable no-unused-vars */
 
@@ -13,23 +12,8 @@ function NuevaPresentacionObraSocialList(props) {
         estudiosSinPresentar,
         estudiosSinPresentarApiLoading,
         gravado,
-        sumarImportesEstudios,
         suma,
     } = props;
-    const [sumValues, setSumValues] = useState(suma);
-
-    useEffect(() => {
-        sumarImportesEstudios();
-        setSumValues(suma);
-        const setFromEvent = () => {
-            sumarImportesEstudios();
-            setSumValues(suma);
-        };
-        window.addEventListener('keyup', setFromEvent);
-        return () => {
-            window.removeEventListener('keyup', setFromEvent);
-        };
-    });
 
     return (
         <div>
@@ -61,7 +45,7 @@ function NuevaPresentacionObraSocialList(props) {
                 </tbody>
                 { !estudiosSinPresentarApiLoading &&
                 <ImportesTotales
-                  estudios={ sumValues }
+                  estudios={ suma }
                   gravado={ parseFloat(gravado, 10) }
                 /> }
             </table>
@@ -75,7 +59,6 @@ NuevaPresentacionObraSocialList.propTypes = {
     estudiosSinPresentar: array.isRequired,
     suma: number.isRequired,
     estudiosSinPresentarApiLoading: bool.isRequired,
-    sumarImportesEstudios: func.isRequired,
     gravado: string.isRequired,
 };
 
@@ -94,14 +77,5 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        sumarImportesEstudios: () =>
-            dispatch({
-                type: SUMAR_IMPORTES_ESTUDIOS,
-            }),
-    };
-}
-
 export default
-    connect(mapStateToProps, mapDispatchToProps)(NuevaPresentacionObraSocialList);
+    connect(mapStateToProps, null)(NuevaPresentacionObraSocialList);
