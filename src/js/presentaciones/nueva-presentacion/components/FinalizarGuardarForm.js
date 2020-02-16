@@ -19,6 +19,7 @@ function initEditFormObject(props) {
         importe_estudio,
         pension,
         diferencia_paciente,
+        medicacion,
         arancel_anestesia,
     }) => ({
         id,
@@ -26,6 +27,7 @@ function initEditFormObject(props) {
         importe_estudio,
         pension,
         diferencia_paciente,
+        medicacion,
         arancel_anestesia,
     });
     useEffect(() => {

@@ -86,18 +86,21 @@ function NuevaPresentacionObraSocialTableRow(props) {
                 </td>
                 <td>
                     <input
+                      type='number'
                       value={ parseFloat(importe, 10) }
                       onChange={ e => changeHandler(e, setImporte, actualizarImporte) }
                     />
                 </td>
                 <td>
                     <input
+                      type='number'
                       value={ parseFloat(pensionValue, 10) }
                       onChange={ e => changeHandler(e, setPension, actualizarPension) }
                     />
                 </td>
                 <td>
                     <input
+                      type='number'
                       value={ parseFloat(difPaciente, 10) }
                       onChange={ e => changeHandler(e, setDifPaciente, actualizarDifPaciente) }
                     />
@@ -107,6 +110,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                 </td>
                 <td>
                     <input
+                      type='number'
                       value={ parseFloat(anestesista, 10) }
                       onChange={ e => changeHandler(e, setAnestesista, actualizarAnestesista) }
                     />
