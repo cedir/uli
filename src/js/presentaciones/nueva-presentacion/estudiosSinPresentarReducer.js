@@ -122,14 +122,16 @@ const eliminarFilaReducer = (state, action) => {
     const newState = {};
     const length = state.estudiosSinPresentar.length;
     const estudios = state.estudiosSinPresentar;
+    let index;
     for (let i = 0; i < length; i += 1) {
         if (estudios[i].id === action.id) {
-            delete (estudios[i]);
+            index = estudios.indexOf(estudios[i]);
         }
     }
-    Object.assign(newState, state, { estudios });
+    state.estudiosSinPresentar.splice(index, 1);
+    Object.assign(newState, state);
 
-    return newState;
+    return sumarImportesEstudios(newState);
 };
 
 export function estudiosSinPresentarReducer(state = initialState, action) {
