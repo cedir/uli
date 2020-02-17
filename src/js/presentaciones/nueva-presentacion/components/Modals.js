@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
@@ -128,15 +129,16 @@ export function ModalMedicacion(props) {
     );
 }
 
-export function ModalFinalizarGuardar(props) {
+function ModalFinalizarGuardar(props) {
     const [periodoValue, setPeriodoValue] = useState('');
-    const { show, onClickClose, comprobanteState } = props;
+    const { show, onClickClose, comprobanteState, fecha } = props;
     const [finalizarButtonDisabled, setFinalizarButtonDisabled] =
     useState(true);
     const [guardarButtonDisabled, setGuardarButtonDisabled] =
     useState(true);
     useEffect(() => {
         if (
+            fecha !== '' &&
             comprobanteState.tipo !== '' &&
             comprobanteState.subTipo !== '' &&
             comprobanteState.responsable !== '' &&
@@ -145,6 +147,7 @@ export function ModalFinalizarGuardar(props) {
         ) {
             setFinalizarButtonDisabled(false);
         } else if (
+            fecha === '' ||
             comprobanteState.tipo === '' ||
             comprobanteState.subTipo === '' ||
             comprobanteState.responsable === '' ||
@@ -153,9 +156,9 @@ export function ModalFinalizarGuardar(props) {
         ) {
             setFinalizarButtonDisabled(true);
         }
-        if (periodoValue !== '') {
+        if (fecha !== '' && periodoValue !== '') {
             setGuardarButtonDisabled(false);
-        } else if (periodoValue === '') {
+        } else if (fecha === '' || periodoValue === '') {
             setGuardarButtonDisabled(true);
         }
     });
@@ -212,7 +215,13 @@ export function ModalSuccess(props) {
     );
 }
 
-const { bool, func, number, object } = PropTypes;
+const { bool, func, number, object, string } = PropTypes;
+
+function mapStateToProps(state) {
+    return {
+        fecha: state.estudiosSinPresentarReducer.fecha,
+    };
+}
 
 ModalEliminarFila.propTypes = {
     show: bool.isRequired,
@@ -231,6 +240,7 @@ ModalFinalizarGuardar.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
     comprobanteState: object.isRequired,
+    fecha: string.isRequired,
 };
 
 ModalAnestesia.propTypes = {
@@ -247,3 +257,5 @@ ModalSuccess.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
 };
+
+export default connect(mapStateToProps, null)(ModalFinalizarGuardar);

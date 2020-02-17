@@ -4,7 +4,7 @@ import {
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR, ACTUALIZAR_NRO_DE_ORDEN,
     ACTUALIZAR_IMPORTE, ACTUALIZAR_ANESTESISTA,
     ACTUALIZAR_DIF_PACIENTE, ACTUALIZAR_PENSION,
-    ELIMINAR_FILA } from './actionTypes';
+    ELIMINAR_FILA, LOAD_DATE_VALUE } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
     const newState = {};
@@ -44,6 +44,14 @@ const loadEstudiosSinPresentarErrorReducer = (state) => {
     const newState = {};
     Object.assign(newState, state,
         { estudiosSinPresentar: [], estudiosSinPresentarApiLoading: false });
+
+    return newState;
+};
+
+const loadDateValueReducer = (state, action) => {
+    const newState = {};
+    Object.assign(newState, state, { fecha: action.value });
+    console.log(newState);
 
     return newState;
 };
@@ -142,6 +150,8 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return loadEstudiosSinPresentarReducer(state, action);
         case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR:
             return loadEstudiosSinPresentarErrorReducer(state);
+        case LOAD_DATE_VALUE:
+            return loadDateValueReducer(state, action);
         case ACTUALIZAR_NRO_DE_ORDEN:
             return actualizarNroDeOrden(state, action);
         case ACTUALIZAR_IMPORTE:

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
 import NuevaPresentacionObraSocialList from './NuevaPresentacionObraSocialList';
-import { ModalComprobante, ModalFinalizarGuardar } from './Modals';
+import ModalFinalizarGuardar, { ModalComprobante } from './Modals';
 
 function useComprobanteState() {
     const [numeroShort, setNumeroShort] = useState('');

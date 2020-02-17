@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
-import { requiredOption } from '../../../utilities/reduxFormValidators';
+import { required, requiredOption } from '../../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../../../presentaciones/actionTypes';
-import Fecha from './Fecha';
+import { LOAD_DATE_VALUE } from '../actionTypes';
+import InputRF from '../../../utilities/InputRF';
+
+/* eslint-disable react/no-unused-prop-types */
 
 function SearchPresentacionesObraSocial(props) {
     const {
@@ -20,6 +23,12 @@ function SearchPresentacionesObraSocial(props) {
         obrasSociales,
         obrasSocialesApiLoading,
     } = props;
+
+    useEffect(() => {
+        if (props.fecha !== undefined) {
+            props.loadDateValue(props.fecha);
+        }
+    }, [props.fecha]);
 
     const setSelectObraSocial = (selection) => {
         if (selection[0] && selection[0].id) {
@@ -64,7 +73,15 @@ function SearchPresentacionesObraSocial(props) {
                     />
                 </Col>
                 <Col md={ 4 } style={ { border: 'none' } }>
-                    <Fecha />
+                    <div className='date-picker'>
+                        <Field
+                          name='fecha'
+                          type='date'
+                          label='Fecha'
+                          component={ InputRF }
+                          validate={ required }
+                        />
+                    </div>
                     <Button
                       type='submit'
                       bsStyle='primary'
@@ -85,7 +102,7 @@ const SearchPresentacionesObraSocialReduxForm =
         enableReinitialize: true,
     })(SearchPresentacionesObraSocial);
 
-const { func, array, bool } = PropTypes;
+const { string, func, array, bool } = PropTypes;
 
 SearchPresentacionesObraSocial.propTypes = {
     handleSubmit: func.isRequired,
@@ -93,9 +110,11 @@ SearchPresentacionesObraSocial.propTypes = {
     fetchObrasSociales: func.isRequired,
     fetchPresentacionesObraSocial: func.isRequired,
     setSelectedObraSocial: func.isRequired,
+    loadDateValue: func.isRequired,
     selectedObraSocial: array,
     obrasSociales: array,
     obrasSocialesApiLoading: bool,
+    fecha: string,
 };
 
 const selector = formValueSelector('searchPresentacionesObraSocial');
@@ -105,10 +124,12 @@ function mapStateToProps(state) {
     obraSocial = (obraSocial && Array.isArray(obraSocial))
         ? obraSocial
         : [];
+    const date = selector(state, 'fecha');
     return {
         selectedObraSocial: obraSocial,
         obrasSociales: state.obraSocialReducer.obrasSociales,
         obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
+        fecha: date,
     };
 }
 
@@ -121,6 +142,8 @@ function mapDispatchToProps(dispatch) {
         }),
         setSelectedObraSocial: obraSocial =>
             dispatch(change('searchPresentacionesObraSocial', 'obraSocial', obraSocial)),
+        loadDateValue: value =>
+            dispatch({ type: LOAD_DATE_VALUE, value }),
     };
 }
 

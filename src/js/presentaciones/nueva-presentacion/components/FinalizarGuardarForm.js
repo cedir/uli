@@ -9,12 +9,14 @@ import { ModalSuccess } from './Modals';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 
 /* eslint-disable arrow-body-style */
+/* eslint-disable object-shorthand */
 
 function initEditFormObject(props) {
     const {
         periodoValue,
         comprobanteState,
         estudiosSinPresentar,
+        fecha,
         selectedObraSocial,
     } = props;
     const [estudiosApi, setEstudios] = useState(estudiosSinPresentar);
@@ -67,7 +69,7 @@ function initEditFormObject(props) {
     return {
         obra_social_id: selectedObraSocial[0].id,
         periodo: periodoValue,
-        fecha: '2019-12-26',
+        fecha: fecha,
         estado: 'Pendiente',
         estudios: estudiosApi.map(filterKeys),
         comprobante: {
@@ -117,12 +119,14 @@ function FinalizarGuardarForm(props) {
         finalizarButtonDisabled,
         guardarButtonDisabled,
         estudiosSinPresentar,
+        fecha,
         selectedObraSocial,
     } = props;
     const postObject = initEditFormObject({
         periodoValue,
         comprobanteState,
         estudiosSinPresentar,
+        fecha,
         selectedObraSocial,
     });
     // const postObject = initEditFormObject();
@@ -175,6 +179,7 @@ const { array, string, func, object } = PropTypes;
 
 FinalizarGuardarForm.propTypes = {
     estudiosSinPresentar: array.isRequired,
+    fecha: string.isRequired,
     selectedObraSocial: array.isRequired,
     periodoValue: string.isRequired,
     onChangePeriodoValue: func.isRequired,
@@ -197,6 +202,7 @@ function mapStateToProps(state) {
         : [];
     return {
         estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
+        fecha: state.estudiosSinPresentarReducer.fecha,
         selectedObraSocial: obraSocial,
     };
 }
