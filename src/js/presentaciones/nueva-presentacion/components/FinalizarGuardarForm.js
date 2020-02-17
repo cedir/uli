@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { formValueSelector } from 'redux-form';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { FINALIZAR_PRESENTACION_OBRA_SOCIAL } from '../actionTypes';
@@ -10,7 +11,12 @@ import initialState from '../estudiosSinPresentarReducerInitialState';
 /* eslint-disable arrow-body-style */
 
 function initEditFormObject(props) {
-    const { periodoValue, comprobanteState, estudiosSinPresentar } = props;
+    const {
+        periodoValue,
+        comprobanteState,
+        estudiosSinPresentar,
+        selectedObraSocial,
+    } = props;
     const [estudiosApi, setEstudios] = useState(estudiosSinPresentar);
     const [tipoId, setTipoId] = useState(null);
     const [gravadoId, setGravadoId] = useState(null);
@@ -59,7 +65,7 @@ function initEditFormObject(props) {
     }, [estudiosSinPresentar]);
 
     return {
-        obra_social_id: 1,
+        obra_social_id: selectedObraSocial[0].id,
         periodo: periodoValue,
         fecha: '2019-12-26',
         estado: 'Pendiente',
@@ -111,11 +117,13 @@ function FinalizarGuardarForm(props) {
         finalizarButtonDisabled,
         guardarButtonDisabled,
         estudiosSinPresentar,
+        selectedObraSocial,
     } = props;
     const postObject = initEditFormObject({
         periodoValue,
         comprobanteState,
         estudiosSinPresentar,
+        selectedObraSocial,
     });
     // const postObject = initEditFormObject();
     const [modalSuccess, setModalSuccess] = useState(false);
@@ -167,6 +175,7 @@ const { array, string, func, object } = PropTypes;
 
 FinalizarGuardarForm.propTypes = {
     estudiosSinPresentar: array.isRequired,
+    selectedObraSocial: array.isRequired,
     periodoValue: string.isRequired,
     onChangePeriodoValue: func.isRequired,
     finalizarPresentacion: func.isRequired,
@@ -179,11 +188,19 @@ FinalizarGuardarForm.defaultProps = {
     estudiosSinPresentar: initialState.estudiosSinPresentar,
 };
 
+const selector = formValueSelector('searchPresentacionesObraSocial');
+
 function mapStateToProps(state) {
+    let obraSocial = selector(state, 'obraSocial');
+    obraSocial = (obraSocial && Array.isArray(obraSocial))
+        ? obraSocial
+        : [];
     return {
         estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
+        selectedObraSocial: obraSocial,
     };
 }
+
 
 function mapDispatchToProps(dispatch) {
     return {
