@@ -9,7 +9,7 @@ import initialState from '../estudiosSinPresentarReducerInitialState';
 
 /* eslint-disable arrow-body-style */
 
-/* function initEditFormObject(props) {
+function initEditFormObject(props) {
     const { periodoValue, comprobanteState, estudiosSinPresentar } = props;
     const [estudiosApi, setEstudios] = useState(estudiosSinPresentar);
     const [tipoId, setTipoId] = useState(null);
@@ -72,9 +72,9 @@ import initialState from '../estudiosSinPresentarReducerInitialState';
             gravado_id: gravadoId,
         },
     };
-} */
+}
 
-function initEditFormObject() {
+/* function initEditFormObject() {
     return {
         obra_social_id: 5,
         periodo: 'SEPTIEMBRE 2019',
@@ -100,7 +100,7 @@ function initEditFormObject() {
             gravado_id: 1,
         },
     };
-}
+} */
 
 function FinalizarGuardarForm(props) {
     const {
@@ -112,12 +112,12 @@ function FinalizarGuardarForm(props) {
         guardarButtonDisabled,
         estudiosSinPresentar,
     } = props;
-    /* const postObject = initEditFormObject({
+    const postObject = initEditFormObject({
         periodoValue,
         comprobanteState,
         estudiosSinPresentar,
-    }); */
-    const postObject = initEditFormObject();
+    });
+    // const postObject = initEditFormObject();
     const [modalSuccess, setModalSuccess] = useState(false);
     console.log(postObject);
     const clickHandler = () => {
