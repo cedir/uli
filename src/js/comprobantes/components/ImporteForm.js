@@ -31,6 +31,7 @@ function ImporteForm({
                       name='importe'
                       className='form-control'
                       placeholder='Importe'
+                      step='.01'
                     />
                 </div>
             </div>
