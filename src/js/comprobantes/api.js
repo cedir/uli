@@ -21,3 +21,9 @@ export function saveComprobanteAsociado(idComp, importe, concepto) {
         concepto,
     });
 }
+
+export function searchComprobante(filtro) {
+    const url = `/api/comprobante?filtro=${filtro}`;
+
+    return get(url);
+}
