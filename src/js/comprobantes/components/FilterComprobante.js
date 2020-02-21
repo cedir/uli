@@ -3,7 +3,6 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 
 import { Form, Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
-// import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import PropTypes from 'prop-types';
 import { FETCH_COMPROBANTES_FILTRO } from '../actionTypes';
 
@@ -29,8 +28,6 @@ function FilterComprobantes({ ejecutar_busqueda }) {
                       placeholder='Buscar...'
                       align='left'
                       component='input'
-                    //   onSearch={ this.searchObrasSociales }
-                    //   onChange={ this.setSelectedObraSocial }
                       className='form-control'
                     />
                 </Col>
