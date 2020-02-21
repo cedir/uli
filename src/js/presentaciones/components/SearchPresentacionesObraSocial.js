@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
@@ -40,6 +39,9 @@ class SearchPresentacionesObraSocial extends Component {
 
     nuevaButtonClickHandler() {
         this.setState({ buscarClicked: false });
+        setTimeout(() => {
+            this.props.history.push('/presentaciones-obras-sociales/nueva-presentacion');
+        }, 100);
     }
 
     handleFormSubmit(params) {
@@ -66,7 +68,7 @@ class SearchPresentacionesObraSocial extends Component {
               onSubmit={ this.props.handleSubmit(params =>
                 this.handleFormSubmit(params)) }
             >
-                <Row className='search-grid'>
+                <Row className='search-grid search-grid-presentaciones'>
                     <Col md={ 9 } style={ { border: 'none' } } >
                         <Field
                           name='obraSocial'
@@ -101,16 +103,6 @@ class SearchPresentacionesObraSocial extends Component {
                         >
                             Nueva
                         </Button>
-                        <Link to='nueva-presentacion'>
-                            <Button
-                              type='submit'
-                              bsStyle='primary'
-                              style={ { width: '4rem' } }
-                              disabled={ !this.props.valid }
-                            >
-                                Ir
-                            </Button>
-                        </Link>
                     </Col>
                 </Row>
             </Form>
@@ -125,7 +117,7 @@ const SearchPresentacionesObraSocialReduxForm =
         enableReinitialize: true,
     })(SearchPresentacionesObraSocial);
 
-const { func, array, bool } = PropTypes;
+const { func, array, bool, object } = PropTypes;
 
 SearchPresentacionesObraSocial.propTypes = {
     handleSubmit: func.isRequired,
@@ -137,6 +129,7 @@ SearchPresentacionesObraSocial.propTypes = {
     selectedObraSocial: array,
     obrasSociales: array,
     obrasSocialesApiLoading: bool,
+    history: object.isRequired,
 };
 
 const selector = formValueSelector('searchPresentacionesObraSocial');

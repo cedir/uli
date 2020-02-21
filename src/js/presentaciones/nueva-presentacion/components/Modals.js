@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button, Row } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
+import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
 import MedicacionEstudio from '../../../estudio/components/MedicacionEstudio';
 
@@ -37,8 +38,12 @@ export function ModalComprobante(props) {
     const [tipo, setTipo] = useState('');
     const [subTipo, setSubTipo] = useState('');
     const [responsable, setResponsable] = useState('');
-    const [gravado, setGravado] = useState('');
-    const { show, onClickClose } = props;
+    const {
+        show,
+        onClickClose,
+        gravado,
+        onChangeGravado,
+    } = props;
 
     return (
         <div className='modal-comprobante-box'>
@@ -60,7 +65,7 @@ export function ModalComprobante(props) {
                           responsableValue={ responsable }
                           onChangeResponsable={ e => setResponsable(e.target.value) }
                           gravadoValue={ gravado }
-                          onChangeGravado={ e => setGravado(e.target.value) }
+                          onChangeGravado={ onChangeGravado }
                         />
                     </Modal.Body>
                     <Modal.Footer>
@@ -138,30 +143,10 @@ export function ModalFinalizarGuardar(props) {
                     <strong>Finalizar Presentacion</strong>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='box'>
-                        <Row>
-                            <strong>Periodo de la presentacion:</strong>
-                        </Row>
-                        <Row>
-                            <input
-                              type='text'
-                              value={ periodoValue }
-                              onChange={ e => setPeriodoValue(e.target.value) }
-                            />
-                        </Row>
-                        <Row>
-                            <Button
-                              bsStyle='primary'
-                            >
-                                Finalizar
-                            </Button>
-                            <Button
-                              bsStyle='primary'
-                            >
-                                Guardar
-                            </Button>
-                        </Row>
-                    </div>
+                    <FinalizarGuardarForm
+                      periodoValue={ periodoValue }
+                      onChangePeriodoValue={ e => setPeriodoValue(e.target.value) }
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
@@ -177,7 +162,7 @@ export function ModalFinalizarGuardar(props) {
     );
 }
 
-const { bool, func, number } = PropTypes;
+const { bool, func, number, string } = PropTypes;
 
 ModalEliminarFila.propTypes = {
     show: bool.isRequired,
@@ -189,6 +174,8 @@ ModalEliminarFila.propTypes = {
 ModalComprobante.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
+    gravado: string.isRequired,
+    onChangeGravado: func.isRequired,
 };
 
 ModalFinalizarGuardar.propTypes = {

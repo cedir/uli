@@ -2,9 +2,6 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
-
 function Comprobante(props) {
     const {
         numeroShortValue,
