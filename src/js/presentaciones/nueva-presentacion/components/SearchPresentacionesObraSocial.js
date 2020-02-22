@@ -1,76 +1,42 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
+import PropTypes, { string } from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
-import { Field, reduxForm, change, formValueSelector } from 'redux-form';
-import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
-import { required, requiredOption } from '../../../utilities/reduxFormValidators';
-import { FETCH_OBRAS_SOCIALES } from '../../../obraSocial/actionTypes';
-import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../../../presentaciones/actionTypes';
-import { LOAD_DATE_VALUE } from '../actionTypes';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { required } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
-
-/* eslint-disable react/no-unused-prop-types */
+import { LOAD_DATE_VALUE } from '../actionTypes';
 
 function SearchPresentacionesObraSocial(props) {
     const {
-        handleSubmit,
-        valid,
-        fetchObrasSociales,
-        fetchPresentacionesObraSocial,
-        setSelectedObraSocial,
-        selectedObraSocial,
-        obrasSociales,
-        obrasSocialesApiLoading,
+        valid, selectedObraSocial, loadDateValue, fecha,
     } = props;
+    const [obraSocial, setObraSocial] = useState('');
 
     useEffect(() => {
-        if (props.fecha !== undefined) {
-            props.loadDateValue(props.fecha);
+        if (selectedObraSocial[0] !== undefined) {
+            setObraSocial(selectedObraSocial[0].nombre);
         }
-    }, [props.fecha]);
-
-    const setSelectObraSocial = (selection) => {
-        if (selection[0] && selection[0].id) {
-            setSelectedObraSocial(selection[0]);
+        if (fecha !== undefined) {
+            loadDateValue(fecha);
+        } else {
+            loadDateValue('');
         }
-    };
-
-    const searchObrasSociales = (nombre) => {
-        fetchObrasSociales(nombre);
-    };
-
-    function renderObraSocialMenuItem(option) {
-        return (
-            <div key={ option.id }>
-                { option.nombre }
-            </div>
-        );
-    }
+    }, [fecha]);
 
     return (
         <Form
           inline
-          onSubmit={ handleSubmit(params =>
-          fetchPresentacionesObraSocial(params)) }
         >
             <Row className='search-grid'>
                 <Col md={ 8 } style={ { border: 'none' } } >
-                    <Field
-                      name='obraSocial'
-                      label='Obra Social'
-                      placeholder='nombre'
-                      align='left'
-                      validate={ requiredOption }
-                      component={ AsyncTypeaheadRF }
-                      options={ obrasSociales }
-                      labelKey='nombre'
-                      onSearch={ searchObrasSociales }
-                      onChange={ setSelectObraSocial }
-                      selected={ selectedObraSocial }
-                      renderMenuItemChildren={ renderObraSocialMenuItem }
-                      isLoading={ obrasSocialesApiLoading }
-                    />
+                    <div style={
+                    { marginTop: '2.2rem', marginLeft: '0.2rem',
+                        fontSize: '1.6rem', fontWeight: '600' } }
+                    >
+                        { obraSocial }
+                    </div>
                 </Col>
                 <Col md={ 4 } style={ { border: 'none' } }>
                     <div className='date-picker'>
@@ -102,18 +68,12 @@ const SearchPresentacionesObraSocialReduxForm =
         enableReinitialize: true,
     })(SearchPresentacionesObraSocial);
 
-const { string, func, array, bool } = PropTypes;
+const { array, bool, func } = PropTypes;
 
 SearchPresentacionesObraSocial.propTypes = {
-    handleSubmit: func.isRequired,
     valid: bool.isRequired,
-    fetchObrasSociales: func.isRequired,
-    fetchPresentacionesObraSocial: func.isRequired,
-    setSelectedObraSocial: func.isRequired,
-    loadDateValue: func.isRequired,
     selectedObraSocial: array,
-    obrasSociales: array,
-    obrasSocialesApiLoading: bool,
+    loadDateValue: func,
     fecha: string,
 };
 
@@ -124,24 +84,15 @@ function mapStateToProps(state) {
     obraSocial = (obraSocial && Array.isArray(obraSocial))
         ? obraSocial
         : [];
-    const date = selector(state, 'fecha');
+    const fechaSelector = selector(state, 'fecha');
     return {
         selectedObraSocial: obraSocial,
-        obrasSociales: state.obraSocialReducer.obrasSociales,
-        obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
-        fecha: date,
+        fecha: fechaSelector,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
-        fetchPresentacionesObraSocial: params => dispatch({
-            type: FETCH_PRESENTACIONES_OBRA_SOCIAL,
-            id: params.obraSocial[0].id,
-        }),
-        setSelectedObraSocial: obraSocial =>
-            dispatch(change('searchPresentacionesObraSocial', 'obraSocial', obraSocial)),
         loadDateValue: value =>
             dispatch({ type: LOAD_DATE_VALUE, value }),
     };
