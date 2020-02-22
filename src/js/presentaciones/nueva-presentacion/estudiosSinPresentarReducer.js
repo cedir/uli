@@ -1,9 +1,7 @@
 import initialState from './estudiosSinPresentarReducerInitialState';
 import {
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
-    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR, ACTUALIZAR_NRO_DE_ORDEN,
-    ACTUALIZAR_IMPORTE, ACTUALIZAR_ANESTESISTA,
-    ACTUALIZAR_DIF_PACIENTE, ACTUALIZAR_PENSION,
+    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR, ACTUALIZAR_INPUT_VALUE,
     ELIMINAR_FILA, LOAD_DATE_VALUE } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
@@ -51,74 +49,39 @@ const loadEstudiosSinPresentarErrorReducer = (state) => {
 const loadDateValueReducer = (state, action) => {
     const newState = {};
     Object.assign(newState, state, { fecha: action.value });
-    console.log(newState);
 
     return newState;
 };
 
-const actualizarNroDeOrden = (state, action) => {
+const actualizarInputValue = (state, action) => {
     const newState = {};
     const length = state.estudiosSinPresentar.length;
     const estudios = state.estudiosSinPresentar;
-    for (let i = 0; i < length; i += 1) {
-        if (estudios[i].id === action.idValue.idEstudio) {
-            estudios[i].nro_de_orden = action.idValue.value;
-        }
+    let actionValue = action.value;
+    if (actionValue === '') {
+        actionValue = '0.00';
     }
-    Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
-
-    return newState;
-};
-
-const actualizarImporte = (state, action) => {
-    const newState = {};
-    const length = state.estudiosSinPresentar.length;
-    const estudios = state.estudiosSinPresentar;
     for (let i = 0; i < length; i += 1) {
-        if (estudios[i].id === action.idValue.idEstudio) {
-            estudios[i].importe_estudio = action.idValue.value;
-        }
-    }
-    Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
-
-    return sumarImportesEstudios(newState);
-};
-
-const actualizarPension = (state, action) => {
-    const newState = {};
-    const length = state.estudiosSinPresentar.length;
-    const estudios = state.estudiosSinPresentar;
-    for (let i = 0; i < length; i += 1) {
-        if (estudios[i].id === action.idValue.idEstudio) {
-            estudios[i].pension = action.idValue.value;
-        }
-    }
-    Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
-
-    return sumarImportesEstudios(newState);
-};
-
-const actualizarDifPaciente = (state, action) => {
-    const newState = {};
-    const length = state.estudiosSinPresentar.length;
-    const estudios = state.estudiosSinPresentar;
-    for (let i = 0; i < length; i += 1) {
-        if (estudios[i].id === action.idValue.idEstudio) {
-            estudios[i].diferencia_paciente = action.idValue.value;
-        }
-    }
-    Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
-
-    return sumarImportesEstudios(newState);
-};
-
-const actualizarAnestesista = (state, action) => {
-    const newState = {};
-    const length = state.estudiosSinPresentar.length;
-    const estudios = state.estudiosSinPresentar;
-    for (let i = 0; i < length; i += 1) {
-        if (estudios[i].id === action.idValue.idEstudio) {
-            estudios[i].arancel_anestesia = action.idValue.value;
+        if (estudios[i].id === action.idEstudio) {
+            switch (action.id) {
+                case 0:
+                    estudios[i].nro_de_orden = actionValue;
+                    break;
+                case 1:
+                    estudios[i].importe_estudio = actionValue;
+                    break;
+                case 2:
+                    estudios[i].pension = actionValue;
+                    break;
+                case 3:
+                    estudios[i].diferencia_paciente = actionValue;
+                    break;
+                case 4:
+                    estudios[i].arancel_anestesia = actionValue;
+                    break;
+                default:
+                    break;
+            }
         }
     }
     Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
@@ -152,16 +115,8 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return loadEstudiosSinPresentarErrorReducer(state);
         case LOAD_DATE_VALUE:
             return loadDateValueReducer(state, action);
-        case ACTUALIZAR_NRO_DE_ORDEN:
-            return actualizarNroDeOrden(state, action);
-        case ACTUALIZAR_IMPORTE:
-            return actualizarImporte(state, action);
-        case ACTUALIZAR_ANESTESISTA:
-            return actualizarAnestesista(state, action);
-        case ACTUALIZAR_DIF_PACIENTE:
-            return actualizarDifPaciente(state, action);
-        case ACTUALIZAR_PENSION:
-            return actualizarPension(state, action);
+        case ACTUALIZAR_INPUT_VALUE:
+            return actualizarInputValue(state, action);
         case ELIMINAR_FILA:
             return eliminarFilaReducer(state, action);
         default:
