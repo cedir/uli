@@ -61,102 +61,100 @@ function NuevaPresentacionObraSocialTableRow(props) {
 
     const isMedicacionActive = medicacionClicked ? 'active' : '';
     return (
-        renderRow && (
-            <tr className='table-row'>
-                <td className='icon'>
-                    <i
-                      className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
-                      tabIndex='0'
-                      role='button'
-                      onClick={ medicacionIconClickHandler }
-                    />
-                </td>
-                <td className='fecha'>{ fecha }</td>
-                <td>
-                    <input
-                      type='text'
-                      value={ nroOrden }
-                      placeholder={ nroOrden }
-                      onChange={ e =>
-                        onChangeHandler(
-                            actualizarInputValue(0, e.target.value, id),
-                        )
-                      }
-                    />
-                </td>
-                <td>{ paciente.id }</td>
-                <td title={ `${paciente.nombre} ${paciente.apellido}` }>
-                    { paciente.apellido }
-                </td>
-                <td title={ practica.descripcion } className='practica'>
-                    { practica.abreviatura }
-                </td>
-                <td title={ `${medico.nombre} ${medico.apellido}` }>
-                    { medico.apellido }
-                </td>
-                <td>
-                    <input
-                      type='number'
-                      value={ importe }
-                      onChange={ e =>
-                        onChangeHandler(
-                            actualizarInputValue(1, e.target.value, id),
-                        )
-                      }
-                    />
-                </td>
-                <td>
-                    <input
-                      type='number'
-                      value={ pensionState }
-                      onChange={ e =>
-                        onChangeHandler(
-                            actualizarInputValue(2, e.target.value, id),
-                        )
-                      }
-                    />
-                </td>
-                <td>
-                    <input
-                      type='number'
-                      value={ difPaciente }
-                      onChange={ e =>
-                        onChangeHandler(
-                            actualizarInputValue(3, e.target.value, id),
-                        )
-                      }
-                    />
-                </td>
-                <td className='td-medicacion'>
-                    <div>{ parseFloat(medicacion, 10) }</div>
-                </td>
-                <td>
-                    <input
-                      type='number'
-                      value={ parseFloat(anestesista, 10) }
-                      onChange={ e =>
-                        onChangeHandler(
-                            actualizarInputValue(4, e.target.value, id),
-                        )
-                      }
-                    />
-                </td>
-                <td className='delete'>
-                    <i
-                      className='fa fa-trash trash-icon'
-                      tabIndex='0'
-                      role='button'
-                      onClick={ deleteIconClickHandler }
-                    />
-                </td>
-                <td style={ { display: 'none' } }>
-                    <ModalMedicacion
-                      show={ medicacionClicked }
-                      onClickClose={ medicacionIconClickHandler }
-                    />
-                </td>
-            </tr>
-        )
+        <tr className='table-row'>
+            <td className='icon'>
+                <i
+                  className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
+                  tabIndex='0'
+                  role='button'
+                  onClick={ medicacionIconClickHandler }
+                />
+            </td>
+            <td className='fecha'>{ fecha }</td>
+            <td>
+                <input
+                  type='text'
+                  value={ nroOrden }
+                  placeholder={ nroOrden }
+                  onChange={ e =>
+                    onChangeHandler(
+                        actualizarInputValue(0, e.target.value, id),
+                    )
+                  }
+                />
+            </td>
+            <td>{ paciente.id }</td>
+            <td title={ `${paciente.nombre} ${paciente.apellido}` }>
+                { paciente.apellido }
+            </td>
+            <td title={ practica.descripcion } className='practica'>
+                { practica.abreviatura }
+            </td>
+            <td title={ `${medico.nombre} ${medico.apellido}` }>
+                { medico.apellido }
+            </td>
+            <td>
+                <input
+                  type='number'
+                  value={ importe }
+                  onChange={ e =>
+                    onChangeHandler(
+                      actualizarInputValue(1, e.target.value, id),
+                    )
+                  }
+                />
+            </td>
+            <td>
+                <input
+                  type='number'
+                  value={ pensionState }
+                  onChange={ e =>
+                    onChangeHandler(
+                      actualizarInputValue(2, e.target.value, id),
+                    )
+                  }
+                />
+            </td>
+            <td>
+                <input
+                  type='number'
+                  value={ difPaciente }
+                  onChange={ e =>
+                    onChangeHandler(
+                      actualizarInputValue(3, e.target.value, id),
+                    )
+                  }
+                />
+            </td>
+            <td className='td-medicacion'>
+                <div>{ parseFloat(medicacion, 10) }</div>
+            </td>
+            <td>
+                <input
+                  type='number'
+                  value={ parseFloat(anestesista, 10) }
+                  onChange={ e =>
+                    onChangeHandler(
+                      actualizarInputValue(4, e.target.value, id),
+                    )
+                  }
+                />
+            </td>
+            <td className='delete'>
+                <i
+                  className='fa fa-trash trash-icon'
+                  tabIndex='0'
+                  role='button'
+                  onClick={ deleteIconClickHandler }
+                />
+            </td>
+            <td style={ { display: 'none' } }>
+                <ModalMedicacion
+                  show={ medicacionClicked }
+                  onClickClose={ medicacionIconClickHandler }
+                />
+            </td>
+        </tr>
     );
 }
 
@@ -165,6 +163,7 @@ const { object } = PropTypes;
 NuevaPresentacionObraSocialTableRow.propTypes = {
     row: object.isRequired,
     eliminarFila: func.isRequired,
+    actualizarInputValue: func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

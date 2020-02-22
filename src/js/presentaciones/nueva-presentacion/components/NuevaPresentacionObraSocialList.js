@@ -8,7 +8,6 @@ import initialState from '../estudiosSinPresentarReducerInitialState';
 function NuevaPresentacionObraSocialList(props) {
     const {
         estudiosSinPresentar,
-        estudiosSinPresentarApiLoading,
         gravado,
         suma,
     } = props;
@@ -41,7 +40,7 @@ function NuevaPresentacionObraSocialList(props) {
                         />
                     )) }
                 </tbody>
-                { !estudiosSinPresentarApiLoading &&
+                { estudiosSinPresentar.length !== 0 &&
                 <ImportesTotales
                   estudios={ suma }
                   gravado={ parseFloat(gravado, 10) }
@@ -51,19 +50,17 @@ function NuevaPresentacionObraSocialList(props) {
     );
 }
 
-const { string, array, bool, number } = PropTypes;
+const { string, array, number } = PropTypes;
 
 NuevaPresentacionObraSocialList.propTypes = {
     estudiosSinPresentar: array.isRequired,
     suma: number.isRequired,
-    estudiosSinPresentarApiLoading: bool.isRequired,
     gravado: string.isRequired,
 };
 
 NuevaPresentacionObraSocialList.defaultProps = {
     estudiosSinPresentar: initialState.estudiosSinPresentar,
     suma: initialState.suma,
-    estudiosSinPresentarApiLoading: initialState.estudiosSinPresentarApiLoading,
 };
 
 function mapStateToProps(state) {

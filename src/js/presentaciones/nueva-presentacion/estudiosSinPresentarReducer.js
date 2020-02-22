@@ -6,18 +6,18 @@ import {
 
 const sumarImportesEstudios = (state) => {
     const newState = {};
-    const length = state.estudiosSinPresentar.length;
     const estudios = state.estudiosSinPresentar;
     let suma = state.suma;
     suma = 0;
-    for (let i = 0; i < length; i += 1) {
+    estudios.forEach((estudio) => {
         suma = suma +
-            parseFloat(estudios[i].importe_estudio, 10) +
-            parseFloat(estudios[i].pension, 10) +
-            parseFloat(estudios[i].diferencia_paciente, 10) +
-            parseFloat(estudios[i].importe_medicacion) +
-            parseFloat(estudios[i].arancel_anestesia, 10);
-    }
+            parseFloat(estudio.importe_estudio, 10) +
+            parseFloat(estudio.pension, 10) +
+            parseFloat(estudio.diferencia_paciente, 10) +
+            parseFloat(estudio.importe_medicacion) +
+            parseFloat(estudio.arancel_anestesia, 10) + 1;
+    });
+    suma -= 1;
     Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false, suma });
 
     return newState;
@@ -54,36 +54,36 @@ const loadDateValueReducer = (state, action) => {
 };
 
 const actualizarInputValue = (state, action) => {
+    /* eslint-disable no-param-reassign */
     const newState = {};
-    const length = state.estudiosSinPresentar.length;
     const estudios = state.estudiosSinPresentar;
     let actionValue = action.value;
     if (actionValue === '') {
         actionValue = '0.00';
     }
-    for (let i = 0; i < length; i += 1) {
-        if (estudios[i].id === action.idEstudio) {
+    estudios.forEach((estudio) => {
+        if (estudio.id === action.idEstudio) {
             switch (action.id) {
                 case 0:
-                    estudios[i].nro_de_orden = actionValue;
+                    estudio.nro_de_orden = actionValue;
                     break;
                 case 1:
-                    estudios[i].importe_estudio = actionValue;
+                    estudio.importe_estudio = actionValue;
                     break;
                 case 2:
-                    estudios[i].pension = actionValue;
+                    estudio.pension = actionValue;
                     break;
                 case 3:
-                    estudios[i].diferencia_paciente = actionValue;
+                    estudio.diferencia_paciente = actionValue;
                     break;
                 case 4:
-                    estudios[i].arancel_anestesia = actionValue;
+                    estudio.arancel_anestesia = actionValue;
                     break;
                 default:
                     break;
             }
         }
-    }
+    });
     Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
 
     return sumarImportesEstudios(newState);
@@ -91,16 +91,14 @@ const actualizarInputValue = (state, action) => {
 
 const eliminarFilaReducer = (state, action) => {
     const newState = {};
-    const length = state.estudiosSinPresentar.length;
     const estudios = state.estudiosSinPresentar;
-    let index;
-    for (let i = 0; i < length; i += 1) {
-        if (estudios[i].id === action.id) {
-            index = estudios.indexOf(estudios[i]);
+    estudios.forEach((estudio) => {
+        if (estudio.id === action.id) {
+            const index = estudios.indexOf(estudio);
+            estudios.splice(index, 1);
         }
-    }
-    state.estudiosSinPresentar.splice(index, 1);
-    Object.assign(newState, state);
+    });
+    Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false });
 
     return sumarImportesEstudios(newState);
 };
