@@ -4,10 +4,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AgreagarEstudioTableRow from './AgregarEstudioTableRow';
-import initialState from '../estudiosSinPresentarReducerInitialState';
+import initialState from '../estudiosSinPresentarAgregarReducerInitialState';
 
 function AgregarEstudioList(props) {
-    const { estudiosSinPresentar } = props;
+    const { estudiosSinPresentarAgregar } = props;
     return (
         <table className='agregar-estudio'>
             <thead>
@@ -20,7 +20,7 @@ function AgregarEstudioList(props) {
             </thead>
             <tbody>
                 {
-                    estudiosSinPresentar.map(estudio => (
+                    estudiosSinPresentarAgregar.map(estudio => (
                         <AgreagarEstudioTableRow
                           estudios={ estudio }
                         />
@@ -32,16 +32,17 @@ function AgregarEstudioList(props) {
 }
 
 AgregarEstudioList.defaultProps = {
-    estudiosSinPresentar: initialState.estudiosSinPresentar,
+    estudiosSinPresentarAgregar: initialState.estudiosSinPresentarAgregar,
 };
 
 AgregarEstudioList.propTypes = {
-    estudiosSinPresentar: PropTypes.array.isRequired,
+    estudiosSinPresentarAgregar: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
+        estudiosSinPresentarAgregar:
+            state.estudiosSinPresentarAgregarReducer.estudiosSinPresentarAgregar,
     };
 }
 

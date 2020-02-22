@@ -13,6 +13,7 @@ import { pacienteReducer } from '../paciente/pacienteReducer';
 import { practicaReducer } from '../practica/practicaReducer';
 import { presentacionReducer } from '../presentaciones/presentacionReducer';
 import { estudiosSinPresentarReducer } from '../presentaciones/nueva-presentacion/estudiosSinPresentarReducer';
+import { estudiosSinPresentarAgregarReducer } from '../presentaciones/nueva-presentacion/estudiosSinPresentarAgregarReducer';
 import { finalizarPresentacionReducer } from '../presentaciones/nueva-presentacion/finalizarPresentacionReducer';
 import { loginReducer } from '../login/loginReducer';
 import { alertReducer } from '../utilities/components/alert/alertReducer';
@@ -35,6 +36,7 @@ import { pacienteEpic } from '../paciente/pacienteEpic';
 import { practicaEpic } from '../practica/practicaEpic';
 import { presentacionEpic } from '../presentaciones/presentacionEpic';
 import { estudiosSinPresentarEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarEpic';
+import { estudiosSinPresentarAgregarEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarAgregarEpic';
 import { finalizarPresentacionEpic } from '../presentaciones/nueva-presentacion/finalizarPresentacionEpic';
 import { loginEpic } from '../login/loginEpic';
 import { comprobantesEpic, obtenerComprobantesEpic, guardarComprobanteAsociadoEpic, obtenerComprobantesConFiltroEpic } from '../comprobantes/comprobantesEpic';
@@ -64,6 +66,7 @@ export const rootEpic = combineEpics(
     practicaEpic,
     presentacionEpic,
     estudiosSinPresentarEpic,
+    estudiosSinPresentarAgregarEpic,
     finalizarPresentacionEpic,
     loginEpic,
     comprobantesEpic,
@@ -85,6 +88,7 @@ export const rootReducer = combineReducers({
     practicaReducer,
     presentacionReducer,
     estudiosSinPresentarReducer,
+    estudiosSinPresentarAgregarReducer,
     finalizarPresentacionReducer,
     login: loginReducer,
     alertReducer,

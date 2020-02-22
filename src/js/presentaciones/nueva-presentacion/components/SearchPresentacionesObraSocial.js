@@ -6,13 +6,13 @@ import { Form, Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { required } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
-import { LOAD_DATE_VALUE, FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../actionTypes';
+import { LOAD_DATE_VALUE, FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR } from '../actionTypes';
 import { ModalAgregarEstudio } from '../components/Modals';
 
 function SearchPresentacionesObraSocial(props) {
     const {
         valid, selectedObraSocial, loadDateValue, fecha,
-        fetchEstudiosSinPresentar,
+        fetchEstudiosSinPresentarAgregar,
     } = props;
     const [obraSocial, setObraSocial] = useState('');
     const [modal, setModal] = useState(false);
@@ -28,16 +28,14 @@ function SearchPresentacionesObraSocial(props) {
         }
     }, [fecha]);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleSubmit = () => {
         setModal(!modal);
-        fetchEstudiosSinPresentar(selectedObraSocial[0].id);
+        fetchEstudiosSinPresentarAgregar(selectedObraSocial[0].id);
     };
 
     return (
         <Fragment>
             <Form
-              onSubmit={ handleSubmit }
               inline
             >
                 <Row className='search-grid'>
@@ -60,7 +58,7 @@ function SearchPresentacionesObraSocial(props) {
                             />
                         </div>
                         <Button
-                          type='submit'
+                          type='button'
                           bsStyle='primary'
                           disabled={ !valid }
                         >
@@ -73,6 +71,13 @@ function SearchPresentacionesObraSocial(props) {
               show={ modal }
               onClickClose={ () => setModal(!modal) }
             />
+            <Button
+              type='button'
+              bsStyle='primary'
+              onClick={ handleSubmit }
+            >
+                Agregar
+            </Button>
         </Fragment>
     );
 }
@@ -89,7 +94,7 @@ const { array, bool, func } = PropTypes;
 SearchPresentacionesObraSocial.propTypes = {
     valid: bool.isRequired,
     selectedObraSocial: array,
-    fetchEstudiosSinPresentar: func,
+    fetchEstudiosSinPresentarAgregar: func,
     loadDateValue: func,
     fecha: string,
 };
@@ -112,9 +117,9 @@ function mapDispatchToProps(dispatch) {
     return {
         loadDateValue: value =>
             dispatch({ type: LOAD_DATE_VALUE, value }),
-        fetchEstudiosSinPresentar: idObraSocial =>
+        fetchEstudiosSinPresentarAgregar: idObraSocial =>
             dispatch({
-                type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
+                type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
                 id: idObraSocial,
             }),
     };
