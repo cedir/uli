@@ -2,7 +2,7 @@ import initialState from './estudiosSinPresentarReducerInitialState';
 import {
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR, ACTUALIZAR_INPUT_VALUE,
-    ELIMINAR_FILA, LOAD_DATE_VALUE } from './actionTypes';
+    ELIMINAR_FILA, LOAD_DATE_VALUE, SELECCIONAR_ESTUDIO } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
     const newState = {};
@@ -15,9 +15,9 @@ const sumarImportesEstudios = (state) => {
             parseFloat(estudio.pension, 10) +
             parseFloat(estudio.diferencia_paciente, 10) +
             parseFloat(estudio.importe_medicacion) +
-            parseFloat(estudio.arancel_anestesia, 10) + 1;
+            parseFloat(estudio.arancel_anestesia, 10) + 0.0001;
     });
-    suma -= 1;
+    suma -= 0.0001;
     Object.assign(newState, state, { estudios, estudiosSinPresentarApiLoading: false, suma });
 
     return newState;
@@ -103,6 +103,13 @@ const eliminarFilaReducer = (state, action) => {
     return sumarImportesEstudios(newState);
 };
 
+const seleccionarEstudioReducer = (state, action) => {
+    console.log(state);
+    console.log(action);
+
+    return state;
+};
+
 export function estudiosSinPresentarReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
@@ -117,6 +124,8 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return actualizarInputValue(state, action);
         case ELIMINAR_FILA:
             return eliminarFilaReducer(state, action);
+        case SELECCIONAR_ESTUDIO:
+            return seleccionarEstudioReducer(state, action);
         default:
             return state;
     }

@@ -6,6 +6,7 @@ import { Modal, Button } from 'react-bootstrap';
 import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
 import MedicacionEstudio from '../../../estudio/components/MedicacionEstudio';
+import AgregarEstudioList from './AgregarEstudioList';
 
 export function ModalEliminarFila(props) {
     const { nroFila, show, onClickClose, onClickEliminar } = props;
@@ -215,6 +216,22 @@ export function ModalSuccess(props) {
     );
 }
 
+export function ModalAgregarEstudio(props) {
+    const { show, onClickClose } = props;
+    return (
+        <Modal show={ show } className='modal-agregar-estudio'>
+            <Modal.Body>
+                <AgregarEstudioList />
+            </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={ onClickClose }>
+                    Cerrar
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
+
 const { bool, func, number, object, string } = PropTypes;
 
 function mapStateToProps(state) {
@@ -254,6 +271,11 @@ ModalMedicacion.propTypes = {
 };
 
 ModalSuccess.propTypes = {
+    show: bool.isRequired,
+    onClickClose: func.isRequired,
+};
+
+ModalAgregarEstudio.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
 };
