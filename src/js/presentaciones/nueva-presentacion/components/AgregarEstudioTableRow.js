@@ -1,27 +1,20 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { SELECCIONAR_ESTUDIO } from '../actionTypes';
+import PropTypes, { func } from 'prop-types';
 
 function AgregarEstudioTableRow(props) {
-    const [isSelected, setIsSelected] = useState(false);
-    const { seleccionarEstudio } = props;
+    const { selected, onClickIcon } = props;
     const {
         id, fecha, paciente, practica, medico,
     } = props.estudios;
-
-    const iconClickHandler = () => {
-        setIsSelected(!isSelected);
-        seleccionarEstudio(id);
-    };
 
     return (
         <tr>
             <td>
                 <i
-                  className={ `fa fa-check check-icon ${isSelected ? 'selected' : ''}` }
-                  onClick={ iconClickHandler }
+                  className={ `fa fa-check check-icon ${selected ? 'selected' : ''}` }
+                  onClick={ onClickIcon }
                   role='button'
                   tabIndex='0'
                 />
@@ -44,15 +37,9 @@ function AgregarEstudioTableRow(props) {
 }
 
 AgregarEstudioTableRow.propTypes = {
-    estudios: PropTypes.array,
-    seleccionarEstudio: PropTypes.func,
+    estudios: PropTypes.object,
+    onClickIcon: PropTypes.func,
+    selected: PropTypes.bool,
 };
 
-function mapDispatchToProps(dispatch) {
-    return {
-        seleccionarEstudio: id =>
-            dispatch({ type: SELECCIONAR_ESTUDIO, id }),
-    };
-}
-
-export default connect(null, mapDispatchToProps)(AgregarEstudioTableRow);
+export default connect(null, null)(AgregarEstudioTableRow);

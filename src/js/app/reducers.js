@@ -13,7 +13,6 @@ import { pacienteReducer } from '../paciente/pacienteReducer';
 import { practicaReducer } from '../practica/practicaReducer';
 import { presentacionReducer } from '../presentaciones/presentacionReducer';
 import { estudiosSinPresentarReducer } from '../presentaciones/nueva-presentacion/estudiosSinPresentarReducer';
-import { estudiosSinPresentarAgregarReducer } from '../presentaciones/nueva-presentacion/estudiosSinPresentarAgregarReducer';
 import { finalizarPresentacionReducer } from '../presentaciones/nueva-presentacion/finalizarPresentacionReducer';
 import { loginReducer } from '../login/loginReducer';
 import { alertReducer } from '../utilities/components/alert/alertReducer';
@@ -88,7 +87,6 @@ export const rootReducer = combineReducers({
     practicaReducer,
     presentacionReducer,
     estudiosSinPresentarReducer,
-    estudiosSinPresentarAgregarReducer,
     finalizarPresentacionReducer,
     login: loginReducer,
     alertReducer,

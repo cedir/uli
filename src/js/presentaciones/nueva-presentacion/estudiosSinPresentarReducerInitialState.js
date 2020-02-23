@@ -3,6 +3,8 @@ const initialState = {
     fecha: '',
     estudiosSinPresentarApiLoading: false,
     suma: 0,
+    estudiosSinPresentarAgregar: [],
+    estudiosSinPresentarAgregarApiLoading: false,
 };
 
 export default initialState;

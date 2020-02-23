@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes, { func } from 'prop-types';
 import { ModalMedicacion } from './Modals';
@@ -15,6 +15,8 @@ function NuevaPresentacionObraSocialTableRow(props) {
         importe_medicacion: medicacion,
         arancel_anestesia,
     } = row;
+
+    console.log(row);
 
     const [nroOrden, setNroOrden] = useState(orden);
     const [importe, setImporte] = useState(parseFloat(importe_estudio, 10));

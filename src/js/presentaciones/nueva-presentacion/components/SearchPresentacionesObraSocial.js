@@ -7,7 +7,7 @@ import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { required } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
 import { LOAD_DATE_VALUE, FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR } from '../actionTypes';
-import { ModalAgregarEstudio } from '../components/Modals';
+import ModalAgregarEstudio from '../components/ModalAgregarEstudio';
 
 function SearchPresentacionesObraSocial(props) {
     const {
@@ -28,7 +28,7 @@ function SearchPresentacionesObraSocial(props) {
         }
     }, [fecha]);
 
-    const handleSubmit = () => {
+    const tuViejaEnTanga = () => {
         setModal(!modal);
         fetchEstudiosSinPresentarAgregar(selectedObraSocial[0].id);
     };
@@ -61,6 +61,7 @@ function SearchPresentacionesObraSocial(props) {
                           type='button'
                           bsStyle='primary'
                           disabled={ !valid }
+                          onClick={ tuViejaEnTanga }
                         >
                             Agregar
                         </Button>
@@ -71,13 +72,6 @@ function SearchPresentacionesObraSocial(props) {
               show={ modal }
               onClickClose={ () => setModal(!modal) }
             />
-            <Button
-              type='button'
-              bsStyle='primary'
-              onClick={ handleSubmit }
-            >
-                Agregar
-            </Button>
         </Fragment>
     );
 }
