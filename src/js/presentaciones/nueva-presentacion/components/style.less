@@ -78,36 +78,36 @@
       i.trash-icon-active {
         color: red;
       }
-      .importes-totales {
-        position: absolute;
-        right: 0.7rem;
-        padding: 2rem 0rem;
-        width: 50rem;
+    }
+    .importes-totales {
+      position: absolute;
+      right: 0.7rem;
+      padding: 2rem 0rem;
+      width: 50rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background-color: lighten(#eee, 5);
+      border-radius: 0.5rem;
+      margin: 2rem 0rem;
+      margin-right: 0.7rem;
+      float: right;
+      div.col {
+        padding: 0.5rem 0rem;
         display: flex;
         align-items: center;
         justify-content: space-around;
-        background-color: lighten(#eee, 5);
-        border-radius: 0.5rem;
-        margin: 2rem 0rem;
-        margin-right: 0.7rem;
-        float: right;
-        div.col {
-          padding: 0.5rem 0rem;
-          display: flex;
-          align-items: center;
-          justify-content: space-around;
-          width: 35%;
-          border: 0.2rem solid #eee;
-          border-radius: 0.2rem;
-          font-weight: 700;
-          div {
-            font-weight: 800;
-            color: @navy;
-          }
+        width: 35%;
+        border: 0.2rem solid #eee;
+        border-radius: 0.2rem;
+        font-weight: 700;
+        div {
+          font-weight: 800;
+          color: @navy;
         }
-        div.gravado {
-          width: 25%;
-        }
+      }
+      div.gravado {
+        width: 25%;
       }
     }
 
@@ -299,32 +299,20 @@
       align-items: center;
       justify-content: center;
       background-color: #eee;
+      font-weight: 600;
       td {
         border-radius: 0.2rem;
         background-color: lighten(#eee, 5%);
         text-align: center;
         padding: 0.5rem 1rem 0.5rem 1rem;
       }
-      th.first {
-        width: 4rem;
+      tr.selected {
+        td {
+          background-color: rgb(26, 179, 148, 50%);
+        }
       }
       th {
         width: 15rem;
-      }
-      i {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        width: 1.8rem;
-        height: 1.8rem;
-        border-radius: 100%;
-        color: lighten(#eee, 5%);
-        outline: none;
-        background-color: #eee;
-      }
-      i.selected {
-        background-color: @navy;
       }
     }
   }

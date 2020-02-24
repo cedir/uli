@@ -11,7 +11,6 @@ function AgregarEstudioList(props) {
     return (
         <table className='agregar-estudio'>
             <thead>
-                <th className='first' />
                 <th>Fecha</th>
                 <th>Paciente</th>
                 <th>Practica</th>

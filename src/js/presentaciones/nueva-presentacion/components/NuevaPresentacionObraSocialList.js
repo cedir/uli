@@ -37,15 +37,16 @@ function NuevaPresentacionObraSocialList(props) {
                         <NuevaPresentacionObraSocialTableRow
                           row={ estudio }
                           key={ estudio.id }
-                        />
-                    )) }
-                    { estudiosSinPresentar.length !== 0 &&
-                        <ImportesTotales
-                          estudios={ suma }
-                          gravado={ parseFloat(gravado, 10) }
-                        /> }
+                        />))
+                    }
                 </tbody>
             </table>
+            { estudiosSinPresentar.length !== 0 &&
+                <ImportesTotales
+                  estudios={ suma }
+                  gravado={ parseFloat(gravado, 10) }
+                />
+            }
         </div>
     );
 }

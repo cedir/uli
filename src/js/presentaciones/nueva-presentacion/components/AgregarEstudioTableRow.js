@@ -10,15 +10,10 @@ function AgregarEstudioTableRow(props) {
     } = props.estudios;
 
     return (
-        <tr>
-            <td>
-                <i
-                  className={ `fa fa-check check-icon ${selected ? 'selected' : ''}` }
-                  onClick={ onClickIcon }
-                  role='button'
-                  tabIndex='0'
-                />
-            </td>
+        <tr
+          onClick={ onClickIcon }
+          className={ selected ? 'selected' : '' }
+        >
             <td>{ fecha }</td>
             <td title={ `${paciente.nombre} ${paciente.apellido}` }>
                 { paciente.apellido }
