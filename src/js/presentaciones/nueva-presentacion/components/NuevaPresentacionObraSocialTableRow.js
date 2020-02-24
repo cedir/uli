@@ -16,8 +16,6 @@ function NuevaPresentacionObraSocialTableRow(props) {
         arancel_anestesia,
     } = row;
 
-    console.log(row);
-
     const [nroOrden, setNroOrden] = useState(orden);
     const [importe, setImporte] = useState(parseFloat(importe_estudio, 10));
     const [pensionState, setPension] = useState(parseFloat(pension, 10));

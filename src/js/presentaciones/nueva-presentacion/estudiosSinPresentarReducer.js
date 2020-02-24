@@ -151,11 +151,10 @@ const agregarEstudiosATablaReducer = (state, action) => {
     });
     Object.assign(newState, state, { estudiosSinPresentar, estudiosSinPresentarApiLoading: false });
 
-    return newState;
+    return sumarImportesEstudios(newState);
 };
 
 export function estudiosSinPresentarReducer(state = initialState, action) {
-    console.log(state);
     switch (action.type) {
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR:

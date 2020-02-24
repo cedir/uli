@@ -78,36 +78,39 @@
       i.trash-icon-active {
         color: red;
       }
-    }
-    .importes-totales {
-      padding: 2rem 0rem;
-      width: 50rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      background-color: lighten(#eee, 5);
-      border-radius: 0.5rem;
-      margin: 2rem 0rem;
-      margin-right: 0.7rem;
-      float: right;
-      div.col {
-        padding: 0.5rem 0rem;
+      .importes-totales {
+        position: absolute;
+        right: 0.7rem;
+        padding: 2rem 0rem;
+        width: 50rem;
         display: flex;
         align-items: center;
         justify-content: space-around;
-        width: 35%;
-        border: 0.2rem solid #eee;
-        border-radius: 0.2rem;
-        font-weight: 700;
-        div {
-          font-weight: 800;
-          color: @navy;
+        background-color: lighten(#eee, 5);
+        border-radius: 0.5rem;
+        margin: 2rem 0rem;
+        margin-right: 0.7rem;
+        float: right;
+        div.col {
+          padding: 0.5rem 0rem;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          width: 35%;
+          border: 0.2rem solid #eee;
+          border-radius: 0.2rem;
+          font-weight: 700;
+          div {
+            font-weight: 800;
+            color: @navy;
+          }
+        }
+        div.gravado {
+          width: 25%;
         }
       }
-      div.gravado {
-        width: 25%;
-      }
     }
+
   }
 }
 
