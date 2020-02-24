@@ -1,4 +1,4 @@
-import { get } from '../utilities/rest';
+import { get, patch } from '../utilities/rest';
 import saveFile from '../utilities/saveFile';
 import store from '../app/configureStore';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
@@ -52,5 +52,11 @@ export function getPresentacionFormatoAMR(presentacion) {
             reason => (
                 store.dispatch({ type: ADD_ALERT, alert: createAlert(JSON.parse(reason.response).error, 'danger') })),
         );
+}
+
+export function patchAbrirPresentacion(idPresentacion) {
+    const url = `/api/presentacion/${idPresentacion}/abrir`;
+
+    return patch(url);
 }
 

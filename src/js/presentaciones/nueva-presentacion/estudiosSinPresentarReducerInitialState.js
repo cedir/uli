@@ -1,10 +1,10 @@
 const initialState = {
     estudiosSinPresentar: [],
-    fecha: '',
-    estudiosSinPresentarApiLoading: false,
-    suma: 0,
     estudiosSinPresentarAgregar: [],
+    estudiosSinPresentarApiLoading: false,
     estudiosSinPresentarAgregarApiLoading: false,
+    fecha: '',
+    suma: 0,
 };
 
 export default initialState;
