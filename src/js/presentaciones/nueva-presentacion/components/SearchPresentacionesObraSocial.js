@@ -28,7 +28,7 @@ function SearchPresentacionesObraSocial(props) {
         }
     }, [fecha]);
 
-    const tuViejaEnTanga = () => {
+    const agregarClickHandler = () => {
         setModal(!modal);
         fetchEstudiosSinPresentarAgregar(selectedObraSocial[0].id);
     };
@@ -61,7 +61,7 @@ function SearchPresentacionesObraSocial(props) {
                           type='button'
                           bsStyle='primary'
                           disabled={ !valid }
-                          onClick={ tuViejaEnTanga }
+                          onClick={ agregarClickHandler }
                         >
                             Agregar
                         </Button>
