@@ -1,4 +1,5 @@
 import { createStore, applyMiddleware, compose } from 'redux';
+import logger from 'redux-logger';
 import { createEpicMiddleware } from 'redux-observable';
 import { rootReducer, rootEpic } from './reducers';
 import { saveStateLocally, removeStateLocally, loadLocallyPersistedState } from './persistStateLocally';
@@ -18,7 +19,7 @@ const epicMiddleware = createEpicMiddleware(rootEpic);
 const store = createStore(
     rootReducer,
     locallyPersistedState,
-    composeEnhancers(applyMiddleware(epicMiddleware)),
+    composeEnhancers(applyMiddleware(epicMiddleware, logger)),
     // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
     // applyMiddleware(thunk, reduxImmutableStateInvariant())
 );

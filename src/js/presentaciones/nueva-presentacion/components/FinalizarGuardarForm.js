@@ -131,7 +131,6 @@ function FinalizarGuardarForm(props) {
     });
     // const postObject = initEditFormObject();
     const [modalSuccess, setModalSuccess] = useState(false);
-    console.log(postObject);
     const clickHandler = () => {
         finalizarPresentacion(postObject);
         setModalSuccess(true);

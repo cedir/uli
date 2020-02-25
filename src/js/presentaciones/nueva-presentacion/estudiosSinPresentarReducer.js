@@ -1,10 +1,11 @@
 /* eslint-disable no-unused-vars */
 import initialState from './estudiosSinPresentarReducerInitialState';
 import {
-    FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
+    FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
+    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, LOAD_ESTUDIOS_DE_UNA_PRESENTACION,
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
-    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
+    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR, LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR, ACTUALIZAR_INPUT_VALUE,
     ELIMINAR_FILA, LOAD_DATE_VALUE, AGREGAR_ESTUDIOS_A_TABLA } from './actionTypes';
 
@@ -16,6 +17,7 @@ const actionsHandledByEpicReducer = (state) => {
 };
 
 const loadEstudiosSinPresentarReducer = (state, action) => {
+    console.log(action);
     const newState = {};
     const estudiosSinPresentar = action.data.response;
     Object.assign(newState, state, { estudiosSinPresentar, estudiosSinPresentarApiLoading: false });
@@ -158,10 +160,13 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR:
+        case FETCH_ESTUDIOS_DE_UNA_PRESENTACION:
             return actionsHandledByEpicReducer(state);
         case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
+        case LOAD_ESTUDIOS_DE_UNA_PRESENTACION:
             return loadEstudiosSinPresentarReducer(state, action);
         case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR:
+        case LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR:
             return loadEstudiosSinPresentarErrorReducer(state);
         case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR:
             return loadEstudiosSinPresentarAgregarReducer(state, action);

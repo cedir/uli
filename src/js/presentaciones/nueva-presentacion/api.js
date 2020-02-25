@@ -6,6 +6,12 @@ export function getEstudiosSinPresentarObraSocial(idObraSocial) {
     return get(url);
 }
 
+export function getEstudiosDeUnaPresentacion(idPresentacion) {
+    const url = `/api/presentacion/${idPresentacion}/estudios`;
+
+    return get(url);
+}
+
 export function finalizarPresentacionObraSocial(presentacion) {
     const url = '/api/presentacion/';
     const body = {

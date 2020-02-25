@@ -35,7 +35,7 @@ import { pacienteEpic } from '../paciente/pacienteEpic';
 import { practicaEpic } from '../practica/practicaEpic';
 import { presentacionEpic } from '../presentaciones/presentacionEpic';
 import { abrirPresentacionEpic } from '../presentaciones/abrirPresentacionEpic';
-import { estudiosSinPresentarEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarEpic';
+import { estudiosSinPresentarEpic, verEstudiosDeUnaPresentacionEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarEpic';
 import { estudiosSinPresentarAgregarEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarAgregarEpic';
 import { finalizarPresentacionEpic } from '../presentaciones/nueva-presentacion/finalizarPresentacionEpic';
 import { loginEpic } from '../login/loginEpic';
@@ -67,6 +67,7 @@ export const rootEpic = combineEpics(
     presentacionEpic,
     abrirPresentacionEpic,
     estudiosSinPresentarEpic,
+    verEstudiosDeUnaPresentacionEpic,
     estudiosSinPresentarAgregarEpic,
     finalizarPresentacionEpic,
     loginEpic,

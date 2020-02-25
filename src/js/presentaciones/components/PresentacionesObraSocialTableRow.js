@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
 import { ABRIR_PRESENTACION } from '../actionTypes';
+import { FETCH_ESTUDIOS_DE_UNA_PRESENTACION } from '../nueva-presentacion/actionTypes';
 
 function PresentacionesObraSocialTableRow(props) {
     const { index, presentacion, history } = props;
@@ -30,6 +31,7 @@ function PresentacionesObraSocialTableRow(props) {
     const redirectPage = () => {
         if (estadoPresentacion === 'Abierto') {
             history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
+            props.fetchEstudios(presentacion.id);
         } else {
             history.push('/presentaciones-obras-sociales/ver-presentacion');
         }
@@ -78,6 +80,7 @@ PresentacionesObraSocialTableRow.propTypes = {
     presentacion: object.isRequired,
     index: number.isRequired,
     abrirPresentacion: func.isRequired,
+    fetchEstudios: func.isRequired,
     history: object.isRequired,
 };
 
@@ -88,6 +91,8 @@ function mapDispatchToProps(dispatch) {
                 ...presentacion,
                 estado: 'Abierto',
             } } }),
+        fetchEstudios: id =>
+            dispatch({ type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION, id }),
     };
 }
 
