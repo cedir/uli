@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 import { ModalMedicacion } from './Modals';
 import { ACTUALIZAR_INPUT_VALUE, ELIMINAR_FILA } from '../actionTypes';
 
@@ -158,7 +157,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
     );
 }
 
-const { object } = PropTypes;
+const { object, func } = PropTypes;
 
 NuevaPresentacionObraSocialTableRow.propTypes = {
     row: object.isRequired,

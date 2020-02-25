@@ -34,6 +34,7 @@ function PresentacionesObraSocialTableRow(props) {
             props.fetchEstudios(presentacion.id);
         } else {
             history.push('/presentaciones-obras-sociales/ver-presentacion');
+            props.fetchEstudios(presentacion.id);
         }
     };
 

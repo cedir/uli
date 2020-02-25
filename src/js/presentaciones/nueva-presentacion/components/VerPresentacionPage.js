@@ -1,11 +1,11 @@
 import React from 'react';
-import NuevaPresentacionObraSocialList from './NuevaPresentacionObraSocialList';
+import VerPresentacionList from './VerPresentacionList';
 
 function VerPresentacionPage() {
     return (
         <div>
             <h1>Ver Presentacion</h1>
-            <NuevaPresentacionObraSocialList />
+            <VerPresentacionList />
         </div>
     );
 }
