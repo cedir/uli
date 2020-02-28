@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Row, Col } from 'react-bootstrap';
 import ModalFinalizarGuardar, { ModalComprobante } from './Modals';
-import { LOAD_GRAVADO_VALUE } from '../actionTypes';
+import { LOAD_GRAVADO_VALUE_NUEVA } from '../actionTypes';
+import { LOAD_GRAVADO_VALUE_MODIFICAR } from '../../actionTypes';
 
 function useComprobanteState() {
     const [numeroShort, setNumeroShort] = useState('');
@@ -54,13 +55,19 @@ function useComprobanteState() {
 }
 
 function TabNavigator(props) {
-    const { listComponent, loadGravadoValue } = props;
+    const {
+        listComponent, loadGravadoValueNueva, loadGravadoValueModificar,
+    } = props;
     const [openComprobante, setOpenComprobate] = useState(false);
     const [openFinalizarGuardar, setOpenFinalizarGuardar] = useState(false);
     const comprobanteState = useComprobanteState();
 
     useEffect(() => {
-        loadGravadoValue(comprobanteState.gravado);
+        if (listComponent.type.displayName === 'Connect(ModificarPresentacionList)') {
+            loadGravadoValueModificar(comprobanteState.gravado);
+        } else {
+            loadGravadoValueNueva(comprobanteState.gravado);
+        }
     }, [comprobanteState.gravado]);
 
     const comprobanteHandler = () => {
@@ -123,14 +130,18 @@ function TabNavigator(props) {
 }
 
 TabNavigator.propTypes = {
-    listComponent: PropTypes.func.isRequired,
-    loadGravadoValue: PropTypes.func.isRequired,
+    listComponent: PropTypes.object.isRequired,
+    loadGravadoValueNueva: PropTypes.func.isRequired,
+    loadGravadoValueModificar: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        loadGravadoValue: (value) => {
-            dispatch({ type: LOAD_GRAVADO_VALUE, payload: { value } });
+        loadGravadoValueNueva: (value) => {
+            dispatch({ type: LOAD_GRAVADO_VALUE_NUEVA, payload: { value } });
+        },
+        loadGravadoValueModificar: (value) => {
+            dispatch({ type: LOAD_GRAVADO_VALUE_MODIFICAR, payload: { value } });
         },
     };
 }

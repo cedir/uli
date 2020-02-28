@@ -7,7 +7,9 @@ function ModificarPresentacionPage() {
     return (
         <div>
             <h1>Modificar Presentacion</h1>
-            <SearchPresentacionesObraSocial />
+            <SearchPresentacionesObraSocial
+              page='Modificar'
+            />
             <TabNavigator
               listComponent={ <ModificarPresentacionList /> }
             />

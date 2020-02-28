@@ -1,18 +1,22 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState, Fragment } from 'react';
-import PropTypes, { string } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { required } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
-import { LOAD_DATE_VALUE, FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR } from '../actionTypes';
+import {
+    LOAD_DATE_VALUE_NUEVA, FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
+} from '../actionTypes';
+import { LOAD_DATE_VALUE_MODIFICAR } from '../../actionTypes';
 import ModalAgregarEstudio from '../components/ModalAgregarEstudio';
 
 function SearchPresentacionesObraSocial(props) {
     const {
-        valid, selectedObraSocial, loadDateValue, fecha,
-        fetchEstudiosSinPresentarAgregar,
+        valid, selectedObraSocial, loadDateValueNueva, fecha,
+        fetchEstudiosSinPresentarAgregar, loadDateValueModificar,
+        page,
     } = props;
     const [obraSocial, setObraSocial] = useState('');
     const [modal, setModal] = useState(false);
@@ -21,11 +25,24 @@ function SearchPresentacionesObraSocial(props) {
         if (selectedObraSocial[0] !== undefined) {
             setObraSocial(selectedObraSocial[0].nombre);
         }
-        if (fecha !== undefined) {
-            loadDateValue(fecha);
+        if (page === 'Nueva') {
+            if (fecha !== undefined) {
+                loadDateValueNueva(fecha);
+            } else {
+                loadDateValueNueva('');
+            }
         } else {
-            loadDateValue('');
+            /* eslint-disable no-lonely-if */
+            if (fecha !== undefined) {
+                loadDateValueModificar(fecha);
+            } else {
+                loadDateValueModificar('');
+            }
         }
+        return () => {
+            loadDateValueNueva('');
+            loadDateValueModificar('');
+        };
     }, [fecha]);
 
     const agregarClickHandler = () => {
@@ -79,18 +96,20 @@ function SearchPresentacionesObraSocial(props) {
 const SearchPresentacionesObraSocialReduxForm =
     reduxForm({
         form: 'searchPresentacionesObraSocial',
-        destroyOnUnmount: false,
+        destroyOnUnmount: true,
         enableReinitialize: true,
     })(SearchPresentacionesObraSocial);
 
-const { array, bool, func } = PropTypes;
+const { array, bool, func, string } = PropTypes;
 
 SearchPresentacionesObraSocial.propTypes = {
     valid: bool.isRequired,
-    selectedObraSocial: array,
-    fetchEstudiosSinPresentarAgregar: func,
-    loadDateValue: func,
-    fecha: string,
+    selectedObraSocial: array.isRequired,
+    fetchEstudiosSinPresentarAgregar: func.isRequired,
+    loadDateValueNueva: func.isRequired,
+    loadDateValueModificar: func.isRequired,
+    fecha: string.isRequired,
+    page: string.isRequired,
 };
 
 const selector = formValueSelector('searchPresentacionesObraSocial');
@@ -109,8 +128,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        loadDateValue: value =>
-            dispatch({ type: LOAD_DATE_VALUE, value }),
+        loadDateValueNueva: value =>
+            dispatch({ type: LOAD_DATE_VALUE_NUEVA, value }),
+        loadDateValueModificar: value =>
+            dispatch({ type: LOAD_DATE_VALUE_MODIFICAR, value }),
         fetchEstudiosSinPresentarAgregar: idObraSocial =>
             dispatch({
                 type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,

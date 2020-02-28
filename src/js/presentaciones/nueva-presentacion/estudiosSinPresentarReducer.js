@@ -7,8 +7,8 @@ import {
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR,
-    ELIMINAR_ESTUDIO_SIN_PRESENTAR, LOAD_DATE_VALUE, AGREGAR_ESTUDIOS_A_TABLA,
-    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, LOAD_GRAVADO_VALUE } from './actionTypes';
+    ELIMINAR_ESTUDIO_SIN_PRESENTAR, LOAD_DATE_VALUE_NUEVA, AGREGAR_ESTUDIOS_A_TABLA,
+    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, LOAD_GRAVADO_VALUE_NUEVA } from './actionTypes';
 
 const actionsHandledByEpicReducer = (state) => {
     const newState = {};
@@ -69,7 +69,7 @@ const sumarImportesEstudios = (state) => {
     return newState;
 };
 
-const loadDateValueReducer = (state, action) => {
+const loadDateValueNuevaReducer = (state, action) => {
     const newState = {};
     Object.assign(newState, state, { fecha: action.value });
 
@@ -151,7 +151,7 @@ const agregarEstudiosATablaReducer = (state, action) => {
     return sumarImportesEstudios(newState);
 };
 
-const loadGravadoValueReducer = (state, action) => {
+const loadGravadoValueNuevaReducer = (state, action) => {
     const gravado = action.payload.value;
 
     return {
@@ -173,16 +173,16 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return loadEstudiosSinPresentarAgregarReducer(state, action);
         case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR:
             return loadEstudiosSinPresentarAgregarErrorReducer(state);
-        case LOAD_DATE_VALUE:
-            return loadDateValueReducer(state, action);
+        case LOAD_DATE_VALUE_NUEVA:
+            return loadDateValueNuevaReducer(state, action);
         case ELIMINAR_ESTUDIO_SIN_PRESENTAR:
             return eliminarEstudioSinPresentarReducer(state, action);
         case ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR:
             return actualizarInputEstudioSinPresentarReducer(state, action);
         case AGREGAR_ESTUDIOS_A_TABLA:
             return agregarEstudiosATablaReducer(state, action);
-        case LOAD_GRAVADO_VALUE:
-            return loadGravadoValueReducer(state, action);
+        case LOAD_GRAVADO_VALUE_NUEVA:
+            return loadGravadoValueNuevaReducer(state, action);
         default:
             return state;
     }
