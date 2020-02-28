@@ -1,7 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Button, Row, Col } from 'react-bootstrap';
-import NuevaPresentacionObraSocialList from './NuevaPresentacionObraSocialList';
 import ModalFinalizarGuardar, { ModalComprobante } from './Modals';
+import { LOAD_GRAVADO_VALUE } from '../actionTypes';
 
 function useComprobanteState() {
     const [numeroShort, setNumeroShort] = useState('');
@@ -51,10 +53,16 @@ function useComprobanteState() {
     };
 }
 
-function TabNavigator() {
+function TabNavigator(props) {
+    const { listComponent, loadGravadoValue } = props;
     const [openComprobante, setOpenComprobate] = useState(false);
     const [openFinalizarGuardar, setOpenFinalizarGuardar] = useState(false);
     const comprobanteState = useComprobanteState();
+
+    useEffect(() => {
+        loadGravadoValue(comprobanteState.gravado);
+    }, [comprobanteState.gravado]);
+
     const comprobanteHandler = () => {
         setOpenComprobate(!openComprobante);
     };
@@ -63,7 +71,6 @@ function TabNavigator() {
         setOpenFinalizarGuardar(!openFinalizarGuardar);
     };
 
-    const tableRef = useRef(null);
     const disableAyuda = true;
     return (
         <div className='tab-navigator'>
@@ -98,10 +105,7 @@ function TabNavigator() {
             </nav>
             <Row className='content-1'>
                 <Col md={ 12 } className='col-1'>
-                    <NuevaPresentacionObraSocialList
-                      ref={ tableRef }
-                      gravado={ comprobanteState.gravado }
-                    />
+                    { listComponent }
                 </Col>
             </Row>
             <ModalComprobante
@@ -118,4 +122,17 @@ function TabNavigator() {
     );
 }
 
-export default TabNavigator;
+TabNavigator.propTypes = {
+    listComponent: PropTypes.func.isRequired,
+    loadGravadoValue: PropTypes.func.isRequired,
+};
+
+function mapDispatchToProps(dispatch) {
+    return {
+        loadGravadoValue: (value) => {
+            dispatch({ type: LOAD_GRAVADO_VALUE, payload: { value } });
+        },
+    };
+}
+
+export default connect(null, mapDispatchToProps)(TabNavigator);

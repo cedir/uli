@@ -29,10 +29,16 @@ function VerPresentacionTableRow(props) {
         <tr>
             <td>{ fecha }</td>
             <td>{ orden }</td>
-            <td>{ `${paciente.nombre} ${paciente.apellido} `}</td>
-            <td>{ practica.descripcion }</td>
-            <td>{ `${medico.nombre} ${medico.apellido}` }</td>
-            <td>{ `${medico.nombre} ${medico.apellido}` }</td>
+            <td title={ `${paciente.nombre} ${paciente.apellido} ` }>
+                { paciente.apellido }
+            </td>
+            <td title={ practica.descripcion }>{ practica.abreviatura }</td>
+            <td title={ `${medico.nombre} ${medico.apellido}` }>
+                { medico.apellido }
+            </td>
+            <td title={ `${medico.nombre} ${medico.apellido}` }>
+                { medico.apellido }
+            </td>
             <td>{ totales.toFixed(2) }</td>
         </tr>
     );

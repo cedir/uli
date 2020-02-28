@@ -6,6 +6,7 @@ import { Modal, Button } from 'react-bootstrap';
 import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
 import MedicacionEstudio from '../../../estudio/components/MedicacionEstudio';
+import VerPresentacionList from '../../../presentaciones/components/VerPresentacionList';
 
 export function ModalEliminarFila(props) {
     const { nroFila, show, onClickClose, onClickEliminar } = props;
@@ -103,7 +104,6 @@ export function ModalAnestesia(props) {
         </div>
     );
 }
-
 export function ModalMedicacion(props) {
     const { show, onClickClose } = props;
     return (
@@ -215,6 +215,30 @@ export function ModalSuccess(props) {
     );
 }
 
+export function ModalVerPresentacion(props) {
+    const { show, onClickClose } = props;
+    return (
+        <div className='modal-ver-presentacion-box'>
+            <Modal show={ show } className='modal-ver-presentacion'>
+                <Modal.Body>
+                    <VerPresentacionList />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Link to='/presentaciones-obras-sociales'>
+                        <Button
+                          bsStyle='primary'
+                          type='button'
+                          onClick={ onClickClose }
+                        >
+                            Cerrar
+                        </Button>
+                    </Link>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    );
+}
+
 const { bool, func, number, object, string } = PropTypes;
 
 function mapStateToProps(state) {
@@ -254,6 +278,11 @@ ModalMedicacion.propTypes = {
 };
 
 ModalSuccess.propTypes = {
+    show: bool.isRequired,
+    onClickClose: func.isRequired,
+};
+
+ModalVerPresentacion.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
 };

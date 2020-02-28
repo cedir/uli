@@ -2,13 +2,16 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ModalMedicacion } from './Modals';
+import { ModalMedicacion } from '../nueva-presentacion/components/Modals';
 import {
-    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, ELIMINAR_ESTUDIO_SIN_PRESENTAR,
+    ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
 } from '../actionTypes';
 
-function NuevaPresentacionObraSocialTableRow(props) {
-    const { row, actualizarInputEstudioSinPresentar, eliminarEstudioSinPresentar, index } = props;
+function ModificarPresentacionTableRow(props) {
+    const {
+        row, actualizarInputEstudioDeUnaPresentacion,
+        index, eliminarEstudioDeUnaPresentacion,
+    } = props;
     const {
         fecha, nro_de_orden: orden,
         paciente, practica, medico,
@@ -28,17 +31,17 @@ function NuevaPresentacionObraSocialTableRow(props) {
 
     const deleteIconClickHandler = () => {
         setRenderRow(!renderRow);
-        eliminarEstudioSinPresentar(index);
+        eliminarEstudioDeUnaPresentacion(index);
     };
 
     const onChangeHandler = (dispatcher) => {
-        let parsedValue = parseFloat(dispatcher.value, 10);
+        let parsedValue = parseFloat(dispatcher.payload.value, 10);
         if (isNaN(parsedValue)) {
             parsedValue = 0;
         }
-        switch (dispatcher.idInput) {
+        switch (dispatcher.payload.idInput) {
             case 1:
-                setNroOrden(dispatcher.value);
+                setNroOrden(dispatcher.payload.value);
                 break;
             case 2:
                 setImporte(parsedValue);
@@ -79,11 +82,11 @@ function NuevaPresentacionObraSocialTableRow(props) {
                   value={ nroOrden }
                   placeholder={ nroOrden }
                   onChange={ e =>
-                      onChangeHandler(
-                          actualizarInputEstudioSinPresentar(
-                              index, 1, e.target.value,
-                          ),
-                      )
+                    onChangeHandler(
+                        actualizarInputEstudioDeUnaPresentacion(
+                            index, 1, e.target.value,
+                        ),
+                    )
                   }
                 />
             </td>
@@ -103,7 +106,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                   value={ importe }
                   onChange={ e =>
                     onChangeHandler(
-                        actualizarInputEstudioSinPresentar(
+                        actualizarInputEstudioDeUnaPresentacion(
                             index, 2, e.target.value,
                         ),
                     )
@@ -116,7 +119,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                   value={ pensionState }
                   onChange={ e =>
                     onChangeHandler(
-                        actualizarInputEstudioSinPresentar(
+                        actualizarInputEstudioDeUnaPresentacion(
                             index, 3, e.target.value,
                         ),
                     )
@@ -129,7 +132,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                   value={ difPaciente }
                   onChange={ e =>
                     onChangeHandler(
-                        actualizarInputEstudioSinPresentar(
+                        actualizarInputEstudioDeUnaPresentacion(
                             index, 4, e.target.value,
                         ),
                     )
@@ -145,7 +148,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                   value={ parseFloat(anestesista, 10) }
                   onChange={ e =>
                     onChangeHandler(
-                        actualizarInputEstudioSinPresentar(
+                        actualizarInputEstudioDeUnaPresentacion(
                             index, 5, e.target.value,
                         ),
                     )
@@ -170,27 +173,24 @@ function NuevaPresentacionObraSocialTableRow(props) {
     );
 }
 
-const { object, func, number } = PropTypes;
-
-NuevaPresentacionObraSocialTableRow.propTypes = {
-    row: object.isRequired,
-    eliminarEstudioSinPresentar: func.isRequired,
-    index: number.isRequired,
-    actualizarInputEstudioSinPresentar: func.isRequired,
+ModificarPresentacionTableRow.propTypes = {
+    row: PropTypes.object.isRequired,
+    eliminarEstudioDeUnaPresentacion: PropTypes.func.isRequired,
+    actualizarInputEstudioDeUnaPresentacion: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        actualizarInputEstudioSinPresentar: (index, idInput, value) =>
+        actualizarInputEstudioDeUnaPresentacion: (index, idInput, value) =>
+            dispatch({ type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
+                payload: { index, idInput, value } }),
+        eliminarEstudioDeUnaPresentacion: index =>
             dispatch({
-                type: ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
-                index, idInput, value,
-            }),
-        eliminarEstudioSinPresentar: index =>
-            dispatch({
-                type: ELIMINAR_ESTUDIO_SIN_PRESENTAR, index,
+                type: ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
+                payload: { index },
             }),
     };
 }
 
-export default connect(null, mapDispatchToProps)(NuevaPresentacionObraSocialTableRow);
+export default connect(null, mapDispatchToProps)(ModificarPresentacionTableRow);

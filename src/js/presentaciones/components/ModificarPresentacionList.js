@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import NuevaPresentacionObraSocialTableRow from './NuevaPresentacionObraSocialTableRow';
-import ImportesTotales from './ImportesTotales';
-import initialState from '../estudiosSinPresentarReducerInitialState';
+import ModificarPresentacionTableRow from './ModificarPresentacionTableRow';
+import ImportesTotales from '../nueva-presentacion/components/ImportesTotales';
+import initialState from '../presentacionReducerInitialState';
 
-function NuevaPresentacionObraSocialList(props) {
+function ModificarPresentacionList(props) {
     const {
-        estudiosSinPresentar,
+        estudiosDeUnaPresentacion,
         gravado,
         suma,
     } = props;
@@ -33,16 +33,16 @@ function NuevaPresentacionObraSocialList(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    { estudiosSinPresentar.map(estudio => (
-                        <NuevaPresentacionObraSocialTableRow
+                    { estudiosDeUnaPresentacion.map(estudio => (
+                        <ModificarPresentacionTableRow
                           row={ estudio }
                           key={ estudio.id }
-                          index={ estudiosSinPresentar.indexOf(estudio) }
+                          index={ estudiosDeUnaPresentacion.indexOf(estudio) }
                         />))
                     }
                 </tbody>
             </table>
-            { estudiosSinPresentar.length !== 0 &&
+            { estudiosDeUnaPresentacion.length !== 0 &&
                 <ImportesTotales
                   estudios={ suma }
                   gravado={ parseFloat(gravado, 10) }
@@ -54,24 +54,24 @@ function NuevaPresentacionObraSocialList(props) {
 
 const { string, array, number } = PropTypes;
 
-NuevaPresentacionObraSocialList.propTypes = {
-    estudiosSinPresentar: array.isRequired,
+ModificarPresentacionList.propTypes = {
+    estudiosDeUnaPresentacion: array.isRequired,
     suma: number.isRequired,
     gravado: string.isRequired,
 };
 
-NuevaPresentacionObraSocialList.defaultProps = {
-    estudiosSinPresentar: initialState.estudiosSinPresentar,
+ModificarPresentacionList.defaultProps = {
+    estudiosDeUnaPresentacion: initialState.estudiosDeUnaPresentacion,
     suma: initialState.suma,
     gravado: initialState.gravado,
 };
 
 function mapStateToProps(state) {
     return {
-        estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
-        suma: state.estudiosSinPresentarReducer.suma,
-        gravado: state.estudiosSinPresentarReducer.gravado,
+        estudiosDeUnaPresentacion: state.presentacionReducer.estudiosDeUnaPresentacion,
+        suma: state.presentacionReducer.suma,
+        gravado: state.presentacionReducer.gravado,
     };
 }
 
-export default connect(mapStateToProps, null)(NuevaPresentacionObraSocialList);
+export default connect(mapStateToProps, null)(ModificarPresentacionList);

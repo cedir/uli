@@ -4,22 +4,22 @@ import PropTypes from 'prop-types';
 import VerPresentacionTableRow from './VerPresentacionTableRow';
 
 function VerPresentacionList(props) {
-    const { estudiosSinPresentar } = props;
+    const { estudiosDeUnaPresentacion } = props;
     return (
         <table className='estudios-table'>
             <thead>
                 <tr className='titles'>
                     <th>Fecha</th>
                     <th>Orden</th>
-                    <th>Afiliado</th>
                     <th>Paciente</th>
                     <th>Practica</th>
                     <th>Actuante</th>
+                    <th>Solicitante</th>
                     <th>Totales</th>
                 </tr>
             </thead>
             <tbody>
-                { estudiosSinPresentar.map(estudio => (
+                { estudiosDeUnaPresentacion.map(estudio => (
                     <VerPresentacionTableRow
                       estudio={ estudio }
                       key={ estudio.id }
@@ -31,12 +31,12 @@ function VerPresentacionList(props) {
 }
 
 VerPresentacionList.propTypes = {
-    estudiosSinPresentar: PropTypes.array.isRequired,
+    estudiosDeUnaPresentacion: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
-        estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
+        estudiosDeUnaPresentacion: state.presentacionReducer.estudiosDeUnaPresentacion,
     };
 }
 

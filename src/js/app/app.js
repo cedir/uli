@@ -17,8 +17,7 @@ import CreateEstudio from '../estudio/components/CreateEstudio';
 import PagoMedicos from '../estudio/components/PagoMedicos';
 import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
 import NuevaPresentacionPage from '../presentaciones/nueva-presentacion/components/NuevaPresentacionPage';
-import VerPresentacionPage from '../presentaciones/nueva-presentacion/components/VerPresentacionPage';
-import ModificarPresentacionPage from '../presentaciones/nueva-presentacion/components/ModificarPresentacionPage';
+import ModificarPresentacionPage from '../presentaciones/components/ModificarPresentacionPage';
 import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
 import CajaMain from '../caja/components/CajaMain';
 import Comprobantes from '../comprobantes/components/Comprobantes';
@@ -106,12 +105,6 @@ function App(props) {
                       exact
                       path='/presentaciones-obras-sociales/nueva-presentacion'
                       component={ NuevaPresentacionPage }
-                      authenticated={ !!props.token }
-                    />
-                    <PrivateRoute
-                      exact
-                      path='/presentaciones-obras-sociales/ver-presentacion'
-                      component={ VerPresentacionPage }
                       authenticated={ !!props.token }
                     />
                     <PrivateRoute

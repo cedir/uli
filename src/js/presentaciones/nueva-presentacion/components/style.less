@@ -23,62 +23,6 @@
   .content-1 {
     width: 130rem;
     height: auto;
-    table {
-      width: 100%;
-      height: auto;
-      background-color: #eee;
-      border-spacing: 0.7rem;
-      border-collapse: separate;
-      display: table-cell;
-      align-items: center;
-      justify-content: center;
-      td {
-        border-radius: 0.2rem;
-        background-color: lighten(#eee, 5%);
-        text-align: center;
-        padding: 0.5rem 1rem 0.5rem 1rem;
-      }
-      th {
-        width: 10rem;
-      }
-      th.icon {
-        width: 4rem;
-      }
-      th.delete {
-        width: 4rem;
-      }
-      th.practica {
-        width: 10rem;
-      }
-      input {
-        width: 7rem;
-        text-align: right;
-        .input-style();
-      }
-      input:focus {
-        border: solid 2px @navy;
-      }
-      input.required:focus {
-        border: solid 2px @red;
-      }
-      i {
-        outline: none;
-        color: lighten(@navy, 30%);
-        font-size: 1.5rem;
-        &:hover {
-          color: lighten(@navy, 10%);
-        }
-      }
-      i.active {
-        color: @navy;
-      }
-      i.trash-icon {
-        color: inherit;
-      }
-      i.trash-icon-active {
-        color: red;
-      }
-    }
     .importes-totales {
       position: absolute;
       right: 0.7rem;
@@ -111,6 +55,63 @@
       }
     }
 
+  }
+}
+
+.estudios-table {
+  width: 100%;
+  height: auto;
+  background-color: #eee;
+  border-spacing: 0.7rem;
+  border-collapse: separate;
+  display: table-cell;
+  align-items: center;
+  justify-content: center;
+  td {
+    border-radius: 0.2rem;
+    background-color: lighten(#eee, 5%);
+    text-align: center;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+  }
+  th {
+    width: 10rem;
+  }
+  th.icon {
+    width: 4rem;
+  }
+  th.delete {
+    width: 4rem;
+  }
+  th.practica {
+    width: 10rem;
+  }
+  input {
+    width: 7rem;
+    text-align: right;
+    .input-style();
+  }
+  input:focus {
+    border: solid 2px @navy;
+  }
+  input.required:focus {
+    border: solid 2px @red;
+  }
+  i {
+    outline: none;
+    color: lighten(@navy, 30%);
+    font-size: 1.5rem;
+    &:hover {
+      color: lighten(@navy, 10%);
+    }
+  }
+  i.active {
+    color: @navy;
+  }
+  i.trash-icon {
+    color: inherit;
+  }
+  i.trash-icon-active {
+    color: red;
   }
 }
 
@@ -290,27 +291,31 @@
     width: 100%;
     height: 50rem;
     overflow: scroll;
-    table.agregar-estudio {
-      width: 100%;
-      height: 20%;
-      border-spacing: 0.7rem;
-      border-collapse: separate;
-      display: table-cell;
-      align-items: center;
-      justify-content: center;
-      background-color: #eee;
-      font-weight: 600;
-      td {
-        border-radius: 0.2rem;
-        background-color: lighten(#eee, 5%);
-        text-align: center;
-        padding: 0.5rem 1rem 0.5rem 1rem;
-      }
+    table {
       tr.selected {
         td {
           background-color: rgb(26, 179, 148, 50%);
         }
       }
+      th {
+        width: 15rem;
+      }
+    }
+  }
+}
+.modal-ver-presentacion {
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-body {
+    width: 100%;
+    height: 50rem;
+    overflow: scroll;
+    table {
       th {
         width: 15rem;
       }

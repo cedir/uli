@@ -9,7 +9,7 @@ function AgregarEstudioList(props) {
     const { estudiosSinPresentarAgregar, onClickIcon, selected } = props;
 
     return (
-        <table className='agregar-estudio'>
+        <table className='estudios-table'>
             <thead>
                 <th>Fecha</th>
                 <th>Paciente</th>
