@@ -77,7 +77,6 @@ function SearchPresentacionesObraSocial(props) {
                         <Button
                           type='button'
                           bsStyle='primary'
-                          disabled={ !valid }
                           onClick={ agregarClickHandler }
                         >
                             Agregar
@@ -96,7 +95,6 @@ function SearchPresentacionesObraSocial(props) {
 const SearchPresentacionesObraSocialReduxForm =
     reduxForm({
         form: 'searchPresentacionesObraSocial',
-        destroyOnUnmount: true,
         enableReinitialize: true,
     })(SearchPresentacionesObraSocial);
 

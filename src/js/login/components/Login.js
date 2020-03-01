@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, FormGroup, FormControl }
-    from 'react-bootstrap/dist/react-bootstrap';
+from 'react-bootstrap/dist/react-bootstrap';
 import ConditionalComponent from '../../utilities/ConditionalComponent';
 
 /* eslint-disable arrow-body-style */
@@ -13,6 +13,7 @@ function Login(props) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [history, setHistory] = useState(props.history);
+    const [sucursal, setSucursal] = useState('');
 
     useEffect(() => {
         if (props.token) {
@@ -33,6 +34,8 @@ function Login(props) {
         );
     };
 
+    const valid = username !== '' && password !== '' && sucursal !== '';
+
     return (
         <div className='middle-box text-center loginscreen animated fadeInDown'>
             <div>
@@ -45,6 +48,14 @@ function Login(props) {
                 </p>
                 <p>Logueate para comenzar.</p>
                 <form className='m-t' onSubmit={ submitHandler } >
+                    <FormGroup controlId='sucursal' >
+                        <select
+                          onChange={ e => setSucursal(e.target.valuie) }
+                        >
+                            <option>CeDIR</option>
+                            <option>HIR</option>
+                        </select>
+                    </FormGroup>
                     <FormGroup controlId='username' >
                         <FormControl
                           type='text'
@@ -66,6 +77,7 @@ function Login(props) {
                       bsStyle='primary'
                       bsSize='large'
                       block
+                      disabled={ !valid }
                     >
                         Login
                     </Button>

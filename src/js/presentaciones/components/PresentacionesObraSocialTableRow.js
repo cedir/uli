@@ -7,6 +7,7 @@ import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
 import { ABRIR_PRESENTACION, FETCH_ESTUDIOS_DE_UNA_PRESENTACION } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 import { ModalVerPresentacion } from '../nueva-presentacion/components/Modals';
+import AlertModal from '../../utilities/components/alert/AlertModal';
 
 function PresentacionesObraSocialTableRow(props) {
     const { index, presentacion, history } = props;
@@ -15,7 +16,8 @@ function PresentacionesObraSocialTableRow(props) {
         obra_social: obraSocial, total,
     } = props.presentacion;
     const [estadoPresentacion, setEstadoPresentacion] = useState(estado);
-    const [showModal, setShowModal] = useState(false);
+    const [modalVerEstudios, setModalVerEstudios] = useState(false);
+    const [modalAbrirPresentacion, setModalAbrirPresentacion] = useState(false);
 
     const downloadPresentacionDigitalOsde = () => {
         getPresentacionFormatoOsde(props.presentacion);
@@ -26,8 +28,8 @@ function PresentacionesObraSocialTableRow(props) {
     };
 
     const abrirPresentacion = () => {
-        props.abrirPresentacion(index, presentacion);
         setEstadoPresentacion('Abierto');
+        props.abrirPresentacion(index, presentacion);
     };
 
     const redirectPage = () => {
@@ -35,10 +37,10 @@ function PresentacionesObraSocialTableRow(props) {
             props.fetchEstudios(presentacion.id);
             setTimeout(() => {
                 history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
-            }, 5000);
+            }, 1000);
         } else {
             props.fetchEstudios(presentacion.id);
-            setShowModal(true);
+            setModalVerEstudios(true);
         }
     };
 
@@ -69,7 +71,7 @@ function PresentacionesObraSocialTableRow(props) {
                     </a>
                     <span>&nbsp;|&nbsp;</span>
                     <a
-                      onClick={ abrirPresentacion }
+                      onClick={ () => setModalAbrirPresentacion(true) }
                       role='button'
                       tabIndex='0'
                     >
@@ -78,8 +80,17 @@ function PresentacionesObraSocialTableRow(props) {
                 </td>
             </tr>
             <ModalVerPresentacion
-              show={ showModal }
-              onClickClose={ () => setShowModal(!showModal) }
+              show={ modalVerEstudios }
+              onClickClose={ () => setModalVerEstudios(!modalVerEstudios) }
+            />
+            <AlertModal
+              isOpen={ modalAbrirPresentacion }
+              message='Estas seguro que deseas abrir la presentacion?'
+              buttonStyle='danger'
+              onClickDo={ abrirPresentacion }
+              onClickClose={ () => setModalAbrirPresentacion(false) }
+              doLabel='Si'
+              dontLabel='No'
             />
         </Fragment>
     );
