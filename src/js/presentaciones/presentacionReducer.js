@@ -6,7 +6,7 @@ import {
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION,
     LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
-    ABRIR_PRESENTACION, ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
+    LOAD_ABRIR_PRESENTACION, ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
     LOAD_GRAVADO_VALUE_MODIFICAR,
     LOAD_DATE_VALUE_MODIFICAR } from './actionTypes';
@@ -78,12 +78,10 @@ const loadEstudiosDeUnaPresentacionErrorReducer = (state) => {
 };
 
 const abrirPresentacionReducer = (state, action) => {
-    const presentaciones = state.presentaciones.slice();
-    presentaciones.splice(action.payload.index, 1, action.payload.item);
-    return {
-        ...state,
-        presentaciones,
-    };
+    console.log(state);
+    console.log(action);
+
+    return state;
 };
 
 const eliminarEstudioDeUnaPresentacionReducer = (state, action) => {
@@ -162,7 +160,7 @@ export function presentacionReducer(state = initialState, action) {
             return loadPresentacionesErrorReducer(state);
         case LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR:
             return loadEstudiosDeUnaPresentacionErrorReducer(state, action);
-        case ABRIR_PRESENTACION:
+        case LOAD_ABRIR_PRESENTACION:
             return abrirPresentacionReducer(state, action);
         case ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION:
             return eliminarEstudioDeUnaPresentacionReducer(state, action);

@@ -40,7 +40,7 @@ AlertModal.propTypes = {
     buttonStyle: string.isRequired,
     onClickDo: func.isRequired,
     onClickClose: func.isRequired,
-    doLabel: func.isRequired,
-    dontLabel: func.isRequired,
+    doLabel: string.isRequired,
+    dontLabel: string.isRequired,
 };
 

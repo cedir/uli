@@ -5,7 +5,6 @@ import { formValueSelector } from 'redux-form';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { FINALIZAR_PRESENTACION_OBRA_SOCIAL } from '../actionTypes';
-import { ModalSuccess } from './Modals';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 
 /* eslint-disable arrow-body-style */
@@ -130,10 +129,8 @@ function FinalizarGuardarForm(props) {
         selectedObraSocial,
     });
     // const postObject = initEditFormObject();
-    const [modalSuccess, setModalSuccess] = useState(false);
     const clickHandler = () => {
         finalizarPresentacion(postObject);
-        setModalSuccess(true);
     };
 
 
@@ -167,10 +164,6 @@ function FinalizarGuardarForm(props) {
                     </Button>
                 </Row>
             </div>
-            <ModalSuccess
-              show={ modalSuccess }
-              onClickClose={ () => setModalSuccess(false) }
-            />
         </form>
     );
 }

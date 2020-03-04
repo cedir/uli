@@ -191,30 +191,6 @@ function ModalFinalizarGuardar(props) {
     );
 }
 
-export function ModalSuccess(props) {
-    const { show, onClickClose } = props;
-    return (
-        <div className='modal-success-box'>
-            <Modal show={ show } className='modal-success'>
-                <Modal.Body>
-                    Su presentacion fue finalizada con exito
-                </Modal.Body>
-                <Modal.Footer>
-                    <Link to='/presentaciones-obras-sociales'>
-                        <Button
-                          bsStyle='primary'
-                          type='button'
-                          onClick={ onClickClose }
-                        >
-                            Entendido
-                        </Button>
-                    </Link>
-                </Modal.Footer>
-            </Modal>
-        </div>
-    );
-}
-
 export function ModalVerPresentacion(props) {
     const { show, onClickClose } = props;
     return (
@@ -273,11 +249,6 @@ ModalAnestesia.propTypes = {
 };
 
 ModalMedicacion.propTypes = {
-    show: bool.isRequired,
-    onClickClose: func.isRequired,
-};
-
-ModalSuccess.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
 };

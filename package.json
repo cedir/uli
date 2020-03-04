@@ -29,6 +29,7 @@
     "jquery": "^3.4.1",
     "jquery-slimscroll": "^1.3.8",
     "lodash": "^4.17.15",
+    "mdi-react": "^6.7.0",
     "metismenu": "^2.7.9",
     "moment": "^2.24.0",
     "print-this": "^1.15.1",

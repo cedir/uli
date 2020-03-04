@@ -34,6 +34,18 @@ function Login(props) {
         );
     };
 
+    const onChangeSelectHandler = (e) => {
+        const value = e.target.value;
+        let id;
+        if (value === 'Cedir') {
+            id = 1;
+        } else if (value === 'HIR') {
+            id = 2;
+        }
+        setSucursal(value);
+        props.elegirSucursal(id);
+    };
+
     const valid = username !== '' && password !== '' && sucursal !== '';
 
     return (
@@ -50,9 +62,10 @@ function Login(props) {
                 <form className='m-t' onSubmit={ submitHandler } >
                     <FormGroup controlId='sucursal' >
                         <select
-                          onChange={ e => setSucursal(e.target.valuie) }
+                          onChange={ onChangeSelectHandler }
                         >
-                            <option>CeDIR</option>
+                            <option>Seleccionar...</option>
+                            <option>Cedir</option>
                             <option>HIR</option>
                         </select>
                     </FormGroup>
@@ -98,6 +111,7 @@ Login.propTypes = {
     history: object,
     token: string,
     loginError: bool,
+    elegirSucursal: func,
 };
 
 const mapStateToProps = state => ({
@@ -108,6 +122,8 @@ const mapStateToProps = state => ({
 function mapDispatchToProps(dispatch) {
     return {
         authUser: (username, password) => dispatch({ type: 'AUTHENTICATE_USER', username, password }),
+        elegirSucursal: id =>
+            dispatch({ type: 'ELEGIR_SUCURSAL', id }),
     };
 }
 

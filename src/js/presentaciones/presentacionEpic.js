@@ -11,7 +11,7 @@ import {
     LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
     ABRIR_PRESENTACION,
-    LOAD_PRESENTACION_ABIERTA }
+    LOAD_ABRIR_PRESENTACION }
     from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
@@ -32,9 +32,10 @@ export function verEstudiosDeUnaPresentacionEpic(action$) {
         .mergeMap(action =>
             getEstudiosDeUnaPresentacion(action.id)
             .map(data => ({ type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION, data }))
-            .catch(() => (Rx.Observable.of({
-                type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
-            }))),
+            .catch(() => (Rx.Observable.of(
+                { type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR },
+                { type: ADD_ALERT, alert: createAlert('Error al intentar ver presentacion', 'danger') },
+            ))),
     );
 }
 
@@ -43,7 +44,8 @@ export function abrirPresentacionEpic(action$) {
         .mergeMap(action =>
             patchAbrirPresentacion(action.id)
             .mergeMap(data => Rx.Observable.of(
-                { type: LOAD_PRESENTACION_ABIERTA, data },
+                { type: LOAD_ABRIR_PRESENTACION, data },
+                { type: ADD_ALERT, alert: createAlert('La presentacion fue abierta exitosamente') },
             ))
             .catch(() => (Rx.Observable.of({
                 type: ADD_ALERT, alert: createAlert('Error al abrir la presentacion', 'danger'),

@@ -18,7 +18,7 @@ function PresentacionesObraSocialList(props) {
                         <th>Obra Social</th>
                         <th>Total Facturado</th>
                         <th>Total Cobrado</th>
-                        <th>Descarga formato Digital</th>
+                        <th title='Descargar en Formato Digital'>Descargar</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -3,16 +3,19 @@ import React, { useState, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import EyePlusIcon from 'mdi-react/EyePlusIcon';
+import PencilPlusIcon from 'mdi-react/PencilPlusIcon';
 import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
-import { ABRIR_PRESENTACION, FETCH_ESTUDIOS_DE_UNA_PRESENTACION } from '../actionTypes';
-import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
+import {
+    ABRIR_PRESENTACION, FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
+} from '../actionTypes';
 import { ModalVerPresentacion } from '../nueva-presentacion/components/Modals';
 import AlertModal from '../../utilities/components/alert/AlertModal';
 
 function PresentacionesObraSocialTableRow(props) {
-    const { index, presentacion, history } = props;
+    const { presentacion, history } = props;
     const {
-        fecha, total_facturado: totalFacturado, estado,
+        id, fecha, total_facturado: totalFacturado, estado,
         obra_social: obraSocial, total,
     } = props.presentacion;
     const [estadoPresentacion, setEstadoPresentacion] = useState(estado);
@@ -28,8 +31,8 @@ function PresentacionesObraSocialTableRow(props) {
     };
 
     const abrirPresentacion = () => {
-        setEstadoPresentacion('Abierto');
-        props.abrirPresentacion(index, presentacion);
+        props.abrirPresentacion(id);
+        setModalAbrirPresentacion(false);
     };
 
     const redirectPage = () => {
@@ -46,10 +49,7 @@ function PresentacionesObraSocialTableRow(props) {
 
     return (
         <Fragment>
-            <tr
-              style={ { cursor: 'pointer' } }
-              onClick={ redirectPage }
-            >
+            <tr>
                 <td>{ fecha }</td>
                 <td>{ estadoPresentacion }</td>
                 <td>{ obraSocial.nombre }</td>
@@ -69,14 +69,35 @@ function PresentacionesObraSocialTableRow(props) {
                     >
                         AMR
                     </a>
-                    <span>&nbsp;|&nbsp;</span>
-                    <a
-                      onClick={ () => setModalAbrirPresentacion(true) }
-                      role='button'
-                      tabIndex='0'
-                    >
-                        Abrir
-                    </a>
+                </td>
+                <td>
+                    {
+                        estado !== 'Abierto' && (
+                            <a
+                              onClick={ () => setModalAbrirPresentacion(true) }
+                              role='button'
+                              tabIndex='0'
+                              style={ { outline: 'none' } }
+                            >
+                                Abrir
+                            </a>
+                        )
+                    }
+                </td>
+                <td>
+                    {
+                        estado !== 'Abierto' ? (
+                            <EyePlusIcon
+                              className='eye-plus-icon'
+                              onClick={ redirectPage }
+                            />
+                        ) : (
+                            <PencilPlusIcon
+                              className='pencil-plus-icon'
+                              onClick={ redirectPage }
+                            />
+                        )
+                    }
                 </td>
             </tr>
             <ModalVerPresentacion
@@ -86,7 +107,7 @@ function PresentacionesObraSocialTableRow(props) {
             <AlertModal
               isOpen={ modalAbrirPresentacion }
               message='Estas seguro que deseas abrir la presentacion?'
-              buttonStyle='danger'
+              buttonStyle='primary'
               onClickDo={ abrirPresentacion }
               onClickClose={ () => setModalAbrirPresentacion(false) }
               doLabel='Si'
@@ -96,11 +117,10 @@ function PresentacionesObraSocialTableRow(props) {
     );
 }
 
-const { object, func, number } = PropTypes;
+const { object, func } = PropTypes;
 
 PresentacionesObraSocialTableRow.propTypes = {
     presentacion: object.isRequired,
-    index: number.isRequired,
     abrirPresentacion: func.isRequired,
     fetchEstudios: func.isRequired,
     history: object.isRequired,
@@ -108,11 +128,8 @@ PresentacionesObraSocialTableRow.propTypes = {
 
 function mapDispatchToProps(dispatch) {
     return {
-        abrirPresentacion: (index, presentacion) =>
-            dispatch({ type: ABRIR_PRESENTACION, payload: { index, item: {
-                ...presentacion,
-                estado: 'Abierto',
-            } } }),
+        abrirPresentacion: id =>
+            dispatch({ type: ABRIR_PRESENTACION, id }),
         fetchEstudios: id =>
             dispatch({ type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION, id }),
     };

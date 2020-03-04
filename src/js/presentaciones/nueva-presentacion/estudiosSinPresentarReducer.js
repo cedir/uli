@@ -8,7 +8,8 @@ import {
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR,
     ELIMINAR_ESTUDIO_SIN_PRESENTAR, LOAD_DATE_VALUE_NUEVA, AGREGAR_ESTUDIOS_A_TABLA,
-    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, LOAD_GRAVADO_VALUE_NUEVA } from './actionTypes';
+    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, LOAD_GRAVADO_VALUE_NUEVA,
+    FINALIZAR_PRESENTACION_OBRA_SOCIAL, LOAD_PRESENTACION_DETAIL_ID } from './actionTypes';
 
 const actionsHandledByEpicReducer = (state) => {
     const newState = {};
@@ -122,6 +123,18 @@ const actualizarInputEstudioSinPresentarReducer = (state, action) => {
     return sumarImportesEstudios(newState);
 };
 
+const loadPresentacionDetailId = (state, action) => {
+    const newState = {};
+
+    const presentacionDetail = {
+        id: action.data.response.id,
+    };
+
+    Object.assign(newState, state, { presentacionDetail });
+
+    return newState;
+};
+
 const agregarEstudiosATablaReducer = (state, action) => {
     const estudiosSinPresentar = state.estudiosSinPresentar;
     const estudiosSinPresentarAgregar = state.estudiosSinPresentarAgregar;
@@ -164,6 +177,7 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR:
+        case FINALIZAR_PRESENTACION_OBRA_SOCIAL:
             return actionsHandledByEpicReducer(state);
         case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
             return loadEstudiosSinPresentarReducer(state, action);
@@ -183,6 +197,8 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return agregarEstudiosATablaReducer(state, action);
         case LOAD_GRAVADO_VALUE_NUEVA:
             return loadGravadoValueNuevaReducer(state, action);
+        case LOAD_PRESENTACION_DETAIL_ID:
+            return loadPresentacionDetailId(state, action);
         default:
             return state;
     }
