@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import DeleteIcon from 'mdi-react/DeleteIcon';
 import { ModalMedicacion } from './Modals';
 import {
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, ELIMINAR_ESTUDIO_SIN_PRESENTAR,
@@ -153,8 +154,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                 />
             </td>
             <td className='delete'>
-                <i
-                  className='fa fa-trash trash-icon'
+                <DeleteIcon
                   tabIndex='0'
                   role='button'
                   onClick={ deleteIconClickHandler }
@@ -164,6 +164,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                 <ModalMedicacion
                   show={ medicacionClicked }
                   onClickClose={ medicacionIconClickHandler }
+                  estudio={ row }
                 />
             </td>
         </tr>

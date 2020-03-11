@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
-import MedicacionEstudio from '../../../estudio/components/MedicacionEstudio';
+import MedicacionEstudio from './MedicacionEstudio';
 import VerPresentacionList from '../../../presentaciones/components/VerPresentacionList';
 
 export function ModalEliminarFila(props) {
@@ -105,7 +105,7 @@ export function ModalAnestesia(props) {
     );
 }
 export function ModalMedicacion(props) {
-    const { show, onClickClose } = props;
+    const { show, onClickClose, estudio } = props;
     return (
         <div className='modal-medicacion-box'>
             <Modal show={ show } className='modal-medicacion'>
@@ -113,7 +113,9 @@ export function ModalMedicacion(props) {
                     <strong>Medicacion</strong>
                 </Modal.Header>
                 <Modal.Body>
-                    <MedicacionEstudio />
+                    <MedicacionEstudio
+                      estudio={ estudio }
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
@@ -251,6 +253,7 @@ ModalAnestesia.propTypes = {
 ModalMedicacion.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
+    estudio: object.isRequired,
 };
 
 ModalVerPresentacion.propTypes = {

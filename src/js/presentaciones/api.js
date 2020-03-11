@@ -61,7 +61,7 @@ export function getPresentacionFormatoAMR(presentacion) {
 }
 
 export function patchAbrirPresentacion(idPresentacion) {
-    const url = `/api/presentacion/${idPresentacion}/abrir`;
+    const url = `/api/presentacion/${idPresentacion}/abrir/`;
 
     return patch(url);
 }

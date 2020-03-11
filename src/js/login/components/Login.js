@@ -63,8 +63,11 @@ function Login(props) {
                     <FormGroup controlId='sucursal' >
                         <select
                           onChange={ onChangeSelectHandler }
+                          className='form-control'
                         >
-                            <option>Seleccionar...</option>
+                            <option hidden={ sucursal === 'Cedir' || sucursal === 'HIR' }>
+                                Seleccionar sucursal
+                            </option>
                             <option>Cedir</option>
                             <option>HIR</option>
                         </select>
