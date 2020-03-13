@@ -81,34 +81,6 @@ function initEditFormObject(props) {
     };
 }
 
-/* function initEditFormObject() {
-    return {
-        obra_social_id: 5,
-        periodo: 'SEPTIEMBRE 2019',
-        fecha: '2019-12-25',
-        estado: 'Pendiente',
-
-        estudios: [
-            {
-                id: 4,
-                nro_de_orden: 'FE003450603',
-                importe_estudio: 5,
-                pension: 1,
-                diferencia_paciente: 1,
-                medicacion: 1,
-                arancel_anestesia: 1,
-            },
-        ],
-        comprobante: {
-            tipo_id: 1,
-            sub_tipo: 'B',
-            responsable: 'Cedir',
-            nro_terminal: 104,
-            gravado_id: 1,
-        },
-    };
-} */
-
 function FinalizarGuardarForm(props) {
     const {
         periodoValue,
