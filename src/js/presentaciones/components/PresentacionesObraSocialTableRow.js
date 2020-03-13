@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EyePlusIcon from 'mdi-react/EyePlusIcon';
 import PencilPlusIcon from 'mdi-react/PencilPlusIcon';
+import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
 import {
     ABRIR_PRESENTACION, FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
@@ -13,12 +14,11 @@ import { ModalVerPresentacion } from '../nueva-presentacion/components/Modals';
 import AlertModal from '../../utilities/components/alert/AlertModal';
 
 function PresentacionesObraSocialTableRow(props) {
-    const { presentacion, history } = props;
+    const { presentacion, history, index } = props;
     const {
         id, fecha, total_facturado: totalFacturado, estado,
         obra_social: obraSocial, total,
     } = props.presentacion;
-    const [estadoPresentacion, setEstadoPresentacion] = useState(estado);
     const [modalVerEstudios, setModalVerEstudios] = useState(false);
     const [modalAbrirPresentacion, setModalAbrirPresentacion] = useState(false);
 
@@ -31,12 +31,12 @@ function PresentacionesObraSocialTableRow(props) {
     };
 
     const abrirPresentacion = () => {
-        props.abrirPresentacion(id);
+        props.abrirPresentacion(id, index);
         setModalAbrirPresentacion(false);
     };
 
     const redirectPage = () => {
-        if (estadoPresentacion === 'Abierto') {
+        if (estado === 'Abierto') {
             props.fetchEstudios(presentacion.id);
             setTimeout(() => {
                 history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
@@ -51,7 +51,7 @@ function PresentacionesObraSocialTableRow(props) {
         <Fragment>
             <tr>
                 <td>{ fecha }</td>
-                <td>{ estadoPresentacion }</td>
+                <td>{ estado }</td>
                 <td>{ obraSocial.nombre }</td>
                 <td>{ totalFacturado }</td>
                 <td>{ total }</td>
@@ -72,15 +72,13 @@ function PresentacionesObraSocialTableRow(props) {
                 </td>
                 <td>
                     {
-                        estado !== 'Abierto' && (
-                            <a
+                        estado === 'Pendiente' && (
+                            <Button
                               onClick={ () => setModalAbrirPresentacion(true) }
-                              role='button'
-                              tabIndex='0'
                               style={ { outline: 'none' } }
                             >
                                 Abrir
-                            </a>
+                            </Button>
                         )
                     }
                 </td>
@@ -117,19 +115,20 @@ function PresentacionesObraSocialTableRow(props) {
     );
 }
 
-const { object, func } = PropTypes;
+const { object, func, number } = PropTypes;
 
 PresentacionesObraSocialTableRow.propTypes = {
     presentacion: object.isRequired,
     abrirPresentacion: func.isRequired,
     fetchEstudios: func.isRequired,
     history: object.isRequired,
+    index: number.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
     return {
-        abrirPresentacion: id =>
-            dispatch({ type: ABRIR_PRESENTACION, id }),
+        abrirPresentacion: (id, index) =>
+            dispatch({ type: ABRIR_PRESENTACION, id, index }),
         fetchEstudios: id =>
             dispatch({ type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION, id }),
     };
