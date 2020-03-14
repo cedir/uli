@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import logger from 'redux-logger';
 import { createEpicMiddleware } from 'redux-observable';
 import { rootReducer, rootEpic } from './reducers';
 import { saveStateLocally, removeStateLocally, loadLocallyPersistedState } from './persistStateLocally';
@@ -16,10 +15,19 @@ const locallyPersistedState = loadLocallyPersistedState();
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
+let middleware;
+if (process.env.NODE_ENV !== 'production') {
+    /* eslint-disable global-require */
+    const logger = require('redux-logger').logger;
+    middleware = applyMiddleware(epicMiddleware, logger);
+} else {
+    middleware = applyMiddleware(epicMiddleware);
+}
+
 const store = createStore(
     rootReducer,
     locallyPersistedState,
-    composeEnhancers(applyMiddleware(epicMiddleware, logger)),
+    composeEnhancers(middleware),
     // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
     // applyMiddleware(thunk, reduxImmutableStateInvariant())
 );
