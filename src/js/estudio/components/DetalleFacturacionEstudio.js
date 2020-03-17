@@ -9,7 +9,7 @@ class DetalleFacturacionEstudio extends React.Component {
         const { presentacion } = this.props.estudioDetail;
         const comprobante = presentacion ? this.props.estudioDetail.presentacion.comprobante : null;
 
-        if (presentacion) {
+        if (presentacion && comprobante) {
             return (
                 <div>
                     <h4 style={ { marginTop: '25px' } }>Presentacion</h4>
