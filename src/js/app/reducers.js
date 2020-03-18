@@ -23,7 +23,6 @@ import { cajaReducer } from '../caja/cajaReducer';
 import { estudioEpic, updateEstudioEpic, createEstudioEpic,
     estudioImpagosEpic, pagoAMedicoEpic, actualizaImportesEstudioEpic } from '../estudio/estudioEpic';
 import { estudioDetailEpic, estudioDetailToCloneEpic } from '../estudio/estudioDetailEpic';
-
 import { obraSocialEpic } from '../obraSocial/obraSocialEpic';
 import { medicosActuantesEpic, medicosSolicitantesEpic,
     medicosEpic } from '../medico/medicoEpic';
