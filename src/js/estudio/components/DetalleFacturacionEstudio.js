@@ -3,11 +3,34 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
+function ComprobanteRender(comprobante) {
+    if (!comprobante) {
+        return null;
+    }
+    return (
+        <div>
+            <h4 style={ { marginTop: '25px' } }>Comprobante</h4>
+            <span style={ { fontWeight: 'bold' } }>
+                {comprobante.tipo_comprobante.nombre} &quot;{comprobante.sub_tipo}&quot;
+            </span>
+            <span>
+                &nbsp;nro {comprobante.numero} - {comprobante.responsable}
+            </span>
+            <div>
+                <span style={ { fontWeight: 'bold' } }>Fecha de emision: </span>
+                <span>{comprobante.fecha_emision}</span>
+            </div>
+        </div>
+    );
+}
+
 class DetalleFacturacionEstudio extends React.Component {
 
     render() {
         const { presentacion } = this.props.estudioDetail;
         const comprobante = presentacion ? this.props.estudioDetail.presentacion.comprobante : null;
+
+        const comprobanteRender = ComprobanteRender(comprobante);
 
         if (presentacion) {
             return (
@@ -22,17 +45,7 @@ class DetalleFacturacionEstudio extends React.Component {
                         <span>{presentacion.periodo}</span>
                     </div>
 
-                    <h4 style={ { marginTop: '25px' } }>Comprobante</h4>
-                    <span style={ { fontWeight: 'bold' } }>
-                        {comprobante.tipo_comprobante.nombre} &quot;{comprobante.sub_tipo}&quot;
-                    </span>
-                    <span>
-                        &nbsp;nro {comprobante.numero} - {comprobante.responsable}
-                    </span>
-                    <div>
-                        <span style={ { fontWeight: 'bold' } }>Fecha de emision: </span>
-                        <span>{comprobante.fecha_emision}</span>
-                    </div>
+                    {comprobanteRender}
                 </div>
             );
         }

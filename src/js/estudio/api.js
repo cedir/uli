@@ -89,6 +89,4 @@ export function createPagoAMedico(pago) {
     const url = '/api/pago-medico/';
 
     return post(url, pago);
-    // console.log(pago);
-    // return Rx.Observable.of(true);
 }
