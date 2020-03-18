@@ -3,6 +3,7 @@ const initialState = {
     estudiosSinPresentarAgregar: [],
     estudiosSinPresentarApiLoading: false,
     estudiosSinPresentarAgregarApiLoading: false,
+    idObraSocial: null,
     fecha: '',
     suma: 0,
     gravado: '0.00',

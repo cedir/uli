@@ -95,6 +95,7 @@ function SearchPresentacionesObraSocial(props) {
 const SearchPresentacionesObraSocialReduxForm =
     reduxForm({
         form: 'searchPresentacionesObraSocial',
+        destroyOnUnmount: false,
         enableReinitialize: true,
     })(SearchPresentacionesObraSocial);
 

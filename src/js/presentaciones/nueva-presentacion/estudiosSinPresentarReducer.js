@@ -21,7 +21,12 @@ const actionsHandledByEpicReducer = (state) => {
 const loadEstudiosSinPresentarReducer = (state, action) => {
     const newState = {};
     const estudiosSinPresentar = action.data.response;
-    Object.assign(newState, state, { estudiosSinPresentar, estudiosSinPresentarApiLoading: false });
+    Object.assign(
+        newState, state, {
+            estudiosSinPresentar,
+            estudiosSinPresentarApiLoading: false,
+            idObraSocial: action.idObraSocial,
+        });
 
     return sumarImportesEstudios(newState);
 };

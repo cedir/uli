@@ -1,12 +1,14 @@
 /* eslint-disable react/no-unused-prop-types */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 import InputRF from '../../../utilities/InputRF';
-import { ADD_DEFAULT_MEDICACION_ESTUDIO } from '../../../medicacion/actionTypes';
+import addMedicamentosFormInitialState from '../../../estudio/addMedicamentosFormInitialState';
+import { ADD_DEFAULT_MEDICACION_ESTUDIO, ADD_MEDICACION_ESTUDIO } from '../../../medicacion/actionTypes';
 import { FETCH_MEDICAMENTOS } from '../../../medicamento/actionTypes';
 
 const AddMedicamentosForm = (props) => {
@@ -16,16 +18,31 @@ const AddMedicamentosForm = (props) => {
         medicamentosApiLoading,
         selectedMedicamento,
         estudio,
+        addMedicacionToEstudio,
         addDefaultMedicacionToEstudio,
         fetchMedicamentos,
+        setSelectedMedicamento,
+        setImporte,
     } = props;
+
+    const selectedMedicamentoHandler = (selection) => {
+        if (selection[0] && selection[0].id) {
+            setSelectedMedicamento(selection[0]);
+            setImporte(selection[0]);
+        }
+    };
 
     const searchMedicamentos = (searchText) => {
         fetchMedicamentos(searchText);
     };
 
-    const setSelectedMedicamento = () => {
-        console.log('set selected');
+    const addMedicacionToEstudioHandler = (params) => {
+        const medicacion = {
+            estudio: estudio.id,
+            medicamento: params.medicamento[0].id,
+            importe: params.importe,
+        };
+        addMedicacionToEstudio(medicacion);
     };
 
     const medicamentoIsSelected =
@@ -39,10 +56,9 @@ const AddMedicamentosForm = (props) => {
     // const lockEstudioEdition =
     // (estadoPresentacion && estadoPresentacion !== 2) || false;
 
-    console.log(estudio.id);
     return (
         <div>
-            <form onSubmit={ handleSubmit }>
+            <form onSubmit={ handleSubmit(addMedicacionToEstudioHandler) }>
                 <h4 style={ { marginBottom: '12px' } }>
                     Buscar medicamento
                 </h4>
@@ -55,7 +71,7 @@ const AddMedicamentosForm = (props) => {
                           options={ medicamentos }
                           labelKey='descripcion'
                           onSearch={ searchMedicamentos }
-                          onChange={ setSelectedMedicamento }
+                          onChange={ selectedMedicamentoHandler }
                           isLoading={ medicamentosApiLoading }
                         />
                     </div>
@@ -95,7 +111,9 @@ AddMedicamentosForm.propTypes = {
     selectedMedicamento: array.isRequired,
     importe: string.isRequired,
     setSelectedMedicamento: func.isRequired,
+    setImporte: func.isRequired,
     estudio: object.isRequired,
+    addMedicacionToEstudio: func.isRequired,
     addDefaultMedicacionToEstudio: func.isRequired,
     fetchMedicamentos: func.isRequired,
 };
@@ -111,14 +129,32 @@ const AddMedicamentosFormReduxForm = reduxForm({
     form: 'searchMedicamentosNew',
 })(AddMedicamentosForm);
 
+const selector = formValueSelector('searchMedicamentos');
+
+function mapStateToProps(state) {
+    return {
+        medicamentos: state.medicamentoReducer.medicamentos || [],
+        medicamentosApiLoading: state.medicamentoReducer.medicamentosApiLoading,
+        selectedMedicamento: selector(state, 'medicamento'),
+        importe: selector(state, 'importe'),
+        initialValues: addMedicamentosFormInitialState,
+    };
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         fetchMedicamentos: descripcion =>
             dispatch({ type: FETCH_MEDICAMENTOS, descripcion }),
+        setSelectedMedicamento: medicamento =>
+            dispatch(change('searchMedicamentosNew', 'medicamento', medicamento)),
+        setImporte: medicamento =>
+            dispatch(change('searchMedicamentosNew', 'importe', medicamento.importe)),
+        addMedicationToEstudio: medicacion =>
+            dispatch({ type: ADD_MEDICACION_ESTUDIO, medicacion }),
         addDefaultMedicacionToEstudio: estudioId =>
             dispatch({ type: ADD_DEFAULT_MEDICACION_ESTUDIO, estudioId }),
     };
 }
 
 
-export default connect(null, mapDispatchToProps)(AddMedicamentosFormReduxForm);
+export default connect(mapStateToProps, mapDispatchToProps)(AddMedicamentosFormReduxForm);
