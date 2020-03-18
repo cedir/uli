@@ -20,12 +20,17 @@
       margin-right: 0;
     }
   }
+
   .content-1 {
     width: 130rem;
     height: auto;
     .importes-totales {
-      position: absolute;
+      z-index: 400;
+      box-shadow: 0 14px 28px rgba(34, 34, 34, 0.25), 0 14px 28px rgba(58, 58, 58, 0.22);
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+      position: fixed;
       right: 0.7rem;
+      bottom: 0rem;
       padding: 2rem 0rem;
       width: 50rem;
       display: flex;
@@ -294,7 +299,7 @@
     table {
       tr.selected {
         td {
-          background-color: rgb(26, 179, 148, 50%);
+          background-color: darken(#eee, 5%);
         }
       }
       th {

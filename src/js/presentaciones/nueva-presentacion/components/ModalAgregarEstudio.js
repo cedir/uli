@@ -21,11 +21,14 @@ function ModalAgregarEstudio(props) {
     };
 
     const handleAgregarSelected = () => {
-        const userIds = [];
+        const estudiosIds = [];
         selected.forEach((value, key) => {
-            userIds.push(key);
+            estudiosIds.push(key);
         });
-        agregarEstudiosTabla(userIds);
+        if (estudiosIds.length > 0) {
+            agregarEstudiosTabla(estudiosIds);
+            showAlert('Estudios agregados correctamente');
+        }
         setSelected(new Map([]));
     };
 
