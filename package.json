@@ -40,14 +40,7 @@
     "react-bootstrap-typeahead": "^2.6.0",
     "react-dom": "^16.12.0",
     "react-redux": "^5.1.2",
-<<<<<<< HEAD
     "react-router": "^5.1.2",
-=======
-<<<<<<< HEAD
-=======
-    "react-router": "^5.1.2",
->>>>>>> dt/nueva-presentacion-2
->>>>>>> 3c75d00f1012b95cfde26461176cb417ccbcdd17
     "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^4.3.1",
     "redux": "3.6.0",
