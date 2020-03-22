@@ -33,8 +33,11 @@ import { medicamentosEpic } from '../medicamento/medicamentoEpic';
 import { pacienteEpic } from '../paciente/pacienteEpic';
 import { practicaEpic } from '../practica/practicaEpic';
 import { presentacionEpic, verEstudiosDeUnaPresentacionEpic, abrirPresentacionEpic } from '../presentaciones/presentacionEpic';
-import { estudiosSinPresentarEpic, finalizarPresentacionEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarEpic';
-import { estudiosSinPresentarAgregarEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarAgregarEpic';
+import {
+    estudiosSinPresentarEpic,
+    estudiosSinPresentarAgregarEpic,
+    finalizarPresentacionEpic,
+} from '../presentaciones/nueva-presentacion/estudiosSinPresentarEpic';
 import { loginEpic } from '../login/loginEpic';
 import { comprobantesEpic, obtenerComprobantesEpic, guardarComprobanteAsociadoEpic, obtenerComprobantesConFiltroEpic } from '../comprobantes/comprobantesEpic';
 import { movimientosCajaEpic } from '../caja/cajaEpic';

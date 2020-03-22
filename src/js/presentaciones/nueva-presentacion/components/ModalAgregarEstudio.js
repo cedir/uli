@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import AgregarEstudioList from './AgregarEstudioList';
 import { AGREGAR_ESTUDIOS_A_TABLA } from '../actionTypes';
+import { createAlert } from '../../../utilities/components/alert/alertUtility';
 
 function ModalAgregarEstudio(props) {
     const { show, onClickClose, agregarEstudiosTabla } = props;
@@ -27,7 +28,7 @@ function ModalAgregarEstudio(props) {
         });
         if (estudiosIds.length > 0) {
             agregarEstudiosTabla(estudiosIds);
-            showAlert('Estudios agregados correctamente');
+            createAlert('Estudios agregados correctamente');
         }
         setSelected(new Map([]));
     };

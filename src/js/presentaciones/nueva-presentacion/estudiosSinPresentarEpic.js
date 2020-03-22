@@ -7,6 +7,9 @@ import {
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR,
+    FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
+    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
+    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
     FINALIZAR_PRESENTACION_OBRA_SOCIAL,
     LOAD_PRESENTACION_DETAIL_ID }
     from './actionTypes';
@@ -25,6 +28,17 @@ export function estudiosSinPresentarEpic(action$) {
                 { type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR },
                 { type: ADD_ALERT, alert: createAlert('Error al intentar cargar los estudios', 'danger') },
             ))),
+    );
+}
+
+export function estudiosSinPresentarAgregarEpic(action$) {
+    return action$.ofType(FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR)
+        .mergeMap(action =>
+            getEstudiosSinPresentarObraSocial(action.id)
+            .map(data => ({ type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR, data }))
+            .catch(() => (Rx.Observable.of({
+                type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
+            }))),
     );
 }
 

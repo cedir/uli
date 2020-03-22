@@ -11,11 +11,13 @@ function AgregarEstudioList(props) {
     return (
         <table className='estudios-table'>
             <thead>
-                <th>Fecha</th>
-                <th>Paciente</th>
-                <th>Practica</th>
-                <th>Medico Actuante</th>
-                <th>Medico Solicitante</th>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Paciente</th>
+                    <th>Practica</th>
+                    <th>Medico Actuante</th>
+                    <th>Medico Solicitante</th>
+                </tr>
             </thead>
             <tbody>
                 {
