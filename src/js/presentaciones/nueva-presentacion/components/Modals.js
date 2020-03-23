@@ -51,10 +51,6 @@ export function ModalComprobante(props) {
                     </Modal.Header>
                     <Modal.Body>
                         <Comprobante
-                          numeroShortValue={ componentState.numeroShort }
-                          onChangeNumeroShort={ componentState.numeroShortHandler }
-                          numeroLongValue={ componentState.numeroLong }
-                          onChangeNumeroLong={ componentState.numeroLongHandler }
                           tipoValue={ componentState.tipo }
                           onChangeTipo={ componentState.tipoHandler }
                           subTipoValue={ componentState.subTipo }

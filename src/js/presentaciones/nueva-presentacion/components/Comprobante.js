@@ -4,10 +4,6 @@ import PropTypes from 'prop-types';
 
 function Comprobante(props) {
     const {
-        numeroShortValue,
-        onChangeNumeroShort,
-        numeroLongValue,
-        onChangeNumeroLong,
         tipoValue,
         onChangeTipo,
         subTipoValue,
@@ -20,29 +16,6 @@ function Comprobante(props) {
 
     return (
         <div className='comprobante'>
-            <Row className='row row-1'>
-                <Col className='col col-1'>
-                    <span>Numero</span>
-                </Col>
-                <Col className='col col-2'>
-                    <input
-                      maxLength='4'
-                      className='short'
-                      type='text'
-                      placeholder='0000'
-                      value={ numeroShortValue }
-                      onChange={ onChangeNumeroShort }
-                    />
-                    <input
-                      maxLength='8'
-                      className='long'
-                      type='text'
-                      placeholder='00000000'
-                      value={ numeroLongValue }
-                      onChange={ onChangeNumeroLong }
-                    />
-                </Col>
-            </Row>
             <Row className='row row-2'>
                 <Col className='col col-1'>
                     <span>Comprobante</span>
@@ -50,13 +23,13 @@ function Comprobante(props) {
                 <Col className='col col-2'>
                     <select value={ tipoValue } onChange={ onChangeTipo }>
                         <option value=''>Seleccionar...</option>
-                        <option value='Factura Electronica'>
-                            Factura Electronica
-                        </option>
-                        <option value='Liquidacion'>
-                            Liquidacion
-                        </option>
-                        <option value='Recibo'>Recibo</option>
+                        <option value='1'>Factura</option>
+                        <option value='2'>Liquidacion</option>
+                        <option value='3'>Nota de crédito</option>
+                        <option value='4'>Nota de débito</option>
+                        <option value='5'>Factura de crédito electrónica MiPyMEs</option>
+                        <option value='6'>Nota de crédito electrónica MiPyMEs</option>
+                        <option value='7'>Nota de débito electrónica MiPyMEs</option>
                     </select>
                 </Col>
                 <Col className='col col-3'>
@@ -111,10 +84,6 @@ function Comprobante(props) {
 const { string, func } = PropTypes;
 
 Comprobante.propTypes = {
-    numeroShortValue: string.isRequired,
-    onChangeNumeroShort: func.isRequired,
-    numeroLongValue: string.isRequired,
-    onChangeNumeroLong: func.isRequired,
     subTipoValue: string.isRequired,
     onChangeSubTipo: func.isRequired,
     tipoValue: string.isRequired,

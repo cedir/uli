@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
@@ -6,9 +5,6 @@ import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { FINALIZAR_PRESENTACION_OBRA_SOCIAL } from '../actionTypes';
 import initialState from '../estudiosSinPresentarReducerInitialState';
-
-/* eslint-disable arrow-body-style */
-/* eslint-disable object-shorthand */
 
 function initEditFormObject(props) {
     const {
@@ -18,10 +14,9 @@ function initEditFormObject(props) {
         fecha,
         selectedObraSocial,
     } = props;
-    const [estudiosApi, setEstudios] = useState(estudiosSinPresentar);
-    const [tipoId, setTipoId] = useState(null);
+    const [estudios, setEstudios] = useState(estudiosSinPresentar);
     const [gravadoId, setGravadoId] = useState(null);
-    const [nroTerminal, setNroTerminal] = useState(null);
+
     const filterKeys = ({
         id,
         nro_de_orden,
@@ -39,14 +34,12 @@ function initEditFormObject(props) {
         medicacion,
         arancel_anestesia,
     });
+
     useEffect(() => {
-        if (comprobanteState.tipo === 'Factura Electronica') {
-            setTipoId(1);
-        } else if (comprobanteState.tipo === 'Liquidacion') {
-            setTipoId(2);
-        } else if (comprobanteState.tipo === 'Recibo') {
-            setTipoId(3);
-        }
+        setEstudios(estudios);
+    }, [estudiosSinPresentar]);
+
+    useEffect(() => {
         if (comprobanteState.gravado === '0.00') {
             setGravadoId(1);
         } else if (comprobanteState.gravado === '10.50') {
@@ -54,28 +47,20 @@ function initEditFormObject(props) {
         } else if (comprobanteState.gravado === '21.00') {
             setGravadoId(3);
         }
-        if (comprobanteState.responsable === 'Cedir') {
-            setNroTerminal(91);
-        } else if (comprobanteState.responsable === 'Brunetti') {
-            setNroTerminal(2);
-        }
-    }, [comprobanteState]);
-
-    useEffect(() => {
-        setEstudios(estudiosSinPresentar);
-    }, [estudiosSinPresentar]);
+    }, [comprobanteState.gravado]);
 
     return {
         obra_social_id: selectedObraSocial[0].id,
         periodo: periodoValue,
         fecha: fecha,
         estado: 'Pendiente',
-        estudios: estudiosApi.map(filterKeys),
+        /* eslint-disable object-shorthand */
+        estudios: estudios.map(filterKeys),
         comprobante: {
-            tipo_id: tipoId,
+            tipo_id: comprobanteState.tipo,
             sub_tipo: comprobanteState.subTipo,
             responsable: comprobanteState.responsable,
-            nro_terminal: nroTerminal,
+            nro_terminal: comprobanteState.responsable === 'Cedir' ? 91 : 2,
             gravado_id: gravadoId,
         },
     };
@@ -93,6 +78,7 @@ function FinalizarGuardarForm(props) {
         fecha,
         selectedObraSocial,
     } = props;
+
     const postObject = initEditFormObject({
         periodoValue,
         comprobanteState,
@@ -100,11 +86,12 @@ function FinalizarGuardarForm(props) {
         fecha,
         selectedObraSocial,
     });
-    // const postObject = initEditFormObject();
+
     const clickHandler = () => {
         finalizarPresentacion(postObject);
     };
 
+    console.log(postObject);
 
     return (
         <form>
