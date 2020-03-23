@@ -137,7 +137,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                   }
                 />
             </td>
-            <td className='td-medicacion'>
+            <td className='medicacion'>
                 <div>{ parseFloat(medicacion, 10) }</div>
             </td>
             <td>

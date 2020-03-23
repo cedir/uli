@@ -1,6 +1,5 @@
 import React from 'react';
 import SearchPresentacionesObraSocial from './SearchPresentacionesObraSocial';
-import NuevaPresentacionObraSocialList from './NuevaPresentacionObraSocialList';
 import TabNavigator from '../../../presentaciones/components/TabNavigator';
 
 function NuevaPresentacionPage() {
@@ -8,10 +7,10 @@ function NuevaPresentacionPage() {
         <div>
             <h1>Nueva Presentacion</h1>
             <SearchPresentacionesObraSocial
-              page='Nueva'
+              page='nueva'
             />
             <TabNavigator
-              listComponent={ <NuevaPresentacionObraSocialList /> }
+              listComponent='nueva'
             />
         </div>
     );

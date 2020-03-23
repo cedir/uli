@@ -25,7 +25,7 @@ function SearchPresentacionesObraSocial(props) {
         if (selectedObraSocial[0] !== undefined) {
             setObraSocial(selectedObraSocial[0].nombre);
         }
-        if (page === 'Nueva') {
+        if (page === 'nueva') {
             if (fecha !== undefined) {
                 loadDateValueNueva(fecha);
             } else {

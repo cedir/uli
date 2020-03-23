@@ -5,6 +5,8 @@ import { Button, Row, Col } from 'react-bootstrap';
 import ModalFinalizarGuardar, { ModalComprobante } from './Modals';
 import { LOAD_GRAVADO_VALUE_NUEVA } from '../nueva-presentacion/actionTypes';
 import { LOAD_GRAVADO_VALUE_MODIFICAR } from '../actionTypes';
+import NuevaPresentacionObraSocialList from '../nueva-presentacion/components/NuevaPresentacionObraSocialList';
+import ModificarPresentacionList from '../modificar-presentacion/components/ModificarPresentacionList';
 
 function useComprobanteState() {
     const [numeroShort, setNumeroShort] = useState('');
@@ -63,10 +65,10 @@ function TabNavigator(props) {
     const comprobanteState = useComprobanteState();
 
     useEffect(() => {
-        if (listComponent.type.displayName === 'Connect(ModificarPresentacionList)') {
-            loadGravadoValueModificar(comprobanteState.gravado);
-        } else {
+        if (listComponent === 'nueva') {
             loadGravadoValueNueva(comprobanteState.gravado);
+        } else {
+            loadGravadoValueModificar(comprobanteState.gravado);
         }
     }, [comprobanteState.gravado]);
 
@@ -78,7 +80,14 @@ function TabNavigator(props) {
         setOpenFinalizarGuardar(!openFinalizarGuardar);
     };
 
-    const disableAyuda = true;
+    const List = () => (
+        listComponent === 'nueva' ? (
+            <NuevaPresentacionObraSocialList />
+        ) : (
+            <ModificarPresentacionList />
+        )
+    );
+
     return (
         <div className='tab-navigator'>
             <nav className='tabs'>
@@ -87,7 +96,7 @@ function TabNavigator(props) {
                   bsStyle='primary'
                   className='ayuda'
                   tabIndex='0'
-                  disabled={ disableAyuda }
+                  disabled
                 >   Ayuda
                     <i className='fa fa-question-circle' />
                 </Button>
@@ -112,7 +121,7 @@ function TabNavigator(props) {
             </nav>
             <Row className='content-1'>
                 <Col md={ 12 } className='col-1'>
-                    { listComponent }
+                    <List />
                 </Col>
             </Row>
             <ModalComprobante
@@ -130,7 +139,7 @@ function TabNavigator(props) {
 }
 
 TabNavigator.propTypes = {
-    listComponent: PropTypes.object.isRequired,
+    listComponent: PropTypes.string.isRequired,
     loadGravadoValueNueva: PropTypes.func.isRequired,
     loadGravadoValueModificar: PropTypes.func.isRequired,
 };

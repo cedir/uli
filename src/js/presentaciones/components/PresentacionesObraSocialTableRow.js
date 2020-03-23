@@ -5,12 +5,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EyePlusIcon from 'mdi-react/EyePlusIcon';
 import PencilPlusIcon from 'mdi-react/PencilPlusIcon';
+import LockIcon from 'mdi-react/LockIcon';
+import LockOpenIcon from 'mdi-react/LockOpenIcon';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
 import {
     ABRIR_PRESENTACION, FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
 } from '../actionTypes';
-import { ModalVerPresentacion } from './Modals';
 import AlertModal from '../../utilities/components/alert/AlertModal';
 
 function PresentacionesObraSocialTableRow(props) {
@@ -19,7 +20,6 @@ function PresentacionesObraSocialTableRow(props) {
         id, fecha, total_facturado: totalFacturado, estado,
         obra_social: obraSocial, total,
     } = props.presentacion;
-    const [modalVerEstudios, setModalVerEstudios] = useState(false);
     const [modalAbrirPresentacion, setModalAbrirPresentacion] = useState(false);
 
     const downloadPresentacionDigitalOsde = () => {
@@ -43,9 +43,24 @@ function PresentacionesObraSocialTableRow(props) {
             }, 1000);
         } else {
             props.fetchEstudios(presentacion.id);
-            setModalVerEstudios(true);
+            setTimeout(() => {
+                history.push(`/presentaciones-obras-sociales/ver-presentacion/${presentacion.id}`);
+            });
         }
     };
+
+    const Lock = () => (
+        estado === 'Pendiente' ? (
+            <LockIcon
+              onClick={ () => setModalAbrirPresentacion(true) }
+              title='Abrir presentacion'
+            />
+        ) : (
+            <LockOpenIcon
+              className='not-hover'
+            />
+        )
+    );
 
     return (
         <Fragment>
@@ -71,16 +86,7 @@ function PresentacionesObraSocialTableRow(props) {
                     </a>
                 </td>
                 <td>
-                    {
-                        estado === 'Pendiente' && (
-                            <Button
-                              onClick={ () => setModalAbrirPresentacion(true) }
-                              style={ { outline: 'none' } }
-                            >
-                                Abrir
-                            </Button>
-                        )
-                    }
+                    <Lock />
                 </td>
                 <td>
                     {
@@ -98,18 +104,14 @@ function PresentacionesObraSocialTableRow(props) {
                     }
                 </td>
             </tr>
-            <ModalVerPresentacion
-              show={ modalVerEstudios }
-              onClickClose={ () => setModalVerEstudios(!modalVerEstudios) }
-            />
             <AlertModal
               isOpen={ modalAbrirPresentacion }
               message='Estas seguro que deseas abrir la presentacion?'
               buttonStyle='primary'
               onClickDo={ abrirPresentacion }
               onClickClose={ () => setModalAbrirPresentacion(false) }
-              doLabel='Si'
-              dontLabel='No'
+              doLabel='Abrir'
+              dontLabel='Cancelar'
             />
         </Fragment>
     );

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
 import MedicacionEstudio from './MedicacionEstudio';
-import VerPresentacionList from '../ver-presentacion/components/VerPresentacionList';
 
 export function ModalComprobante(props) {
     const {
@@ -44,31 +42,6 @@ export function ModalComprobante(props) {
                 </Modal.Footer>
             </form>
         </Modal>
-    );
-}
-
-export function ModalAnestesia(props) {
-    const { show, onClickClose } = props;
-    return (
-        <div className='modal-anestesia-box'>
-            <Modal show={ show } className='modal-anestesia'>
-                <Modal.Header>
-                    <strong>Anestesia</strong>
-                </Modal.Header>
-                <Modal.Body>
-                    Ups.. no hay mucho aqui ahora, lo habrá mas adelante.
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                      bsStyle='danger'
-                      onClick={ onClickClose }
-                      type='button'
-                    >
-                        Cerrar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
     );
 }
 export function ModalMedicacion(props) {
@@ -158,30 +131,6 @@ function ModalFinalizarGuardar(props) {
     );
 }
 
-export function ModalVerPresentacion(props) {
-    const { show, onClickClose } = props;
-    return (
-        <div className='modal-ver-presentacion-box'>
-            <Modal show={ show } className='modal-ver-presentacion'>
-                <Modal.Body>
-                    <VerPresentacionList />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Link to='/presentaciones-obras-sociales'>
-                        <Button
-                          bsStyle='primary'
-                          type='button'
-                          onClick={ onClickClose }
-                        >
-                            Cerrar
-                        </Button>
-                    </Link>
-                </Modal.Footer>
-            </Modal>
-        </div>
-    );
-}
-
 const { bool, func, object, string } = PropTypes;
 
 function mapStateToProps(state) {
@@ -203,20 +152,10 @@ ModalFinalizarGuardar.propTypes = {
     fecha: string.isRequired,
 };
 
-ModalAnestesia.propTypes = {
-    show: bool.isRequired,
-    onClickClose: func.isRequired,
-};
-
 ModalMedicacion.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
     estudio: object.isRequired,
-};
-
-ModalVerPresentacion.propTypes = {
-    show: bool.isRequired,
-    onClickClose: func.isRequired,
 };
 
 export default connect(mapStateToProps, null)(ModalFinalizarGuardar);

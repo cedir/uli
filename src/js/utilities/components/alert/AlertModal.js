@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function AlertModal(props) {
@@ -9,25 +9,27 @@ export default function AlertModal(props) {
         dontLabel,
     } = props;
     return (
-        <Modal show={ isOpen }>
+        <Modal show={ isOpen } className='alert'>
             <Modal.Body>
-                { message }
+                <Row>
+                    { message }
+                </Row>
+                <Row>
+                    <Button
+                      bsStyle={ buttonStyle }
+                      type='button'
+                      onClick={ onClickDo }
+                    >
+                        { doLabel }
+                    </Button>
+                    <Button
+                      type='button'
+                      onClick={ onClickClose }
+                    >
+                        { dontLabel }
+                    </Button>
+                </Row>
             </Modal.Body>
-            <Modal.Footer>
-                <Button
-                  bsStyle={ buttonStyle }
-                  type='button'
-                  onClick={ onClickDo }
-                >
-                    { doLabel }
-                </Button>
-                <Button
-                  type='button'
-                  onClick={ onClickClose }
-                >
-                    { dontLabel }
-                </Button>
-            </Modal.Footer>
         </Modal>
     );
 }

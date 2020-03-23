@@ -57,42 +57,42 @@
   .content-1 {
     width: 130rem;
     height: auto;
-    .importes-totales {
-      z-index: 400;
-      box-shadow: 0 14px 28px rgba(34, 34, 34, 0.25), 0 14px 28px rgba(58, 58, 58, 0.22);
-      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-      position: fixed;
-      right: 0.7rem;
-      bottom: 0rem;
-      padding: 2rem 0rem;
-      width: 50rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      background-color: lighten(#eee, 5);
-      border-radius: 0.5rem;
-      margin: 2rem 0rem;
-      margin-right: 0.7rem;
-      float: right;
-      div.col {
-        padding: 0.5rem 0rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        width: 35%;
-        border: 0.2rem solid #eee;
-        border-radius: 0.2rem;
-        font-weight: 700;
-        div {
-          font-weight: 800;
-          color: @navy;
-        }
-      }
-      div.gravado {
-        width: 25%;
-      }
-    }
+  }
+}
 
+.importes-totales {
+  z-index: 400;
+  box-shadow: 0 14px 28px rgba(34, 34, 34, 0.25), 0 14px 28px rgba(58, 58, 58, 0.22);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  position: fixed;
+  right: 0.7rem;
+  bottom: 0rem;
+  padding: 2rem 0rem;
+  width: 50rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: lighten(#eee, 5);
+  border-radius: 0.5rem;
+  margin: 2rem 0rem;
+  margin-right: 0.7rem;
+  float: right;
+  div.col {
+    padding: 0.5rem 0rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 35%;
+    border: 0.2rem solid #eee;
+    border-radius: 0.2rem;
+    font-weight: 700;
+    div {
+      font-weight: 800;
+      color: @navy;
+    }
+  }
+  div.gravado {
+    width: 25%;
   }
 }
 
@@ -122,6 +122,9 @@
   }
   th.practica {
     width: 10rem;
+  }
+  td.medicacion {
+    text-align: right;
   }
   input {
     width: 7rem;
@@ -176,7 +179,7 @@
   }
 }
 
-.modal.agregar-estudio {
+.modal.agregar-estudio, .modal.ver-presentacion {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -197,6 +200,24 @@
       th {
         width: 15rem;
       }
+    }
+  }
+}
+
+.modal.alert {
+  .modal-dialog {
+    align-items: flex-start;
+  }
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.6rem;
+    .row {
+      margin: 1rem 0;
+    }
+    button {
+      margin: 0 0.5rem;  
+      width: 10rem;
     }
   }
 }
