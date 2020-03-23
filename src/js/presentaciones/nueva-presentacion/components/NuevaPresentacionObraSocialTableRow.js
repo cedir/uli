@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DeleteIcon from 'mdi-react/DeleteIcon';
-import { ModalMedicacion } from './Modals';
+import { ModalMedicacion } from '../../components/Modals';
 import {
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, ELIMINAR_ESTUDIO_SIN_PRESENTAR,
 } from '../actionTypes';

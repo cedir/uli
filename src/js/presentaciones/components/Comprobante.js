@@ -15,12 +15,12 @@ function Comprobante(props) {
     } = props;
 
     return (
-        <div className='comprobante'>
-            <Row className='row row-2'>
-                <Col className='col col-1'>
+        <div>
+            <Row>
+                <Col>
                     <span>Comprobante</span>
                 </Col>
-                <Col className='col col-2'>
+                <Col>
                     <select value={ tipoValue } onChange={ onChangeTipo }>
                         <option value=''>Seleccionar...</option>
                         <option value='1'>Factura</option>
@@ -32,24 +32,26 @@ function Comprobante(props) {
                         <option value='7'>Nota de débito electrónica MiPyMEs</option>
                     </select>
                 </Col>
-                <Col className='col col-3'>
+            </Row>
+            <Row>
+                <Col>
                     <span>Sub-Tipo</span>
                     <select
                       className='subtipo'
                       value={ subTipoValue }
                       onChange={ onChangeSubTipo }
                     >
-                        <option value=''>...</option>
+                        <option value=''>Seleccionar...</option>
                         <option value='A'>A</option>
                         <option value='B'>B</option>
                     </select>
                 </Col>
             </Row>
-            <Row className='row row-3'>
-                <Col className='col col-1'>
+            <Row>
+                <Col>
                     <span>Responsable</span>
                 </Col>
-                <Col className='col col-2'>
+                <Col>
                     <select
                       placeholder='Seleccionar...'
                       value={ responsableValue }
@@ -61,11 +63,11 @@ function Comprobante(props) {
                     </select>
                 </Col>
             </Row>
-            <Row className='row row-4'>
-                <Col className='col col-1'>
+            <Row>
+                <Col>
                     <span>% de Gravado</span>
                 </Col>
-                <Col className='col col-2'>
+                <Col>
                     <select
                       placeholder='Seleccionar...'
                       value={ gravadoValue }

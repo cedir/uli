@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NuevaPresentacionObraSocialTableRow from './NuevaPresentacionObraSocialTableRow';
-import ImportesTotales from './ImportesTotales';
+import ImportesTotales from '../../components/ImportesTotales';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 
 function NuevaPresentacionObraSocialList(props) {

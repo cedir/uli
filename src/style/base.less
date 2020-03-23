@@ -11,6 +11,18 @@ html, body {
 
 }
 
+input, select {
+  .input-style();
+}
+
+input:focus, select:focus {
+  border: solid 2px @navy;
+}
+
+input.required:focus, select.required:focus {
+  border: solid 2px @red;
+}
+
 .search-grid [class^="col-"] {
   height: 12rem;
   background-color: #eee;
@@ -176,7 +188,6 @@ video {
 /* MODAL */
 .modal-content {
   background-clip: padding-box;
-  background-color: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0);
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -186,19 +197,33 @@ video {
 
 .modal-dialog {
   z-index: 2200;
-}
-
-.modal-body {
-  padding: 20px 30px 30px 30px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .inmodal .modal-body {
   background: #f8fafb;
 }
 
+.modal-body {
+  padding: 20px 30px 30px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(248, 246, 246);
+}
+
 .inmodal .modal-header {
+  font-size: 1.6rem;
   padding: 30px 15px;
   text-align: center;
+}
+
+.modal-header {
+  background-color: #eee;
 }
 
 .animated.modal.fade .modal-dialog {
@@ -219,6 +244,7 @@ video {
 
 .modal-footer {
   margin-top: 0;
+  background-color: #eee;
 }
 
 /* WRAPPERS */

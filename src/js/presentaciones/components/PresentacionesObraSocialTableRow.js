@@ -10,7 +10,7 @@ import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
 import {
     ABRIR_PRESENTACION, FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
 } from '../actionTypes';
-import { ModalVerPresentacion } from '../nueva-presentacion/components/Modals';
+import { ModalVerPresentacion } from './Modals';
 import AlertModal from '../../utilities/components/alert/AlertModal';
 
 function PresentacionesObraSocialTableRow(props) {

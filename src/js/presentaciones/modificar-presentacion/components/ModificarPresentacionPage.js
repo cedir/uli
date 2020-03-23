@@ -1,6 +1,6 @@
 import React from 'react';
-import SearchPresentacionesObraSocial from '../nueva-presentacion/components/SearchPresentacionesObraSocial';
-import TabNavigator from '../nueva-presentacion/components/TabNavigator';
+import SearchPresentacionesObraSocial from '../../nueva-presentacion/components/SearchPresentacionesObraSocial';
+import TabNavigator from '../../components/TabNavigator';
 import ModificarPresentacionList from './ModificarPresentacionList';
 
 function ModificarPresentacionPage() {

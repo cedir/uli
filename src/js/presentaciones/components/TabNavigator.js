@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Row, Col } from 'react-bootstrap';
 import ModalFinalizarGuardar, { ModalComprobante } from './Modals';
-import { LOAD_GRAVADO_VALUE_NUEVA } from '../actionTypes';
-import { LOAD_GRAVADO_VALUE_MODIFICAR } from '../../actionTypes';
+import { LOAD_GRAVADO_VALUE_NUEVA } from '../nueva-presentacion/actionTypes';
+import { LOAD_GRAVADO_VALUE_MODIFICAR } from '../actionTypes';
 
 function useComprobanteState() {
     const [numeroShort, setNumeroShort] = useState('');

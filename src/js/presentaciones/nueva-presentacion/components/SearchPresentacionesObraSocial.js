@@ -10,7 +10,7 @@ import {
     LOAD_DATE_VALUE_NUEVA, FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
 } from '../actionTypes';
 import { LOAD_DATE_VALUE_MODIFICAR } from '../../actionTypes';
-import ModalAgregarEstudio from '../components/ModalAgregarEstudio';
+import ModalAgregarEstudio from '../../components/ModalAgregarEstudio';
 
 function SearchPresentacionesObraSocial(props) {
     const {

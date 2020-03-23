@@ -42,8 +42,6 @@ class SearchPresentacionesObraSocial extends Component {
             selectedObraSocial,
             idObraSocial,
         } = this.props;
-        console.log(selectedObraSocial[0].id);
-        console.log(idObraSocial);
 
         if (buscarClicked) {
             fetchPresentacionesObraSocial(params);

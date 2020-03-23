@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
-import { FINALIZAR_PRESENTACION_OBRA_SOCIAL } from '../actionTypes';
-import initialState from '../estudiosSinPresentarReducerInitialState';
+import { FINALIZAR_PRESENTACION_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
+import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
 
 function initEditFormObject(props) {
     const {
@@ -52,9 +52,9 @@ function initEditFormObject(props) {
     return {
         obra_social_id: selectedObraSocial[0].id,
         periodo: periodoValue,
+        /* eslint-disable object-shorthand */
         fecha: fecha,
         estado: 'Pendiente',
-        /* eslint-disable object-shorthand */
         estudios: estudios.map(filterKeys),
         comprobante: {
             tipo_id: comprobanteState.tipo,
@@ -91,38 +91,34 @@ function FinalizarGuardarForm(props) {
         finalizarPresentacion(postObject);
     };
 
-    console.log(postObject);
-
     return (
         <form>
-            <div className='box'>
-                <Row>
-                    <strong>Periodo de la presentacion:</strong>
-                </Row>
-                <Row>
-                    <input
-                      type='text'
-                      name='periodo'
-                      value={ periodoValue }
-                      onChange={ onChangePeriodoValue }
-                    />
-                </Row>
-                <Row>
-                    <Button
-                      bsStyle='primary'
-                      onClick={ clickHandler }
-                      disabled={ finalizarButtonDisabled }
-                    >
-                        Finalizar
-                    </Button>
-                    <Button
-                      bsStyle='primary'
-                      disabled={ guardarButtonDisabled }
-                    >
-                        Guardar
-                    </Button>
-                </Row>
-            </div>
+            <Row>
+                <strong>Periodo de la presentacion:</strong>
+            </Row>
+            <Row>
+                <input
+                  type='text'
+                  name='periodo'
+                  value={ periodoValue }
+                  onChange={ onChangePeriodoValue }
+                />
+            </Row>
+            <Row>
+                <Button
+                  bsStyle='primary'
+                  onClick={ clickHandler }
+                  disabled={ finalizarButtonDisabled }
+                >
+                    Finalizar
+                </Button>
+                <Button
+                  bsStyle='primary'
+                  disabled={ guardarButtonDisabled }
+                >
+                    Guardar
+                </Button>
+            </Row>
         </form>
     );
 }

@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
-import InputRF from '../../../utilities/InputRF';
-import addMedicamentosFormInitialState from '../../../estudio/addMedicamentosFormInitialState';
-import { ADD_DEFAULT_MEDICACION_ESTUDIO, ADD_MEDICACION_ESTUDIO } from '../../../medicacion/actionTypes';
-import { FETCH_MEDICAMENTOS } from '../../../medicamento/actionTypes';
+import InputRF from '../../utilities/InputRF';
+import addMedicamentosFormInitialState from '../../estudio/addMedicamentosFormInitialState';
+import { ADD_DEFAULT_MEDICACION_ESTUDIO, ADD_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
+import { FETCH_MEDICAMENTOS } from '../../medicamento/actionTypes';
 
 const AddMedicamentosForm = (props) => {
     const {

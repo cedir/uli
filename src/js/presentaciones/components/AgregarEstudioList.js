@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AgreagarEstudioTableRow from './AgregarEstudioTableRow';
-import initialState from '../estudiosSinPresentarReducerInitialState';
+import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
 
 function AgregarEstudioList(props) {
     const { estudiosSinPresentarAgregar, onClickIcon, selected } = props;

@@ -2,7 +2,7 @@ import React, { useState, Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap/dist/react-bootstrap';
-import { DELETE_MEDICACION_ESTUDIO } from '../../../medicacion/actionTypes';
+import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 
 const MedicacionEstudioList = ({ medicaciones, removeMedicacionEstudio }) => {

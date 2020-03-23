@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import ModificarPresentacionTableRow from './ModificarPresentacionTableRow';
-import ImportesTotales from '../nueva-presentacion/components/ImportesTotales';
-import initialState from '../presentacionReducerInitialState';
+import ImportesTotales from '../../components/ImportesTotales';
+import initialState from '../../presentacionReducerInitialState';
 
 function ModificarPresentacionList(props) {
     const {

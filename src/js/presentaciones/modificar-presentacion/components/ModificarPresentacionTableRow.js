@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import DeleteIcon from 'mdi-react/DeleteIcon';
-import { ModalMedicacion } from '../nueva-presentacion/components/Modals';
+import { ModalMedicacion } from '../../components/Modals';
 import {
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
-} from '../actionTypes';
+} from '../../actionTypes';
 
 function ModificarPresentacionTableRow(props) {
     const {

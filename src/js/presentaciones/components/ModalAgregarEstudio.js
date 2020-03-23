@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import AgregarEstudioList from './AgregarEstudioList';
-import { AGREGAR_ESTUDIOS_A_TABLA } from '../actionTypes';
-import { createAlert } from '../../../utilities/components/alert/alertUtility';
+import { AGREGAR_ESTUDIOS_A_TABLA } from '../nueva-presentacion/actionTypes';
+import { createAlert } from '../../utilities/components/alert/alertUtility';
 
 function ModalAgregarEstudio(props) {
     const { show, onClickClose, agregarEstudiosTabla } = props;
@@ -34,7 +34,10 @@ function ModalAgregarEstudio(props) {
     };
 
     return (
-        <Modal show={ show } className='modal-agregar-estudio'>
+        <Modal show={ show } className='agregar-estudio'>
+            <Modal.Header>
+                <strong>Agregar Estudios</strong>
+            </Modal.Header>
             <Modal.Body>
                 <AgregarEstudioList
                   onClickIcon={ handleClick }
