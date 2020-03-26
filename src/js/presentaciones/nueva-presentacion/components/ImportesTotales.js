@@ -10,7 +10,7 @@ function ImportesTotales(props) {
                 <span>Estudios:</span>
                 <div>{ `$${estudios.toFixed(2)}` }</div>
             </div>
-            <div className='col'>
+            <div className='col gravado'>
                 <span>Gravado:</span>
                 <div>{ `%${gravado}` }</div>
             </div>

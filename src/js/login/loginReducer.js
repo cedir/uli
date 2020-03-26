@@ -1,8 +1,11 @@
-import { SET_AUTHORIZATION_TOKEN, LOGIN_ERROR, LOGOUT } from './actionTypes';
+import {
+    SET_AUTHORIZATION_TOKEN, LOGIN_ERROR, LOGOUT,
+    ELEGIR_SUCURSAL } from './actionTypes';
 
 const initialState = {
     token: '',
     loginError: false,
+    sucursal: null,
 };
 
 function setAuthorizationReducer(state, action) {
@@ -27,6 +30,14 @@ function logoutReducer(state) {
     return newState;
 }
 
+function elegirSucursalHandler(state, action) {
+    const sucursal = action.id;
+    return {
+        ...state,
+        sucursal,
+    };
+}
+
 export function loginReducer(state = initialState, action) {
     switch (action.type) {
         case SET_AUTHORIZATION_TOKEN:
@@ -35,6 +46,8 @@ export function loginReducer(state = initialState, action) {
             return loginErrorReducer(state);
         case LOGOUT:
             return logoutReducer(state);
+        case ELEGIR_SUCURSAL:
+            return elegirSucursalHandler(state, action);
         default:
             return state;
     }

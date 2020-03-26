@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -17,23 +17,15 @@ import CreateEstudio from '../estudio/components/CreateEstudio';
 import PagoMedicos from '../estudio/components/PagoMedicos';
 import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
 import NuevaPresentacionPage from '../presentaciones/nueva-presentacion/components/NuevaPresentacionPage';
+import ModificarPresentacionPage from '../presentaciones/components/ModificarPresentacionPage';
 import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
 import CajaMain from '../caja/components/CajaMain';
 import Comprobantes from '../comprobantes/components/Comprobantes';
-
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
 
-class App extends React.Component {
-
-    constructor(props) {
-        super(props);
-
-        // this.isUserAuthenticated = this.isUserAuthenticated.bind(this);
-        this.inLoginPage = this.inLoginPage.bind(this);
-    }
-
-    componentDidMount() {
+function App(props) {
+    useEffect(() => {
         // Run correctHeight function on load and resize window event
         $(window).bind('load resize', () => {
             correctHeight();
@@ -46,103 +38,108 @@ class App extends React.Component {
                 correctHeight();
             }, 300);
         });
-    }
+    });
 
-    inLoginPage() {
-        const path = this.props.location.pathname;
+    const inLoginPage = () => {
+        const path = props.location.pathname;
         return path === '/login';
-    }
+    };
 
-    render() {
-        const wrapperClass = this.inLoginPage() ? '' : `gray-bg ${this.props.location.pathname}`;
-        return (
-            <div id='wrapper'>
-                <ConditionalComponent
-                  component={ Navigation }
-                  display={ !this.inLoginPage() }
-                  location={ this.props.location }
-                />
-                <div id={ this.inLoginPage() ? 'login' : 'page-wrapper' } className={ wrapperClass }>
-                    <div className='components-wrapper'>
-                        <ConditionalComponent
-                          component={ Header }
-                          display={ !this.inLoginPage() }
-                          history={ this.props.history }
-                        />
-                        <PrivateRoute
-                          exact
-                          path='/'
-                          component={ HomePage }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          path='/home'
-                          component={ HomePage }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          exact
-                          path='/estudios'
-                          component={ EstudiosPage }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          exact
-                          path='/estudios/detail/:id'
-                          component={ EstudioDetailPage }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          exact
-                          path='/estudios/create'
-                          component={ CreateEstudio }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          path='/anestesistas/pago'
-                          component={ PagoAnestesistaPage }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          exact
-                          path='/presentaciones-obras-sociales'
-                          component={ PresentacionesObraSocialPage }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          exact
-                          path='/presentaciones-obras-sociales/nueva-presentacion'
-                          component={ NuevaPresentacionPage }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          path='/caja/main'
-                          component={ CajaMain }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          path='/listado-informe-comprobantes'
-                          component={ ListadoInformeComprobantes }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          path='/medicos/pago'
-                          component={ PagoMedicos }
-                          authenticated={ !!this.props.token }
-                        />
-                        <PrivateRoute
-                          path='/comprobantes'
-                          component={ Comprobantes }
-                          authenticated={ !!this.props.token }
-                        />
-                    </div>
-                    <Route path='/login' component={ Login } />
-                    <Footer />
-                    <AlertComponent />
+    const wrapperClass = inLoginPage() ? '' : `gray-bg ${props.location.pathname}`;
+
+    return (
+        <div id='wrapper'>
+            <ConditionalComponent
+              component={ Navigation }
+              display={ !inLoginPage() }
+              location={ props.location }
+            />
+            <div id={ inLoginPage() ? 'login' : 'page-wrapper' } className={ wrapperClass }>
+                <div className='components-wrapper'>
+                    <ConditionalComponent
+                      component={ Header }
+                      display={ !inLoginPage() }
+                      history={ props.history }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/'
+                      component={ HomePage }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      path='/home'
+                      component={ HomePage }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/estudios'
+                      component={ EstudiosPage }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/estudios/detail/:id'
+                      component={ EstudioDetailPage }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/estudios/create'
+                      component={ CreateEstudio }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      path='/anestesistas/pago'
+                      component={ PagoAnestesistaPage }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/presentaciones-obras-sociales'
+                      component={ PresentacionesObraSocialPage }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/presentaciones-obras-sociales/nueva-presentacion'
+                      component={ NuevaPresentacionPage }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/presentaciones-obras-sociales/modificar-presentacion-abierta'
+                      component={ ModificarPresentacionPage }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      path='/caja/main'
+                      component={ CajaMain }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      path='/listado-informe-comprobantes'
+                      component={ ListadoInformeComprobantes }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      path='/medicos/pago'
+                      component={ PagoMedicos }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      path='/comprobantes'
+                      component={ Comprobantes }
+                      authenticated={ !!props.token }
+                    />
                 </div>
+                <Route path='/login' component={ Login } />
+                <Footer />
+                <AlertComponent />
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 const { object, string } = PropTypes;

@@ -22,3 +22,21 @@ export function finalizarPresentacionObraSocial(presentacion) {
 
     return post(url, body, headers);
 }
+
+export function guardarPresentacionObraSocial(presentacion) {
+    // TODO: CAMBIAR URL
+    const url = '/api/presentacion/guardar';
+    const body = {
+        obra_social_id: presentacion.obra_social_id,
+        periodo: presentacion.periodo,
+        fecha: presentacion.fecha,
+        estado: presentacion.estado,
+        estudios: presentacion.estudios,
+        comprobante: presentacion.comprobante,
+    };
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    return post(url, body, headers);
+}

@@ -15,10 +15,19 @@ const locallyPersistedState = loadLocallyPersistedState();
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
+let middleware;
+if (process.env.NODE_ENV !== 'production') {
+    /* eslint-disable global-require */
+    const logger = require('redux-logger').logger;
+    middleware = applyMiddleware(epicMiddleware, logger);
+} else {
+    middleware = applyMiddleware(epicMiddleware);
+}
+
 const store = createStore(
     rootReducer,
     locallyPersistedState,
-    composeEnhancers(applyMiddleware(epicMiddleware)),
+    composeEnhancers(middleware),
     // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
     // applyMiddleware(thunk, reduxImmutableStateInvariant())
 );

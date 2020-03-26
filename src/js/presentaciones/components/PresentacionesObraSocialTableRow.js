@@ -1,35 +1,54 @@
-import React, { Component } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import EyePlusIcon from 'mdi-react/EyePlusIcon';
+import PencilPlusIcon from 'mdi-react/PencilPlusIcon';
+import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
+import {
+    ABRIR_PRESENTACION, FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
+} from '../actionTypes';
+import { ModalVerPresentacion } from '../nueva-presentacion/components/Modals';
+import AlertModal from '../../utilities/components/alert/AlertModal';
 
-class PresentacionesObraSocialTableRow extends Component {
-    constructor(props) {
-        super(props);
+function PresentacionesObraSocialTableRow(props) {
+    const { presentacion, history, index } = props;
+    const {
+        id, fecha, total_facturado: totalFacturado, estado,
+        obra_social: obraSocial, total,
+    } = props.presentacion;
+    const [modalVerEstudios, setModalVerEstudios] = useState(false);
+    const [modalAbrirPresentacion, setModalAbrirPresentacion] = useState(false);
 
-        this.downloadPresentacionDigitalOsde =
-            this.downloadPresentacionDigitalOsde.bind(this);
+    const downloadPresentacionDigitalOsde = () => {
+        getPresentacionFormatoOsde(props.presentacion);
+    };
 
-        this.downloadPresentacionDigitalAmr =
-            this.downloadPresentacionDigitalAmr.bind(this);
-    }
+    const downloadPresentacionDigitalAmr = () => {
+        getPresentacionFormatoAMR(props.presentacion);
+    };
 
-    downloadPresentacionDigitalOsde() {
-        getPresentacionFormatoOsde(this.props.presentacion);
-    }
+    const abrirPresentacion = () => {
+        props.abrirPresentacion(id, index);
+        setModalAbrirPresentacion(false);
+    };
 
-    downloadPresentacionDigitalAmr() {
-        getPresentacionFormatoAMR(this.props.presentacion);
-    }
+    const redirectPage = () => {
+        if (estado === 'Abierto') {
+            props.fetchEstudios(presentacion.id);
+            setTimeout(() => {
+                history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
+            }, 1000);
+        } else {
+            props.fetchEstudios(presentacion.id);
+            setModalVerEstudios(true);
+        }
+    };
 
-    render() {
-        const {
-            fecha,
-            estado,
-            total_facturado: totalFacturado,
-            obra_social: obraSocial,
-            total } = this.props.presentacion;
-        return (
+    return (
+        <Fragment>
             <tr>
                 <td>{ fecha }</td>
                 <td>{ estado }</td>
@@ -39,27 +58,81 @@ class PresentacionesObraSocialTableRow extends Component {
                 <td>
                     <a
                       href='#'
-                      onClick={ this.downloadPresentacionDigitalOsde }
+                      onClick={ downloadPresentacionDigitalOsde }
                     >
                         Osde
                     </a>
                     <span>&nbsp;|&nbsp;</span>
                     <a
                       href='#'
-                      onClick={ this.downloadPresentacionDigitalAmr }
+                      onClick={ downloadPresentacionDigitalAmr }
                     >
                         AMR
                     </a>
                 </td>
+                <td>
+                    {
+                        estado === 'Pendiente' && (
+                            <Button
+                              onClick={ () => setModalAbrirPresentacion(true) }
+                              style={ { outline: 'none' } }
+                            >
+                                Abrir
+                            </Button>
+                        )
+                    }
+                </td>
+                <td>
+                    {
+                        estado !== 'Abierto' ? (
+                            <EyePlusIcon
+                              className='eye-plus-icon'
+                              onClick={ redirectPage }
+                            />
+                        ) : (
+                            <PencilPlusIcon
+                              className='pencil-plus-icon'
+                              onClick={ redirectPage }
+                            />
+                        )
+                    }
+                </td>
             </tr>
-        );
-    }
+            <ModalVerPresentacion
+              show={ modalVerEstudios }
+              onClickClose={ () => setModalVerEstudios(!modalVerEstudios) }
+            />
+            <AlertModal
+              isOpen={ modalAbrirPresentacion }
+              message='Estas seguro que deseas abrir la presentacion?'
+              buttonStyle='primary'
+              onClickDo={ abrirPresentacion }
+              onClickClose={ () => setModalAbrirPresentacion(false) }
+              doLabel='Si'
+              dontLabel='No'
+            />
+        </Fragment>
+    );
 }
 
-const { object } = PropTypes;
+const { object, func, number } = PropTypes;
 
 PresentacionesObraSocialTableRow.propTypes = {
     presentacion: object.isRequired,
+    abrirPresentacion: func.isRequired,
+    fetchEstudios: func.isRequired,
+    history: object.isRequired,
+    index: number.isRequired,
 };
 
-export default PresentacionesObraSocialTableRow;
+function mapDispatchToProps(dispatch) {
+    return {
+        abrirPresentacion: (id, index) =>
+            dispatch({ type: ABRIR_PRESENTACION, id, index }),
+        fetchEstudios: id =>
+            dispatch({ type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION, id }),
+    };
+}
+
+
+export default withRouter(connect(null, mapDispatchToProps)(PresentacionesObraSocialTableRow));

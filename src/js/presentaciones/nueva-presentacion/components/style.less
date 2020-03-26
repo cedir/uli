@@ -21,100 +21,98 @@
     }
   }
   .content-1 {
-    width: 170rem;
-    height: 50rem;
-    table {
-      width: 100%;
-      height: auto;
-      background-color: #eee;
-      border-spacing: 0.7rem;
-      border-collapse: separate;
-      display: table-cell;
-      align-items: center;
-      justify-content: center;
-      td {
-        border-radius: 0.2rem;
-        width: 10rem;
-        background-color: lighten(#eee, 5%);
-        text-align: center;
-        padding: 0.5rem 1rem 0.5rem 1rem;
-      }
-      td.icon {
-        width: 4rem;
-      }
-      td.numero {
-        width: 4rem;
-      }
-      td.delete {
-        width: 4rem;
-      }
-      td.practica {
-        text-align: left;
-        width: 40rem;
-        font-size: 1rem;
-      }
-      input {
-        width: 7rem;
-        text-align: right;
-        .input-style();
-      }
-      input:focus {
-        border: solid 2px @navy;
-      }
-      input.required:focus {
-        border: solid 2px @red;
-      }
-      i {
-        outline: none;
-        color: lighten(@navy, 30%);
-        font-size: 1.5rem;
-        &:hover {
-          color: lighten(@navy, 10%);
-        }
-      }
-      i.active {
-        color: @navy;
-      }
-      i.trash-icon {
-        color: inherit;
-      }
-      i.trash-icon-active {
-        color: red;
-      }
-    }
+    width: 130rem;
+    height: auto;
     .importes-totales {
+      position: absolute;
+      right: 0.7rem;
       padding: 2rem 0rem;
-      width: 30%;
+      width: 50rem;
       display: flex;
       align-items: center;
       justify-content: space-around;
-      float: right;
-      background-color: #eee;
-      border: 0.2rem solid @navy;
+      background-color: lighten(#eee, 5);
       border-radius: 0.5rem;
-      margin-right: 4.5rem;
-      margin-top: 2rem;
+      margin: 2rem 0rem;
+      margin-right: 0.7rem;
+      float: right;
       div.col {
         padding: 0.5rem 0rem;
         display: flex;
         align-items: center;
         justify-content: space-around;
-        width: 30%;
-        background-color: lighten(#eee, 5);
+        width: 35%;
+        border: 0.2rem solid #eee;
         border-radius: 0.2rem;
+        font-weight: 700;
         div {
           font-weight: 800;
+          color: @navy;
         }
       }
+      div.gravado {
+        width: 25%;
+      }
     }
-  }
-  .content-1::-webkit-scrollbar {
-    display: none;
+
   }
 }
 
-.tab-navigator::-webkit-scrollbar {
-  display: none;
+.estudios-table {
+  width: 100%;
+  height: auto;
+  background-color: #eee;
+  border-spacing: 0.7rem;
+  border-collapse: separate;
+  display: table-cell;
+  align-items: center;
+  justify-content: center;
+  td {
+    border-radius: 0.2rem;
+    background-color: lighten(#eee, 5%);
+    text-align: center;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+  }
+  th {
+    width: 10rem;
+  }
+  th.icon {
+    width: 4rem;
+  }
+  th.delete {
+    width: 4rem;
+  }
+  th.practica {
+    width: 10rem;
+  }
+  input {
+    width: 7rem;
+    text-align: right;
+    .input-style();
+  }
+  input:focus {
+    border: solid 2px @navy;
+  }
+  input.required:focus {
+    border: solid 2px @red;
+  }
+  i {
+    outline: none;
+    color: lighten(@navy, 30%);
+    font-size: 1.5rem;
+    &:hover {
+      color: lighten(@navy, 10%);
+    }
+  }
+  i.active {
+    color: @navy;
+  }
+  i.trash-icon {
+    color: inherit;
+  }
+  i.trash-icon-active {
+    color: red;
+  }
 }
 
 .modal-comprobante {
@@ -182,95 +180,145 @@
         background-color: #eee;
       }
     }
+}
+.modal-comprobante::-webkit-scrollbar {
+  display: none;
+} 
+.modal-anestesia {
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .modal-comprobante::-webkit-scrollbar {
-    display: none;
+  .modal-header {
+    font-size: 1.6rem;
   }
-  
-  .modal-anestesia {
-    .modal-dialog {
-      width: 100%;
-      height: 100%;
+} 
+.modal-anestesia::-webkit-scrollbar {
+  display: none;
+} 
+.modal-medicacion {
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-header {
+    font-size: 1.6rem;
+  }
+  .modal-body {
+    width: 70rem;
+    height: 30rem;
+  }
+} 
+.modal-finalizar-guardar {
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-header {
+    font-size: 1.6rem;
+    background-color: #eee;
+  }
+  .modal-body {
+    width: 40rem;
+    height: auto;
+    background-color: darken(#eee, 2%);
+    .box {
       display: flex;
       align-items: center;
-      justify-content: center;
-    }
-    .modal-header {
-      font-size: 1.6rem;
-    }
-  }
-  
-  .modal-anestesia::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .modal-medicacion {
-    .modal-dialog {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-header {
-      font-size: 1.6rem;
-    }
-    .modal-body {
-      width: 70rem;
-      height: 30rem;
-    }
-  }
-  
-  .modal-finalizar-guardar {
-    .modal-dialog {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-header {
-      font-size: 1.6rem;
-      background-color: #eee;
-    }
-    .modal-body {
-      width: 40rem;
-      height: auto;
-      background-color: darken(#eee, 2%);
-      .box {
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        flex-direction: column;
-        strong {
-          font-size: 1.2rem;
-        }
-        div.row {
-          text-align: center;
-          width: 50%;
-        }
-        button {
-          float: left;
-        }
-        button + button {
-          float: right;
-        }
-        input {
-          .input-style();
-          margin-top: 0.5rem;
-          width: 100%;
-          margin-bottom: 1rem;
-        }
-        input:focus {
-          border: 2px solid @navy;
-        }
+      justify-content: space-around;
+      flex-direction: column;
+      strong {
+        font-size: 1.2rem;
+      }
+      div.row {
+        text-align: center;
+        width: 50%;
+      }
+      button {
+        float: left;
+      }
+      button + button {
+        float: right;
+      }
+      input {
+        .input-style();
+        margin-top: 0.5rem;
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      input:focus {
+        border: 2px solid @navy;
       }
     }
-    .modal-footer {
-      background-color: #eee;
+  }
+  .modal-footer {
+    background-color: #eee;
+  }
+} 
+.modal-medicacion::-webkit-scrollbar {
+  display: none;
+}
+.modal-success {
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}
+.modal-sucess::-webkit-scrollbar {
+  display: none;
+}
+.modal-agregar-estudio {
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-body {
+    width: 100%;
+    height: 50rem;
+    overflow: scroll;
+    table {
+      tr.selected {
+        td {
+          background-color: rgb(26, 179, 148, 50%);
+        }
+      }
+      th {
+        width: 15rem;
+      }
     }
   }
-  
-  .modal-medicacion::-webkit-scrollbar {
-    display: none;
+}
+.modal-ver-presentacion {
+  .modal-dialog {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  .modal-body {
+    width: 100%;
+    height: 50rem;
+    overflow: scroll;
+    table {
+      th {
+        width: 15rem;
+      }
+    }
+  }
+}

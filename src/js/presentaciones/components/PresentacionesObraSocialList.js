@@ -1,38 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap/dist/react-bootstrap';
-
 import initialState from '../presentacionReducerInitialState';
 import PresentacionesObraSocialTableRow from './PresentacionesObraSocialTableRow';
 
-class PresentacionesObraSocialList extends Component {
-    render() {
-        return (
-            <div>
-                <Table striped responsive style={ { marginTop: '20px' } }>
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Estado</th>
-                            <th>Obra Social</th>
-                            <th>Total Facturado</th>
-                            <th>Total Cobrado</th>
-                            <th>Descarga formato Digital</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { this.props.presentaciones.map(presentacion => (
-                            <PresentacionesObraSocialTableRow
-                              key={ presentacion.id }
-                              presentacion={ presentacion }
-                            />
-                        )) }
-                    </tbody>
-                </Table>
-            </div>
-        );
-    }
+function PresentacionesObraSocialList(props) {
+    const { presentaciones } = props;
+
+    return (
+        <div>
+            <Table striped responsive style={ { marginTop: '20px' } }>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th>Obra Social</th>
+                        <th>Total Facturado</th>
+                        <th>Total Cobrado</th>
+                        <th title='Descargar en Formato Digital'>Descargar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    { presentaciones.map(presentacion => (
+                        <PresentacionesObraSocialTableRow
+                          key={ presentacion.id }
+                          presentacion={ presentacion }
+                          index={ presentaciones.indexOf(presentacion) }
+                        />
+                    )) }
+                </tbody>
+            </Table>
+        </div>
+    );
 }
 
 const { array } = PropTypes;

@@ -46,6 +46,7 @@ class SearchPresentacionesObraSocial extends Component {
 
     handleFormSubmit(params) {
         const { buscarClicked } = this.state;
+        console.log(params);
         if (buscarClicked) {
             this.props.fetchPresentacionesObraSocial(params);
         } else {
