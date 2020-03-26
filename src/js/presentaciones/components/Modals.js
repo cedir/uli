@@ -45,7 +45,7 @@ export function ModalComprobante(props) {
     );
 }
 export function ModalMedicacion(props) {
-    const { show, onClickClose, estudio } = props;
+    const { show, onClickClose, onClickDo, estudio } = props;
     return (
         <div className='modal-medicacion-box'>
             <Modal show={ show } className='modal-medicacion'>
@@ -58,6 +58,13 @@ export function ModalMedicacion(props) {
                     />
                 </Modal.Body>
                 <Modal.Footer>
+                    <Button
+                      bsStyle='primary'
+                      onClick={ onClickDo }
+                      type='button'
+                    >
+                        Cargar
+                    </Button>
                     <Button
                       bsStyle='danger'
                       onClick={ onClickClose }
@@ -155,6 +162,7 @@ ModalFinalizarGuardar.propTypes = {
 ModalMedicacion.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
+    onClickDo: func.isRequired,
     estudio: object.isRequired,
 };
 

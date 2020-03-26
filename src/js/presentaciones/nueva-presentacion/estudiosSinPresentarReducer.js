@@ -9,7 +9,8 @@ import {
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR,
     ELIMINAR_ESTUDIO_SIN_PRESENTAR, LOAD_DATE_VALUE_NUEVA, AGREGAR_ESTUDIOS_A_TABLA,
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, LOAD_GRAVADO_VALUE_NUEVA,
-    FINALIZAR_PRESENTACION_OBRA_SOCIAL, LOAD_PRESENTACION_DETAIL_ID } from './actionTypes';
+    FINALIZAR_PRESENTACION_OBRA_SOCIAL, LOAD_PRESENTACION_DETAIL_ID,
+    SET_IMPORTE_MEDICACION_ESTUDIO } from './actionTypes';
 
 const actionsHandledByEpicReducer = (state) => {
     const newState = {};
@@ -178,6 +179,22 @@ const loadGravadoValueNuevaReducer = (state, action) => {
     };
 };
 
+const setImporteMedicacionEstudioReducer = (state, action) => {
+    const estudiosSinPresentar = state.estudiosSinPresentar;
+    const newEstudio = {
+        ...estudiosSinPresentar[action.index],
+        importe_medicacion: action.total.toString(),
+    };
+    estudiosSinPresentar.splice(action.index, 1, newEstudio);
+
+    const newState = {
+        ...state,
+        estudiosSinPresentar,
+    };
+
+    return sumarImportesEstudios(newState);
+};
+
 export function estudiosSinPresentarReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
@@ -204,6 +221,8 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return loadGravadoValueNuevaReducer(state, action);
         case LOAD_PRESENTACION_DETAIL_ID:
             return loadPresentacionDetailId(state, action);
+        case SET_IMPORTE_MEDICACION_ESTUDIO:
+            return setImporteMedicacionEstudioReducer(state, action);
         default:
             return state;
     }

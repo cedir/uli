@@ -1,15 +1,25 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import { ModalMedicacion } from '../../components/Modals';
 import {
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, ELIMINAR_ESTUDIO_SIN_PRESENTAR,
+    SET_IMPORTE_MEDICACION_ESTUDIO,
 } from '../actionTypes';
+import { CLEAN_MEDICACIONES_STORE } from '../../../medicacion/actionTypes';
 
 function NuevaPresentacionObraSocialTableRow(props) {
-    const { row, actualizarInputEstudioSinPresentar, eliminarEstudioSinPresentar, index } = props;
+    const {
+        row,
+        actualizarInputEstudioSinPresentar,
+        eliminarEstudioSinPresentar,
+        cleanMedicacionesStore,
+        setImporteMedicacionEstudio,
+        medicaciones,
+        index,
+    } = props;
     const {
         fecha, nro_de_orden: orden,
         paciente, practica, medico,
@@ -58,11 +68,26 @@ function NuevaPresentacionObraSocialTableRow(props) {
         }
     };
 
-    const medicacionIconClickHandler = () => {
-        setMedicacionClicked(!medicacionClicked);
+    const medicacionCloseHandler = () => {
+        setMedicacionClicked(false);
+        cleanMedicacionesStore();
+    };
+
+    const medicacionChargeHandler = () => {
+        cleanMedicacionesStore();
+        setMedicacionClicked(false);
+        let total = 0;
+        if (medicaciones.length > 0) {
+            const reducer = (importeAcum, currentValue) => importeAcum + currentValue;
+            total = medicaciones
+                .map(med => parseFloat(med.importe || med.medicamento.importe))
+                .reduce(reducer);
+        }
+        setImporteMedicacionEstudio(total, index);
     };
 
     const isMedicacionActive = medicacionClicked ? 'active' : '';
+
     return (
         <tr className='table-row'>
             <td className='icon'>
@@ -70,7 +95,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                   className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
                   tabIndex='0'
                   role='button'
-                  onClick={ medicacionIconClickHandler }
+                  onClick={ () => setMedicacionClicked(true) }
                 />
             </td>
             <td className='fecha'>{ fecha }</td>
@@ -138,7 +163,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                 />
             </td>
             <td className='medicacion'>
-                <div>{ parseFloat(medicacion, 10) }</div>
+                <div>{ parseFloat(medicacion, 10).toFixed(2) }</div>
             </td>
             <td>
                 <input
@@ -163,7 +188,8 @@ function NuevaPresentacionObraSocialTableRow(props) {
             <td style={ { display: 'none' } }>
                 <ModalMedicacion
                   show={ medicacionClicked }
-                  onClickClose={ medicacionIconClickHandler }
+                  onClickClose={ medicacionCloseHandler }
+                  onClickDo={ medicacionChargeHandler }
                   estudio={ row }
                 />
             </td>
@@ -178,7 +204,20 @@ NuevaPresentacionObraSocialTableRow.propTypes = {
     eliminarEstudioSinPresentar: func.isRequired,
     index: number.isRequired,
     actualizarInputEstudioSinPresentar: func.isRequired,
+    cleanMedicacionesStore: func.isRequired,
+    setImporteMedicacionEstudio: func.isRequired,
+    medicaciones: array,
 };
+
+NuevaPresentacionObraSocialTableRow.defaultProps = {
+    medicaciones: [],
+};
+
+function mapStateToProps(state) {
+    return {
+        medicaciones: state.medicacionReducer.medicaciones,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -191,7 +230,15 @@ function mapDispatchToProps(dispatch) {
             dispatch({
                 type: ELIMINAR_ESTUDIO_SIN_PRESENTAR, index,
             }),
+        cleanMedicacionesStore: () =>
+            dispatch({
+                type: CLEAN_MEDICACIONES_STORE,
+            }),
+        setImporteMedicacionEstudio: (total, index) =>
+            dispatch({
+                type: SET_IMPORTE_MEDICACION_ESTUDIO, total, index,
+            }),
     };
 }
 
-export default connect(null, mapDispatchToProps)(NuevaPresentacionObraSocialTableRow);
+export default connect(mapStateToProps, mapDispatchToProps)(NuevaPresentacionObraSocialTableRow);
