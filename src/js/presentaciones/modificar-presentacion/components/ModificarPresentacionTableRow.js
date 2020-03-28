@@ -35,14 +35,15 @@ function ModificarPresentacionTableRow(props) {
         eliminarEstudioDeUnaPresentacion(index);
     };
 
-    const onChangeHandler = (dispatcher) => {
-        let parsedValue = parseFloat(dispatcher.payload.value, 10);
+    const onChangeHandler = (idInput, value) => {
+        let parsedValue = parseFloat(value, 10);
         if (isNaN(parsedValue)) {
             parsedValue = 0;
         }
-        switch (dispatcher.payload.idInput) {
+        actualizarInputEstudioDeUnaPresentacion(index, idInput, parsedValue);
+        switch (idInput) {
             case 1:
-                setNroOrden(dispatcher.payload.value);
+                setNroOrden(value);
                 break;
             case 2:
                 setImporte(parsedValue);
@@ -82,13 +83,7 @@ function ModificarPresentacionTableRow(props) {
                   type='text'
                   value={ nroOrden }
                   placeholder={ nroOrden }
-                  onChange={ e =>
-                    onChangeHandler(
-                        actualizarInputEstudioDeUnaPresentacion(
-                            index, 1, e.target.value,
-                        ),
-                    )
-                  }
+                  onChange={ e => onChangeHandler(1, e.target.value) }
                 />
             </td>
             <td>{ paciente.id }</td>
@@ -105,39 +100,21 @@ function ModificarPresentacionTableRow(props) {
                 <input
                   type='number'
                   value={ importe }
-                  onChange={ e =>
-                    onChangeHandler(
-                        actualizarInputEstudioDeUnaPresentacion(
-                            index, 2, e.target.value,
-                        ),
-                    )
-                  }
+                  onChange={ e => onChangeHandler(2, e.target.value) }
                 />
             </td>
             <td>
                 <input
                   type='number'
                   value={ pensionState }
-                  onChange={ e =>
-                    onChangeHandler(
-                        actualizarInputEstudioDeUnaPresentacion(
-                            index, 3, e.target.value,
-                        ),
-                    )
-                  }
+                  onChange={ e => onChangeHandler(3, e.target.value) }
                 />
             </td>
             <td>
                 <input
                   type='number'
                   value={ difPaciente }
-                  onChange={ e =>
-                    onChangeHandler(
-                        actualizarInputEstudioDeUnaPresentacion(
-                            index, 4, e.target.value,
-                        ),
-                    )
-                  }
+                  onChange={ e => onChangeHandler(4, e.target.value) }
                 />
             </td>
             <td className='medicacion'>
@@ -147,13 +124,7 @@ function ModificarPresentacionTableRow(props) {
                 <input
                   type='number'
                   value={ parseFloat(anestesista, 10) }
-                  onChange={ e =>
-                    onChangeHandler(
-                        actualizarInputEstudioDeUnaPresentacion(
-                            index, 5, e.target.value,
-                        ),
-                    )
-                  }
+                  onChange={ e => onChangeHandler(5, e.target.value) }
                 />
             </td>
             <td className='delete'>
