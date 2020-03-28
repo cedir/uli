@@ -17,9 +17,12 @@ const sumarImportesEstudios = (state) => {
     const estudiosDeUnaPresentacion = state.estudiosDeUnaPresentacion;
     let suma = 0;
     estudiosDeUnaPresentacion.forEach((estudio) => {
+        /* eslint-disable no-mixed-operators */
+        // desactive esta regla porque me parecio que queda
+        // mas legible la operacion de esta forma (mezclando operadores)
         suma = suma +
             parseFloat(estudio.importe_estudio, 10) +
-            parseFloat(estudio.pension, 10) +
+            parseFloat(estudio.pension, 10) -
             parseFloat(estudio.diferencia_paciente, 10) +
             parseFloat(estudio.importe_medicacion) +
             parseFloat(estudio.arancel_anestesia, 10) + 0.0001;
