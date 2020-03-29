@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
+import CheckBoxIcon from 'mdi-react/CheckBoxIcon';
 
 function AgregarEstudioTableRow(props) {
     const { selected, onClickIcon } = props;
@@ -11,9 +12,14 @@ function AgregarEstudioTableRow(props) {
 
     return (
         <tr
-          onClick={ onClickIcon }
           className={ selected ? 'selected' : '' }
         >
+            <td>
+                <CheckBoxIcon
+                  onClick={ onClickIcon }
+                  className={ selected ? 'active' : '' }
+                />
+            </td>
             <td>{ fecha }</td>
             <td title={ `${paciente.nombre} ${paciente.apellido}` }>
                 { paciente.apellido }

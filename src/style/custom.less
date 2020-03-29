@@ -179,7 +179,7 @@
   }
 }
 
-.modal.agregar-estudio, .modal.ver-presentacion {
+.modal.agregar-estudio {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -192,13 +192,25 @@
       align-self: flex-start;
       height: 100%;
       overflow: scroll;
-      tr.selected {
-        td {
-          background-color: darken(#eee, 5%);
-        }
+      .mdi-icon {
+        font-size: 15px;
+        transition: color 0s;
+      }
+      background-color: #eee;
+      .mdi-icon.active {
+        color: @navy;
+      }
+      .mdi-icon {
+        color: lighten(@navy, 35%);
+      }
+      tr {
+        cursor: pointer;
       }
       th {
         width: 15rem;
+      }
+      th.short {
+        width: 3rem;
       }
     }
   }
