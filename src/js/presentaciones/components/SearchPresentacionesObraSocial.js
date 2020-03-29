@@ -40,14 +40,14 @@ class SearchPresentacionesObraSocial extends Component {
             estudiosSinPresentar,
             history,
             selectedObraSocial,
-            idObraSocial,
+            obraSocial,
         } = this.props;
 
         if (buscarClicked) {
             fetchPresentacionesObraSocial(params);
         } else if (
             estudiosSinPresentar.length === 0 ||
-            selectedObraSocial[0].id !== idObraSocial
+            selectedObraSocial[0].id !== obraSocial.id
         ) {
             fetchEstudiosSinPresentarObraSocial(params);
             history.push('/presentaciones-obras-sociales/nueva-presentacion');
@@ -120,7 +120,7 @@ const SearchPresentacionesObraSocialReduxForm =
         enableReinitialize: true,
     })(SearchPresentacionesObraSocial);
 
-const { number, func, array, bool, object } = PropTypes;
+const { func, array, bool, object } = PropTypes;
 
 SearchPresentacionesObraSocial.propTypes = {
     handleSubmit: func.isRequired,
@@ -134,7 +134,7 @@ SearchPresentacionesObraSocial.propTypes = {
     obrasSocialesApiLoading: bool,
     history: object.isRequired,
     estudiosSinPresentar: array.isRequired,
-    idObraSocial: number.isRequired,
+    obraSocial: object.isRequired,
 };
 
 SearchPresentacionesObraSocial.defaultProps = {
@@ -153,7 +153,7 @@ function mapStateToProps(state) {
         obrasSociales: state.obraSocialReducer.obrasSociales,
         obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
         estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
-        idObraSocial: state.estudiosSinPresentarReducer.idObraSocial,
+        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
     };
 }
 
@@ -166,7 +166,7 @@ function mapDispatchToProps(dispatch) {
         }),
         fetchEstudiosSinPresentarObraSocial: params => dispatch({
             type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
-            id: params.obraSocial[0].id,
+            obraSocial: params.obraSocial[0],
         }),
         setSelectedObraSocial: obraSocial =>
             dispatch(change('searchPresentacionesObraSocial', 'obraSocial', obraSocial)),

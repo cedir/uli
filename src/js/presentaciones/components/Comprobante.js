@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
+export function useComprobanteState() {
+    const [tipo, setTipo] = useState('');
+    const [subTipo, setSubTipo] = useState('');
+    const [responsable, setResponsable] = useState('');
+    const [gravado, setGravado] = useState('0.00');
+
+    return {
+        tipo,
+        setTipo,
+        subTipo,
+        setSubTipo,
+        responsable,
+        setResponsable,
+        gravado,
+        setGravado,
+    };
+}
 function Comprobante(props) {
     const {
-        tipoValue,
-        onChangeTipo,
-        subTipoValue,
-        onChangeSubTipo,
-        responsableValue,
-        onChangeResponsable,
-        gravadoValue,
-        onChangeGravado,
+        tipo,
+        setTipo,
+        subTipo,
+        setSubTipo,
+        responsable,
+        setResponsable,
+        gravado,
+        setGravado,
     } = props;
 
     return (
@@ -21,7 +38,7 @@ function Comprobante(props) {
                     <span>Comprobante</span>
                 </Col>
                 <Col>
-                    <select value={ tipoValue } onChange={ onChangeTipo }>
+                    <select value={ tipo } onChange={ e => setTipo(e.target.value) }>
                         <option value=''>Seleccionar...</option>
                         <option value='1'>Factura</option>
                         <option value='2'>Liquidacion</option>
@@ -38,8 +55,8 @@ function Comprobante(props) {
                     <span>Sub-Tipo</span>
                     <select
                       className='subtipo'
-                      value={ subTipoValue }
-                      onChange={ onChangeSubTipo }
+                      value={ subTipo }
+                      onChange={ e => setSubTipo(e.target.value) }
                     >
                         <option value=''>Seleccionar...</option>
                         <option value='A'>A</option>
@@ -54,8 +71,8 @@ function Comprobante(props) {
                 <Col>
                     <select
                       placeholder='Seleccionar...'
-                      value={ responsableValue }
-                      onChange={ onChangeResponsable }
+                      value={ responsable }
+                      onChange={ e => setResponsable(e.target.value) }
                     >
                         <option value=''>Seleccionar...</option>
                         <option value='Cedir'>CeDIR</option>
@@ -70,8 +87,8 @@ function Comprobante(props) {
                 <Col>
                     <select
                       placeholder='Seleccionar...'
-                      value={ gravadoValue }
-                      onChange={ onChangeGravado }
+                      value={ gravado }
+                      onChange={ e => setGravado(e.target.value) }
                     >
                         <option value='0.00'>%0.00</option>
                         <option value='10.50'>%10.50</option>
@@ -86,14 +103,14 @@ function Comprobante(props) {
 const { string, func } = PropTypes;
 
 Comprobante.propTypes = {
-    subTipoValue: string.isRequired,
-    onChangeSubTipo: func.isRequired,
-    tipoValue: string.isRequired,
-    onChangeTipo: func.isRequired,
-    responsableValue: string.isRequired,
-    onChangeResponsable: func.isRequired,
-    gravadoValue: string.isRequired,
-    onChangeGravado: func.isRequired,
+    tipo: string.isRequired,
+    setTipo: func.isRequired,
+    subTipo: string.isRequired,
+    setSubTipo: func.isRequired,
+    responsable: string.isRequired,
+    setResponsable: func.isRequired,
+    gravado: string.isRequired,
+    setGravado: func.isRequired,
 };
 
 export default Comprobante;

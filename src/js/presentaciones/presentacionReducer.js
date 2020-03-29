@@ -9,7 +9,6 @@ import {
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
     ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
-    LOAD_GRAVADO_VALUE_MODIFICAR,
     LOAD_DATE_VALUE_MODIFICAR } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
@@ -68,8 +67,16 @@ const updatePresentacionReducer = (state, action) => {
 const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
     const newState = {};
     const estudiosDeUnaPresentacion = action.data.response;
+    const obraSocial = action.obraSocial;
+    const fecha = action.fecha;
     Object.assign(newState, state,
-        { estudiosDeUnaPresentacion, estudiosDeUnaPresentacionApiLoading: false });
+        {
+            estudiosDeUnaPresentacion,
+            obraSocial,
+            fecha,
+            estudiosDeUnaPresentacionApiLoading: false,
+        },
+    );
 
     return sumarImportesEstudios(newState);
 };
@@ -136,15 +143,6 @@ const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
     return sumarImportesEstudios(newState);
 };
 
-const loadGravadoValueModificarReducer = (state, action) => {
-    const gravado = action.payload.value;
-
-    return {
-        ...state,
-        gravado,
-    };
-};
-
 const loadDateValueModificarReducer = (state, action) => {
     const newState = {};
     Object.assign(newState, state, { fecha: action.value });
@@ -172,8 +170,6 @@ export function presentacionReducer(state = initialState, action) {
             return eliminarEstudioDeUnaPresentacionReducer(state, action);
         case ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION:
             return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
-        case LOAD_GRAVADO_VALUE_MODIFICAR:
-            return loadGravadoValueModificarReducer(state, action);
         case LOAD_DATE_VALUE_MODIFICAR:
             return loadDateValueModificarReducer(state, action);
         default:

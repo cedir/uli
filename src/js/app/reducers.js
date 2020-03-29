@@ -32,7 +32,12 @@ import { medicacionEpic, addMedicacionToEstudioEpic,
 import { medicamentosEpic } from '../medicamento/medicamentoEpic';
 import { pacienteEpic } from '../paciente/pacienteEpic';
 import { practicaEpic } from '../practica/practicaEpic';
-import { presentacionEpic, verEstudiosDeUnaPresentacionEpic, abrirPresentacionEpic } from '../presentaciones/presentacionEpic';
+import {
+    presentacionEpic,
+    verEstudiosDeUnaPresentacionEpic,
+    abrirPresentacionEpic,
+    estudiosDeUnaPresentacionAgregarEpic,
+} from '../presentaciones/presentacionEpic';
 import {
     estudiosSinPresentarEpic,
     estudiosSinPresentarAgregarEpic,
@@ -70,6 +75,7 @@ export const rootEpic = combineEpics(
     crearNuevaPresentacionEpic,
     verEstudiosDeUnaPresentacionEpic,
     estudiosSinPresentarAgregarEpic,
+    estudiosDeUnaPresentacionAgregarEpic,
     loginEpic,
     comprobantesEpic,
     obtenerComprobantesEpic,

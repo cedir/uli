@@ -37,12 +37,12 @@ function PresentacionesObraSocialTableRow(props) {
 
     const redirectPage = () => {
         if (estado === 'Abierto') {
-            props.fetchEstudios(presentacion.id);
+            props.fetchEstudios(presentacion.id, obraSocial, fecha);
             setTimeout(() => {
                 history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
             }, 1000);
         } else {
-            props.fetchEstudios(presentacion.id);
+            props.fetchEstudios(presentacion.id, obraSocial, fecha);
             setTimeout(() => {
                 history.push(`/presentaciones-obras-sociales/ver-presentacion/${presentacion.id}`);
             });
@@ -131,8 +131,8 @@ function mapDispatchToProps(dispatch) {
     return {
         abrirPresentacion: (id, index) =>
             dispatch({ type: ABRIR_PRESENTACION, id, index }),
-        fetchEstudios: id =>
-            dispatch({ type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION, id }),
+        fetchEstudios: (id, obraSocial, fecha) =>
+            dispatch({ type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION, id, obraSocial, fecha }),
     };
 }
 

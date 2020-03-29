@@ -1,17 +1,21 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
 import DeleteIcon from 'mdi-react/DeleteIcon';
-import { ModalMedicacion } from '../../components/Modals';
-import {
-    ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
-} from '../../actionTypes';
+import { ModalMedicacion } from './Modals';
+import { SET_IMPORTE_MEDICACION_ESTUDIO } from '../nueva-presentacion/actionTypes';
+import { CLEAN_MEDICACIONES_STORE } from '../../medicacion/actionTypes';
 
-function ModificarPresentacionTableRow(props) {
+function EstudiosDeUnaPresentacionTableRow(props) {
     const {
-        row, actualizarInputEstudioDeUnaPresentacion,
-        index, eliminarEstudioDeUnaPresentacion,
+        estudio,
+        actualizarInput,
+        eliminarEstudio,
+        cleanMedicacionesStore,
+        setImporteMedicacionEstudio,
+        medicaciones,
+        index,
     } = props;
     const {
         fecha, nro_de_orden: orden,
@@ -20,7 +24,7 @@ function ModificarPresentacionTableRow(props) {
         pension, diferencia_paciente,
         importe_medicacion: medicacion,
         arancel_anestesia,
-    } = row;
+    } = estudio;
 
     const [nroOrden, setNroOrden] = useState(orden);
     const [importe, setImporte] = useState(parseFloat(importe_estudio, 10));
@@ -32,7 +36,7 @@ function ModificarPresentacionTableRow(props) {
 
     const deleteIconClickHandler = () => {
         setRenderRow(!renderRow);
-        eliminarEstudioDeUnaPresentacion(index);
+        eliminarEstudio(index);
     };
 
     const onChangeHandler = (idInput, value) => {
@@ -40,7 +44,7 @@ function ModificarPresentacionTableRow(props) {
         if (isNaN(parsedValue)) {
             parsedValue = 0;
         }
-        actualizarInputEstudioDeUnaPresentacion(index, idInput, parsedValue);
+        actualizarInput(index, idInput, parsedValue);
         switch (idInput) {
             case 1:
                 setNroOrden(value);
@@ -62,11 +66,26 @@ function ModificarPresentacionTableRow(props) {
         }
     };
 
-    const medicacionIconClickHandler = () => {
-        setMedicacionClicked(!medicacionClicked);
+    const medicacionCloseHandler = () => {
+        setMedicacionClicked(false);
+        cleanMedicacionesStore();
+    };
+
+    const medicacionChargeHandler = () => {
+        cleanMedicacionesStore();
+        setMedicacionClicked(false);
+        let total = 0;
+        if (medicaciones.length > 0) {
+            const reducer = (importeAcum, currentValue) => importeAcum + currentValue;
+            total = medicaciones
+                .map(med => parseFloat(med.importe || med.medicamento.importe))
+                .reduce(reducer);
+        }
+        setImporteMedicacionEstudio(total, index);
     };
 
     const isMedicacionActive = medicacionClicked ? 'active' : '';
+
     return (
         <tr className='table-row'>
             <td className='icon'>
@@ -74,7 +93,7 @@ function ModificarPresentacionTableRow(props) {
                   className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
                   tabIndex='0'
                   role='button'
-                  onClick={ medicacionIconClickHandler }
+                  onClick={ () => setMedicacionClicked(true) }
                 />
             </td>
             <td className='fecha'>{ fecha }</td>
@@ -118,7 +137,7 @@ function ModificarPresentacionTableRow(props) {
                 />
             </td>
             <td className='medicacion'>
-                <div>{ parseFloat(medicacion, 10) }</div>
+                <div>{ parseFloat(medicacion, 10).toFixed(2) }</div>
             </td>
             <td>
                 <input
@@ -137,31 +156,48 @@ function ModificarPresentacionTableRow(props) {
             <td style={ { display: 'none' } }>
                 <ModalMedicacion
                   show={ medicacionClicked }
-                  onClickClose={ medicacionIconClickHandler }
+                  onClickClose={ medicacionCloseHandler }
+                  onClickDo={ medicacionChargeHandler }
+                  estudio={ estudio }
                 />
             </td>
         </tr>
     );
 }
 
-ModificarPresentacionTableRow.propTypes = {
-    row: PropTypes.object.isRequired,
-    eliminarEstudioDeUnaPresentacion: PropTypes.func.isRequired,
-    actualizarInputEstudioDeUnaPresentacion: PropTypes.func.isRequired,
-    index: PropTypes.number.isRequired,
+const { object, func, number } = PropTypes;
+
+EstudiosDeUnaPresentacionTableRow.propTypes = {
+    estudio: object.isRequired,
+    eliminarEstudio: func.isRequired,
+    index: number.isRequired,
+    actualizarInput: func.isRequired,
+    cleanMedicacionesStore: func.isRequired,
+    setImporteMedicacionEstudio: func.isRequired,
+    medicaciones: array,
 };
+
+EstudiosDeUnaPresentacionTableRow.defaultProps = {
+    medicaciones: [],
+};
+
+function mapStateToProps(state) {
+    return {
+        medicaciones: state.medicacionReducer.medicaciones,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
-        actualizarInputEstudioDeUnaPresentacion: (index, idInput, value) =>
-            dispatch({ type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
-                payload: { index, idInput, value } }),
-        eliminarEstudioDeUnaPresentacion: index =>
+        cleanMedicacionesStore: () =>
             dispatch({
-                type: ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
-                payload: { index },
+                type: CLEAN_MEDICACIONES_STORE,
+            }),
+        setImporteMedicacionEstudio: (total, index) =>
+            dispatch({
+                type: SET_IMPORTE_MEDICACION_ESTUDIO, total, index,
             }),
     };
 }
 
-export default connect(null, mapDispatchToProps)(ModificarPresentacionTableRow);
+export default connect(mapStateToProps, mapDispatchToProps)(EstudiosDeUnaPresentacionTableRow);

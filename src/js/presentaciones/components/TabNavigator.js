@@ -1,78 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Row, Col } from 'react-bootstrap';
 import ModalFinalizarGuardar, { ModalComprobante } from './Modals';
-import { LOAD_GRAVADO_VALUE_NUEVA } from '../nueva-presentacion/actionTypes';
-import { LOAD_GRAVADO_VALUE_MODIFICAR } from '../actionTypes';
-import NuevaPresentacionObraSocialList from '../nueva-presentacion/components/NuevaPresentacionObraSocialList';
-import ModificarPresentacionList from '../modificar-presentacion/components/ModificarPresentacionList';
-
-function useComprobanteState() {
-    const [tipo, setTipo] = useState('');
-    const [subTipo, setSubTipo] = useState('');
-    const [responsable, setResponsable] = useState('');
-    const [gravado, setGravado] = useState('0.00');
-
-    const tipoHandler = (e) => {
-        setTipo(e.target.value);
-    };
-
-    const subTipoHandler = (e) => {
-        setSubTipo(e.target.value);
-    };
-
-    const responsableHandler = (e) => {
-        setResponsable(e.target.value);
-    };
-
-    const gravadoHandler = (e) => {
-        setGravado(e.target.value);
-    };
-
-    return {
-        tipo,
-        tipoHandler,
-        subTipo,
-        subTipoHandler,
-        responsable,
-        responsableHandler,
-        gravado,
-        gravadoHandler,
-    };
-}
+import ModalAgregarEstudio from './ModalAgregarEstudio';
 
 function TabNavigator(props) {
     const {
-        listComponent, loadGravadoValueNueva, loadGravadoValueModificar,
+        listComponent,
+        comprobanteState,
+        fetchEstudiosAgregar,
+        idObraSocial,
     } = props;
-    const [openComprobante, setOpenComprobate] = useState(false);
-    const [openFinalizarGuardar, setOpenFinalizarGuardar] = useState(false);
-    const comprobanteState = useComprobanteState();
+    const [openComprobante, setComprobante] = useState(false);
+    const [openFinalizarGuardar, setFinalizarGuardar] = useState(false);
+    const [openAgregarEstudio, setAgregarEstudios] = useState(false);
 
-    useEffect(() => {
-        if (listComponent === 'nueva') {
-            loadGravadoValueNueva(comprobanteState.gravado);
-        } else {
-            loadGravadoValueModificar(comprobanteState.gravado);
-        }
-    }, [comprobanteState.gravado]);
-
-    const comprobanteHandler = () => {
-        setOpenComprobate(!openComprobante);
+    const agregarEstudiosClickHandler = () => {
+        setAgregarEstudios(true);
+        fetchEstudiosAgregar(idObraSocial);
     };
-
-    const finalizarGuardarHandler = () => {
-        setOpenFinalizarGuardar(!openFinalizarGuardar);
-    };
-
-    const List = () => (
-        listComponent === 'nueva' ? (
-            <NuevaPresentacionObraSocialList />
-        ) : (
-            <ModificarPresentacionList />
-        )
-    );
 
     return (
         <div className='tab-navigator'>
@@ -91,7 +37,7 @@ function TabNavigator(props) {
                   tabIndex='0'
                   bsStyle='primary'
                   className='comprobante'
-                  onClick={ comprobanteHandler }
+                  onClick={ () => setComprobante(true) }
                 >   Comprobante
                     <i className='fa fa-file-text' />
                 </Button>
@@ -100,45 +46,51 @@ function TabNavigator(props) {
                   tabIndex='0'
                   bsStyle='primary'
                   className='finalizar'
-                  onClick={ finalizarGuardarHandler }
+                  onClick={ () => setFinalizarGuardar(true) }
                 >   Finalizar
                     <i className='fa fa-calendar-check-o' />
+                </Button>
+                <Button
+                  role='button'
+                  tabIndex='0'
+                  bsStyle='primary'
+                  className='agregar-estudios'
+                  onClick={ agregarEstudiosClickHandler }
+                >
+                    Agregar
                 </Button>
             </nav>
             <Row className='content-1'>
                 <Col md={ 12 } className='col-1'>
-                    <List />
+                    { listComponent }
                 </Col>
             </Row>
             <ModalComprobante
               show={ openComprobante }
-              onClickClose={ comprobanteHandler }
+              onClickClose={ () => setComprobante(false) }
               componentState={ comprobanteState }
             />
             <ModalFinalizarGuardar
               show={ openFinalizarGuardar }
-              onClickClose={ finalizarGuardarHandler }
+              onClickClose={ () => setFinalizarGuardar(false) }
               comprobanteState={ comprobanteState }
+            />
+            <ModalAgregarEstudio
+              show={ openAgregarEstudio }
+              onClickClose={ () => setAgregarEstudios(false) }
+              idObraSocial={ idObraSocial }
             />
         </div>
     );
 }
 
+const { number, element, func, object } = PropTypes;
+
 TabNavigator.propTypes = {
-    listComponent: PropTypes.string.isRequired,
-    loadGravadoValueNueva: PropTypes.func.isRequired,
-    loadGravadoValueModificar: PropTypes.func.isRequired,
+    listComponent: element.isRequired,
+    comprobanteState: object.isRequired,
+    fetchEstudiosAgregar: func.isRequired,
+    idObraSocial: number.isRequired,
 };
 
-function mapDispatchToProps(dispatch) {
-    return {
-        loadGravadoValueNueva: (value) => {
-            dispatch({ type: LOAD_GRAVADO_VALUE_NUEVA, payload: { value } });
-        },
-        loadGravadoValueModificar: (value) => {
-            dispatch({ type: LOAD_GRAVADO_VALUE_MODIFICAR, payload: { value } });
-        },
-    };
-}
-
-export default connect(null, mapDispatchToProps)(TabNavigator);
+export default TabNavigator;

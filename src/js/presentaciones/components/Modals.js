@@ -21,14 +21,14 @@ export function ModalComprobante(props) {
                 </Modal.Header>
                 <Modal.Body>
                     <Comprobante
-                      tipoValue={ componentState.tipo }
-                      onChangeTipo={ componentState.tipoHandler }
-                      subTipoValue={ componentState.subTipo }
-                      onChangeSubTipo={ componentState.subTipoHandler }
-                      responsableValue={ componentState.responsable }
-                      onChangeResponsable={ componentState.responsableHandler }
-                      gravadoValue={ componentState.gravado }
-                      onChangeGravado={ componentState.gravadoHandler }
+                      tipo={ componentState.tipo }
+                      setTipo={ componentState.setTipo }
+                      subTipo={ componentState.subTipo }
+                      setSubTipo={ componentState.setSubTipo }
+                      responsable={ componentState.responsable }
+                      setResponsable={ componentState.setResponsable }
+                      gravado={ componentState.gravado }
+                      setGravado={ componentState.setGravado }
                     />
                 </Modal.Body>
                 <Modal.Footer>

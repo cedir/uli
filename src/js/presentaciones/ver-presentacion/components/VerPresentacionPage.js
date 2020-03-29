@@ -1,8 +1,7 @@
 import React from 'react';
-import ModificarPresentacionList from '../../modificar-presentacion/components/ModificarPresentacionList';
 
 const VerPresentacionPage = () => (
-    <ModificarPresentacionList />
+    <div>No implementado por el momento</div>
 );
 
 export default VerPresentacionPage;

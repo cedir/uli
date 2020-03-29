@@ -19,10 +19,13 @@ import { ADD_ALERT } from '../../utilities/components/alert/actionTypes';
 export function estudiosSinPresentarEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL)
         .mergeMap(action =>
-            getEstudiosSinPresentarObraSocial(action.id)
+            getEstudiosSinPresentarObraSocial(action.obraSocial.id)
             .mergeMap(data => Rx.Observable.of(
                 { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
-                { type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, data, idObraSocial: action.id },
+                {
+                    type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, data,
+                    obraSocial: action.obraSocial,
+                },
             ))
             .catch(() => (Rx.Observable.of(
                 { type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR },

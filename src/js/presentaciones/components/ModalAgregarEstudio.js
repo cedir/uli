@@ -66,10 +66,12 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
+const { func, bool } = PropTypes;
+
 ModalAgregarEstudio.propTypes = {
-    show: PropTypes.bool.isRequired,
-    onClickClose: PropTypes.func.isRequired,
-    agregarEstudiosTabla: PropTypes.func.isRequired,
+    show: bool.isRequired,
+    onClickClose: func.isRequired,
+    agregarEstudiosTabla: func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(ModalAgregarEstudio);

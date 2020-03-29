@@ -10,6 +10,9 @@ import {
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION,
     LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
+    FETCH_ESTUDIOS_DE_UNA_PRESENTACION_OBRA_SOCIAL_AGREGAR,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_OBRA_SOCIAL_AGREGAR,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_OBRA_SOCIAL_AGREGAR_ERROR,
     ABRIR_PRESENTACION,
     UPDATE_PRESENTACION,
 }
@@ -32,11 +35,29 @@ export function verEstudiosDeUnaPresentacionEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION)
         .mergeMap(action =>
             getEstudiosDeUnaPresentacion(action.id)
-            .map(data => ({ type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION, data }))
+            .mergeMap(data => Rx.Observable.of(
+                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
+                {
+                    type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION, data,
+                    obraSocial: action.obraSocial,
+                    fecha: action.fecha,
+                },
+            ))
             .catch(() => (Rx.Observable.of(
                 { type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR },
                 { type: ADD_ALERT, alert: createAlert('Error al intentar ver presentacion', 'danger') },
             ))),
+    );
+}
+
+export function estudiosDeUnaPresentacionAgregarEpic(action$) {
+    return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION_OBRA_SOCIAL_AGREGAR)
+        .mergeMap(action =>
+            getEstudiosDeUnaPresentacion(action.id)
+            .map(data => ({ type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_OBRA_SOCIAL_AGREGAR, data }))
+            .catch(() => (Rx.Observable.of({
+                type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_OBRA_SOCIAL_AGREGAR_ERROR,
+            }))),
     );
 }
 

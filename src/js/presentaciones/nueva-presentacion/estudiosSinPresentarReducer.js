@@ -8,7 +8,7 @@ import {
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR,
     ELIMINAR_ESTUDIO_SIN_PRESENTAR, LOAD_DATE_VALUE_NUEVA, AGREGAR_ESTUDIOS_A_TABLA,
-    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, LOAD_GRAVADO_VALUE_NUEVA,
+    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
     FINALIZAR_PRESENTACION_OBRA_SOCIAL, LOAD_PRESENTACION_DETAIL_ID,
     SET_IMPORTE_MEDICACION_ESTUDIO } from './actionTypes';
 
@@ -26,7 +26,7 @@ const loadEstudiosSinPresentarReducer = (state, action) => {
         newState, state, {
             estudiosSinPresentar,
             estudiosSinPresentarApiLoading: false,
-            idObraSocial: action.idObraSocial,
+            obraSocial: action.obraSocial,
         });
 
     return sumarImportesEstudios(newState);
@@ -220,8 +220,6 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return actualizarInputEstudioSinPresentarReducer(state, action);
         case AGREGAR_ESTUDIOS_A_TABLA:
             return agregarEstudiosATablaReducer(state, action);
-        case LOAD_GRAVADO_VALUE_NUEVA:
-            return loadGravadoValueNuevaReducer(state, action);
         case LOAD_PRESENTACION_DETAIL_ID:
             return loadPresentacionDetailId(state, action);
         case SET_IMPORTE_MEDICACION_ESTUDIO:
