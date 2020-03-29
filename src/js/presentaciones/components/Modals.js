@@ -81,33 +81,26 @@ export function ModalMedicacion(props) {
 function ModalFinalizarGuardar(props) {
     const [periodoValue, setPeriodoValue] = useState('');
     const { show, onClickClose, comprobanteState, fecha } = props;
-    const [finalizarButtonDisabled, setFinalizarButtonDisabled] =
-    useState(true);
-    const [guardarButtonDisabled, setGuardarButtonDisabled] =
-    useState(true);
+    const [finalizarButtonDisabled, setFinalizarButtonDisabled] = useState(true);
+    const [guardarButtonDisabled, setGuardarButtonDisabled] = useState(true);
     useEffect(() => {
-        if (
-            fecha !== '' &&
-            comprobanteState.tipo !== '' &&
-            comprobanteState.subTipo !== '' &&
-            comprobanteState.responsable !== '' &&
-            comprobanteState.gravado !== '' &&
-            periodoValue !== ''
-        ) {
+        // entries return an array of arrays consisted of keys & values of some object.
+        // I want to know if this object has some empty value in it's attributes.
+        const entries = Object.entries(comprobanteState);
+        let entriesHasEmptyValues = false;
+        entries.forEach((entry) => {
+            if (entry[1] === '') {
+                entriesHasEmptyValues = true;
+            }
+        });
+        if (fecha !== '' && periodoValue !== '' && !entriesHasEmptyValues) {
             setFinalizarButtonDisabled(false);
-        } else if (
-            fecha === '' ||
-            comprobanteState.tipo === '' ||
-            comprobanteState.subTipo === '' ||
-            comprobanteState.responsable === '' ||
-            comprobanteState.gravado === '' ||
-            periodoValue === ''
-        ) {
+        } else {
             setFinalizarButtonDisabled(true);
         }
         if (fecha !== '' && periodoValue !== '') {
             setGuardarButtonDisabled(false);
-        } else if (fecha === '' || periodoValue === '') {
+        } else {
             setGuardarButtonDisabled(true);
         }
     });

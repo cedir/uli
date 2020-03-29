@@ -6,7 +6,7 @@ export function getEstudiosSinPresentarObraSocial(idObraSocial) {
     return get(url);
 }
 
-export function finalizarPresentacionObraSocial(presentacion) {
+export function crearNuevaPresentacionObraSocial(presentacion) {
     const url = '/api/presentacion/';
     const body = {
         obra_social_id: presentacion.obra_social_id,
@@ -14,7 +14,6 @@ export function finalizarPresentacionObraSocial(presentacion) {
         fecha: presentacion.fecha,
         estado: presentacion.estado,
         estudios: presentacion.estudios,
-        comprobante: presentacion.comprobante,
     };
     const headers = {
         'Content-Type': 'application/json',

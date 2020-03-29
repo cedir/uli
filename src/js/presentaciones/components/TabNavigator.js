@@ -9,20 +9,10 @@ import NuevaPresentacionObraSocialList from '../nueva-presentacion/components/Nu
 import ModificarPresentacionList from '../modificar-presentacion/components/ModificarPresentacionList';
 
 function useComprobanteState() {
-    const [numeroShort, setNumeroShort] = useState('');
-    const [numeroLong, setNumeroLong] = useState('');
     const [tipo, setTipo] = useState('');
     const [subTipo, setSubTipo] = useState('');
     const [responsable, setResponsable] = useState('');
     const [gravado, setGravado] = useState('0.00');
-
-    const numeroShortHandler = (e) => {
-        setNumeroShort(e.target.value);
-    };
-
-    const numeroLongHandler = (e) => {
-        setNumeroLong(e.target.value);
-    };
 
     const tipoHandler = (e) => {
         setTipo(e.target.value);
@@ -41,10 +31,6 @@ function useComprobanteState() {
     };
 
     return {
-        numeroShort,
-        numeroShortHandler,
-        numeroLong,
-        numeroLongHandler,
         tipo,
         tipoHandler,
         subTipo,

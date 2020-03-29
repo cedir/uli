@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
-import { FINALIZAR_PRESENTACION_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
+import { CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
 
 function initEditFormObject(props) {
@@ -15,6 +15,7 @@ function initEditFormObject(props) {
         selectedObraSocial,
     } = props;
     const [estudios, setEstudios] = useState(estudiosSinPresentar);
+    /* eslint-disable no-unused-vars */
     const [gravadoId, setGravadoId] = useState(null);
 
     const filterKeys = ({
@@ -56,13 +57,6 @@ function initEditFormObject(props) {
         fecha: fecha,
         estado: 'Pendiente',
         estudios: estudios.map(filterKeys),
-        comprobante: {
-            tipo_id: comprobanteState.tipo,
-            sub_tipo: comprobanteState.subTipo,
-            responsable: comprobanteState.responsable,
-            nro_terminal: comprobanteState.responsable === 'Cedir' ? 91 : 2,
-            gravado_id: gravadoId,
-        },
     };
 }
 
@@ -70,7 +64,7 @@ function FinalizarGuardarForm(props) {
     const {
         periodoValue,
         onChangePeriodoValue,
-        finalizarPresentacion,
+        crearNuevaPresentacion,
         comprobanteState,
         finalizarButtonDisabled,
         guardarButtonDisabled,
@@ -86,10 +80,6 @@ function FinalizarGuardarForm(props) {
         fecha,
         selectedObraSocial,
     });
-
-    const clickHandler = () => {
-        finalizarPresentacion(postObject);
-    };
 
     return (
         <form>
@@ -107,7 +97,6 @@ function FinalizarGuardarForm(props) {
             <Row>
                 <Button
                   bsStyle='primary'
-                  onClick={ clickHandler }
                   disabled={ finalizarButtonDisabled }
                 >
                     Finalizar
@@ -115,6 +104,7 @@ function FinalizarGuardarForm(props) {
                 <Button
                   bsStyle='primary'
                   disabled={ guardarButtonDisabled }
+                  onClick={ () => crearNuevaPresentacion(postObject) }
                 >
                     Guardar
                 </Button>
@@ -131,7 +121,7 @@ FinalizarGuardarForm.propTypes = {
     selectedObraSocial: array.isRequired,
     periodoValue: string.isRequired,
     onChangePeriodoValue: func.isRequired,
-    finalizarPresentacion: func.isRequired,
+    crearNuevaPresentacion: func.isRequired,
     comprobanteState: object.isRequired,
     finalizarButtonDisabled: bool.isRequired,
     guardarButtonDisabled: bool.isRequired,
@@ -158,8 +148,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        finalizarPresentacion: presentacion =>
-            dispatch({ type: FINALIZAR_PRESENTACION_OBRA_SOCIAL, presentacion }),
+        crearNuevaPresentacion: presentacion =>
+            dispatch({ type: CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL, presentacion }),
     };
 }
 
