@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes, { object } from 'prop-types';
 import { connect } from 'react-redux';
 import TabNavigator from '../../components/TabNavigator';
@@ -20,6 +20,8 @@ function NuevaPresentacionPage(props) {
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
+    /* eslint-disable no-unused-vars */
+    const [fecha, setFecha] = useState('');
 
     return (
         <div>
@@ -33,13 +35,20 @@ function NuevaPresentacionPage(props) {
             >
                 <div className='form-group'>
                     <label htmlFor='date' className='control-label'>Fecha</label>
-                    <input name='date' className='form-control' type='date' />
+                    <input
+                      name='date'
+                      className='form-control'
+                      type='date'
+                      value={ fecha }
+                      onChange={ e => setFecha(e.target.value) }
+                    />
                 </div>
             </div>
             <TabNavigator
               comprobanteState={ comprobanteState }
               fetchEstudiosAgregar={ fetchEstudiosSinPresentarAgregar }
               idObraSocial={ obraSocial.id }
+              fecha={ fecha }
               listComponent={
                   <EstudiosDeUnaPresentacionList
                     estudios={ estudiosSinPresentar }

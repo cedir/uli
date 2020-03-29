@@ -41,6 +41,7 @@ function ModificarPresentacionPage(props) {
               comprobanteState={ comprobanteState }
               fetchEstudiosAgregar={ fetchEstudiosDeUnaPresentacionAgregar }
               idObraSocial={ obraSocial.id }
+              fecha={ fecha }
               listComponent={
                   <EstudiosDeUnaPresentacionList
                     estudios={ estudiosDeUnaPresentacion }

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Row, Col } from 'react-bootstrap';
-import ModalFinalizarGuardar, { ModalComprobante } from './Modals';
-import ModalAgregarEstudio from './ModalAgregarEstudio';
+import ModalAgregarEstudio, { ModalFinalizarGuardar, ModalComprobante } from './Modals';
 
 function TabNavigator(props) {
     const {
@@ -10,6 +9,7 @@ function TabNavigator(props) {
         comprobanteState,
         fetchEstudiosAgregar,
         idObraSocial,
+        fecha,
     } = props;
     const [openComprobante, setComprobante] = useState(false);
     const [openFinalizarGuardar, setFinalizarGuardar] = useState(false);
@@ -74,6 +74,7 @@ function TabNavigator(props) {
               show={ openFinalizarGuardar }
               onClickClose={ () => setFinalizarGuardar(false) }
               comprobanteState={ comprobanteState }
+              fecha={ fecha }
             />
             <ModalAgregarEstudio
               show={ openAgregarEstudio }
@@ -84,13 +85,14 @@ function TabNavigator(props) {
     );
 }
 
-const { number, element, func, object } = PropTypes;
+const { number, element, func, object, string } = PropTypes;
 
 TabNavigator.propTypes = {
     listComponent: element.isRequired,
     comprobanteState: object.isRequired,
     fetchEstudiosAgregar: func.isRequired,
     idObraSocial: number.isRequired,
+    fecha: string.isRequired,
 };
 
 export default TabNavigator;

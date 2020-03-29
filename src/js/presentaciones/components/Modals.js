@@ -5,6 +5,60 @@ import { Modal, Button } from 'react-bootstrap';
 import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
 import MedicacionEstudio from './MedicacionEstudio';
+import { AGREGAR_ESTUDIOS_A_TABLA } from '../nueva-presentacion/actionTypes';
+import AgregarEstudioList from './AgregarEstudioList';
+
+function ModalAgregarEstudio(props) {
+    const { show, onClickClose, agregarEstudiosTabla } = props;
+    const [selected, setSelected] = useState(new Map([]));
+
+    const handleClick = (event, id) => {
+        const newSelected = new Map(selected);
+        const value = newSelected.get(id);
+        let isActive = true;
+        if (value) {
+            isActive = false;
+        }
+        newSelected.set(id, isActive);
+        setSelected(newSelected);
+    };
+
+    const handleAgregarSelected = () => {
+        const estudiosIds = [];
+        selected.forEach((value, key) => {
+            estudiosIds.push(key);
+        });
+        if (estudiosIds.length > 0) {
+            agregarEstudiosTabla(estudiosIds);
+        }
+        setSelected(new Map([]));
+    };
+
+    return (
+        <Modal show={ show } className='agregar-estudio'>
+            <Modal.Header>
+                <strong>Agregar Estudios</strong>
+            </Modal.Header>
+            <Modal.Body>
+                <AgregarEstudioList
+                  onClickIcon={ handleClick }
+                  selected={ selected }
+                />
+            </Modal.Body>
+            <Modal.Footer>
+                <Button
+                  onClick={ handleAgregarSelected }
+                  bsStyle='primary'
+                >
+                    Agregar
+                </Button>
+                <Button onClick={ onClickClose } >
+                    Cerrar
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
 
 export function ModalComprobante(props) {
     const {
@@ -78,9 +132,9 @@ export function ModalMedicacion(props) {
     );
 }
 
-function ModalFinalizarGuardar(props) {
-    const [periodoValue, setPeriodoValue] = useState('');
+export function ModalFinalizarGuardar(props) {
     const { show, onClickClose, comprobanteState, fecha } = props;
+    const [periodoValue, setPeriodoValue] = useState('');
     const [finalizarButtonDisabled, setFinalizarButtonDisabled] = useState(true);
     const [guardarButtonDisabled, setGuardarButtonDisabled] = useState(true);
     useEffect(() => {
@@ -104,6 +158,7 @@ function ModalFinalizarGuardar(props) {
             setGuardarButtonDisabled(true);
         }
     });
+
     return (
         <Modal show={ show } className='finalizar-guardar'>
             <Modal.Header>
@@ -116,6 +171,7 @@ function ModalFinalizarGuardar(props) {
                   comprobanteState={ comprobanteState }
                   finalizarButtonDisabled={ finalizarButtonDisabled }
                   guardarButtonDisabled={ guardarButtonDisabled }
+                  fecha={ fecha }
                 />
             </Modal.Body>
             <Modal.Footer>
@@ -133,11 +189,11 @@ function ModalFinalizarGuardar(props) {
 
 const { bool, func, object, string } = PropTypes;
 
-function mapStateToProps(state) {
-    return {
-        fecha: state.estudiosSinPresentarReducer.fecha,
-    };
-}
+ModalAgregarEstudio.propTypes = {
+    show: bool.isRequired,
+    onClickClose: func.isRequired,
+    agregarEstudiosTabla: func.isRequired,
+};
 
 ModalComprobante.propTypes = {
     show: bool.isRequired,
@@ -159,4 +215,11 @@ ModalMedicacion.propTypes = {
     estudio: object.isRequired,
 };
 
-export default connect(mapStateToProps, null)(ModalFinalizarGuardar);
+function mapDispatchToProps(dispatch) {
+    return {
+        agregarEstudiosTabla: ids =>
+            dispatch({ type: AGREGAR_ESTUDIOS_A_TABLA, ids }),
+    };
+}
+
+export default connect(null, mapDispatchToProps)(ModalAgregarEstudio);

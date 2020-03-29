@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { formValueSelector } from 'redux-form';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
@@ -12,7 +11,7 @@ function initEditFormObject(props) {
         comprobanteState,
         estudiosSinPresentar,
         fecha,
-        selectedObraSocial,
+        obraSocial,
     } = props;
     const [estudios, setEstudios] = useState(estudiosSinPresentar);
     /* eslint-disable no-unused-vars */
@@ -51,7 +50,7 @@ function initEditFormObject(props) {
     }, [comprobanteState.gravado]);
 
     return {
-        obra_social_id: selectedObraSocial[0].id,
+        obra_social_id: obraSocial.id,
         periodo: periodoValue,
         /* eslint-disable object-shorthand */
         fecha: fecha,
@@ -70,7 +69,7 @@ function FinalizarGuardarForm(props) {
         guardarButtonDisabled,
         estudiosSinPresentar,
         fecha,
-        selectedObraSocial,
+        obraSocial,
     } = props;
 
     const postObject = initEditFormObject({
@@ -78,7 +77,7 @@ function FinalizarGuardarForm(props) {
         comprobanteState,
         estudiosSinPresentar,
         fecha,
-        selectedObraSocial,
+        obraSocial,
     });
 
     return (
@@ -118,7 +117,7 @@ const { array, string, func, object } = PropTypes;
 FinalizarGuardarForm.propTypes = {
     estudiosSinPresentar: array.isRequired,
     fecha: string.isRequired,
-    selectedObraSocial: array.isRequired,
+    obraSocial: object.isRequired,
     periodoValue: string.isRequired,
     onChangePeriodoValue: func.isRequired,
     crearNuevaPresentacion: func.isRequired,
@@ -129,19 +128,13 @@ FinalizarGuardarForm.propTypes = {
 
 FinalizarGuardarForm.defaultProps = {
     estudiosSinPresentar: initialState.estudiosSinPresentar,
+    obraSocial: initialState.obraSocial,
 };
 
-const selector = formValueSelector('searchPresentacionesObraSocial');
-
 function mapStateToProps(state) {
-    let obraSocial = selector(state, 'obraSocial');
-    obraSocial = (obraSocial && Array.isArray(obraSocial))
-        ? obraSocial
-        : [];
     return {
         estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
-        fecha: state.estudiosSinPresentarReducer.fecha,
-        selectedObraSocial: obraSocial,
+        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
     };
 }
 
