@@ -9,18 +9,19 @@ import {
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
  } from '../actionTypes';
+import initialState from '../estudiosSinPresentarReducerInitialState';
+
 
 function NuevaPresentacionPage(props) {
     const {
         actualizarInput,
         eliminarEstudio,
-        estudiosSinPresentar,
-        suma,
-        fetchEstudiosSinPresentarAgregar,
+        estudios,
+        importesTotales,
+        fetchEstudiosAgregar,
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
-    /* eslint-disable no-unused-vars */
     const [fecha, setFecha] = useState('');
 
     return (
@@ -46,13 +47,13 @@ function NuevaPresentacionPage(props) {
             </div>
             <TabNavigator
               comprobanteState={ comprobanteState }
-              fetchEstudiosAgregar={ fetchEstudiosSinPresentarAgregar }
+              fetchEstudiosAgregar={ fetchEstudiosAgregar }
               idObraSocial={ obraSocial.id }
               fecha={ fecha }
               listComponent={
                   <EstudiosDeUnaPresentacionList
-                    estudios={ estudiosSinPresentar }
-                    suma={ suma }
+                    estudios={ estudios }
+                    importesTotales={ importesTotales }
                     gravado={ comprobanteState.gravado }
                     actualizarInput={ actualizarInput }
                     eliminarEstudio={ eliminarEstudio }
@@ -66,26 +67,26 @@ function NuevaPresentacionPage(props) {
 const { func, array, number } = PropTypes;
 
 NuevaPresentacionPage.propTypes = {
-    estudiosSinPresentar: array.isRequired,
+    estudios: array.isRequired,
     obraSocial: object.isRequired,
-    suma: number.isRequired,
+    importesTotales: number.isRequired,
     actualizarInput: func.isRequired,
     eliminarEstudio: func.isRequired,
-    fetchEstudiosSinPresentarAgregar: func.isRequired,
+    fetchEstudiosAgregar: func.isRequired,
 };
 
 NuevaPresentacionPage.defaultProps = {
-    estudiosSinPresentar: [],
-    obraSocial: {},
-    suma: null,
+    estudios: initialState.nuevaPresentacion.estudios,
+    obraSocial: initialState.nuevaPresentacion.obraSocial,
+    importesTotales: initialState.nuevaPresentacion.importesTotales,
 };
 
 
 function mapStateToProps(state) {
     return {
-        estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
-        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
-        suma: state.estudiosSinPresentarReducer.suma,
+        estudios: state.estudiosSinPresentarReducer.nuevaPresentacion.estudios,
+        obraSocial: state.estudiosSinPresentarReducer.nuevaPresentacion.obraSocial,
+        importesTotales: state.estudiosSinPresentarReducer.nuevaPresentacion.importesTotales,
     };
 }
 
@@ -97,7 +98,7 @@ function mapDispatchToProps(dispatch) {
         eliminarEstudio: index => dispatch({
             type: ELIMINAR_ESTUDIO_SIN_PRESENTAR, index,
         }),
-        fetchEstudiosSinPresentarAgregar: idObraSocial =>
+        fetchEstudiosAgregar: idObraSocial =>
         dispatch({
             type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
             id: idObraSocial,

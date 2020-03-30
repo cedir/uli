@@ -37,7 +37,7 @@ class SearchPresentacionesObraSocial extends Component {
         const {
             fetchEstudiosSinPresentarObraSocial,
             fetchPresentacionesObraSocial,
-            estudiosSinPresentar,
+            estudios,
             history,
             selectedObraSocial,
             obraSocial,
@@ -46,7 +46,7 @@ class SearchPresentacionesObraSocial extends Component {
         if (buscarClicked) {
             fetchPresentacionesObraSocial(params);
         } else if (
-            estudiosSinPresentar.length === 0 ||
+            estudios.length === 0 ||
             selectedObraSocial[0].id !== obraSocial.id
         ) {
             fetchEstudiosSinPresentarObraSocial(params);
@@ -133,12 +133,12 @@ SearchPresentacionesObraSocial.propTypes = {
     obrasSociales: array,
     obrasSocialesApiLoading: bool,
     history: object.isRequired,
-    estudiosSinPresentar: array.isRequired,
+    estudios: array.isRequired,
     obraSocial: object.isRequired,
 };
 
 SearchPresentacionesObraSocial.defaultProps = {
-    estudiosSinPresentar: initialState.estudiosSinPresentar,
+    estudios: initialState.nuevaPresentacion.estudios,
 };
 
 const selector = formValueSelector('searchPresentacionesObraSocial');
@@ -152,8 +152,8 @@ function mapStateToProps(state) {
         selectedObraSocial: obraSocial,
         obrasSociales: state.obraSocialReducer.obrasSociales,
         obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
-        estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
-        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
+        estudios: state.estudiosSinPresentarReducer.nuevaPresentacion.estudios,
+        obraSocial: state.estudiosSinPresentarReducer.nuevaPresentacion.obraSocial,
     };
 }
 

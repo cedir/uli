@@ -6,7 +6,7 @@ import EstudiosDeUnaPresentacionTableRow from './EstudiosDeUnaPresentacionTableR
 function EstudiosDeUnaPresentacionList(props) {
     const {
         estudios,
-        suma,
+        importesTotales,
         gravado,
         eliminarEstudio,
         actualizarInput,
@@ -46,7 +46,7 @@ function EstudiosDeUnaPresentacionList(props) {
             </table>
             { estudios.length !== 0 &&
                 <ImportesTotales
-                  estudios={ suma }
+                  estudios={ importesTotales }
                   gravado={ parseFloat(gravado, 10) }
                 />
             }
@@ -58,7 +58,7 @@ const { string, array, number, func } = PropTypes;
 
 EstudiosDeUnaPresentacionList.propTypes = {
     estudios: array.isRequired,
-    suma: number.isRequired,
+    importesTotales: number.isRequired,
     gravado: string.isRequired,
     eliminarEstudio: func.isRequired,
     actualizarInput: func.isRequired,

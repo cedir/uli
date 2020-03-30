@@ -1,12 +1,13 @@
 const initialState = {
     presentaciones: [],
-    estudiosDeUnaPresentacion: [],
     presentacionesApiLoading: false,
-    estudiosDeUnaPresentacionApiLoading: false,
-    obraSocial: {},
-    suma: 0,
-    gravado: '0.00',
-    fecha: '',
+    presentacion: {
+        estudios: [],
+        obraSocial: {},
+        importesTotales: 0,
+        fecha: '',
+        estudiosApiLoading: false,
+    },
 };
 
 export default initialState;

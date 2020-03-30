@@ -9,13 +9,14 @@ import {
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
     FETCH_ESTUDIOS_DE_UNA_PRESENTACION_OBRA_SOCIAL_AGREGAR,
  } from '../../actionTypes';
+import initialState from '../../presentacionReducerInitialState';
 
 function ModificarPresentacionPage(props) {
     const {
         actualizarInput,
         eliminarEstudio,
-        estudiosDeUnaPresentacion,
-        suma,
+        estudios,
+        importesTotales,
         fecha,
         fetchEstudiosDeUnaPresentacionAgregar,
         obraSocial,
@@ -44,8 +45,8 @@ function ModificarPresentacionPage(props) {
               fecha={ fecha }
               listComponent={
                   <EstudiosDeUnaPresentacionList
-                    estudios={ estudiosDeUnaPresentacion }
-                    suma={ suma }
+                    estudios={ estudios }
+                    suma={ importesTotales }
                     gravado={ comprobanteState.gravado }
                     actualizarInput={ actualizarInput }
                     eliminarEstudio={ eliminarEstudio }
@@ -59,9 +60,9 @@ function ModificarPresentacionPage(props) {
 const { func, array, number } = PropTypes;
 
 ModificarPresentacionPage.propTypes = {
-    estudiosDeUnaPresentacion: array.isRequired,
+    estudios: array.isRequired,
     obraSocial: object.isRequired,
-    suma: number.isRequired,
+    importesTotales: number.isRequired,
     fecha: string.isRequired,
     actualizarInput: func.isRequired,
     eliminarEstudio: func.isRequired,
@@ -69,19 +70,19 @@ ModificarPresentacionPage.propTypes = {
 };
 
 ModificarPresentacionPage.defaultProps = {
-    estudiosDeUnaPresentacion: [],
-    obraSocial: {},
-    fecha: '',
-    suma: null,
+    estudios: initialState.presentacion.estudios,
+    obraSocial: initialState.presentacion.obraSocial,
+    fecha: initialState.presentacion.fecha,
+    importesTotales: initialState.presentacion.importesTotales,
 };
 
 
 function mapStateToProps(state) {
     return {
-        estudiosDeUnaPresentacion: state.presentacionReducer.estudiosDeUnaPresentacion,
-        obraSocial: state.presentacionReducer.obraSocial,
-        fecha: state.presentacionReducer.fecha,
-        suma: state.presentacionReducer.suma,
+        estudios: state.presentacionReducer.presentacion.estudios,
+        obraSocial: state.presentacionReducer.presentacion.obraSocial,
+        fecha: state.presentacionReducer.presentacion.fecha,
+        importesTotales: state.presentacionReducer.presentacion.importesTotales,
     };
 }
 

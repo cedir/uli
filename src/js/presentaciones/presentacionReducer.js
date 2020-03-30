@@ -9,28 +9,31 @@ import {
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
     ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
-    LOAD_DATE_VALUE_MODIFICAR } from './actionTypes';
+} from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
-    const newState = {};
-    const estudiosDeUnaPresentacion = state.estudiosDeUnaPresentacion;
-    let suma = 0;
-    estudiosDeUnaPresentacion.forEach((estudio) => {
+    const estudios = state.presentacion.estudios;
+    let importesTotales = 0;
+    estudios.forEach((estudio) => {
         /* eslint-disable no-mixed-operators */
         // desactive esta regla porque me parecio que queda
         // mas legible la operacion de esta forma (mezclando operadores)
-        suma = suma +
+        importesTotales = importesTotales +
             parseFloat(estudio.importe_estudio, 10) +
             parseFloat(estudio.pension, 10) -
             parseFloat(estudio.diferencia_paciente, 10) +
             parseFloat(estudio.importe_medicacion) +
             parseFloat(estudio.arancel_anestesia, 10) + 0.0001;
     });
-    suma -= 0.0001;
-    Object.assign(newState, state,
-        { estudiosDeUnaPresentacion, suma });
+    importesTotales -= 0.0001;
 
-    return newState;
+    return {
+        ...state,
+        presentacion: {
+            estudios,
+            importesTotales,
+        },
+    };
 };
 
 const actionsHandledByEpicReducer = (state) => {
@@ -42,7 +45,7 @@ const actionsHandledByEpicReducer = (state) => {
 
 const fetchEstudiosDeUnaPresentacionReducer = (state) => {
     const newState = {};
-    Object.assign(newState, state, { estudiosDeUnaPresentacionApiLoading: true });
+    Object.assign(newState, state, { estudiosApiLoading: true });
 
     return newState;
 };
@@ -65,20 +68,19 @@ const updatePresentacionReducer = (state, action) => {
 };
 
 const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
-    const newState = {};
-    const estudiosDeUnaPresentacion = action.data.response;
+    const estudios = action.data.response;
     const obraSocial = action.obraSocial;
     const fecha = action.fecha;
-    Object.assign(newState, state,
-        {
-            estudiosDeUnaPresentacion,
+
+    return sumarImportesEstudios({
+        ...state,
+        presentacion: {
+            estudios,
+            estudiosApiLoading: false,
             obraSocial,
             fecha,
-            estudiosDeUnaPresentacionApiLoading: false,
         },
-    );
-
-    return sumarImportesEstudios(newState);
+    });
 };
 
 const loadPresentacionesErrorReducer = (state) => {
@@ -89,65 +91,60 @@ const loadPresentacionesErrorReducer = (state) => {
 };
 
 const loadEstudiosDeUnaPresentacionErrorReducer = (state) => {
-    const newState = {};
-    Object.assign(newState, state,
-        { estudiosDeUnaPresentacion: [],
-            estudiosDeUnaPresentacionApiLoading: false });
-
-    return newState;
+    const { presentacion } = state;
+    return {
+        ...state,
+        ...presentacion,
+        estudios: [],
+        estudiosApiLoading: false,
+    };
 };
 
 const eliminarEstudioDeUnaPresentacionReducer = (state, action) => {
-    const estudiosDeUnaPresentacion = state.estudiosDeUnaPresentacion.slice();
-    estudiosDeUnaPresentacion.splice(action.payload.index, 1);
-    const newState = {
-        ...state,
-        estudiosDeUnaPresentacion,
-    };
+    const { estudios } = state.presentacion;
+    estudios.splice(action.index, 1);
 
-    return sumarImportesEstudios(newState);
+    return sumarImportesEstudios({
+        ...state,
+        estudios,
+    });
 };
 
 const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
-    const estudiosDeUnaPresentacion = state.estudiosDeUnaPresentacion.slice();
-    const newEstudio = { ...estudiosDeUnaPresentacion[action.payload.index] };
-    switch (action.payload.idInput) {
+    const { estudios } = state.presentacion;
+    // newEstudio is a copy of an estudios[action.index]
+    // console.log(newEstudio === estudios[action.index]) -> false
+    // we aren't mutating state.
+    const newEstudio = { ...estudios[action.index] };
+    switch (action.idInput) {
         case 1:
-            newEstudio.nro_de_orden = action.payload.value;
-            estudiosDeUnaPresentacion.splice(action.payload.index, 1, newEstudio);
+            newEstudio.nro_de_orden = action.value;
+            estudios.splice(action.payload.index, 1, newEstudio);
             break;
         case 2:
-            newEstudio.importe_estudio = action.payload.value;
-            estudiosDeUnaPresentacion.splice(action.payload.index, 1, newEstudio);
+            newEstudio.importe_estudio = action.value;
+            estudios.splice(action.index, 1, newEstudio);
             break;
         case 3:
-            newEstudio.pension = action.payload.value;
-            estudiosDeUnaPresentacion.splice(action.payload.index, 1, newEstudio);
+            newEstudio.pension = action.value;
+            estudios.splice(action.index, 1, newEstudio);
             break;
         case 4:
-            newEstudio.diferencia_paciente = action.payload.value;
-            estudiosDeUnaPresentacion.splice(action.payload.index, 1, newEstudio);
+            newEstudio.diferencia_paciente = action.value;
+            estudios.splice(action.index, 1, newEstudio);
             break;
         case 5:
-            newEstudio.arancel_anestesia = action.payload.value;
-            estudiosDeUnaPresentacion.splice(action.payload.index, 1, newEstudio);
+            newEstudio.arancel_anestesia = action.value;
+            estudios.splice(action.index, 1, newEstudio);
             break;
         default:
             break;
     }
-    const newState = {
+
+    return sumarImportesEstudios({
         ...state,
-        estudiosDeUnaPresentacion,
-    };
-
-    return sumarImportesEstudios(newState);
-};
-
-const loadDateValueModificarReducer = (state, action) => {
-    const newState = {};
-    Object.assign(newState, state, { fecha: action.value });
-
-    return newState;
+        estudios,
+    });
 };
 
 export function presentacionReducer(state = initialState, action) {
@@ -170,8 +167,6 @@ export function presentacionReducer(state = initialState, action) {
             return eliminarEstudioDeUnaPresentacionReducer(state, action);
         case ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION:
             return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
-        case LOAD_DATE_VALUE_MODIFICAR:
-            return loadDateValueModificarReducer(state, action);
         default:
             return state;
     }
