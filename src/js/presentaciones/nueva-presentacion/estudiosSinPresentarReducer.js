@@ -14,7 +14,7 @@ import {
 } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
-    const estudios = state.nuevaPresentacion.estudios;
+    const estudios = state.estudios;
     let importesTotales = 0;
     estudios.forEach((estudio) => {
         /* eslint-disable no-mixed-operators */
@@ -31,10 +31,8 @@ const sumarImportesEstudios = (state) => {
 
     return {
         ...state,
-        nuevaPresentacion: {
-            estudios,
-            importesTotales,
-        },
+        estudios,
+        importesTotales,
     };
 };
 
@@ -47,57 +45,46 @@ const actionsHandledByEpicReducer = (state) => {
 
 const loadEstudiosSinPresentarReducer = (state, action) => {
     const estudios = action.data.response;
+    const obraSocial = action.obraSocial;
     return sumarImportesEstudios({
         ...state,
-        nuevaPresentacion: {
-            estudios,
-            estudiosApiLoading: false,
-        },
+        estudios,
+        estudiosApiLoading: false,
+        obraSocial,
     });
 };
 
 const loadEstudiosSinPresentarErrorReducer = state => ({
     ...state,
-    nuevaPresentacion: {
-        estudios: [],
-        estudiosApiLoading: false,
-    },
+    estudios: [],
+    estudiosApiLoading: false,
 });
 
-const loadEstudiosSinPresentarAgregarReducer = (state, action) => {
-    const estudiosAgregar = action.data.response;
-
-    return sumarImportesEstudios({
+const loadEstudiosSinPresentarAgregarReducer = (state, action) =>
+    sumarImportesEstudios({
         ...state,
-        nuevaPresentacion: {
-            estudiosAgregar,
-            estudiosAgregarApiLoading: false,
-        },
+        estudiosAgregar: action.data.response,
+        estudiosAgregarApiLoading: false,
     });
-};
 
 const loadEstudiosSinPresentarAgregarErrorReducer = state => ({
     ...state,
-    nuevaPresentacion: {
-        estudiosAgregar: [],
-        estudiosAgregarApiLoading: false,
-    },
+    estudiosAgregar: [],
+    estudiosAgregarApiLoading: false,
 });
 
 const eliminarEstudioSinPresentarReducer = (state, action) => {
-    const { estudios } = state.nuevaPresentacion;
+    const { estudios } = state;
     estudios.splice(action.index, 1);
 
     return sumarImportesEstudios({
         ...state,
-        nuevaPresentacion: {
-            estudios,
-        },
+        estudios,
     });
 };
 
 const actualizarInputEstudioSinPresentarReducer = (state, action) => {
-    const { estudios } = state.nuevaPresentacion;
+    const { estudios } = state;
     // newEstudio is a copy of an estudios[action.index]
     // console.log(newEstudio === estudios[action.index]) -> false
     // we aren't mutating state.
@@ -129,9 +116,7 @@ const actualizarInputEstudioSinPresentarReducer = (state, action) => {
 
     return sumarImportesEstudios({
         ...state,
-        nuevaPresentacion: {
-            estudios,
-        },
+        estudios,
     });
 };
 
@@ -148,8 +133,8 @@ const loadPresentacionDetailId = (state, action) => {
 };
 
 const agregarEstudiosATablaReducer = (state, action) => {
-    const { estudios } = state.nuevaPresentacion;
-    const { estudiosAgregar } = state.nuevaPresentacion;
+    const { estudios } = state;
+    const { estudiosAgregar } = state;
     const newEstudios = [];
     estudiosAgregar.forEach((estudio) => {
         action.ids.forEach((id) => {
@@ -174,15 +159,13 @@ const agregarEstudiosATablaReducer = (state, action) => {
 
     return sumarImportesEstudios({
         ...state,
-        nuevaPresentacion: {
-            estudios,
-            estudiosAgregar,
-        },
+        estudios,
+        estudiosAgregar,
     });
 };
 
 const setImporteMedicacionEstudioReducer = (state, action) => {
-    const { estudios } = state.nuevaPresentacion;
+    const { estudios } = state;
     const newEstudio = {
         ...estudios[action.index],
         importe_medicacion: action.total.toString(),

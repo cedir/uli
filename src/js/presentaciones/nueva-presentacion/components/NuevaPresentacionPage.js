@@ -8,6 +8,7 @@ import {
     ELIMINAR_ESTUDIO_SIN_PRESENTAR,
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
+    AGREGAR_ESTUDIOS_A_TABLA,
  } from '../actionTypes';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 
@@ -19,16 +20,19 @@ function NuevaPresentacionPage(props) {
         estudios,
         importesTotales,
         fetchEstudiosAgregar,
+        estudiosAgregar,
+        agregarEstudiosTabla,
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
     const [fecha, setFecha] = useState('');
-
+    console.log('%c ESTUDIOS: ', 'color: orange', estudios);
+    console.log('%c OBRASOCIAL: ', 'color: orange', obraSocial);
     return (
         <div>
             <h1>
                 {'Nueva Presentacion: '}
-                <strong>{obraSocial.nombre !== undefined ? obraSocial.nombre : ''}</strong>
+                <strong>{obraSocial !== {} ? obraSocial.nombre : ''}</strong>
             </h1>
             <div
               className='date-picker'
@@ -48,6 +52,9 @@ function NuevaPresentacionPage(props) {
             <TabNavigator
               comprobanteState={ comprobanteState }
               fetchEstudiosAgregar={ fetchEstudiosAgregar }
+              estudios={ estudios }
+              estudiosAgregar={ estudiosAgregar }
+              agregarEstudiosTabla={ agregarEstudiosTabla }
               idObraSocial={ obraSocial.id }
               fecha={ fecha }
               listComponent={
@@ -68,41 +75,52 @@ const { func, array, number } = PropTypes;
 
 NuevaPresentacionPage.propTypes = {
     estudios: array.isRequired,
+    estudiosAgregar: array.isRequired,
     obraSocial: object.isRequired,
     importesTotales: number.isRequired,
     actualizarInput: func.isRequired,
     eliminarEstudio: func.isRequired,
     fetchEstudiosAgregar: func.isRequired,
+    agregarEstudiosTabla: func.isRequired,
 };
 
 NuevaPresentacionPage.defaultProps = {
-    estudios: initialState.nuevaPresentacion.estudios,
-    obraSocial: initialState.nuevaPresentacion.obraSocial,
-    importesTotales: initialState.nuevaPresentacion.importesTotales,
+    estudios: initialState.estudios,
+    estudiosAgregar: initialState.estudiosAgregar,
+    obraSocial: initialState.obraSocial,
+    importesTotales: initialState.importesTotales,
 };
 
 
 function mapStateToProps(state) {
     return {
-        estudios: state.estudiosSinPresentarReducer.nuevaPresentacion.estudios,
-        obraSocial: state.estudiosSinPresentarReducer.nuevaPresentacion.obraSocial,
-        importesTotales: state.estudiosSinPresentarReducer.nuevaPresentacion.importesTotales,
+        estudios: state.estudiosSinPresentarReducer.estudios,
+        estudiosAgregar: state.estudiosSinPresentarReducer.estudiosAgregar,
+        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
+        importesTotales: state.estudiosSinPresentarReducer.importesTotales,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actualizarInput: (index, idInput, value) => dispatch({
-            type: ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, index, idInput, value,
-        }),
-        eliminarEstudio: index => dispatch({
-            type: ELIMINAR_ESTUDIO_SIN_PRESENTAR, index,
-        }),
-        fetchEstudiosAgregar: idObraSocial =>
-        dispatch({
-            type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
-            id: idObraSocial,
-        }),
+        actualizarInput: (index, idInput, value) =>
+            dispatch({
+                type: ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, index, idInput, value,
+            }),
+        eliminarEstudio: index =>
+            dispatch({
+                type: ELIMINAR_ESTUDIO_SIN_PRESENTAR, index,
+            }),
+        fetchEstudiosAgregar: id =>
+            dispatch({
+                type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
+                id,
+            }),
+        agregarEstudiosTabla: ids =>
+            dispatch({
+                type: AGREGAR_ESTUDIOS_A_TABLA,
+                ids,
+            }),
     };
 }
 

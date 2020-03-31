@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
 import { Button, Row, Col } from 'react-bootstrap';
 import ModalAgregarEstudio, { ModalFinalizarGuardar, ModalComprobante } from './Modals';
 
@@ -7,17 +7,20 @@ function TabNavigator(props) {
     const {
         listComponent,
         comprobanteState,
+        estudios,
+        estudiosAgregar,
         fetchEstudiosAgregar,
+        agregarEstudiosTabla,
         idObraSocial,
         fecha,
     } = props;
     const [openComprobante, setComprobante] = useState(false);
     const [openFinalizarGuardar, setFinalizarGuardar] = useState(false);
-    const [openAgregarEstudio, setAgregarEstudios] = useState(false);
+    const [agregarEstudios, setAgregarEstudios] = useState(false);
 
-    const agregarEstudiosClickHandler = () => {
-        setAgregarEstudios(true);
+    const agregarClickHandler = () => {
         fetchEstudiosAgregar(idObraSocial);
+        setAgregarEstudios(true);
     };
 
     return (
@@ -55,7 +58,7 @@ function TabNavigator(props) {
                   tabIndex='0'
                   bsStyle='primary'
                   className='agregar-estudios'
-                  onClick={ agregarEstudiosClickHandler }
+                  onClick={ agregarClickHandler }
                 >
                     Agregar
                 </Button>
@@ -77,9 +80,12 @@ function TabNavigator(props) {
               fecha={ fecha }
             />
             <ModalAgregarEstudio
-              show={ openAgregarEstudio }
+              show={ agregarEstudios }
+              alert={ alert }
               onClickClose={ () => setAgregarEstudios(false) }
-              idObraSocial={ idObraSocial }
+              estudios={ estudios }
+              estudiosAgregar={ estudiosAgregar }
+              agregarEstudiosTabla={ agregarEstudiosTabla }
             />
         </div>
     );
@@ -91,6 +97,9 @@ TabNavigator.propTypes = {
     listComponent: element.isRequired,
     comprobanteState: object.isRequired,
     fetchEstudiosAgregar: func.isRequired,
+    estudios: array.isRequired,
+    estudiosAgregar: array.isRequired,
+    agregarEstudiosTabla: func.isRequired,
     idObraSocial: number.isRequired,
     fecha: string.isRequired,
 };

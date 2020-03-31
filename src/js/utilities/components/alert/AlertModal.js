@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export default function AlertModal(props) {
     const {
-        isOpen, message, buttonStyle,
+        isOpen, content, buttonStyle,
         onClickDo, onClickClose, doLabel,
         dontLabel,
     } = props;
@@ -12,7 +12,7 @@ export default function AlertModal(props) {
         <Modal show={ isOpen } className='alert'>
             <Modal.Body>
                 <Row>
-                    { message }
+                    { content }
                 </Row>
                 <Row>
                     <Button
@@ -22,26 +22,28 @@ export default function AlertModal(props) {
                     >
                         { doLabel }
                     </Button>
-                    <Button
-                      type='button'
-                      onClick={ onClickClose }
-                    >
-                        { dontLabel }
-                    </Button>
+                    { dontLabel !== undefined && (
+                        <Button
+                          type='button'
+                          onClick={ onClickClose }
+                        >
+                            { dontLabel }
+                        </Button>
+                    )}
                 </Row>
             </Modal.Body>
         </Modal>
     );
 }
 
-const { bool, string, func } = PropTypes;
+const { any, bool, string, func } = PropTypes;
 
 AlertModal.propTypes = {
     isOpen: bool.isRequired,
-    message: string.isRequired,
+    content: any.isRequired,
     buttonStyle: string.isRequired,
-    onClickDo: func.isRequired,
-    onClickClose: func.isRequired,
+    onClickDo: func,
+    onClickClose: func,
     doLabel: string.isRequired,
     dontLabel: string.isRequired,
 };

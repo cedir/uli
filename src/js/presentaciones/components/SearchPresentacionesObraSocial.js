@@ -138,7 +138,7 @@ SearchPresentacionesObraSocial.propTypes = {
 };
 
 SearchPresentacionesObraSocial.defaultProps = {
-    estudios: initialState.nuevaPresentacion.estudios,
+    estudios: initialState.estudios,
 };
 
 const selector = formValueSelector('searchPresentacionesObraSocial');
@@ -152,8 +152,8 @@ function mapStateToProps(state) {
         selectedObraSocial: obraSocial,
         obrasSociales: state.obraSocialReducer.obrasSociales,
         obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
-        estudios: state.estudiosSinPresentarReducer.nuevaPresentacion.estudios,
-        obraSocial: state.estudiosSinPresentarReducer.nuevaPresentacion.obraSocial,
+        estudios: state.estudiosSinPresentarReducer.estudios,
+        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
     };
 }
 

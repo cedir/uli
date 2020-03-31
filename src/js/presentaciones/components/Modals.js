@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
 import MedicacionEstudio from './MedicacionEstudio';
-import { AGREGAR_ESTUDIOS_A_TABLA } from '../nueva-presentacion/actionTypes';
 import AgregarEstudioList from './AgregarEstudioList';
+import AlertModal from '../../utilities/components/alert/AlertModal';
 
-function ModalAgregarEstudio(props) {
-    const { show, onClickClose, agregarEstudiosTabla } = props;
+export default function ModalAgregarEstudio(props) {
+    const {
+        show,
+        onClickClose,
+        agregarEstudiosTabla,
+        estudios,
+        estudiosAgregar,
+    } = props;
     const [selected, setSelected] = useState(new Map([]));
+    const [alert, setAlert] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleClick = (event, id) => {
         const newSelected = new Map(selected);
@@ -28,11 +35,20 @@ function ModalAgregarEstudio(props) {
         selected.forEach((value, key) => {
             estudiosIds.push(key);
         });
-        if (estudiosIds.length > 0) {
+
+        if (estudiosIds.length > 0 && estudios.length < estudiosAgregar.length) {
+            setAlert(true);
+            setSuccess(true);
             agregarEstudiosTabla(estudiosIds);
+        } else {
+            setAlert(true);
+            setSuccess(false);
         }
         setSelected(new Map([]));
     };
+
+    const successMessage = 'Estudios cargados correctamente';
+    const errorMessage = 'Los estudios ya se encuentran en la tabla';
 
     return (
         <Modal show={ show } className='agregar-estudio'>
@@ -41,6 +57,7 @@ function ModalAgregarEstudio(props) {
             </Modal.Header>
             <Modal.Body>
                 <AgregarEstudioList
+                  estudios={ estudiosAgregar }
                   onClickIcon={ handleClick }
                   selected={ selected }
                 />
@@ -56,6 +73,13 @@ function ModalAgregarEstudio(props) {
                     Cerrar
                 </Button>
             </Modal.Footer>
+            <AlertModal
+              isOpen={ alert }
+              onClickDo={ () => setAlert(false) }
+              doLabel='Entendido'
+              buttonStyle={ success ? 'primary' : 'danger' }
+              content={ success ? successMessage : errorMessage }
+            />
         </Modal>
     );
 }
@@ -187,12 +211,14 @@ export function ModalFinalizarGuardar(props) {
     );
 }
 
-const { bool, func, object, string } = PropTypes;
+const { bool, func, object, string, array } = PropTypes;
 
 ModalAgregarEstudio.propTypes = {
     show: bool.isRequired,
     onClickClose: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
+    estudios: array.isRequired,
+    estudiosAgregar: array.isRequired,
 };
 
 ModalComprobante.propTypes = {
@@ -214,12 +240,3 @@ ModalMedicacion.propTypes = {
     onClickDo: func.isRequired,
     estudio: object.isRequired,
 };
-
-function mapDispatchToProps(dispatch) {
-    return {
-        agregarEstudiosTabla: ids =>
-            dispatch({ type: AGREGAR_ESTUDIOS_A_TABLA, ids }),
-    };
-}
-
-export default connect(null, mapDispatchToProps)(ModalAgregarEstudio);
