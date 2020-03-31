@@ -7,7 +7,8 @@ import { useComprobanteState } from '../../components/Comprobante';
 import {
     ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
-    FETCH_ESTUDIOS_DE_UNA_PRESENTACION_OBRA_SOCIAL_AGREGAR,
+    FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
+    AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
  } from '../../actionTypes';
 import initialState from '../../presentacionReducerInitialState';
 
@@ -16,9 +17,11 @@ function ModificarPresentacionPage(props) {
         actualizarInput,
         eliminarEstudio,
         estudios,
+        estudiosAgregar,
         importesTotales,
         fecha,
-        fetchEstudiosDeUnaPresentacionAgregar,
+        fetchEstudiosAgregar,
+        agregarEstudiosTabla,
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
@@ -40,13 +43,16 @@ function ModificarPresentacionPage(props) {
             </div>
             <TabNavigator
               comprobanteState={ comprobanteState }
-              fetchEstudiosAgregar={ fetchEstudiosDeUnaPresentacionAgregar }
+              fetchEstudiosAgregar={ fetchEstudiosAgregar }
+              estudios={ estudios }
+              estudiosAgregar={ estudiosAgregar }
+              agregarEstudiosTabla={ agregarEstudiosTabla }
               idObraSocial={ obraSocial.id }
               fecha={ fecha }
               listComponent={
                   <EstudiosDeUnaPresentacionList
                     estudios={ estudios }
-                    suma={ importesTotales }
+                    importesTotales={ importesTotales }
                     gravado={ comprobanteState.gravado }
                     actualizarInput={ actualizarInput }
                     eliminarEstudio={ eliminarEstudio }
@@ -61,16 +67,19 @@ const { func, array, number } = PropTypes;
 
 ModificarPresentacionPage.propTypes = {
     estudios: array.isRequired,
+    estudiosAgregar: array.isRequired,
     obraSocial: object.isRequired,
     importesTotales: number.isRequired,
     fecha: string.isRequired,
     actualizarInput: func.isRequired,
     eliminarEstudio: func.isRequired,
-    fetchEstudiosDeUnaPresentacionAgregar: func.isRequired,
+    fetchEstudiosAgregar: func.isRequired,
+    agregarEstudiosTabla: func.isRequired,
 };
 
 ModificarPresentacionPage.defaultProps = {
     estudios: initialState.presentacion.estudios,
+    estudiosAgregar: initialState.presentacion.estudiosAgregar,
     obraSocial: initialState.presentacion.obraSocial,
     fecha: initialState.presentacion.fecha,
     importesTotales: initialState.presentacion.importesTotales,
@@ -80,6 +89,7 @@ ModificarPresentacionPage.defaultProps = {
 function mapStateToProps(state) {
     return {
         estudios: state.presentacionReducer.presentacion.estudios,
+        estudiosAgregar: state.presentacionReducer.presentacion.estudiosAgregar,
         obraSocial: state.presentacionReducer.presentacion.obraSocial,
         fecha: state.presentacionReducer.presentacion.fecha,
         importesTotales: state.presentacionReducer.presentacion.importesTotales,
@@ -88,17 +98,22 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actualizarInput: (index, idInput, value) => dispatch({
-            type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, index, idInput, value,
-        }),
-        eliminarEstudio: index => dispatch({
-            type: ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION, index,
-        }),
-        fetchEstudiosDeUnaPresentacionAgregar: idObraSocial =>
-        dispatch({
-            type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION_OBRA_SOCIAL_AGREGAR,
-            id: idObraSocial,
-        }),
+        actualizarInput: (index, idInput, value) =>
+            dispatch({
+                type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, index, idInput, value,
+            }),
+        eliminarEstudio: index =>
+            dispatch({
+                type: ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION, index,
+            }),
+        fetchEstudiosAgregar: idObraSocial =>
+            dispatch({
+                type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR, id: idObraSocial,
+            }),
+        agregarEstudiosTabla: ids =>
+            dispatch({
+                type: AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA, ids,
+            }),
     };
 }
 

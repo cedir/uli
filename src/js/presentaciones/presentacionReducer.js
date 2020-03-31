@@ -5,14 +5,18 @@ import {
     LOAD_PRESENTACIONES_OBRA_SOCIAL,
     UPDATE_PRESENTACION,
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
     LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
     ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
+    AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
 } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
-    const estudios = state.presentacion.estudios;
+    const { presentacion } = state;
+    const { estudios } = state.presentacion;
     let importesTotales = 0;
     estudios.forEach((estudio) => {
         /* eslint-disable no-mixed-operators */
@@ -30,6 +34,7 @@ const sumarImportesEstudios = (state) => {
     return {
         ...state,
         presentacion: {
+            ...presentacion,
             estudios,
             importesTotales,
         },
@@ -68,6 +73,7 @@ const updatePresentacionReducer = (state, action) => {
 };
 
 const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
+    const { presentacion } = state;
     const estudios = action.data.response;
     const obraSocial = action.obraSocial;
     const fecha = action.fecha;
@@ -75,6 +81,7 @@ const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
     return sumarImportesEstudios({
         ...state,
         presentacion: {
+            ...presentacion,
             estudios,
             estudiosApiLoading: false,
             obraSocial,
@@ -94,23 +101,55 @@ const loadEstudiosDeUnaPresentacionErrorReducer = (state) => {
     const { presentacion } = state;
     return {
         ...state,
-        ...presentacion,
-        estudios: [],
-        estudiosApiLoading: false,
+        presentacion: {
+            ...presentacion,
+            estudios: [],
+            estudiosApiLoading: false,
+        },
     };
 };
 
+const loadEstudiosDeUnaPresentacionAgregarReducer = (state, action) => {
+    const { presentacion } = state;
+    console.log(action);
+    return sumarImportesEstudios({
+        ...state,
+        presentacion: {
+            ...presentacion,
+            estudiosAgregar: action.data.response,
+            estudiosAgregarApiLoading: false,
+        },
+    });
+};
+
+const loadEstudiosDeUnaPresentacionAgregarErrorReducer = (state) => {
+    const { presentacion } = state;
+    return sumarImportesEstudios({
+        ...state,
+        presentacion: {
+            ...presentacion,
+            estudiosAgregar: [],
+            estudiosAgregarApiLoading: false,
+        },
+    });
+};
+
 const eliminarEstudioDeUnaPresentacionReducer = (state, action) => {
+    const { presentacion } = state;
     const { estudios } = state.presentacion;
     estudios.splice(action.index, 1);
 
     return sumarImportesEstudios({
         ...state,
-        estudios,
+        presentacion: {
+            ...presentacion,
+            estudios,
+        },
     });
 };
 
 const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
+    const { presentacion } = state;
     const { estudios } = state.presentacion;
     // newEstudio is a copy of an estudios[action.index]
     // console.log(newEstudio === estudios[action.index]) -> false
@@ -143,7 +182,45 @@ const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
 
     return sumarImportesEstudios({
         ...state,
-        estudios,
+        presentacion: {
+            ...presentacion,
+            estudios,
+        },
+    });
+};
+
+const agregarEstudiosDeUnaPresentacionATablaReducer = (state, action) => {
+    const { presentacion } = state;
+    const { estudios } = state.presentacion;
+    const { estudiosAgregar } = state.presentacion;
+    const newEstudios = [];
+    estudiosAgregar.forEach((estudio) => {
+        action.ids.forEach((id) => {
+            if (estudio.id === id) {
+                newEstudios.push(estudio);
+            }
+        });
+    });
+
+    estudios.forEach((estudio) => {
+        newEstudios.forEach((newEstudio) => {
+            if (newEstudio.id === estudio.id) {
+                const index = newEstudios.indexOf(newEstudio);
+                newEstudios.splice(index, 1);
+            }
+        });
+    });
+    newEstudios.forEach((newEstudio) => {
+        estudios.push(newEstudio);
+    });
+
+    return sumarImportesEstudios({
+        ...state,
+        presentacion: {
+            ...presentacion,
+            estudios,
+            estudiosAgregar,
+        },
     });
 };
 
@@ -163,10 +240,17 @@ export function presentacionReducer(state = initialState, action) {
             return loadPresentacionesErrorReducer(state);
         case LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR:
             return loadEstudiosDeUnaPresentacionErrorReducer(state, action);
+        case LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR:
+            return loadEstudiosDeUnaPresentacionAgregarReducer(state, action);
+        case LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR:
+            return loadEstudiosDeUnaPresentacionAgregarErrorReducer(state);
         case ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION:
             return eliminarEstudioDeUnaPresentacionReducer(state, action);
         case ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION:
             return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
+        case AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA:
+            return agregarEstudiosDeUnaPresentacionATablaReducer(state, action);
+
         default:
             return state;
     }

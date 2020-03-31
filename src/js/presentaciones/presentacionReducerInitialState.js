@@ -3,10 +3,12 @@ const initialState = {
     presentacionesApiLoading: false,
     presentacion: {
         estudios: [],
+        estudiosAgregar: [],
         obraSocial: {},
         importesTotales: 0,
         fecha: '',
         estudiosApiLoading: false,
+        estudiosAgregarApiLoading: false,
     },
 };
 

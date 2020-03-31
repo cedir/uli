@@ -106,7 +106,7 @@ function PresentacionesObraSocialTableRow(props) {
             </tr>
             <AlertModal
               isOpen={ modalAbrirPresentacion }
-              message='Estas seguro que deseas abrir la presentacion?'
+              content='Estas seguro que deseas abrir la presentacion?'
               buttonStyle='primary'
               onClickDo={ abrirPresentacion }
               onClickClose={ () => setModalAbrirPresentacion(false) }

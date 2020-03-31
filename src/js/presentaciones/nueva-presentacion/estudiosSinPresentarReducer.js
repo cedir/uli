@@ -144,7 +144,6 @@ const agregarEstudiosATablaReducer = (state, action) => {
         });
     });
 
-
     estudios.forEach((estudio) => {
         newEstudios.forEach((newEstudio) => {
             if (newEstudio.id === estudio.id) {
