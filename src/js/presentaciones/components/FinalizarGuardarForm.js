@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 import { CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
-import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
 
 function initEditFormObject(props) {
     const {
         periodoValue,
         comprobanteState,
-        estudiosSinPresentar,
+        estudios,
         fecha,
-        obraSocial,
+        idObraSocial,
     } = props;
-    const [estudios, setEstudios] = useState(estudiosSinPresentar);
     /* eslint-disable no-unused-vars */
     const [gravadoId, setGravadoId] = useState(null);
 
@@ -36,10 +35,6 @@ function initEditFormObject(props) {
     });
 
     useEffect(() => {
-        setEstudios(estudios);
-    }, [estudiosSinPresentar]);
-
-    useEffect(() => {
         if (comprobanteState.gravado === '0.00') {
             setGravadoId(1);
         } else if (comprobanteState.gravado === '10.50') {
@@ -50,10 +45,9 @@ function initEditFormObject(props) {
     }, [comprobanteState.gravado]);
 
     return {
-        obra_social_id: obraSocial.id,
+        obra_social_id: idObraSocial,
         periodo: periodoValue,
-        /* eslint-disable object-shorthand */
-        fecha: fecha,
+        fecha,
         estado: 'Pendiente',
         estudios: estudios.map(filterKeys),
     };
@@ -67,18 +61,26 @@ function FinalizarGuardarForm(props) {
         comprobanteState,
         finalizarButtonDisabled,
         guardarButtonDisabled,
-        estudiosSinPresentar,
+        estudios,
+        idObraSocial,
         fecha,
-        obraSocial,
+        history,
     } = props;
 
     const postObject = initEditFormObject({
         periodoValue,
         comprobanteState,
-        estudiosSinPresentar,
+        estudios,
         fecha,
-        obraSocial,
+        idObraSocial,
     });
+
+    const guardarClickHandler = () => {
+        crearNuevaPresentacion(postObject);
+        setTimeout(() => {
+            history.push('/presentaciones-obras-sociales');
+        }, 1500);
+    };
 
     return (
         <form>
@@ -103,7 +105,7 @@ function FinalizarGuardarForm(props) {
                 <Button
                   bsStyle='primary'
                   disabled={ guardarButtonDisabled }
-                  onClick={ () => crearNuevaPresentacion(postObject) }
+                  onClick={ guardarClickHandler }
                 >
                     Guardar
                 </Button>
@@ -112,38 +114,28 @@ function FinalizarGuardarForm(props) {
     );
 }
 
-const { array, string, func, object } = PropTypes;
+const { number, array, string, func, object } = PropTypes;
 
 FinalizarGuardarForm.propTypes = {
-    estudiosSinPresentar: array.isRequired,
+    estudios: array.isRequired,
     fecha: string.isRequired,
-    obraSocial: object.isRequired,
+    idObraSocial: number.isRequired,
     periodoValue: string.isRequired,
     onChangePeriodoValue: func.isRequired,
     crearNuevaPresentacion: func.isRequired,
     comprobanteState: object.isRequired,
     finalizarButtonDisabled: bool.isRequired,
     guardarButtonDisabled: bool.isRequired,
+    history: object.isRequired,
 };
-
-FinalizarGuardarForm.defaultProps = {
-    estudiosSinPresentar: initialState.estudiosSinPresentar,
-    obraSocial: initialState.obraSocial,
-};
-
-function mapStateToProps(state) {
-    return {
-        estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
-        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
-    };
-}
-
 
 function mapDispatchToProps(dispatch) {
     return {
-        crearNuevaPresentacion: presentacion =>
-            dispatch({ type: CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL, presentacion }),
+        crearNuevaPresentacion: (presentacion, id) =>
+            dispatch({
+                type: CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL, presentacion, id,
+            }),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FinalizarGuardarForm);
+export default withRouter(connect(null, mapDispatchToProps)(FinalizarGuardarForm));

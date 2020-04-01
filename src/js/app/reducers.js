@@ -37,6 +37,7 @@ import {
     verEstudiosDeUnaPresentacionEpic,
     abrirPresentacionEpic,
     estudiosDeUnaPresentacionAgregarEpic,
+    updatePresentacionEpic,
 } from '../presentaciones/presentacionEpic';
 import {
     estudiosSinPresentarEpic,
@@ -73,6 +74,7 @@ export const rootEpic = combineEpics(
     abrirPresentacionEpic,
     estudiosSinPresentarEpic,
     crearNuevaPresentacionEpic,
+    updatePresentacionEpic,
     verEstudiosDeUnaPresentacionEpic,
     estudiosSinPresentarAgregarEpic,
     estudiosDeUnaPresentacionAgregarEpic,

@@ -7,7 +7,7 @@ export function getEstudiosSinPresentarObraSocial(idObraSocial) {
 }
 
 export function crearNuevaPresentacionObraSocial(presentacion) {
-    const url = '/api/presentacion/';
+    const url = '/api/presentacionn/';
     const body = {
         obra_social_id: presentacion.obra_social_id,
         periodo: presentacion.periodo,

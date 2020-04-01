@@ -9,7 +9,7 @@ import {
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR,
     ELIMINAR_ESTUDIO_SIN_PRESENTAR, AGREGAR_ESTUDIOS_A_TABLA,
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
-    FINALIZAR_PRESENTACION_OBRA_SOCIAL, LOAD_PRESENTACION_DETAIL_ID,
+    FINALIZAR_PRESENTACION_OBRA_SOCIAL, LOAD_NUEVA_PRESENTACION_DETAIL_ID,
     SET_IMPORTE_MEDICACION_ESTUDIO,
 } from './actionTypes';
 
@@ -120,7 +120,7 @@ const actualizarInputEstudioSinPresentarReducer = (state, action) => {
     });
 };
 
-const loadPresentacionDetailId = (state, action) => {
+const loadNuevaPresentacionDetailId = (state, action) => {
     const newState = {};
 
     const presentacionDetail = {
@@ -197,8 +197,8 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return actualizarInputEstudioSinPresentarReducer(state, action);
         case AGREGAR_ESTUDIOS_A_TABLA:
             return agregarEstudiosATablaReducer(state, action);
-        case LOAD_PRESENTACION_DETAIL_ID:
-            return loadPresentacionDetailId(state, action);
+        case LOAD_NUEVA_PRESENTACION_DETAIL_ID:
+            return loadNuevaPresentacionDetailId(state, action);
         case SET_IMPORTE_MEDICACION_ESTUDIO:
             return setImporteMedicacionEstudioReducer(state, action);
         default:

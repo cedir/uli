@@ -12,6 +12,7 @@ import {
     ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
     AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
+    LOAD_PRESENTACION_DETAIL_ID,
 } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
@@ -77,11 +78,13 @@ const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
     const estudios = action.data.response;
     const obraSocial = action.obraSocial;
     const fecha = action.fecha;
+    const id = action.id;
 
     return sumarImportesEstudios({
         ...state,
         presentacion: {
             ...presentacion,
+            id,
             estudios,
             estudiosApiLoading: false,
             obraSocial,
@@ -189,6 +192,18 @@ const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
     });
 };
 
+const loadPresentacionDetailId = (state, action) => {
+    const newState = {};
+
+    const presentacionDetail = {
+        id: action.data.response.id,
+    };
+
+    Object.assign(newState, state, { presentacionDetail });
+
+    return newState;
+};
+
 const agregarEstudiosDeUnaPresentacionATablaReducer = (state, action) => {
     const { presentacion } = state;
     const { estudios } = state.presentacion;
@@ -250,6 +265,8 @@ export function presentacionReducer(state = initialState, action) {
             return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
         case AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA:
             return agregarEstudiosDeUnaPresentacionATablaReducer(state, action);
+        case LOAD_PRESENTACION_DETAIL_ID:
+            return loadPresentacionDetailId(state, action);
 
         default:
             return state;

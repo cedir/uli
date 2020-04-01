@@ -2,6 +2,7 @@ const initialState = {
     presentaciones: [],
     presentacionesApiLoading: false,
     presentacion: {
+        id: null,
         estudios: [],
         estudiosAgregar: [],
         obraSocial: {},

@@ -50,9 +50,10 @@ function PresentacionesObraSocialTableRow(props) {
     };
 
     const Lock = () => (
-        estado === 'Pendiente' ? (
+        estado === 'Pendiente' || estado === 'Cobrado' ? (
             <LockIcon
-              onClick={ () => setModalAbrirPresentacion(true) }
+              onClick={ estado === 'Pendiente' ? () => setModalAbrirPresentacion(true) : () => {} }
+              className={ estado === 'Cobrado' ? 'not-hover' : '' }
               title='Abrir presentacion'
             />
         ) : (

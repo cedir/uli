@@ -41,6 +41,7 @@ function TabNavigator(props) {
                   bsStyle='primary'
                   className='comprobante'
                   onClick={ () => setComprobante(true) }
+                  disabled={ estudios.length === 0 }
                 >   Comprobante
                     <i className='fa fa-file-text' />
                 </Button>
@@ -50,6 +51,7 @@ function TabNavigator(props) {
                   bsStyle='primary'
                   className='finalizar'
                   onClick={ () => setFinalizarGuardar(true) }
+                  disabled={ estudios.length === 0 }
                 >   Finalizar
                     <i className='fa fa-calendar-check-o' />
                 </Button>
@@ -59,6 +61,7 @@ function TabNavigator(props) {
                   bsStyle='primary'
                   className='agregar-estudios'
                   onClick={ agregarClickHandler }
+                  disabled={ estudios.length === 0 }
                 >
                     Agregar
                 </Button>
@@ -78,6 +81,8 @@ function TabNavigator(props) {
               onClickClose={ () => setFinalizarGuardar(false) }
               comprobanteState={ comprobanteState }
               fecha={ fecha }
+              estudios={ estudios }
+              idObraSocial={ idObraSocial }
             />
             <ModalAgregarEstudio
               show={ agregarEstudios }
