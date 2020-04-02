@@ -15,7 +15,7 @@ import {
     FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
-    CREAR_PRESENTACION_OBRA_SOCIAL,
+    ACTUALIZAR_PRESENTACION_OBRA_SOCIAL,
     LOAD_PRESENTACION_DETAIL_ID,
     ABRIR_PRESENTACION,
     UPDATE_PRESENTACION,
@@ -67,15 +67,15 @@ export function estudiosDeUnaPresentacionAgregarEpic(action$) {
 }
 
 export function updatePresentacionEpic(action$) {
-    return action$.ofType(CREAR_PRESENTACION_OBRA_SOCIAL)
+    return action$.ofType(ACTUALIZAR_PRESENTACION_OBRA_SOCIAL)
         .mergeMap(action =>
             updatePresentacionObraSocial(action.presentacion, action.id)
             .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Presentación creada con éxito', 'success') },
+                { type: ADD_ALERT, alert: createAlert('Presentación actualizada con éxito', 'success') },
                 { type: LOAD_PRESENTACION_DETAIL_ID, data },
             ))
             .catch(() => (Rx.Observable.of({
-                type: ADD_ALERT, alert: createAlert('Error al intentar crear presentacion', 'danger'),
+                type: ADD_ALERT, alert: createAlert('Error al actualizar presentacion', 'danger'),
             }))),
         );
 }

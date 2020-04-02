@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
-import { CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 
 function initEditFormObject(props) {
     const {
@@ -57,7 +55,7 @@ function FinalizarGuardarForm(props) {
     const {
         periodoValue,
         onChangePeriodoValue,
-        crearNuevaPresentacion,
+        crearOActualizarPresentacion,
         comprobanteState,
         finalizarButtonDisabled,
         guardarButtonDisabled,
@@ -76,7 +74,7 @@ function FinalizarGuardarForm(props) {
     });
 
     const guardarClickHandler = () => {
-        crearNuevaPresentacion(postObject);
+        crearOActualizarPresentacion(postObject);
         setTimeout(() => {
             history.push('/presentaciones-obras-sociales');
         }, 1500);
@@ -122,20 +120,12 @@ FinalizarGuardarForm.propTypes = {
     idObraSocial: number.isRequired,
     periodoValue: string.isRequired,
     onChangePeriodoValue: func.isRequired,
-    crearNuevaPresentacion: func.isRequired,
     comprobanteState: object.isRequired,
     finalizarButtonDisabled: bool.isRequired,
     guardarButtonDisabled: bool.isRequired,
+    crearOActualizarPresentacion: func.isRequired,
     history: object.isRequired,
 };
 
-function mapDispatchToProps(dispatch) {
-    return {
-        crearNuevaPresentacion: (presentacion, id) =>
-            dispatch({
-                type: CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL, presentacion, id,
-            }),
-    };
-}
 
-export default withRouter(connect(null, mapDispatchToProps)(FinalizarGuardarForm));
+export default withRouter(FinalizarGuardarForm);

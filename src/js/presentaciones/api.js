@@ -1,4 +1,4 @@
-import { get, patch, post } from '../utilities/rest';
+import { get, patch } from '../utilities/rest';
 import saveFile from '../utilities/saveFile';
 import store from '../app/configureStore';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
@@ -17,7 +17,7 @@ export function getEstudiosDeUnaPresentacion(id) {
 }
 
 export function updatePresentacionObraSocial(presentacion, id) {
-    const url = `/api/presentacion/${id}`;
+    const url = `/api/presentacion/${id}/`;
     const body = {
         obra_social_id: presentacion.obra_social_id,
         periodo: presentacion.periodo,
@@ -29,7 +29,7 @@ export function updatePresentacionObraSocial(presentacion, id) {
         'Content-Type': 'application/json',
     };
 
-    return post(url, body, headers);
+    return patch(url, body, headers);
 }
 
 export function getPresentacionFormatoOsde(presentacion) {

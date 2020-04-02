@@ -9,6 +9,7 @@ import {
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
     FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
     AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
+    ACTUALIZAR_PRESENTACION_OBRA_SOCIAL,
  } from '../../actionTypes';
 import initialState from '../../presentacionReducerInitialState';
 
@@ -22,6 +23,8 @@ function ModificarPresentacionPage(props) {
         fecha,
         fetchEstudiosAgregar,
         agregarEstudiosTabla,
+        actualizarPresentacion,
+        idPresentacion,
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
@@ -48,6 +51,7 @@ function ModificarPresentacionPage(props) {
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
               idObraSocial={ obraSocial.id }
+              crearOActualizarPresentacion={ obj => actualizarPresentacion(obj, idPresentacion) }
               fecha={ fecha }
               listComponent={
                   <EstudiosDeUnaPresentacionList
@@ -75,6 +79,8 @@ ModificarPresentacionPage.propTypes = {
     eliminarEstudio: func.isRequired,
     fetchEstudiosAgregar: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
+    actualizarPresentacion: func.isRequired,
+    idPresentacion: number.isRequired,
 };
 
 ModificarPresentacionPage.defaultProps = {
@@ -89,6 +95,7 @@ ModificarPresentacionPage.defaultProps = {
 function mapStateToProps(state) {
     return {
         estudios: state.presentacionReducer.presentacion.estudios,
+        idPresentacion: state.presentacionReducer.presentacion.id,
         estudiosAgregar: state.presentacionReducer.presentacion.estudiosAgregar,
         obraSocial: state.presentacionReducer.presentacion.obraSocial,
         fecha: state.presentacionReducer.presentacion.fecha,
@@ -113,6 +120,10 @@ function mapDispatchToProps(dispatch) {
         agregarEstudiosTabla: estudios =>
             dispatch({
                 type: AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA, estudios,
+            }),
+        actualizarPresentacion: (presentacion, id) =>
+            dispatch({
+                type: ACTUALIZAR_PRESENTACION_OBRA_SOCIAL, presentacion, id,
             }),
     };
 }

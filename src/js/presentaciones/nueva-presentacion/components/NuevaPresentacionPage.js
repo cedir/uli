@@ -9,6 +9,7 @@ import {
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
     AGREGAR_ESTUDIOS_A_TABLA,
+    CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL,
  } from '../actionTypes';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 
@@ -22,6 +23,7 @@ function NuevaPresentacionPage(props) {
         fetchEstudiosAgregar,
         estudiosAgregar,
         agregarEstudiosTabla,
+        crearNuevaPresentacion,
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
@@ -54,6 +56,7 @@ function NuevaPresentacionPage(props) {
               estudios={ estudios }
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
+              crearOActualizarPresentacion={ crearNuevaPresentacion }
               idObraSocial={ obraSocial.id }
               fecha={ fecha }
               listComponent={
@@ -81,6 +84,7 @@ NuevaPresentacionPage.propTypes = {
     eliminarEstudio: func.isRequired,
     fetchEstudiosAgregar: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
+    crearNuevaPresentacion: func.isRequired,
 };
 
 NuevaPresentacionPage.defaultProps = {
@@ -119,6 +123,10 @@ function mapDispatchToProps(dispatch) {
             dispatch({
                 type: AGREGAR_ESTUDIOS_A_TABLA,
                 estudios,
+            }),
+        crearNuevaPresentacion: presentacion =>
+            dispatch({
+                type: CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL, presentacion,
             }),
     };
 }
