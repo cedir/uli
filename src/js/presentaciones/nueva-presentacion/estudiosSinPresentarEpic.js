@@ -1,7 +1,7 @@
 import Rx from 'rxjs';
 import {
     getEstudiosSinPresentarObraSocial,
-    crearNuevaPresentacionObraSocial,
+    guardarNuevaPresentacionObraSocial,
 } from './api';
 import {
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
@@ -11,8 +11,8 @@ import {
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
     CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL,
-    LOAD_NUEVA_PRESENTACION_DETAIL_ID }
-    from './actionTypes';
+    LOAD_NUEVA_PRESENTACION_DETAIL_ID,
+} from './actionTypes';
 import { createAlert } from '../../utilities/components/alert/alertUtility';
 import { ADD_ALERT } from '../../utilities/components/alert/actionTypes';
 
@@ -21,7 +21,7 @@ export function estudiosSinPresentarEpic(action$) {
         .mergeMap(action =>
             getEstudiosSinPresentarObraSocial(action.obraSocial.id)
             .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
+                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente', 'success') },
                 {
                     type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, data,
                     obraSocial: action.obraSocial,
@@ -45,10 +45,10 @@ export function estudiosSinPresentarAgregarEpic(action$) {
     );
 }
 
-export function crearNuevaPresentacionEpic(action$) {
+export function guardarNuevaPresentacionEpic(action$) {
     return action$.ofType(CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL)
         .mergeMap(action =>
-            crearNuevaPresentacionObraSocial(action.presentacion)
+            guardarNuevaPresentacionObraSocial(action.presentacion)
             .mergeMap(data => Rx.Observable.of(
                 { type: ADD_ALERT, alert: createAlert('Presentación Creada con Exito') },
                 { type: LOAD_NUEVA_PRESENTACION_DETAIL_ID, data },

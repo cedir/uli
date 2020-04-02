@@ -201,6 +201,7 @@ export function ModalFinalizarGuardar(props) {
         estudios,
         idObraSocial,
         crearOActualizarPresentacion,
+        cerrarPresentacion,
     } = props;
     const [periodoValue, setPeriodoValue] = useState('');
     const [finalizarButtonDisabled, setFinalizarButtonDisabled] = useState(true);
@@ -243,6 +244,7 @@ export function ModalFinalizarGuardar(props) {
                   estudios={ estudios }
                   idObraSocial={ idObraSocial }
                   crearOActualizarPresentacion={ crearOActualizarPresentacion }
+                  cerrarPresentacion={ cerrarPresentacion }
                 />
             </Modal.Body>
             <Modal.Footer>
@@ -282,6 +284,7 @@ ModalFinalizarGuardar.propTypes = {
     estudios: array.isRequired,
     idObraSocial: number.isRequired,
     crearOActualizarPresentacion: func.isRequired,
+    cerrarPresentacion: func.isRequired,
 };
 
 ModalMedicacion.propTypes = {

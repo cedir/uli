@@ -38,11 +38,12 @@ import {
     abrirPresentacionEpic,
     estudiosDeUnaPresentacionAgregarEpic,
     updatePresentacionEpic,
+    cerrarPresentacionEpic,
 } from '../presentaciones/presentacionEpic';
 import {
     estudiosSinPresentarEpic,
     estudiosSinPresentarAgregarEpic,
-    crearNuevaPresentacionEpic,
+    guardarNuevaPresentacionEpic,
 } from '../presentaciones/nueva-presentacion/estudiosSinPresentarEpic';
 import { loginEpic } from '../login/loginEpic';
 import { comprobantesEpic, obtenerComprobantesEpic, guardarComprobanteAsociadoEpic, obtenerComprobantesConFiltroEpic } from '../comprobantes/comprobantesEpic';
@@ -72,8 +73,9 @@ export const rootEpic = combineEpics(
     practicaEpic,
     presentacionEpic,
     abrirPresentacionEpic,
+    cerrarPresentacionEpic,
     estudiosSinPresentarEpic,
-    crearNuevaPresentacionEpic,
+    guardarNuevaPresentacionEpic,
     updatePresentacionEpic,
     verEstudiosDeUnaPresentacionEpic,
     estudiosSinPresentarAgregarEpic,

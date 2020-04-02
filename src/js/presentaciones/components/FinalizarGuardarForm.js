@@ -6,13 +6,11 @@ import { withRouter } from 'react-router-dom';
 function initEditFormObject(props) {
     const {
         periodoValue,
-        comprobanteState,
         estudios,
         fecha,
         idObraSocial,
     } = props;
     /* eslint-disable no-unused-vars */
-    const [gravadoId, setGravadoId] = useState(null);
 
     const filterKeys = ({
         id,
@@ -32,22 +30,41 @@ function initEditFormObject(props) {
         arancel_anestesia,
     });
 
-    useEffect(() => {
-        if (comprobanteState.gravado === '0.00') {
-            setGravadoId(1);
-        } else if (comprobanteState.gravado === '10.50') {
-            setGravadoId(2);
-        } else if (comprobanteState.gravado === '21.00') {
-            setGravadoId(3);
-        }
-    }, [comprobanteState.gravado]);
-
     return {
         obra_social_id: idObraSocial,
         periodo: periodoValue,
         fecha,
-        estado: 'Pendiente',
+        estado: 'Abierto',
         estudios: estudios.map(filterKeys),
+    };
+}
+
+function comprobanteObject(props) {
+    const { comprobanteState } = props;
+    const [gravadoId, setGravadoId] = useState(null);
+    useEffect(() => {
+        const { gravado } = comprobanteState;
+        switch (gravado) {
+            case '0.00':
+                setGravadoId(1);
+                break;
+            case '10.50':
+                setGravadoId(2);
+                break;
+            case '21.00':
+                setGravadoId(3);
+                break;
+            default:
+                break;
+        }
+    }, [comprobanteState.gravado]);
+
+    return {
+        tipo_id: parseInt(comprobanteState.tipo, 10),
+        nro_terminal: 99,
+        sub_tipo: comprobanteState.subTipo,
+        responsable: comprobanteState.responsable,
+        gravado_id: gravadoId,
     };
 }
 
@@ -56,6 +73,7 @@ function FinalizarGuardarForm(props) {
         periodoValue,
         onChangePeriodoValue,
         crearOActualizarPresentacion,
+        cerrarPresentacion,
         comprobanteState,
         finalizarButtonDisabled,
         guardarButtonDisabled,
@@ -67,14 +85,19 @@ function FinalizarGuardarForm(props) {
 
     const postObject = initEditFormObject({
         periodoValue,
-        comprobanteState,
         estudios,
         fecha,
         idObraSocial,
+        comprobanteState,
     });
 
-    const guardarClickHandler = () => {
+    const comprobante = comprobanteObject({
+        comprobanteState,
+    });
+
+    const finalizarClickHandler = () => {
         crearOActualizarPresentacion(postObject);
+        cerrarPresentacion(comprobante);
         setTimeout(() => {
             history.push('/presentaciones-obras-sociales');
         }, 1500);
@@ -97,13 +120,13 @@ function FinalizarGuardarForm(props) {
                 <Button
                   bsStyle='primary'
                   disabled={ finalizarButtonDisabled }
+                  onClick={ finalizarClickHandler }
                 >
                     Finalizar
                 </Button>
                 <Button
                   bsStyle='primary'
                   disabled={ guardarButtonDisabled }
-                  onClick={ guardarClickHandler }
                 >
                     Guardar
                 </Button>
@@ -124,6 +147,7 @@ FinalizarGuardarForm.propTypes = {
     finalizarButtonDisabled: bool.isRequired,
     guardarButtonDisabled: bool.isRequired,
     crearOActualizarPresentacion: func.isRequired,
+    cerrarPresentacion: func.isRequired,
     history: object.isRequired,
 };
 

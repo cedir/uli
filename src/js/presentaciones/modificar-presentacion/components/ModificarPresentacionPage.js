@@ -10,7 +10,8 @@ import {
     FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
     AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
     ACTUALIZAR_PRESENTACION_OBRA_SOCIAL,
- } from '../../actionTypes';
+    CERRAR_PRESENTACION_OBRA_SOCIAL,
+} from '../../actionTypes';
 import initialState from '../../presentacionReducerInitialState';
 
 function ModificarPresentacionPage(props) {
@@ -24,6 +25,7 @@ function ModificarPresentacionPage(props) {
         fetchEstudiosAgregar,
         agregarEstudiosTabla,
         actualizarPresentacion,
+        cerrarPresentacion,
         idPresentacion,
         obraSocial,
     } = props;
@@ -51,7 +53,14 @@ function ModificarPresentacionPage(props) {
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
               idObraSocial={ obraSocial.id }
-              crearOActualizarPresentacion={ obj => actualizarPresentacion(obj, idPresentacion) }
+              crearOActualizarPresentacion={
+                presentacion =>
+                    actualizarPresentacion(presentacion, idPresentacion)
+              }
+              cerrarPresentacion={
+                comprobante =>
+                    cerrarPresentacion(comprobante, idPresentacion)
+              }
               fecha={ fecha }
               listComponent={
                   <EstudiosDeUnaPresentacionList
@@ -80,6 +89,7 @@ ModificarPresentacionPage.propTypes = {
     fetchEstudiosAgregar: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
     actualizarPresentacion: func.isRequired,
+    cerrarPresentacion: func.isRequired,
     idPresentacion: number.isRequired,
 };
 
@@ -124,6 +134,10 @@ function mapDispatchToProps(dispatch) {
         actualizarPresentacion: (presentacion, id) =>
             dispatch({
                 type: ACTUALIZAR_PRESENTACION_OBRA_SOCIAL, presentacion, id,
+            }),
+        cerrarPresentacion: (comprobante, id) =>
+            dispatch({
+                type: CERRAR_PRESENTACION_OBRA_SOCIAL, comprobante, id,
             }),
     };
 }

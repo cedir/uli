@@ -12,6 +12,7 @@ function TabNavigator(props) {
         fetchEstudiosAgregar,
         agregarEstudiosTabla,
         crearOActualizarPresentacion,
+        cerrarPresentacion,
         idObraSocial,
         fecha,
     } = props;
@@ -85,6 +86,7 @@ function TabNavigator(props) {
               estudios={ estudios }
               idObraSocial={ idObraSocial }
               crearOActualizarPresentacion={ crearOActualizarPresentacion }
+              cerrarPresentacion={ cerrarPresentacion }
             />
             <ModalAgregarEstudio
               show={ agregarEstudios }
@@ -108,6 +110,7 @@ TabNavigator.propTypes = {
     estudiosAgregar: array.isRequired,
     agregarEstudiosTabla: func.isRequired,
     crearOActualizarPresentacion: func.isRequired,
+    cerrarPresentacion: func.isRequired,
     idObraSocial: number.isRequired,
     fecha: string.isRequired,
 };
