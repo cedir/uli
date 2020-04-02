@@ -134,32 +134,11 @@ const loadNuevaPresentacionDetailId = (state, action) => {
 
 const agregarEstudiosATablaReducer = (state, action) => {
     const { estudios } = state;
-    const { estudiosAgregar } = state;
-    const newEstudios = [];
-    estudiosAgregar.forEach((estudio) => {
-        action.ids.forEach((id) => {
-            if (estudio.id === id) {
-                newEstudios.push(estudio);
-            }
-        });
-    });
-
-    estudios.forEach((estudio) => {
-        newEstudios.forEach((newEstudio) => {
-            if (newEstudio.id === estudio.id) {
-                const index = newEstudios.indexOf(newEstudio);
-                newEstudios.splice(index, 1);
-            }
-        });
-    });
-    newEstudios.forEach((newEstudio) => {
-        estudios.push(newEstudio);
-    });
-
+    const estudiosAgregar = action.estudios;
+    const newEstudios = estudios.concat(estudiosAgregar);
     return sumarImportesEstudios({
         ...state,
-        estudios,
-        estudiosAgregar,
+        estudios: newEstudios,
     });
 };
 

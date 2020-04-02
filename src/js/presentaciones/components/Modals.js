@@ -8,6 +8,7 @@ import AgregarEstudioList from './AgregarEstudioList';
 import AlertModal from '../../utilities/components/alert/AlertModal';
 
 export default function ModalAgregarEstudio(props) {
+    /* eslint-disable no-unused-vars */
     const {
         show,
         onClickClose,
@@ -18,6 +19,7 @@ export default function ModalAgregarEstudio(props) {
     const [selected, setSelected] = useState(new Map([]));
     const [alert, setAlert] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [estudiosToAdd, setEstudiosToAdd] = useState([]);
 
     const handleClick = (event, id) => {
         const newSelected = new Map(selected);
@@ -31,24 +33,51 @@ export default function ModalAgregarEstudio(props) {
     };
 
     const handleAgregarSelected = () => {
-        const estudiosIds = [];
-        selected.forEach((value, key) => {
-            estudiosIds.push(key);
+        const idsSelected = [];
+        const idsInList = [];
+        selected.forEach((key, value) => {
+            idsSelected.push(value);
         });
-
-        if (estudiosIds.length > 0 && estudios.length < estudiosAgregar.length) {
-            setAlert(true);
+        estudios.forEach((estudio) => {
+            idsSelected.forEach((id) => {
+                if (id === estudio.id) {
+                    idsInList.push(id);
+                }
+            });
+        });
+        const idsToAdd = idsSelected.filter(x => !idsInList.includes(x));
+        if (idsToAdd.length > 0) {
+            setEstudiosToAdd(estudiosAgregar.filter(x => idsToAdd.includes(x.id)));
             setSuccess(true);
-            agregarEstudiosTabla(estudiosIds);
+            setAlert(true);
         } else {
             setAlert(true);
-            setSuccess(false);
         }
         setSelected(new Map([]));
     };
 
-    const successMessage = 'Estudios cargados correctamente';
-    const errorMessage = 'Los estudios ya se encuentran en la tabla';
+    const handleAgregarEstudiosATabla = () => {
+        agregarEstudiosTabla(estudiosToAdd);
+        setEstudiosToAdd([]);
+        setAlert(false);
+        setSuccess(false);
+    };
+
+    const alertClickHandler = () => {
+        setAlert(false);
+        setEstudiosToAdd([]);
+        setSuccess(false);
+    };
+
+    const ElementosCargados = () => (
+        <AgregarEstudioList
+          estudios={ estudiosToAdd }
+          selected={ selected }
+          hiddenCheckBox
+        />
+    );
+    const successMessage = 'Los siguientes estudios serán cargados al listado';
+    const errorMessage = 'Todos los estudios seleccionados ya se encuentran en la tabla';
 
     return (
         <Modal show={ show } className='agregar-estudio'>
@@ -66,19 +95,26 @@ export default function ModalAgregarEstudio(props) {
                 <Button
                   onClick={ handleAgregarSelected }
                   bsStyle='primary'
+                  disabled={ selected.size === 0 }
                 >
                     Agregar
                 </Button>
-                <Button onClick={ onClickClose } >
+                <Button
+                  onClick={ onClickClose }
+                  bsStyle='danger'
+                >
                     Cerrar
                 </Button>
             </Modal.Footer>
             <AlertModal
               isOpen={ alert }
-              onClickDo={ () => setAlert(false) }
-              doLabel='Entendido'
+              title={ success ? successMessage : '' }
+              doLabel={ success ? 'Agregar' : '' }
+              dontLabel={ success ? 'Cancelar' : 'Entendido' }
+              onClickDo={ handleAgregarEstudiosATabla }
+              onClickClose={ alertClickHandler }
               buttonStyle={ success ? 'primary' : 'danger' }
-              content={ success ? successMessage : errorMessage }
+              content={ success ? <ElementosCargados /> : errorMessage }
             />
         </Modal>
     );

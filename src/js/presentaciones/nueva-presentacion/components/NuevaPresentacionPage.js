@@ -26,8 +26,7 @@ function NuevaPresentacionPage(props) {
     } = props;
     const comprobanteState = useComprobanteState();
     const [fecha, setFecha] = useState('');
-    console.log('%c ESTUDIOS: ', 'color: orange', estudios);
-    console.log('%c OBRASOCIAL: ', 'color: orange', obraSocial);
+
     return (
         <div>
             <h1>
@@ -116,10 +115,10 @@ function mapDispatchToProps(dispatch) {
                 type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
                 id,
             }),
-        agregarEstudiosTabla: ids =>
+        agregarEstudiosTabla: estudios =>
             dispatch({
                 type: AGREGAR_ESTUDIOS_A_TABLA,
-                ids,
+                estudios,
             }),
     };
 }

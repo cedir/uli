@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import AgreagarEstudioTableRow from './AgregarEstudioTableRow';
 
 function AgregarEstudioList(props) {
-    const { estudios, onClickIcon, selected } = props;
+    const {
+        estudios, onClickIcon, selected, hiddenCheckBox,
+    } = props;
 
     return (
         <table className='estudios-table'>
@@ -12,6 +14,7 @@ function AgregarEstudioList(props) {
                 <tr>
                     <th
                       className='short'
+                      hidden={ hiddenCheckBox }
                     />
                     <th>Fecha</th>
                     <th>Paciente</th>
@@ -28,6 +31,7 @@ function AgregarEstudioList(props) {
                           key={ estudio.id }
                           onClickIcon={ e => onClickIcon(e, estudio.id) }
                           selected={ !!selected.get(estudio.id) }
+                          hiddenCheckBox={ hiddenCheckBox }
                         />
                     ))
                 }
@@ -40,6 +44,7 @@ AgregarEstudioList.propTypes = {
     estudios: PropTypes.array.isRequired,
     onClickIcon: PropTypes.func,
     selected: PropTypes.object,
+    hiddenCheckBox: PropTypes.bool,
 };
 
 export default AgregarEstudioList;

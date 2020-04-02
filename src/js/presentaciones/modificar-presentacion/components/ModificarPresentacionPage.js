@@ -110,9 +110,9 @@ function mapDispatchToProps(dispatch) {
             dispatch({
                 type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR, id: idObraSocial,
             }),
-        agregarEstudiosTabla: ids =>
+        agregarEstudiosTabla: estudios =>
             dispatch({
-                type: AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA, ids,
+                type: AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA, estudios,
             }),
     };
 }

@@ -6,24 +6,34 @@ export default function AlertModal(props) {
     const {
         isOpen, content, buttonStyle,
         onClickDo, onClickClose, doLabel,
-        dontLabel,
+        dontLabel, title,
     } = props;
+    const isContentString = (typeof content) === 'string';
+
     return (
         <Modal show={ isOpen } className='alert'>
+            { title && (
+                <Modal.Header>
+                    <h1>{ title }</h1>
+                </Modal.Header>
+            )}
             <Modal.Body>
-                <Row>
+                <Row className={ isContentString ? 'strings' : 'element' }>
                     { content }
                 </Row>
-                <Row>
-                    <Button
-                      bsStyle={ buttonStyle }
-                      type='button'
-                      onClick={ onClickDo }
-                    >
-                        { doLabel }
-                    </Button>
-                    { dontLabel !== undefined && (
+                <Row className='toolbar'>
+                    { doLabel && (
                         <Button
+                          bsStyle={ buttonStyle }
+                          type='button'
+                          onClick={ onClickDo }
+                        >
+                            { doLabel }
+                        </Button>
+                    )}
+                    { dontLabel && (
+                        <Button
+                          bsStyle='danger'
                           type='button'
                           onClick={ onClickClose }
                         >
@@ -46,5 +56,6 @@ AlertModal.propTypes = {
     onClickClose: func,
     doLabel: string.isRequired,
     dontLabel: string.isRequired,
+    title: string,
 };
 

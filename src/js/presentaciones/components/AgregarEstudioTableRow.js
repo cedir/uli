@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import CheckBoxIcon from 'mdi-react/CheckBoxIcon';
 
 function AgregarEstudioTableRow(props) {
-    const { selected, onClickIcon } = props;
+    const { selected, onClickIcon, hiddenCheckBox } = props;
     const {
         id, fecha, paciente, practica, medico,
     } = props.estudios;
@@ -14,7 +14,7 @@ function AgregarEstudioTableRow(props) {
         <tr
           className={ selected ? 'selected' : '' }
         >
-            <td>
+            <td hidden={ hiddenCheckBox }>
                 <CheckBoxIcon
                   onClick={ onClickIcon }
                   className={ selected ? 'active' : '' }
@@ -41,6 +41,7 @@ AgregarEstudioTableRow.propTypes = {
     estudios: PropTypes.object,
     onClickIcon: PropTypes.func,
     selected: PropTypes.bool,
+    hiddenCheckBox: PropTypes.bool,
 };
 
 export default connect(null, null)(AgregarEstudioTableRow);

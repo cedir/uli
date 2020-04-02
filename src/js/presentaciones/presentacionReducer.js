@@ -204,37 +204,16 @@ const loadPresentacionDetailId = (state, action) => {
     return newState;
 };
 
-const agregarEstudiosDeUnaPresentacionATablaReducer = (state, action) => {
+const agregarEstudiosATablaReducer = (state, action) => {
     const { presentacion } = state;
-    const { estudios } = state.presentacion;
-    const { estudiosAgregar } = state.presentacion;
-    const newEstudios = [];
-    estudiosAgregar.forEach((estudio) => {
-        action.ids.forEach((id) => {
-            if (estudio.id === id) {
-                newEstudios.push(estudio);
-            }
-        });
-    });
-
-    estudios.forEach((estudio) => {
-        newEstudios.forEach((newEstudio) => {
-            if (newEstudio.id === estudio.id) {
-                const index = newEstudios.indexOf(newEstudio);
-                newEstudios.splice(index, 1);
-            }
-        });
-    });
-    newEstudios.forEach((newEstudio) => {
-        estudios.push(newEstudio);
-    });
-
+    const { estudios } = presentacion;
+    const estudiosAgregar = action.estudios;
+    const newEstudios = estudios.concat(estudiosAgregar);
     return sumarImportesEstudios({
         ...state,
         presentacion: {
             ...presentacion,
-            estudios,
-            estudiosAgregar,
+            estudios: newEstudios,
         },
     });
 };
@@ -264,7 +243,7 @@ export function presentacionReducer(state = initialState, action) {
         case ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION:
             return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
         case AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA:
-            return agregarEstudiosDeUnaPresentacionATablaReducer(state, action);
+            return agregarEstudiosATablaReducer(state, action);
         case LOAD_PRESENTACION_DETAIL_ID:
             return loadPresentacionDetailId(state, action);
 
