@@ -39,26 +39,26 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         eliminarEstudio(index);
     };
 
-    const onChangeHandler = (idInput, value) => {
-        let parsedValue = parseFloat(value, 10);
+    const onChangeHandler = (e) => {
+        let parsedValue = parseFloat(e.target.value, 10);
         if (isNaN(parsedValue)) {
             parsedValue = 0;
         }
-        actualizarInput(index, idInput, parsedValue);
-        switch (idInput) {
-            case 1:
-                setNroOrden(value);
+        actualizarInput(index, e.target.name, parsedValue);
+        switch (e.target.name) {
+            case 'nro_de_orden':
+                setNroOrden(e.target.value);
                 break;
-            case 2:
+            case 'importe_estudio':
                 setImporte(parsedValue);
                 break;
-            case 3:
+            case 'pension':
                 setPension(parsedValue);
                 break;
-            case 4:
+            case 'diferencia_paciente':
                 setDifPaciente(parsedValue);
                 break;
-            case 5:
+            case 'arancel_anestesia':
                 setAnestesista(parsedValue);
                 break;
             default:
@@ -102,7 +102,8 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                   type='text'
                   value={ nroOrden }
                   placeholder={ nroOrden }
-                  onChange={ e => onChangeHandler(1, e.target.value) }
+                  onChange={ e => onChangeHandler(e) }
+                  name='nro_de_orden'
                 />
             </td>
             <td>{ paciente.id }</td>
@@ -119,21 +120,24 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                 <input
                   type='number'
                   value={ importe }
-                  onChange={ e => onChangeHandler(2, e.target.value) }
+                  onChange={ e => onChangeHandler(e) }
+                  name='importe_estudio'
                 />
             </td>
             <td>
                 <input
                   type='number'
                   value={ pensionState }
-                  onChange={ e => onChangeHandler(3, e.target.value) }
+                  onChange={ e => onChangeHandler(e) }
+                  name='pension'
                 />
             </td>
             <td>
                 <input
                   type='number'
                   value={ difPaciente }
-                  onChange={ e => onChangeHandler(4, e.target.value) }
+                  onChange={ e => onChangeHandler(e) }
+                  name='diferencia_paciente'
                 />
             </td>
             <td className='medicacion'>
@@ -143,7 +147,8 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                 <input
                   type='number'
                   value={ parseFloat(anestesista, 10) }
-                  onChange={ e => onChangeHandler(5, e.target.value) }
+                  onChange={ e => onChangeHandler(e) }
+                  name='arancel_anestesia'
                 />
             </td>
             <td className='delete'>

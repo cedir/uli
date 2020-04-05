@@ -158,24 +158,24 @@ const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
     // console.log(newEstudio === estudios[action.index]) -> false
     // we aren't mutating state.
     const newEstudio = { ...estudios[action.index] };
-    switch (action.idInput) {
-        case 1:
+    switch (action.input) {
+        case 'nro_de_orden':
             newEstudio.nro_de_orden = action.value;
             estudios.splice(action.payload.index, 1, newEstudio);
             break;
-        case 2:
+        case 'importe_estudio':
             newEstudio.importe_estudio = action.value;
             estudios.splice(action.index, 1, newEstudio);
             break;
-        case 3:
+        case 'pension':
             newEstudio.pension = action.value;
             estudios.splice(action.index, 1, newEstudio);
             break;
-        case 4:
+        case 'diferencia_paciente':
             newEstudio.diferencia_paciente = action.value;
             estudios.splice(action.index, 1, newEstudio);
             break;
-        case 5:
+        case 'arancel_anestesia':
             newEstudio.arancel_anestesia = action.value;
             estudios.splice(action.index, 1, newEstudio);
             break;

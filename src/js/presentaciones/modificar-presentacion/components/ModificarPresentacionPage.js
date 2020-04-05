@@ -115,9 +115,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actualizarInput: (index, idInput, value) =>
+        actualizarInput: (index, input, value) =>
             dispatch({
-                type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, index, idInput, value,
+                type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, index, input, value,
             }),
         eliminarEstudio: index =>
             dispatch({

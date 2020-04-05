@@ -106,9 +106,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        actualizarInput: (index, idInput, value) =>
+        actualizarInput: (index, input, value) =>
             dispatch({
-                type: ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, index, idInput, value,
+                type: ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, index, input, value,
             }),
         eliminarEstudio: index =>
             dispatch({
