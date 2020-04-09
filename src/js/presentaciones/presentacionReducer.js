@@ -114,7 +114,6 @@ const loadEstudiosDeUnaPresentacionErrorReducer = (state) => {
 
 const loadEstudiosDeUnaPresentacionAgregarReducer = (state, action) => {
     const { presentacion } = state;
-    console.log(action);
     return sumarImportesEstudios({
         ...state,
         presentacion: {

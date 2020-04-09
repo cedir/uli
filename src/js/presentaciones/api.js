@@ -18,7 +18,6 @@ export function getEstudiosDeUnaPresentacion(id) {
 
 export function updatePresentacionObraSocial(presentacion, id) {
     const url = `/api/presentacion/${id}/`;
-    console.log(presentacion);
     const body = {
         obra_social_id: presentacion.obra_social_id,
         periodo: presentacion.periodo,
@@ -35,7 +34,6 @@ export function updatePresentacionObraSocial(presentacion, id) {
 
 export function cerrarPresentacionObraSocial(comprobante, id) {
     const url = `/api/presentacion/${id}/cerrar/`;
-    console.log(comprobante);
     const body = {
         tipo_comprobante_id: comprobante.tipo_id,
         nro_terminal: comprobante.nro_terminal,
