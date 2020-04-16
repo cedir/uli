@@ -199,8 +199,9 @@ export function ModalFinalizarGuardar(props) {
         comprobanteState,
         fecha,
         estudios,
-        idObraSocial,
-        crearOActualizarPresentacion,
+        id,
+        crearPresentacion,
+        updatePresentacion,
         cerrarPresentacion,
     } = props;
     const [periodoValue, setPeriodoValue] = useState('');
@@ -242,8 +243,9 @@ export function ModalFinalizarGuardar(props) {
                   guardarButtonDisabled={ guardarButtonDisabled }
                   fecha={ fecha }
                   estudios={ estudios }
-                  idObraSocial={ idObraSocial }
-                  crearOActualizarPresentacion={ crearOActualizarPresentacion }
+                  id={ id }
+                  crearPresentacion={ crearPresentacion }
+                  updatePresentacion={ updatePresentacion }
                   cerrarPresentacion={ cerrarPresentacion }
                 />
             </Modal.Body>
@@ -282,9 +284,10 @@ ModalFinalizarGuardar.propTypes = {
     comprobanteState: object.isRequired,
     fecha: string.isRequired,
     estudios: array.isRequired,
-    idObraSocial: number.isRequired,
-    crearOActualizarPresentacion: func.isRequired,
+    crearPresentacion: func,
+    updatePresentacion: func,
     cerrarPresentacion: func.isRequired,
+    id: number.isRequired,
 };
 
 ModalMedicacion.propTypes = {

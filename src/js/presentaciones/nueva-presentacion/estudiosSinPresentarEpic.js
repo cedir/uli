@@ -11,7 +11,6 @@ import {
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
     LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
     CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL,
-    LOAD_NUEVA_PRESENTACION_DETAIL_ID,
 } from './actionTypes';
 import { createAlert } from '../../utilities/components/alert/alertUtility';
 import { ADD_ALERT } from '../../utilities/components/alert/actionTypes';
@@ -49,9 +48,8 @@ export function guardarNuevaPresentacionEpic(action$) {
     return action$.ofType(CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL)
         .mergeMap(action =>
             guardarNuevaPresentacionObraSocial(action.presentacion)
-            .mergeMap(data => Rx.Observable.of(
+            .mergeMap(() => Rx.Observable.of(
                 { type: ADD_ALERT, alert: createAlert('Presentación Creada con Exito') },
-                { type: LOAD_NUEVA_PRESENTACION_DETAIL_ID, data },
             ))
             .catch(() => (Rx.Observable.of({
                 type: ADD_ALERT, alert: createAlert('Error al intentar crear presentacion', 'danger'),

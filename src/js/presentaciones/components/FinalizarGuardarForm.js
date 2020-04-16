@@ -3,14 +3,15 @@ import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
-function initEditFormObject(props) {
+/* eslint-disable no-unused-vars */
+function presentacionObject(props) {
     const {
         periodoValue,
         estudios,
         fecha,
-        idObraSocial,
+        id: newId,
+        updatePresentacion,
     } = props;
-    /* eslint-disable no-unused-vars */
 
     const filterKeys = ({
         id,
@@ -29,14 +30,23 @@ function initEditFormObject(props) {
         medicacion,
         arancel_anestesia,
     });
-
-    return {
-        obra_social_id: idObraSocial,
-        periodo: periodoValue,
-        fecha,
-        estado: 'Abierto',
-        estudios: estudios.map(filterKeys),
-    };
+    /* eslint-disable no-else-return */
+    if (!updatePresentacion && newId) {
+        return {
+            obra_social_id: newId,
+            periodo: periodoValue,
+            fecha,
+            estado: 'Abierto',
+            estudios: estudios.map(filterKeys),
+        };
+    } else {
+        return {
+            periodo: periodoValue,
+            fecha,
+            estado: 'Abierto',
+            estudios: estudios.map(filterKeys),
+        };
+    }
 }
 
 function comprobanteObject(props) {
@@ -72,23 +82,25 @@ function FinalizarGuardarForm(props) {
     const {
         periodoValue,
         onChangePeriodoValue,
-        crearOActualizarPresentacion,
+        id,
+        crearPresentacion,
+        updatePresentacion,
         cerrarPresentacion,
         comprobanteState,
         finalizarButtonDisabled,
         guardarButtonDisabled,
         estudios,
-        idObraSocial,
         fecha,
         history,
     } = props;
 
-    const postObject = initEditFormObject({
+    const postObject = presentacionObject({
         periodoValue,
         estudios,
         fecha,
-        idObraSocial,
         comprobanteState,
+        id,
+        updatePresentacion,
     });
 
     const comprobante = comprobanteObject({
@@ -96,8 +108,13 @@ function FinalizarGuardarForm(props) {
     });
 
     const finalizarClickHandler = () => {
-        crearOActualizarPresentacion(postObject);
-        cerrarPresentacion(comprobante);
+        if (crearPresentacion !== undefined) {
+            crearPresentacion(postObject);
+        }
+        if (updatePresentacion !== undefined) {
+            updatePresentacion(postObject, id);
+        }
+        cerrarPresentacion(comprobante, id);
         setTimeout(() => {
             history.push('/presentaciones-obras-sociales');
         }, 1500);
@@ -135,18 +152,19 @@ function FinalizarGuardarForm(props) {
     );
 }
 
-const { number, array, string, func, object } = PropTypes;
+const { array, string, func, object, number } = PropTypes;
 
 FinalizarGuardarForm.propTypes = {
     estudios: array.isRequired,
     fecha: string.isRequired,
-    idObraSocial: number.isRequired,
     periodoValue: string.isRequired,
     onChangePeriodoValue: func.isRequired,
     comprobanteState: object.isRequired,
     finalizarButtonDisabled: bool.isRequired,
     guardarButtonDisabled: bool.isRequired,
-    crearOActualizarPresentacion: func.isRequired,
+    id: number.isRequired,
+    crearPresentacion: func,
+    updatePresentacion: func,
     cerrarPresentacion: func.isRequired,
     history: object.isRequired,
 };

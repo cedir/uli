@@ -7,11 +7,9 @@ import EyePlusIcon from 'mdi-react/EyePlusIcon';
 import PencilPlusIcon from 'mdi-react/PencilPlusIcon';
 import LockIcon from 'mdi-react/LockIcon';
 import LockOpenIcon from 'mdi-react/LockOpenIcon';
-import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
-import {
-    ABRIR_PRESENTACION, FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
-} from '../actionTypes';
+import { ABRIR_PRESENTACION } from '../actionTypes';
+import { FETCH_ESTUDIOS_DE_UNA_PRESENTACION } from '../modificar-presentacion/actionTypes';
 import AlertModal from '../../utilities/components/alert/AlertModal';
 
 function PresentacionesObraSocialTableRow(props) {

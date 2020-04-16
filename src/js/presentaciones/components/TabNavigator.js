@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import PropTypes, { array } from 'prop-types';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Button, Row, Col } from 'react-bootstrap';
 import ModalAgregarEstudio, { ModalFinalizarGuardar, ModalComprobante } from './Modals';
+import { VACIAR_ESTUDIOS_AGREGAR } from '../nueva-presentacion/actionTypes';
 
 function TabNavigator(props) {
     const {
@@ -11,18 +13,25 @@ function TabNavigator(props) {
         estudiosAgregar,
         fetchEstudiosAgregar,
         agregarEstudiosTabla,
-        crearOActualizarPresentacion,
+        id,
+        crearPresentacion,
+        updatePresentacion,
         cerrarPresentacion,
-        idObraSocial,
         fecha,
+        vaciarEstudiosAgregar,
     } = props;
     const [openComprobante, setComprobante] = useState(false);
     const [openFinalizarGuardar, setFinalizarGuardar] = useState(false);
     const [agregarEstudios, setAgregarEstudios] = useState(false);
 
     const agregarClickHandler = () => {
-        fetchEstudiosAgregar(idObraSocial);
+        fetchEstudiosAgregar(id);
         setAgregarEstudios(true);
+    };
+
+    const cerrarClickHandler = () => {
+        setAgregarEstudios(false);
+        vaciarEstudiosAgregar();
     };
 
     return (
@@ -84,14 +93,15 @@ function TabNavigator(props) {
               comprobanteState={ comprobanteState }
               fecha={ fecha }
               estudios={ estudios }
-              idObraSocial={ idObraSocial }
-              crearOActualizarPresentacion={ crearOActualizarPresentacion }
+              id={ id }
+              crearPresentacion={ crearPresentacion }
+              updatePresentacion={ updatePresentacion }
               cerrarPresentacion={ cerrarPresentacion }
             />
             <ModalAgregarEstudio
               show={ agregarEstudios }
               alert={ alert }
-              onClickClose={ () => setAgregarEstudios(false) }
+              onClickClose={ cerrarClickHandler }
               estudios={ estudios }
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
@@ -100,7 +110,7 @@ function TabNavigator(props) {
     );
 }
 
-const { number, element, func, object, string } = PropTypes;
+const { number, element, func, object, string, array } = PropTypes;
 
 TabNavigator.propTypes = {
     listComponent: element.isRequired,
@@ -109,10 +119,21 @@ TabNavigator.propTypes = {
     estudios: array.isRequired,
     estudiosAgregar: array.isRequired,
     agregarEstudiosTabla: func.isRequired,
-    crearOActualizarPresentacion: func.isRequired,
+    id: number.isRequired,
+    crearPresentacion: func,
+    updatePresentacion: func,
     cerrarPresentacion: func.isRequired,
-    idObraSocial: number.isRequired,
     fecha: string.isRequired,
+    vaciarEstudiosAgregar: func.isRequired,
 };
 
-export default TabNavigator;
+function mapDispatchToProps(dispatch) {
+    return {
+        vaciarEstudiosAgregar: () =>
+            dispatch({
+                type: VACIAR_ESTUDIOS_AGREGAR,
+            }),
+    };
+}
+
+export default connect(null, mapDispatchToProps)(TabNavigator);

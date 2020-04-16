@@ -3,26 +3,19 @@ import {
     getEstudiosDeUnaPresentacion,
     getPresentacionesObraSocial,
     patchAbrirPresentacion,
-    updatePresentacionObraSocial,
-    cerrarPresentacionObraSocial,
+    patchCerrarPresentacion,
 } from './api';
 import {
     FETCH_PRESENTACIONES_OBRA_SOCIAL,
-    FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
     LOAD_PRESENTACIONES_OBRA_SOCIAL,
-    LOAD_ESTUDIOS_DE_UNA_PRESENTACION,
     LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
-    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
     FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
-    ACTUALIZAR_PRESENTACION_OBRA_SOCIAL,
-    CERRAR_PRESENTACION_OBRA_SOCIAL,
-    LOAD_PRESENTACION_DETAIL_ID,
     ABRIR_PRESENTACION,
+    CERRAR_PRESENTACION,
     UPDATE_PRESENTACION,
-}
-    from './actionTypes';
+} from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
 
@@ -37,26 +30,6 @@ export function presentacionEpic(action$) {
     );
 }
 
-export function verEstudiosDeUnaPresentacionEpic(action$) {
-    return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION)
-        .mergeMap(action =>
-            getEstudiosDeUnaPresentacion(action.id)
-            .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
-                {
-                    type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION, data,
-                    obraSocial: action.obraSocial,
-                    id: action.id,
-                    fecha: action.fecha,
-                },
-            ))
-            .catch(() => (Rx.Observable.of(
-                { type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR },
-                { type: ADD_ALERT, alert: createAlert('Error al intentar ver presentacion', 'danger') },
-            ))),
-    );
-}
-
 export function estudiosDeUnaPresentacionAgregarEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR)
         .mergeMap(action =>
@@ -66,34 +39,6 @@ export function estudiosDeUnaPresentacionAgregarEpic(action$) {
                 type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
             }))),
     );
-}
-
-export function updatePresentacionEpic(action$) {
-    return action$.ofType(ACTUALIZAR_PRESENTACION_OBRA_SOCIAL)
-        .mergeMap(action =>
-            updatePresentacionObraSocial(action.presentacion, action.id)
-            .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Presentación actualizada con éxito', 'success') },
-                { type: LOAD_PRESENTACION_DETAIL_ID, data },
-            ))
-            .catch(() => (Rx.Observable.of({
-                type: ADD_ALERT, alert: createAlert('Error al actualizar presentacion', 'danger'),
-            }))),
-        );
-}
-
-export function cerrarPresentacionEpic(action$) {
-    return action$.ofType(CERRAR_PRESENTACION_OBRA_SOCIAL)
-        .mergeMap(action =>
-            cerrarPresentacionObraSocial(action.comprobante, action.id)
-            .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Presentación cerrada con éxito', 'success') },
-                { type: LOAD_PRESENTACION_DETAIL_ID, data },
-            ))
-            .catch(() => (Rx.Observable.of({
-                type: ADD_ALERT, alert: createAlert('Error al cerrar presentacion', 'danger'),
-            }))),
-        );
 }
 
 export function abrirPresentacionEpic(action$) {
@@ -106,6 +51,19 @@ export function abrirPresentacionEpic(action$) {
             ))
             .catch(() => (Rx.Observable.of({
                 type: ADD_ALERT, alert: createAlert('Error al abrir la presentacion', 'danger'),
+            }))),
+        );
+}
+
+export function cerrarPresentacionEpic(action$) {
+    return action$.ofType(CERRAR_PRESENTACION)
+        .mergeMap(action =>
+            patchCerrarPresentacion(action.comprobante, action.id)
+            .mergeMap(() => Rx.Observable.of(
+                { type: ADD_ALERT, alert: createAlert('Presentación cerrada con éxito', 'success') },
+            ))
+            .catch(() => (Rx.Observable.of({
+                type: ADD_ALERT, alert: createAlert('Error al cerrar presentacion', 'danger'),
             }))),
         );
 }

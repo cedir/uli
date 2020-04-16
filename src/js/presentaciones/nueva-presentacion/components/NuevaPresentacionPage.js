@@ -8,9 +8,10 @@ import {
     ELIMINAR_ESTUDIO_SIN_PRESENTAR,
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
-    AGREGAR_ESTUDIOS_A_TABLA,
+    AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
     CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL,
  } from '../actionTypes';
+import { CERRAR_PRESENTACION } from '../../actionTypes';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 
 
@@ -24,6 +25,7 @@ function NuevaPresentacionPage(props) {
         estudiosAgregar,
         agregarEstudiosTabla,
         crearNuevaPresentacion,
+        cerrarPresentacion,
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
@@ -56,8 +58,9 @@ function NuevaPresentacionPage(props) {
               estudios={ estudios }
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
-              crearOActualizarPresentacion={ crearNuevaPresentacion }
-              idObraSocial={ obraSocial.id }
+              crearPresentacion={ crearNuevaPresentacion }
+              cerrarPresentacion={ cerrarPresentacion }
+              id={ obraSocial.id !== undefined ? obraSocial.id : -1 }
               fecha={ fecha }
               listComponent={
                   <EstudiosDeUnaPresentacionList
@@ -85,6 +88,7 @@ NuevaPresentacionPage.propTypes = {
     fetchEstudiosAgregar: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
     crearNuevaPresentacion: func.isRequired,
+    cerrarPresentacion: func.isRequired,
 };
 
 NuevaPresentacionPage.defaultProps = {
@@ -121,12 +125,16 @@ function mapDispatchToProps(dispatch) {
             }),
         agregarEstudiosTabla: estudios =>
             dispatch({
-                type: AGREGAR_ESTUDIOS_A_TABLA,
+                type: AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
                 estudios,
             }),
         crearNuevaPresentacion: presentacion =>
             dispatch({
                 type: CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL, presentacion,
+            }),
+        cerrarPresentacion: (comprobante, id) =>
+            dispatch({
+                type: CERRAR_PRESENTACION, comprobante, id,
             }),
     };
 }
