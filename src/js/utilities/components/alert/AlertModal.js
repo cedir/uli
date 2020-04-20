@@ -1,46 +1,61 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Row } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 export default function AlertModal(props) {
     const {
-        isOpen, message, buttonStyle,
+        isOpen, content, buttonStyle,
         onClickDo, onClickClose, doLabel,
-        dontLabel,
+        dontLabel, title,
     } = props;
+    const isContentString = (typeof content) === 'string';
+
     return (
-        <Modal show={ isOpen }>
+        <Modal show={ isOpen } className='alert'>
+            { title && (
+                <Modal.Header>
+                    <h1>{ title }</h1>
+                </Modal.Header>
+            )}
             <Modal.Body>
-                { message }
+                <Row className={ isContentString ? 'strings' : 'element' }>
+                    { content }
+                </Row>
+                <Row className='toolbar'>
+                    { doLabel && (
+                        <Button
+                          bsStyle={ buttonStyle }
+                          type='button'
+                          onClick={ onClickDo }
+                        >
+                            { doLabel }
+                        </Button>
+                    )}
+                    { dontLabel && (
+                        <Button
+                          bsStyle='danger'
+                          type='button'
+                          onClick={ onClickClose }
+                        >
+                            { dontLabel }
+                        </Button>
+                    )}
+                </Row>
             </Modal.Body>
-            <Modal.Footer>
-                <Button
-                  bsStyle={ buttonStyle }
-                  type='button'
-                  onClick={ onClickDo }
-                >
-                    { doLabel }
-                </Button>
-                <Button
-                  type='button'
-                  onClick={ onClickClose }
-                >
-                    { dontLabel }
-                </Button>
-            </Modal.Footer>
         </Modal>
     );
 }
 
-const { bool, string, func } = PropTypes;
+const { any, bool, string, func } = PropTypes;
 
 AlertModal.propTypes = {
     isOpen: bool.isRequired,
-    message: string.isRequired,
+    content: any.isRequired,
     buttonStyle: string.isRequired,
-    onClickDo: func.isRequired,
-    onClickClose: func.isRequired,
+    onClickDo: func,
+    onClickClose: func,
     doLabel: string.isRequired,
     dontLabel: string.isRequired,
+    title: string,
 };
 

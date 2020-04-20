@@ -10,12 +10,6 @@ export function getPresentacionesObraSocial(idObraSocial) {
     return get(url);
 }
 
-export function getEstudiosDeUnaPresentacion(idPresentacion) {
-    const url = `/api/presentacion/${idPresentacion}/estudios`;
-
-    return get(url);
-}
-
 export function getPresentacionFormatoOsde(presentacion) {
     const {
         id,
@@ -64,5 +58,21 @@ export function patchAbrirPresentacion(idPresentacion) {
     const url = `/api/presentacion/${idPresentacion}/abrir/`;
 
     return patch(url);
+}
+
+export function patchCerrarPresentacion(comprobante, id) {
+    const url = `/api/presentacion/${id}/cerrar/`;
+    const body = {
+        tipo_comprobante_id: comprobante.tipo_id,
+        nro_terminal: comprobante.nro_terminal,
+        sub_tipo: comprobante.sub_tipo,
+        responsable: comprobante.responsable,
+        gravado_id: comprobante.gravado_id,
+    };
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    return patch(url, body, headers);
 }
 

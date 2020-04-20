@@ -1,41 +1,41 @@
-import React, { useState } from 'react';
-import PropTypes, { object } from 'prop-types';
+import React from 'react';
+import PropTypes, { object, string } from 'prop-types';
 import { connect } from 'react-redux';
 import TabNavigator from '../../components/TabNavigator';
 import EstudiosDeUnaPresentacionList from '../../components/EstudiosDeUnaPresentacionList';
 import { useComprobanteState } from '../../components/Comprobante';
 import {
-    ELIMINAR_ESTUDIO_SIN_PRESENTAR,
-    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
-    FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
-    AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
-    CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL,
- } from '../actionTypes';
+    FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
+    AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
+    UPDATE_PRESENTACION,
+    ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
+    ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
+} from '../actionTypes';
 import { CERRAR_PRESENTACION } from '../../actionTypes';
-import initialState from '../estudiosSinPresentarReducerInitialState';
+import initialState from '../modificarPresentacionReducerInitialState';
 
-
-function NuevaPresentacionPage(props) {
+function ModificarPresentacionPage(props) {
     const {
         actualizarInput,
         eliminarEstudio,
         estudios,
-        importesTotales,
-        fetchEstudiosAgregar,
         estudiosAgregar,
+        importesTotales,
+        fecha,
+        fetchEstudiosAgregar,
         agregarEstudiosTabla,
-        crearNuevaPresentacion,
+        updatePresentacion,
         cerrarPresentacion,
+        idPresentacion,
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
-    const [fecha, setFecha] = useState('');
 
     return (
         <div>
             <h1>
-                {'Nueva Presentacion: '}
-                <strong>{obraSocial !== {} ? obraSocial.nombre : ''}</strong>
+                {'Modificar Presentacion: '}
+                <strong>{obraSocial.nombre !== undefined ? obraSocial.nombre : ''}</strong>
             </h1>
             <div
               className='date-picker'
@@ -43,13 +43,7 @@ function NuevaPresentacionPage(props) {
             >
                 <div className='form-group'>
                     <label htmlFor='date' className='control-label'>Fecha</label>
-                    <input
-                      name='date'
-                      className='form-control'
-                      type='date'
-                      value={ fecha }
-                      onChange={ e => setFecha(e.target.value) }
-                    />
+                    <input name='date' className='form-control' value={ fecha } type='date' />
                 </div>
             </div>
             <TabNavigator
@@ -58,9 +52,9 @@ function NuevaPresentacionPage(props) {
               estudios={ estudios }
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
-              crearPresentacion={ crearNuevaPresentacion }
+              id={ idPresentacion }
+              updatePresentacion={ updatePresentacion }
               cerrarPresentacion={ cerrarPresentacion }
-              id={ obraSocial.id !== undefined ? obraSocial.id : -1 }
               fecha={ fecha }
               listComponent={
                   <EstudiosDeUnaPresentacionList
@@ -78,33 +72,39 @@ function NuevaPresentacionPage(props) {
 
 const { func, array, number } = PropTypes;
 
-NuevaPresentacionPage.propTypes = {
+ModificarPresentacionPage.propTypes = {
     estudios: array.isRequired,
     estudiosAgregar: array.isRequired,
     obraSocial: object.isRequired,
     importesTotales: number.isRequired,
+    fecha: string.isRequired,
     actualizarInput: func.isRequired,
     eliminarEstudio: func.isRequired,
     fetchEstudiosAgregar: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
-    crearNuevaPresentacion: func.isRequired,
+    updatePresentacion: func.isRequired,
     cerrarPresentacion: func.isRequired,
+    idPresentacion: number.isRequired,
 };
 
-NuevaPresentacionPage.defaultProps = {
+ModificarPresentacionPage.defaultProps = {
     estudios: initialState.estudios,
     estudiosAgregar: initialState.estudiosAgregar,
+    idPresentacion: initialState.idPresentacion,
     obraSocial: initialState.obraSocial,
+    fecha: initialState.fecha,
     importesTotales: initialState.importesTotales,
 };
 
 
 function mapStateToProps(state) {
     return {
-        estudios: state.estudiosSinPresentarReducer.estudios,
-        estudiosAgregar: state.estudiosSinPresentarReducer.estudiosAgregar,
-        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
-        importesTotales: state.estudiosSinPresentarReducer.importesTotales,
+        estudios: state.modificarPresentacionReducer.estudios,
+        estudiosAgregar: state.modificarPresentacionReducer.estudiosAgregar,
+        idPresentacion: state.modificarPresentacionReducer.id,
+        obraSocial: state.modificarPresentacionReducer.obraSocial,
+        fecha: state.modificarPresentacionReducer.fecha,
+        importesTotales: state.modificarPresentacionReducer.importesTotales,
     };
 }
 
@@ -112,25 +112,23 @@ function mapDispatchToProps(dispatch) {
     return {
         actualizarInput: (index, input, value) =>
             dispatch({
-                type: ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, index, input, value,
+                type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, index, input, value,
             }),
         eliminarEstudio: index =>
             dispatch({
-                type: ELIMINAR_ESTUDIO_SIN_PRESENTAR, index,
+                type: ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION, index,
             }),
-        fetchEstudiosAgregar: id =>
+        fetchEstudiosAgregar: idPresentacion =>
             dispatch({
-                type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
-                id,
+                type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR, id: idPresentacion,
             }),
         agregarEstudiosTabla: estudios =>
             dispatch({
-                type: AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
-                estudios,
+                type: AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA, estudios,
             }),
-        crearNuevaPresentacion: presentacion =>
+        updatePresentacion: (presentacion, id) =>
             dispatch({
-                type: CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL, presentacion,
+                type: UPDATE_PRESENTACION, presentacion, id,
             }),
         cerrarPresentacion: (comprobante, id) =>
             dispatch({
@@ -139,4 +137,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NuevaPresentacionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(ModificarPresentacionPage);

@@ -2,18 +2,20 @@ import Rx from 'rxjs';
 import {
     getEstudiosDeUnaPresentacion,
     getPresentacionesObraSocial,
-    patchAbrirPresentacion } from './api';
+    patchAbrirPresentacion,
+    patchCerrarPresentacion,
+} from './api';
 import {
     FETCH_PRESENTACIONES_OBRA_SOCIAL,
-    FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
     LOAD_PRESENTACIONES_OBRA_SOCIAL,
-    LOAD_ESTUDIOS_DE_UNA_PRESENTACION,
     LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
-    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
+    FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
     ABRIR_PRESENTACION,
+    CERRAR_PRESENTACION,
     UPDATE_PRESENTACION,
-}
-    from './actionTypes';
+} from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
 
@@ -28,15 +30,14 @@ export function presentacionEpic(action$) {
     );
 }
 
-export function verEstudiosDeUnaPresentacionEpic(action$) {
-    return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION)
+export function estudiosDeUnaPresentacionAgregarEpic(action$) {
+    return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR)
         .mergeMap(action =>
-            getEstudiosDeUnaPresentacion(action.id)
-            .map(data => ({ type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION, data }))
-            .catch(() => (Rx.Observable.of(
-                { type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR },
-                { type: ADD_ALERT, alert: createAlert('Error al intentar ver presentacion', 'danger') },
-            ))),
+            getEstudiosDeUnaPresentacion(action.id, action.idPresentacion)
+            .map(data => ({ type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR, data }))
+            .catch(() => (Rx.Observable.of({
+                type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
+            }))),
     );
 }
 
@@ -50,6 +51,19 @@ export function abrirPresentacionEpic(action$) {
             ))
             .catch(() => (Rx.Observable.of({
                 type: ADD_ALERT, alert: createAlert('Error al abrir la presentacion', 'danger'),
+            }))),
+        );
+}
+
+export function cerrarPresentacionEpic(action$) {
+    return action$.ofType(CERRAR_PRESENTACION)
+        .mergeMap(action =>
+            patchCerrarPresentacion(action.comprobante, action.id)
+            .mergeMap(() => Rx.Observable.of(
+                { type: ADD_ALERT, alert: createAlert('Presentación cerrada con éxito', 'success') },
+            ))
+            .catch(() => (Rx.Observable.of({
+                type: ADD_ALERT, alert: createAlert('Error al cerrar presentacion', 'danger'),
             }))),
         );
 }

@@ -5,12 +5,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import EyePlusIcon from 'mdi-react/EyePlusIcon';
 import PencilPlusIcon from 'mdi-react/PencilPlusIcon';
-import { Button } from 'react-bootstrap/dist/react-bootstrap';
+import LockIcon from 'mdi-react/LockIcon';
+import LockOpenIcon from 'mdi-react/LockOpenIcon';
 import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
-import {
-    ABRIR_PRESENTACION, FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
-} from '../actionTypes';
-import { ModalVerPresentacion } from '../nueva-presentacion/components/Modals';
+import { ABRIR_PRESENTACION } from '../actionTypes';
+import { FETCH_ESTUDIOS_DE_UNA_PRESENTACION } from '../modificar-presentacion/actionTypes';
 import AlertModal from '../../utilities/components/alert/AlertModal';
 
 function PresentacionesObraSocialTableRow(props) {
@@ -19,7 +18,6 @@ function PresentacionesObraSocialTableRow(props) {
         id, fecha, total_facturado: totalFacturado, estado,
         obra_social: obraSocial, total,
     } = props.presentacion;
-    const [modalVerEstudios, setModalVerEstudios] = useState(false);
     const [modalAbrirPresentacion, setModalAbrirPresentacion] = useState(false);
 
     const downloadPresentacionDigitalOsde = () => {
@@ -37,15 +35,31 @@ function PresentacionesObraSocialTableRow(props) {
 
     const redirectPage = () => {
         if (estado === 'Abierto') {
-            props.fetchEstudios(presentacion.id);
+            props.fetchEstudios(presentacion.id, obraSocial, fecha);
             setTimeout(() => {
                 history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
             }, 1000);
         } else {
-            props.fetchEstudios(presentacion.id);
-            setModalVerEstudios(true);
+            props.fetchEstudios(presentacion.id, obraSocial, fecha);
+            setTimeout(() => {
+                history.push(`/presentaciones-obras-sociales/ver-presentacion/${presentacion.id}`);
+            });
         }
     };
+
+    const Lock = () => (
+        estado === 'Pendiente' || estado === 'Cobrado' ? (
+            <LockIcon
+              onClick={ estado === 'Pendiente' ? () => setModalAbrirPresentacion(true) : () => {} }
+              className={ estado === 'Cobrado' ? 'not-hover' : '' }
+              title='Abrir presentacion'
+            />
+        ) : (
+            <LockOpenIcon
+              className='not-hover'
+            />
+        )
+    );
 
     return (
         <Fragment>
@@ -71,16 +85,7 @@ function PresentacionesObraSocialTableRow(props) {
                     </a>
                 </td>
                 <td>
-                    {
-                        estado === 'Pendiente' && (
-                            <Button
-                              onClick={ () => setModalAbrirPresentacion(true) }
-                              style={ { outline: 'none' } }
-                            >
-                                Abrir
-                            </Button>
-                        )
-                    }
+                    <Lock />
                 </td>
                 <td>
                     {
@@ -98,18 +103,14 @@ function PresentacionesObraSocialTableRow(props) {
                     }
                 </td>
             </tr>
-            <ModalVerPresentacion
-              show={ modalVerEstudios }
-              onClickClose={ () => setModalVerEstudios(!modalVerEstudios) }
-            />
             <AlertModal
               isOpen={ modalAbrirPresentacion }
-              message='Estas seguro que deseas abrir la presentacion?'
+              content='Estas seguro que deseas abrir la presentacion?'
               buttonStyle='primary'
               onClickDo={ abrirPresentacion }
               onClickClose={ () => setModalAbrirPresentacion(false) }
-              doLabel='Si'
-              dontLabel='No'
+              doLabel='Abrir'
+              dontLabel='Cancelar'
             />
         </Fragment>
     );
@@ -129,8 +130,8 @@ function mapDispatchToProps(dispatch) {
     return {
         abrirPresentacion: (id, index) =>
             dispatch({ type: ABRIR_PRESENTACION, id, index }),
-        fetchEstudios: id =>
-            dispatch({ type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION, id }),
+        fetchEstudios: (id, obraSocial, fecha) =>
+            dispatch({ type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION, id, obraSocial, fecha }),
     };
 }
 

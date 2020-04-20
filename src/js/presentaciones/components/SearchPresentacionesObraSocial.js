@@ -8,6 +8,7 @@ import { requiredOption } from '../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
+import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
 
 class SearchPresentacionesObraSocial extends Component {
     constructor(props) {
@@ -18,8 +19,6 @@ class SearchPresentacionesObraSocial extends Component {
 
         this.setSelectedObraSocial = this.setSelectedObraSocial.bind(this);
         this.searchObrasSociales = this.searchObrasSociales.bind(this);
-        this.buscarButtonClickHandler = this.buscarButtonClickHandler.bind(this);
-        this.nuevaButtonClickHandler = this.nuevaButtonClickHandler.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
@@ -33,24 +32,27 @@ class SearchPresentacionesObraSocial extends Component {
         this.props.fetchObrasSociales(nombre);
     }
 
-    buscarButtonClickHandler() {
-        this.setState({ buscarClicked: true });
-    }
-
-    nuevaButtonClickHandler() {
-        this.setState({ buscarClicked: false });
-        setTimeout(() => {
-            this.props.history.push('/presentaciones-obras-sociales/nueva-presentacion');
-        }, 100);
-    }
-
     handleFormSubmit(params) {
         const { buscarClicked } = this.state;
-        console.log(params);
+        const {
+            fetchEstudiosSinPresentarObraSocial,
+            fetchPresentacionesObraSocial,
+            estudios,
+            history,
+            selectedObraSocial,
+            obraSocial,
+        } = this.props;
+
         if (buscarClicked) {
-            this.props.fetchPresentacionesObraSocial(params);
+            fetchPresentacionesObraSocial(params);
+        } else if (
+            estudios.length === 0 ||
+            selectedObraSocial[0].id !== obraSocial.id
+        ) {
+            fetchEstudiosSinPresentarObraSocial(params);
+            history.push('/presentaciones-obras-sociales/nueva-presentacion');
         } else {
-            this.props.fetchEstudiosSinPresentarObraSocial(params);
+            history.push('/presentaciones-obras-sociales/nueva-presentacion');
         }
     }
 
@@ -92,7 +94,7 @@ class SearchPresentacionesObraSocial extends Component {
                           type='submit'
                           bsStyle='primary'
                           disabled={ !this.props.valid }
-                          onClick={ this.buscarButtonClickHandler }
+                          onClick={ () => this.setState({ buscarClicked: true }) }
                         >
                             Buscar
                         </Button>
@@ -100,7 +102,7 @@ class SearchPresentacionesObraSocial extends Component {
                           type='submit'
                           bsStyle='primary'
                           disabled={ !this.props.valid }
-                          onClick={ this.nuevaButtonClickHandler }
+                          onClick={ () => this.setState({ buscarClicked: false }) }
                         >
                             Nueva
                         </Button>
@@ -131,6 +133,12 @@ SearchPresentacionesObraSocial.propTypes = {
     obrasSociales: array,
     obrasSocialesApiLoading: bool,
     history: object.isRequired,
+    estudios: array.isRequired,
+    obraSocial: object.isRequired,
+};
+
+SearchPresentacionesObraSocial.defaultProps = {
+    estudios: initialState.estudios,
 };
 
 const selector = formValueSelector('searchPresentacionesObraSocial');
@@ -144,6 +152,8 @@ function mapStateToProps(state) {
         selectedObraSocial: obraSocial,
         obrasSociales: state.obraSocialReducer.obrasSociales,
         obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
+        estudios: state.estudiosSinPresentarReducer.estudios,
+        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
     };
 }
 
@@ -156,7 +166,7 @@ function mapDispatchToProps(dispatch) {
         }),
         fetchEstudiosSinPresentarObraSocial: params => dispatch({
             type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
-            id: params.obraSocial[0].id,
+            obraSocial: params.obraSocial[0],
         }),
         setSelectedObraSocial: obraSocial =>
             dispatch(change('searchPresentacionesObraSocial', 'obraSocial', obraSocial)),

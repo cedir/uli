@@ -1,22 +1,20 @@
-/* eslint-disable no-unused-vars */
-import initialState from './estudiosSinPresentarReducerInitialState';
+import initialState from './modificarPresentacionReducerInitialState';
 import {
-    FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
-    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
-    FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
-    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
-    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
-    // VACIAR_ESTUDIOS_SIN_PRESENTAR_AGREGAR,
+    FETCH_ESTUDIOS_DE_UNA_PRESENTACION,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR,
+    FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
+    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
+    // VACIAR_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
     VACIAR_ESTUDIOS_AGREGAR,
-    LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR,
-    ELIMINAR_ESTUDIO_SIN_PRESENTAR,
-    AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
-    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
-    SET_IMPORTE_MEDICACION_ESTUDIO,
+    ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
+    ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
+    AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
 } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
-    const estudios = state.estudios;
+    const { estudios } = state;
     let importesTotales = 0;
     estudios.forEach((estudio) => {
         /* eslint-disable no-mixed-operators */
@@ -38,41 +36,51 @@ const sumarImportesEstudios = (state) => {
     };
 };
 
-const fetchEstudiosSinPresentarReducer = state => ({
+const fetchEstudiosDeUnaPresentacionReducer = state => ({
     ...state,
     estudiosApiLoading: true,
 });
 
-const loadEstudiosSinPresentarReducer = (state, action) => {
+
+const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
     const estudios = action.data.response;
+    const fecha = action.fecha;
     const obraSocial = action.obraSocial;
+    const id = action.id;
+
     return sumarImportesEstudios({
         ...state,
+        id,
+        obraSocial,
         estudios,
         estudiosApiLoading: false,
-        obraSocial,
+        fecha,
     });
 };
 
-const loadEstudiosSinPresentarErrorReducer = state => ({
+const loadEstudiosDeUnaPresentacionErrorReducer = state => ({
     ...state,
     estudios: [],
     estudiosApiLoading: false,
 });
 
-const fetchEstudiosSinPresentarAgregarReducer = state => ({
+const fetchEstudiosDeUnaPresentacionAgregarReducer = state => ({
     ...state,
     estudiosAgregarApiLoading: true,
 });
 
-const loadEstudiosSinPresentarAgregarReducer = (state, action) =>
-    sumarImportesEstudios({
+
+const loadEstudiosDeUnaPresentacionAgregarReducer = (state, action) => {
+    const estudiosAgregar = action.data.response;
+
+    return sumarImportesEstudios({
         ...state,
-        estudiosAgregar: action.data.response,
+        estudiosAgregar,
         estudiosAgregarApiLoading: false,
     });
+};
 
-const loadEstudiosSinPresentarAgregarErrorReducer = state => ({
+const loadEstudiosDeUnaPresentacionAgregarErrorReducer = state => ({
     ...state,
     estudiosAgregar: [],
     estudiosAgregarApiLoading: false,
@@ -83,7 +91,7 @@ const vaciarEstudiosAgregarReducer = state => ({
     estudiosAgregar: [],
 });
 
-const eliminarEstudioSinPresentarReducer = (state, action) => {
+const eliminarEstudioDeUnaPresentacionReducer = (state, action) => {
     const { estudios } = state;
     estudios.splice(action.index, 1);
 
@@ -93,7 +101,7 @@ const eliminarEstudioSinPresentarReducer = (state, action) => {
     });
 };
 
-const actualizarInputEstudioSinPresentarReducer = (state, action) => {
+const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
     const { estudios } = state;
     // newEstudio is a copy of an estudios[action.index]
     // console.log(newEstudio === estudios[action.index]) -> false
@@ -102,7 +110,7 @@ const actualizarInputEstudioSinPresentarReducer = (state, action) => {
     switch (action.input) {
         case 'nro_de_orden':
             newEstudio.nro_de_orden = action.value;
-            estudios.splice(action.index, 1, newEstudio);
+            estudios.splice(action.payload.index, 1, newEstudio);
             break;
         case 'importe_estudio':
             newEstudio.importe_estudio = action.value;
@@ -130,7 +138,7 @@ const actualizarInputEstudioSinPresentarReducer = (state, action) => {
     });
 };
 
-const agregarEstudiosATablaReducer = (state, action) => {
+const agregarEstudiosDeUnaPresentacionATablaReducer = (state, action) => {
     const { estudios } = state;
     const estudiosAgregar = action.estudios;
     const newEstudios = estudios.concat(estudiosAgregar);
@@ -140,45 +148,29 @@ const agregarEstudiosATablaReducer = (state, action) => {
     });
 };
 
-const setImporteMedicacionEstudioReducer = (state, action) => {
-    const { estudios } = state;
-    const newEstudio = {
-        ...estudios[action.index],
-        importe_medicacion: action.total.toString(),
-    };
-    estudios.splice(action.index, 1, newEstudio);
-
-    return sumarImportesEstudios({
-        ...state,
-        estudios,
-    });
-};
-
-export function estudiosSinPresentarReducer(state = initialState, action) {
+export function modificarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
-        case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
-            return fetchEstudiosSinPresentarReducer(state);
-        case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
-            return loadEstudiosSinPresentarReducer(state, action);
-        case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR:
-            return loadEstudiosSinPresentarErrorReducer(state);
-        case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR:
-            return fetchEstudiosSinPresentarAgregarReducer(state);
-        case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR:
-            return loadEstudiosSinPresentarAgregarReducer(state, action);
-        case LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR:
-            return loadEstudiosSinPresentarAgregarErrorReducer(state);
-        // case VACIAR_ESTUDIOS_SIN_PRESENTAR_AGREGAR:
+        case FETCH_ESTUDIOS_DE_UNA_PRESENTACION:
+            return fetchEstudiosDeUnaPresentacionReducer(state);
+        case LOAD_ESTUDIOS_DE_UNA_PRESENTACION:
+            return loadEstudiosDeUnaPresentacionReducer(state, action);
+        case LOAD_ESTUDIOS_DE_UNA_PRESENTACION_ERROR:
+            return loadEstudiosDeUnaPresentacionErrorReducer(state, action);
+        case FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR:
+            return fetchEstudiosDeUnaPresentacionAgregarReducer(state);
+        case LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR:
+            return loadEstudiosDeUnaPresentacionAgregarReducer(state, action);
+        case LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR:
+            return loadEstudiosDeUnaPresentacionAgregarErrorReducer(state, action);
+        // case VACIAR_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR:
         case VACIAR_ESTUDIOS_AGREGAR:
             return vaciarEstudiosAgregarReducer(state);
-        case ELIMINAR_ESTUDIO_SIN_PRESENTAR:
-            return eliminarEstudioSinPresentarReducer(state, action);
-        case ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR:
-            return actualizarInputEstudioSinPresentarReducer(state, action);
-        case AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA:
-            return agregarEstudiosATablaReducer(state, action);
-        case SET_IMPORTE_MEDICACION_ESTUDIO:
-            return setImporteMedicacionEstudioReducer(state, action);
+        case ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION:
+            return eliminarEstudioDeUnaPresentacionReducer(state, action);
+        case ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION:
+            return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
+        case AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA:
+            return agregarEstudiosDeUnaPresentacionATablaReducer(state, action);
         default:
             return state;
     }

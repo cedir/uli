@@ -1,15 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import NuevaPresentacionObraSocialTableRow from './NuevaPresentacionObraSocialTableRow';
 import ImportesTotales from './ImportesTotales';
-import initialState from '../estudiosSinPresentarReducerInitialState';
+import EstudiosDeUnaPresentacionTableRow from './EstudiosDeUnaPresentacionTableRow';
 
-function NuevaPresentacionObraSocialList(props) {
+function EstudiosDeUnaPresentacionList(props) {
     const {
-        estudiosSinPresentar,
+        estudios,
+        importesTotales,
         gravado,
-        suma,
+        eliminarEstudio,
+        actualizarInput,
     } = props;
 
     return (
@@ -33,18 +33,20 @@ function NuevaPresentacionObraSocialList(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    { estudiosSinPresentar.map(estudio => (
-                        <NuevaPresentacionObraSocialTableRow
-                          row={ estudio }
+                    { estudios.map(estudio => (
+                        <EstudiosDeUnaPresentacionTableRow
+                          estudio={ estudio }
                           key={ estudio.id }
-                          index={ estudiosSinPresentar.indexOf(estudio) }
+                          index={ estudios.indexOf(estudio) }
+                          eliminarEstudio={ eliminarEstudio }
+                          actualizarInput={ actualizarInput }
                         />))
                     }
                 </tbody>
             </table>
-            { estudiosSinPresentar.length !== 0 &&
+            { estudios.length !== 0 &&
                 <ImportesTotales
-                  estudios={ suma }
+                  estudios={ importesTotales }
                   gravado={ parseFloat(gravado, 10) }
                 />
             }
@@ -52,26 +54,14 @@ function NuevaPresentacionObraSocialList(props) {
     );
 }
 
-const { string, array, number } = PropTypes;
+const { string, array, number, func } = PropTypes;
 
-NuevaPresentacionObraSocialList.propTypes = {
-    estudiosSinPresentar: array.isRequired,
-    suma: number.isRequired,
+EstudiosDeUnaPresentacionList.propTypes = {
+    estudios: array.isRequired,
+    importesTotales: number.isRequired,
     gravado: string.isRequired,
+    eliminarEstudio: func.isRequired,
+    actualizarInput: func.isRequired,
 };
 
-NuevaPresentacionObraSocialList.defaultProps = {
-    estudiosSinPresentar: initialState.estudiosSinPresentar,
-    suma: initialState.suma,
-    gravado: initialState.gravado,
-};
-
-function mapStateToProps(state) {
-    return {
-        estudiosSinPresentar: state.estudiosSinPresentarReducer.estudiosSinPresentar,
-        suma: state.estudiosSinPresentarReducer.suma,
-        gravado: state.estudiosSinPresentarReducer.gravado,
-    };
-}
-
-export default connect(mapStateToProps, null)(NuevaPresentacionObraSocialList);
+export default EstudiosDeUnaPresentacionList;

@@ -1,4 +1,4 @@
-import { get, post } from '../../utilities/rest';
+import { get, post, patch } from '../../utilities/rest';
 
 export function getEstudiosSinPresentarObraSocial(idObraSocial) {
     const url = `/api/obra_social/${idObraSocial}/estudios_sin_presentar`;
@@ -6,7 +6,7 @@ export function getEstudiosSinPresentarObraSocial(idObraSocial) {
     return get(url);
 }
 
-export function finalizarPresentacionObraSocial(presentacion) {
+export function guardarNuevaPresentacionObraSocial(presentacion) {
     const url = '/api/presentacion/';
     const body = {
         obra_social_id: presentacion.obra_social_id,
@@ -14,7 +14,6 @@ export function finalizarPresentacionObraSocial(presentacion) {
         fecha: presentacion.fecha,
         estado: presentacion.estado,
         estudios: presentacion.estudios,
-        comprobante: presentacion.comprobante,
     };
     const headers = {
         'Content-Type': 'application/json',
@@ -23,20 +22,18 @@ export function finalizarPresentacionObraSocial(presentacion) {
     return post(url, body, headers);
 }
 
-export function guardarPresentacionObraSocial(presentacion) {
-    // TODO: CAMBIAR URL
-    const url = '/api/presentacion/guardar';
+export function cerrarNuevapresentacionObraSocial(id, comprobante) {
+    const url = `/api/presentacion/${id}/cerrar/`;
     const body = {
-        obra_social_id: presentacion.obra_social_id,
-        periodo: presentacion.periodo,
-        fecha: presentacion.fecha,
-        estado: presentacion.estado,
-        estudios: presentacion.estudios,
-        comprobante: presentacion.comprobante,
+        tipo_comprobante_id: comprobante.tipo_id,
+        nro_terminal: comprobante.nro_terminal,
+        sub_tipo: comprobante.sub_tipo,
+        responsable: comprobante.responsable,
+        gravado_id: comprobante.gravado_id,
     };
     const headers = {
         'Content-Type': 'application/json',
     };
 
-    return post(url, body, headers);
+    return patch(url, body, headers);
 }

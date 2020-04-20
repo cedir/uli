@@ -1,15 +1,22 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import PropTypes, { array } from 'prop-types';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import { ModalMedicacion } from './Modals';
-import {
-    ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR, ELIMINAR_ESTUDIO_SIN_PRESENTAR,
-} from '../actionTypes';
+import { SET_IMPORTE_MEDICACION_ESTUDIO } from '../nueva-presentacion/actionTypes';
+import { CLEAN_MEDICACIONES_STORE } from '../../medicacion/actionTypes';
 
-function NuevaPresentacionObraSocialTableRow(props) {
-    const { row, actualizarInputEstudioSinPresentar, eliminarEstudioSinPresentar, index } = props;
+function EstudiosDeUnaPresentacionTableRow(props) {
+    const {
+        estudio,
+        actualizarInput,
+        eliminarEstudio,
+        cleanMedicacionesStore,
+        setImporteMedicacionEstudio,
+        medicaciones,
+        index,
+    } = props;
     const {
         fecha, nro_de_orden: orden,
         paciente, practica, medico,
@@ -17,7 +24,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
         pension, diferencia_paciente,
         importe_medicacion: medicacion,
         arancel_anestesia,
-    } = row;
+    } = estudio;
 
     const [nroOrden, setNroOrden] = useState(orden);
     const [importe, setImporte] = useState(parseFloat(importe_estudio, 10));
@@ -29,28 +36,29 @@ function NuevaPresentacionObraSocialTableRow(props) {
 
     const deleteIconClickHandler = () => {
         setRenderRow(!renderRow);
-        eliminarEstudioSinPresentar(index);
+        eliminarEstudio(index);
     };
 
-    const onChangeHandler = (dispatcher) => {
-        let parsedValue = parseFloat(dispatcher.value, 10);
+    const onChangeHandler = (e) => {
+        let parsedValue = parseFloat(e.target.value, 10);
         if (isNaN(parsedValue)) {
             parsedValue = 0;
         }
-        switch (dispatcher.idInput) {
-            case 1:
-                setNroOrden(dispatcher.value);
+        actualizarInput(index, e.target.name, parsedValue);
+        switch (e.target.name) {
+            case 'nro_de_orden':
+                setNroOrden(e.target.value);
                 break;
-            case 2:
+            case 'importe_estudio':
                 setImporte(parsedValue);
                 break;
-            case 3:
+            case 'pension':
                 setPension(parsedValue);
                 break;
-            case 4:
+            case 'diferencia_paciente':
                 setDifPaciente(parsedValue);
                 break;
-            case 5:
+            case 'arancel_anestesia':
                 setAnestesista(parsedValue);
                 break;
             default:
@@ -58,11 +66,26 @@ function NuevaPresentacionObraSocialTableRow(props) {
         }
     };
 
-    const medicacionIconClickHandler = () => {
-        setMedicacionClicked(!medicacionClicked);
+    const medicacionCloseHandler = () => {
+        setMedicacionClicked(false);
+        cleanMedicacionesStore();
+    };
+
+    const medicacionChargeHandler = () => {
+        cleanMedicacionesStore();
+        setMedicacionClicked(false);
+        let total = 0;
+        if (medicaciones.length > 0) {
+            const reducer = (importeAcum, currentValue) => importeAcum + currentValue;
+            total = medicaciones
+                .map(med => parseFloat(med.importe || med.medicamento.importe))
+                .reduce(reducer);
+        }
+        setImporteMedicacionEstudio(total, index);
     };
 
     const isMedicacionActive = medicacionClicked ? 'active' : '';
+
     return (
         <tr className='table-row'>
             <td className='icon'>
@@ -70,7 +93,7 @@ function NuevaPresentacionObraSocialTableRow(props) {
                   className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
                   tabIndex='0'
                   role='button'
-                  onClick={ medicacionIconClickHandler }
+                  onClick={ () => setMedicacionClicked(true) }
                 />
             </td>
             <td className='fecha'>{ fecha }</td>
@@ -79,13 +102,8 @@ function NuevaPresentacionObraSocialTableRow(props) {
                   type='text'
                   value={ nroOrden }
                   placeholder={ nroOrden }
-                  onChange={ e =>
-                      onChangeHandler(
-                          actualizarInputEstudioSinPresentar(
-                              index, 1, e.target.value,
-                          ),
-                      )
-                  }
+                  onChange={ e => onChangeHandler(e) }
+                  name='nro_de_orden'
                 />
             </td>
             <td>{ paciente.id }</td>
@@ -102,55 +120,35 @@ function NuevaPresentacionObraSocialTableRow(props) {
                 <input
                   type='number'
                   value={ importe }
-                  onChange={ e =>
-                    onChangeHandler(
-                        actualizarInputEstudioSinPresentar(
-                            index, 2, e.target.value,
-                        ),
-                    )
-                  }
+                  onChange={ e => onChangeHandler(e) }
+                  name='importe_estudio'
                 />
             </td>
             <td>
                 <input
                   type='number'
                   value={ pensionState }
-                  onChange={ e =>
-                    onChangeHandler(
-                        actualizarInputEstudioSinPresentar(
-                            index, 3, e.target.value,
-                        ),
-                    )
-                  }
+                  onChange={ e => onChangeHandler(e) }
+                  name='pension'
                 />
             </td>
             <td>
                 <input
                   type='number'
                   value={ difPaciente }
-                  onChange={ e =>
-                    onChangeHandler(
-                        actualizarInputEstudioSinPresentar(
-                            index, 4, e.target.value,
-                        ),
-                    )
-                  }
+                  onChange={ e => onChangeHandler(e) }
+                  name='diferencia_paciente'
                 />
             </td>
-            <td className='td-medicacion'>
-                <div>{ parseFloat(medicacion, 10) }</div>
+            <td className='medicacion'>
+                <div>{ parseFloat(medicacion, 10).toFixed(2) }</div>
             </td>
             <td>
                 <input
                   type='number'
                   value={ parseFloat(anestesista, 10) }
-                  onChange={ e =>
-                    onChangeHandler(
-                        actualizarInputEstudioSinPresentar(
-                            index, 5, e.target.value,
-                        ),
-                    )
-                  }
+                  onChange={ e => onChangeHandler(e) }
+                  name='arancel_anestesia'
                 />
             </td>
             <td className='delete'>
@@ -163,8 +161,9 @@ function NuevaPresentacionObraSocialTableRow(props) {
             <td style={ { display: 'none' } }>
                 <ModalMedicacion
                   show={ medicacionClicked }
-                  onClickClose={ medicacionIconClickHandler }
-                  estudio={ row }
+                  onClickClose={ medicacionCloseHandler }
+                  onClickDo={ medicacionChargeHandler }
+                  estudio={ estudio }
                 />
             </td>
         </tr>
@@ -173,25 +172,37 @@ function NuevaPresentacionObraSocialTableRow(props) {
 
 const { object, func, number } = PropTypes;
 
-NuevaPresentacionObraSocialTableRow.propTypes = {
-    row: object.isRequired,
-    eliminarEstudioSinPresentar: func.isRequired,
+EstudiosDeUnaPresentacionTableRow.propTypes = {
+    estudio: object.isRequired,
+    eliminarEstudio: func.isRequired,
     index: number.isRequired,
-    actualizarInputEstudioSinPresentar: func.isRequired,
+    actualizarInput: func.isRequired,
+    cleanMedicacionesStore: func.isRequired,
+    setImporteMedicacionEstudio: func.isRequired,
+    medicaciones: array,
 };
+
+EstudiosDeUnaPresentacionTableRow.defaultProps = {
+    medicaciones: [],
+};
+
+function mapStateToProps(state) {
+    return {
+        medicaciones: state.medicacionReducer.medicaciones,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
-        actualizarInputEstudioSinPresentar: (index, idInput, value) =>
+        cleanMedicacionesStore: () =>
             dispatch({
-                type: ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
-                index, idInput, value,
+                type: CLEAN_MEDICACIONES_STORE,
             }),
-        eliminarEstudioSinPresentar: index =>
+        setImporteMedicacionEstudio: (total, index) =>
             dispatch({
-                type: ELIMINAR_ESTUDIO_SIN_PRESENTAR, index,
+                type: SET_IMPORTE_MEDICACION_ESTUDIO, total, index,
             }),
     };
 }
 
-export default connect(null, mapDispatchToProps)(NuevaPresentacionObraSocialTableRow);
+export default connect(mapStateToProps, mapDispatchToProps)(EstudiosDeUnaPresentacionTableRow);

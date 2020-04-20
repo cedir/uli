@@ -4,6 +4,7 @@ import { FETCH_MEDICACION_ESTUDIO, LOAD_MEDICACION_ESTUDIO,
     ADD_MEDICACION_ESTUDIO_ERROR,
     DELETE_MEDICACION_ESTUDIO_ERROR,
     ADD_DEFAULT_MEDICACION_ESTUDIO,
+    CLEAN_MEDICACIONES_STORE,
     ADD_DEFAULT_MEDICACION_ESTUDIO_ERROR } from './actionTypes';
 
 const fetchMedicacionEstudiosReducer = (state) => {
@@ -36,6 +37,13 @@ const addMedicacionToEstudio = (state) => {
     return newState;
 };
 
+function cleanMedicacionesStoreReducer(state) {
+    return {
+        ...state,
+        medicaciones: [],
+    };
+}
+
 export function medicacionReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_MEDICACION_ESTUDIO:
@@ -50,6 +58,8 @@ export function medicacionReducer(state = initialState, action) {
         case ADD_DEFAULT_MEDICACION_ESTUDIO:
         case ADD_DEFAULT_MEDICACION_ESTUDIO_ERROR:
             return addMedicacionToEstudio(state);
+        case CLEAN_MEDICACIONES_STORE:
+            return cleanMedicacionesStoreReducer(state);
         default:
             return state;
     }

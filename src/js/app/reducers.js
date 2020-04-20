@@ -13,6 +13,7 @@ import { pacienteReducer } from '../paciente/pacienteReducer';
 import { practicaReducer } from '../practica/practicaReducer';
 import { presentacionReducer } from '../presentaciones/presentacionReducer';
 import { estudiosSinPresentarReducer } from '../presentaciones/nueva-presentacion/estudiosSinPresentarReducer';
+import { modificarPresentacionReducer } from '../presentaciones/modificar-presentacion/modificarPresentacionReducer';
 import { loginReducer } from '../login/loginReducer';
 import { alertReducer } from '../utilities/components/alert/alertReducer';
 import { comprobantesReducer } from '../comprobantes/comprobantesReducer';
@@ -32,9 +33,21 @@ import { medicacionEpic, addMedicacionToEstudioEpic,
 import { medicamentosEpic } from '../medicamento/medicamentoEpic';
 import { pacienteEpic } from '../paciente/pacienteEpic';
 import { practicaEpic } from '../practica/practicaEpic';
-import { presentacionEpic, verEstudiosDeUnaPresentacionEpic, abrirPresentacionEpic } from '../presentaciones/presentacionEpic';
-import { estudiosSinPresentarEpic, finalizarPresentacionEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarEpic';
-import { estudiosSinPresentarAgregarEpic } from '../presentaciones/nueva-presentacion/estudiosSinPresentarAgregarEpic';
+import {
+    presentacionEpic,
+    abrirPresentacionEpic,
+    cerrarPresentacionEpic,
+} from '../presentaciones/presentacionEpic';
+import {
+    estudiosSinPresentarEpic,
+    estudiosSinPresentarAgregarEpic,
+    guardarNuevaPresentacionEpic,
+} from '../presentaciones/nueva-presentacion/estudiosSinPresentarEpic';
+import {
+    estudiosDeUnaPresentacionEpic,
+    estudiosDeUnaPresentacionAgregarEpic,
+    updatePresentacionEpic,
+} from '../presentaciones/modificar-presentacion/modificarPresentacionEpic';
 import { loginEpic } from '../login/loginEpic';
 import { comprobantesEpic, obtenerComprobantesEpic, guardarComprobanteAsociadoEpic, obtenerComprobantesConFiltroEpic } from '../comprobantes/comprobantesEpic';
 import { movimientosCajaEpic } from '../caja/cajaEpic';
@@ -64,9 +77,12 @@ export const rootEpic = combineEpics(
     presentacionEpic,
     abrirPresentacionEpic,
     estudiosSinPresentarEpic,
-    finalizarPresentacionEpic,
-    verEstudiosDeUnaPresentacionEpic,
     estudiosSinPresentarAgregarEpic,
+    guardarNuevaPresentacionEpic,
+    estudiosDeUnaPresentacionEpic,
+    estudiosDeUnaPresentacionAgregarEpic,
+    updatePresentacionEpic,
+    cerrarPresentacionEpic,
     loginEpic,
     comprobantesEpic,
     obtenerComprobantesEpic,
@@ -87,6 +103,7 @@ export const rootReducer = combineReducers({
     practicaReducer,
     presentacionReducer,
     estudiosSinPresentarReducer,
+    modificarPresentacionReducer,
     login: loginReducer,
     alertReducer,
     comprobantesReducer,

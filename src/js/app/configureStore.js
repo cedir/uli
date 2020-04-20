@@ -17,12 +17,14 @@ const epicMiddleware = createEpicMiddleware(rootEpic);
 
 let middleware;
 if (process.env.NODE_ENV !== 'production') {
+    /* eslint-disable import/no-extraneous-dependencies */
     /* eslint-disable global-require */
     const logger = require('redux-logger').logger;
     middleware = applyMiddleware(epicMiddleware, logger);
 } else {
     middleware = applyMiddleware(epicMiddleware);
 }
+
 
 const store = createStore(
     rootReducer,

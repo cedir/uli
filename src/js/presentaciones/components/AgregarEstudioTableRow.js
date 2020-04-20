@@ -1,19 +1,25 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { connect } from 'react-redux';
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
+import CheckBoxIcon from 'mdi-react/CheckBoxIcon';
 
 function AgregarEstudioTableRow(props) {
-    const { selected, onClickIcon } = props;
+    const { selected, onClickIcon, hiddenCheckBox } = props;
     const {
         id, fecha, paciente, practica, medico,
     } = props.estudios;
 
     return (
         <tr
-          onClick={ onClickIcon }
           className={ selected ? 'selected' : '' }
         >
+            <td hidden={ hiddenCheckBox }>
+                <CheckBoxIcon
+                  onClick={ onClickIcon }
+                  className={ selected ? 'active' : '' }
+                />
+            </td>
             <td>{ fecha }</td>
             <td title={ `${paciente.nombre} ${paciente.apellido}` }>
                 { paciente.apellido }
@@ -35,6 +41,7 @@ AgregarEstudioTableRow.propTypes = {
     estudios: PropTypes.object,
     onClickIcon: PropTypes.func,
     selected: PropTypes.bool,
+    hiddenCheckBox: PropTypes.bool,
 };
 
 export default connect(null, null)(AgregarEstudioTableRow);
