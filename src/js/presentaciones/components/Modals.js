@@ -14,8 +14,10 @@ export default function ModalAgregarEstudio(props) {
         onClickClose,
         agregarEstudiosTabla,
         estudios,
+        estudiosAgregarApiLoading,
         estudiosAgregar,
     } = props;
+    // TODO BUG
     const [selected, setSelected] = useState(new Map([]));
     const [alert, setAlert] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -87,6 +89,7 @@ export default function ModalAgregarEstudio(props) {
             <Modal.Body>
                 <AgregarEstudioList
                   estudios={ estudiosAgregar }
+                  estudiosApiLoading={ estudiosAgregarApiLoading }
                   onClickIcon={ handleClick }
                   selected={ selected }
                 />
@@ -270,6 +273,7 @@ ModalAgregarEstudio.propTypes = {
     agregarEstudiosTabla: func.isRequired,
     estudios: array.isRequired,
     estudiosAgregar: array.isRequired,
+    estudiosAgregarApiLoading: bool.isRequired,
 };
 
 ModalComprobante.propTypes = {

@@ -20,7 +20,12 @@ export function estudiosSinPresentarEpic(action$) {
         .mergeMap(action =>
             getEstudiosSinPresentarObraSocial(action.obraSocial.id)
             .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente', 'success') },
+                {
+                    type: ADD_ALERT,
+                    alert: data.response.length ?
+                        createAlert('Estudios cargados correctamente', 'success') :
+                        createAlert('La obra social no cuenta con estudios sin presentar', 'danger'),
+                },
                 {
                     type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, data,
                     obraSocial: action.obraSocial,

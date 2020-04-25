@@ -12,6 +12,7 @@ function TabNavigator(props) {
         estudios,
         estudiosApiLoading,
         estudiosAgregar,
+        estudiosAgregarApiLoading,
         fetchEstudiosAgregar,
         agregarEstudiosTabla,
         id,
@@ -106,6 +107,7 @@ function TabNavigator(props) {
               alert={ alert }
               onClickClose={ cerrarClickHandler }
               estudios={ estudios }
+              estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
             />
@@ -121,6 +123,7 @@ TabNavigator.propTypes = {
     fetchEstudiosAgregar: func.isRequired,
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
+    estudiosAgregarApiLoading: bool.isRequired,
     estudiosAgregar: array.isRequired,
     agregarEstudiosTabla: func.isRequired,
     id: number.isRequired,

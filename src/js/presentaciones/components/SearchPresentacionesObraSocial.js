@@ -13,13 +13,9 @@ import initialState from '../nueva-presentacion/estudiosSinPresentarReducerIniti
 class SearchPresentacionesObraSocial extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            buscarClicked: false,
-        };
 
         this.setSelectedObraSocial = this.setSelectedObraSocial.bind(this);
         this.searchObrasSociales = this.searchObrasSociales.bind(this);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
     }
 
     setSelectedObraSocial(selection) {
@@ -32,28 +28,19 @@ class SearchPresentacionesObraSocial extends Component {
         this.props.fetchObrasSociales(nombre);
     }
 
-    handleFormSubmit(params) {
-        const { buscarClicked } = this.state;
+    nuevaClickHandler(params) {
         const {
             fetchEstudiosSinPresentarObraSocial,
-            fetchPresentacionesObraSocial,
+            /* eslint-disable no-unused-vars */
             estudios,
             history,
             selectedObraSocial,
             obraSocial,
         } = this.props;
-
-        if (buscarClicked) {
-            fetchPresentacionesObraSocial(params);
-        } else if (
-            estudios.length === 0 ||
-            selectedObraSocial[0].id !== obraSocial.id
-        ) {
+        if (obraSocial.id !== selectedObraSocial[0].id) {
             fetchEstudiosSinPresentarObraSocial(params);
-            history.push('/presentaciones-obras-sociales/nueva-presentacion');
-        } else {
-            history.push('/presentaciones-obras-sociales/nueva-presentacion');
         }
+        history.push('/presentaciones-obras-sociales/nueva-presentacion');
     }
 
     renderObraSocialMenuItem(option) {
@@ -68,8 +55,6 @@ class SearchPresentacionesObraSocial extends Component {
         return (
             <Form
               inline
-              onSubmit={ this.props.handleSubmit(params =>
-                this.handleFormSubmit(params)) }
             >
                 <Row className='search-grid search-grid-presentaciones'>
                     <Col md={ 9 } style={ { border: 'none' } } >
@@ -94,7 +79,9 @@ class SearchPresentacionesObraSocial extends Component {
                           type='submit'
                           bsStyle='primary'
                           disabled={ !this.props.valid }
-                          onClick={ () => this.setState({ buscarClicked: true }) }
+                          onClick={ this.props.handleSubmit(params =>
+                            this.props.fetchPresentacionesObraSocial(params))
+                         }
                         >
                             Buscar
                         </Button>
@@ -102,7 +89,9 @@ class SearchPresentacionesObraSocial extends Component {
                           type='submit'
                           bsStyle='primary'
                           disabled={ !this.props.valid }
-                          onClick={ () => this.setState({ buscarClicked: false }) }
+                          onClick={
+                            this.props.handleSubmit(params => this.nuevaClickHandler(params))
+                          }
                         >
                             Nueva
                         </Button>

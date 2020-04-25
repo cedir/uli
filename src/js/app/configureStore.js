@@ -5,6 +5,8 @@ import { saveStateLocally, removeStateLocally, loadLocallyPersistedState } from 
 // import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
 
+const REDUX_LOGGER = 'OFF';
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
@@ -16,7 +18,7 @@ const locallyPersistedState = loadLocallyPersistedState();
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
 let middleware;
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && REDUX_LOGGER === 'ON') {
     /* eslint-disable import/no-extraneous-dependencies */
     /* eslint-disable global-require */
     const logger = require('redux-logger').logger;

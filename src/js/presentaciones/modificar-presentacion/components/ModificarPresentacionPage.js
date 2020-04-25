@@ -21,6 +21,7 @@ function ModificarPresentacionPage(props) {
         estudios,
         estudiosApiLoading,
         estudiosAgregar,
+        estudiosAgregarApiLoading,
         importesTotales,
         fecha,
         fetchEstudiosAgregar,
@@ -53,6 +54,7 @@ function ModificarPresentacionPage(props) {
               estudios={ estudios }
               estudiosApiLoading={ estudiosApiLoading }
               estudiosAgregar={ estudiosAgregar }
+              estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
               agregarEstudiosTabla={ agregarEstudiosTabla }
               id={ idPresentacion }
               updatePresentacion={ updatePresentacion }
@@ -79,6 +81,7 @@ ModificarPresentacionPage.propTypes = {
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
     estudiosAgregar: array.isRequired,
+    estudiosAgregarApiLoading: array.isRequired,
     obraSocial: object.isRequired,
     importesTotales: number.isRequired,
     fecha: string.isRequired,
@@ -95,6 +98,7 @@ ModificarPresentacionPage.defaultProps = {
     estudios: initialState.estudios,
     estudiosApiLoading: initialState.estudiosApiLoading,
     estudiosAgregar: initialState.estudiosAgregar,
+    estudiosAgregarApiLoading: initialState.estudiosApiLoading,
     idPresentacion: initialState.idPresentacion,
     obraSocial: initialState.obraSocial,
     fecha: initialState.fecha,
@@ -107,6 +111,7 @@ function mapStateToProps(state) {
         estudios: state.modificarPresentacionReducer.estudios,
         estudiosApiLoading: state.modificarPresentacionReducer.estudiosApiLoading,
         estudiosAgregar: state.modificarPresentacionReducer.estudiosAgregar,
+        estudiosAgregarApiLoading: state.modificarPresentacionReducer.estudiosAgregarApiLoading,
         idPresentacion: state.modificarPresentacionReducer.id,
         obraSocial: state.modificarPresentacionReducer.obraSocial,
         fecha: state.modificarPresentacionReducer.fecha,

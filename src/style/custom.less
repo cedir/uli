@@ -103,6 +103,14 @@
 }
 
 .estudios-table {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 2s, visibility 0s;
+  &.hidden {
+    transition: opacity 2s, visibility 0s linear 2s !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
   width: 100%;
   height: auto;
   background-color: #eee;
@@ -190,13 +198,9 @@
   align-items: center;
   justify-content: flex-end;
   .modal-body {
-    width: 100%;
-    height: 50rem;
-    padding: 5rem;
-    align-items: flex-start;
+    max-width: 90rem;
     table {
-      align-self: flex-start;
-      height: 100%;
+      height: 50rem;
       overflow: scroll;
       .mdi-icon {
         font-size: 15px;

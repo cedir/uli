@@ -11,7 +11,7 @@ class AlertComponent extends Component {
     render() {
         return (
             <div
-              style={ { position: 'fixed', zIndex: '2000', top: '10px', left: '50%', transform: 'translate(-50%)', minWidth: '30%', maxWidth: '50%' } }
+              style={ { position: 'fixed', zIndex: '10000', top: '10px', left: '50%', transform: 'translate(-50%)', minWidth: '30%', maxWidth: '50%' } }
             >
                 {
                     this.props.alerts.map((alert) => {

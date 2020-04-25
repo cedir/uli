@@ -24,6 +24,7 @@ function NuevaPresentacionPage(props) {
         importesTotales,
         fetchEstudiosAgregar,
         estudiosAgregar,
+        estudiosAgregarApiLoading,
         agregarEstudiosTabla,
         crearNuevaPresentacion,
         cerrarPresentacion,
@@ -59,6 +60,7 @@ function NuevaPresentacionPage(props) {
               estudios={ estudios }
               estudiosApiLoading={ estudiosApiLoading }
               estudiosAgregar={ estudiosAgregar }
+              estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
               agregarEstudiosTabla={ agregarEstudiosTabla }
               crearPresentacion={ crearNuevaPresentacion }
               cerrarPresentacion={ cerrarPresentacion }
@@ -85,6 +87,7 @@ NuevaPresentacionPage.propTypes = {
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
     estudiosAgregar: array.isRequired,
+    estudiosAgregarApiLoading: bool.isRequired,
     obraSocial: object.isRequired,
     importesTotales: number.isRequired,
     actualizarInput: func.isRequired,
@@ -99,6 +102,7 @@ NuevaPresentacionPage.defaultProps = {
     estudios: initialState.estudios,
     estudiosApiLoading: initialState.estudiosApiLoading,
     estudiosAgregar: initialState.estudiosAgregar,
+    estudiosAgregarApiLoading: initialState.estudiosAgregarApiLoading,
     obraSocial: initialState.obraSocial,
     importesTotales: initialState.importesTotales,
 };
@@ -109,6 +113,7 @@ function mapStateToProps(state) {
         estudios: state.estudiosSinPresentarReducer.estudios,
         estudiosApiLoading: state.estudiosSinPresentarReducer.estudiosApiLoading,
         estudiosAgregar: state.estudiosSinPresentarReducer.estudiosAgregar,
+        estudiosAgregarApiLoading: state.estudiosSinPresentarReducer.estudiosAgregarApiLoading,
         obraSocial: state.estudiosSinPresentarReducer.obraSocial,
         importesTotales: state.estudiosSinPresentarReducer.importesTotales,
     };
