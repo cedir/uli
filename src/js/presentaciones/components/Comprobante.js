@@ -42,11 +42,7 @@ function Comprobante(props) {
                         <option value=''>Seleccionar...</option>
                         <option value='1'>Factura</option>
                         <option value='2'>Liquidacion</option>
-                        <option value='3'>Nota de crédito</option>
-                        <option value='4'>Nota de débito</option>
-                        <option value='5'>Factura de crédito electrónica MiPyMEs</option>
-                        <option value='6'>Nota de crédito electrónica MiPyMEs</option>
-                        <option value='7'>Nota de débito electrónica MiPyMEs</option>
+                        <option value='3'>Factura de crédito electrónica MiPyMEs</option>
                     </select>
                 </Col>
             </Row>
