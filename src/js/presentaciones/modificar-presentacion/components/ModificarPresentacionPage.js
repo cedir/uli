@@ -19,6 +19,7 @@ function ModificarPresentacionPage(props) {
         actualizarInput,
         eliminarEstudio,
         estudios,
+        estudiosApiLoading,
         estudiosAgregar,
         importesTotales,
         fecha,
@@ -50,6 +51,7 @@ function ModificarPresentacionPage(props) {
               comprobanteState={ comprobanteState }
               fetchEstudiosAgregar={ fetchEstudiosAgregar }
               estudios={ estudios }
+              estudiosApiLoading={ estudiosApiLoading }
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
               id={ idPresentacion }
@@ -59,6 +61,7 @@ function ModificarPresentacionPage(props) {
               listComponent={
                   <EstudiosDeUnaPresentacionList
                     estudios={ estudios }
+                    estudiosApiLoading={ estudiosApiLoading }
                     importesTotales={ importesTotales }
                     gravado={ comprobanteState.gravado }
                     actualizarInput={ actualizarInput }
@@ -70,10 +73,11 @@ function ModificarPresentacionPage(props) {
     );
 }
 
-const { func, array, number } = PropTypes;
+const { func, array, number, bool } = PropTypes;
 
 ModificarPresentacionPage.propTypes = {
     estudios: array.isRequired,
+    estudiosApiLoading: bool.isRequired,
     estudiosAgregar: array.isRequired,
     obraSocial: object.isRequired,
     importesTotales: number.isRequired,
@@ -89,6 +93,7 @@ ModificarPresentacionPage.propTypes = {
 
 ModificarPresentacionPage.defaultProps = {
     estudios: initialState.estudios,
+    estudiosApiLoading: initialState.estudiosApiLoading,
     estudiosAgregar: initialState.estudiosAgregar,
     idPresentacion: initialState.idPresentacion,
     obraSocial: initialState.obraSocial,
@@ -100,6 +105,7 @@ ModificarPresentacionPage.defaultProps = {
 function mapStateToProps(state) {
     return {
         estudios: state.modificarPresentacionReducer.estudios,
+        estudiosApiLoading: state.modificarPresentacionReducer.estudiosApiLoading,
         estudiosAgregar: state.modificarPresentacionReducer.estudiosAgregar,
         idPresentacion: state.modificarPresentacionReducer.id,
         obraSocial: state.modificarPresentacionReducer.obraSocial,

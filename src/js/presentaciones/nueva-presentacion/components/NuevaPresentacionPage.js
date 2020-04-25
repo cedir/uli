@@ -20,6 +20,7 @@ function NuevaPresentacionPage(props) {
         actualizarInput,
         eliminarEstudio,
         estudios,
+        estudiosApiLoading,
         importesTotales,
         fetchEstudiosAgregar,
         estudiosAgregar,
@@ -56,6 +57,7 @@ function NuevaPresentacionPage(props) {
               comprobanteState={ comprobanteState }
               fetchEstudiosAgregar={ fetchEstudiosAgregar }
               estudios={ estudios }
+              estudiosApiLoading={ estudiosApiLoading }
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
               crearPresentacion={ crearNuevaPresentacion }
@@ -65,6 +67,7 @@ function NuevaPresentacionPage(props) {
               listComponent={
                   <EstudiosDeUnaPresentacionList
                     estudios={ estudios }
+                    estudiosApiLoading={ estudiosApiLoading }
                     importesTotales={ importesTotales }
                     gravado={ comprobanteState.gravado }
                     actualizarInput={ actualizarInput }
@@ -76,10 +79,11 @@ function NuevaPresentacionPage(props) {
     );
 }
 
-const { func, array, number } = PropTypes;
+const { func, array, number, bool } = PropTypes;
 
 NuevaPresentacionPage.propTypes = {
     estudios: array.isRequired,
+    estudiosApiLoading: bool.isRequired,
     estudiosAgregar: array.isRequired,
     obraSocial: object.isRequired,
     importesTotales: number.isRequired,
@@ -93,6 +97,7 @@ NuevaPresentacionPage.propTypes = {
 
 NuevaPresentacionPage.defaultProps = {
     estudios: initialState.estudios,
+    estudiosApiLoading: initialState.estudiosApiLoading,
     estudiosAgregar: initialState.estudiosAgregar,
     obraSocial: initialState.obraSocial,
     importesTotales: initialState.importesTotales,
@@ -102,6 +107,7 @@ NuevaPresentacionPage.defaultProps = {
 function mapStateToProps(state) {
     return {
         estudios: state.estudiosSinPresentarReducer.estudios,
+        estudiosApiLoading: state.estudiosSinPresentarReducer.estudiosApiLoading,
         estudiosAgregar: state.estudiosSinPresentarReducer.estudiosAgregar,
         obraSocial: state.estudiosSinPresentarReducer.obraSocial,
         importesTotales: state.estudiosSinPresentarReducer.importesTotales,

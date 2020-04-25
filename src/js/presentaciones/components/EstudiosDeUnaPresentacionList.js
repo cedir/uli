@@ -1,16 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import ImportesTotales from './ImportesTotales';
 import EstudiosDeUnaPresentacionTableRow from './EstudiosDeUnaPresentacionTableRow';
 
 function EstudiosDeUnaPresentacionList(props) {
     const {
         estudios,
+        estudiosApiLoading,
         importesTotales,
         gravado,
         eliminarEstudio,
         actualizarInput,
     } = props;
+
+    if (estudiosApiLoading || !estudios.length) {
+        return <LinearProgress className='md-progress' variant='query' />;
+    }
 
     return (
         <div>
@@ -54,10 +60,11 @@ function EstudiosDeUnaPresentacionList(props) {
     );
 }
 
-const { string, array, number, func } = PropTypes;
+const { string, array, number, func, bool } = PropTypes;
 
 EstudiosDeUnaPresentacionList.propTypes = {
     estudios: array.isRequired,
+    estudiosApiLoading: bool.isRequired,
     importesTotales: number.isRequired,
     gravado: string.isRequired,
     eliminarEstudio: func.isRequired,
