@@ -28,9 +28,11 @@ class DetalleFacturacionEstudio extends React.Component {
 
     render() {
         const { presentacion } = this.props.estudioDetail;
+        const esPagoContraFactura = this.props.estudioDetail.es_pago_contra_factura !== 0;
         const comprobante = presentacion ? this.props.estudioDetail.presentacion.comprobante : null;
 
         const comprobanteRender = ComprobanteRender(comprobante);
+        const mensajePresentacion = esPagoContraFactura ? 'El estudio fue dado de pago contra factura' : 'El estudio no fue presentado aún';
 
         if (presentacion) {
             return (
@@ -51,7 +53,7 @@ class DetalleFacturacionEstudio extends React.Component {
         }
         return (
             <div>
-                <span>El estudio no fue presentado a&uacute;n</span>
+                <span>{mensajePresentacion}</span>
             </div>
         );
     }

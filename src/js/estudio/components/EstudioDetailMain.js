@@ -15,7 +15,7 @@ import { UPDATE_ESTUDIO, CREATE_ESTUDIO } from '../../estudio/actionTypes';
 import { ESTADOS, ANESTESIA_SIN_ANESTESISTA } from '../constants';
 import { config } from '../../app/config';
 
-import { requiredOption, alphaNum, required } from '../../utilities/reduxFormValidators';
+import { requiredOption, required } from '../../utilities/reduxFormValidators';
 // import { stat } from 'fs';
 
 function initEditFormObject(estudio) {
@@ -476,7 +476,6 @@ class EstudioDetailMain extends Component {
                       staticField={ lockEstudioEdition }
                       type='text'
                       label='Motivo'
-                      validate={ alphaNum }
                       component={ InputRF }
                     />
                     <Field

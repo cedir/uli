@@ -1,10 +1,14 @@
 import Rx from 'rxjs';
 import { destroy } from 'redux-form';
-import { getEstudios, updateEstudio, createEstudio, getEstudiosImpagos, createPagoAMedico, actualizaImportesEstudio } from './api';
+import {
+    getEstudios, updateEstudio, createEstudio, getEstudiosImpagos, createPagoAMedico,
+    actualizaImportesEstudio, realizarPagoContraFactura, anularPagoContraFactura }
+    from './api';
 import { FETCH_ESTUDIOS_DIARIOS, LOAD_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     UPDATE_ESTUDIO, ERROR_UPDATING_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
     FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS, SEND_PAGO_MEDICO, PAGO_MEDICO_SUCCESS,
-    PAGO_MEDICO_ERROR, ACTULIZA_IMPORTES_ESTUDIO }
+    PAGO_MEDICO_ERROR, ACTULIZA_IMPORTES_ESTUDIO, REALIZAR_PAGO_CONTRA_FACTURA,
+    ANULAR_PAGO_CONTRA_FACTURA }
     from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
@@ -69,6 +73,28 @@ export function pagoAMedicoEpic(action$) {
                 { type: ADD_ALERT, alert: createAlert('Error al crear el pago') },
                 { type: PAGO_MEDICO_ERROR },
             ))),
+        );
+}
+
+export function realizarPagoContraFacturaEpic(action$) {
+    return action$.ofType(REALIZAR_PAGO_CONTRA_FACTURA)
+        .mergeMap(action =>
+            realizarPagoContraFactura(action.datos)
+            .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados') }))
+            .catch(data => (Rx.Observable.of({
+                type: ADD_ALERT, alert: createAlert(`Error al realizar el pago contra factura.\n${data.response.message}`, 'danger'),
+            }))),
+        );
+}
+
+export function anularPagoContraFacturaEpic(action$) {
+    return action$.ofType(ANULAR_PAGO_CONTRA_FACTURA)
+        .mergeMap(action =>
+            anularPagoContraFactura(action.datos)
+            .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados') }))
+            .catch(data => (Rx.Observable.of({
+                type: ADD_ALERT, alert: createAlert(`Error al anular el pago contra factura.\n${data.response.message}`, 'danger'),
+            }))),
         );
 }
 
