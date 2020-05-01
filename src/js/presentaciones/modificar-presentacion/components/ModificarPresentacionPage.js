@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes, { object, string } from 'prop-types';
 import { connect } from 'react-redux';
 import TabNavigator from '../../components/TabNavigator';
@@ -13,6 +13,7 @@ import {
 } from '../actionTypes';
 import { CERRAR_PRESENTACION } from '../../actionTypes';
 import initialState from '../modificarPresentacionReducerInitialState';
+import NotFoundPage from '../../../utilities/components/NotFoundPage';
 
 function ModificarPresentacionPage(props) {
     const {
@@ -33,45 +34,52 @@ function ModificarPresentacionPage(props) {
     } = props;
     const comprobanteState = useComprobanteState();
 
+    const showPage = !estudios.length && !estudiosApiLoading;
+
     return (
-        <div>
-            <h1>
-                {'Modificar Presentacion: '}
-                <strong>{obraSocial.nombre !== undefined ? obraSocial.nombre : ''}</strong>
-            </h1>
-            <div
-              className='date-picker'
-              style={ { width: '35.5rem' } }
-            >
-                <div className='form-group'>
-                    <label htmlFor='date' className='control-label'>Fecha</label>
-                    <input name='date' className='form-control' value={ fecha } type='date' />
+        <Fragment>
+            <div hidden={ showPage }>
+                <h1>
+                    {'Modificar Presentacion: '}
+                    <strong>{obraSocial.nombre !== undefined ? obraSocial.nombre : ''}</strong>
+                </h1>
+                <div
+                  className='date-picker'
+                  style={ { width: '35.5rem' } }
+                >
+                    <div className='form-group'>
+                        <label htmlFor='date' className='control-label'>Fecha</label>
+                        <input name='date' className='form-control' value={ fecha } type='date' />
+                    </div>
                 </div>
+                <TabNavigator
+                  comprobanteState={ comprobanteState }
+                  fetchEstudiosAgregar={ fetchEstudiosAgregar }
+                  estudios={ estudios }
+                  estudiosApiLoading={ estudiosApiLoading }
+                  estudiosAgregar={ estudiosAgregar }
+                  estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
+                  agregarEstudiosTabla={ agregarEstudiosTabla }
+                  id={ idPresentacion }
+                  updatePresentacion={ updatePresentacion }
+                  cerrarPresentacion={ cerrarPresentacion }
+                  fecha={ fecha }
+                  listComponent={
+                      <EstudiosDeUnaPresentacionList
+                        estudios={ estudios }
+                        estudiosApiLoading={ estudiosApiLoading }
+                        importesTotales={ importesTotales }
+                        gravado={ comprobanteState.gravado }
+                        actualizarInput={ actualizarInput }
+                        eliminarEstudio={ eliminarEstudio }
+                      />
+                  }
+                />
             </div>
-            <TabNavigator
-              comprobanteState={ comprobanteState }
-              fetchEstudiosAgregar={ fetchEstudiosAgregar }
-              estudios={ estudios }
-              estudiosApiLoading={ estudiosApiLoading }
-              estudiosAgregar={ estudiosAgregar }
-              estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
-              agregarEstudiosTabla={ agregarEstudiosTabla }
-              id={ idPresentacion }
-              updatePresentacion={ updatePresentacion }
-              cerrarPresentacion={ cerrarPresentacion }
-              fecha={ fecha }
-              listComponent={
-                  <EstudiosDeUnaPresentacionList
-                    estudios={ estudios }
-                    estudiosApiLoading={ estudiosApiLoading }
-                    importesTotales={ importesTotales }
-                    gravado={ comprobanteState.gravado }
-                    actualizarInput={ actualizarInput }
-                    eliminarEstudio={ eliminarEstudio }
-                  />
-              }
-            />
-        </div>
+            { showPage && (
+                <NotFoundPage />
+            )}
+        </Fragment>
     );
 }
 
@@ -81,7 +89,7 @@ ModificarPresentacionPage.propTypes = {
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
     estudiosAgregar: array.isRequired,
-    estudiosAgregarApiLoading: array.isRequired,
+    estudiosAgregarApiLoading: bool.isRequired,
     obraSocial: object.isRequired,
     importesTotales: number.isRequired,
     fecha: string.isRequired,

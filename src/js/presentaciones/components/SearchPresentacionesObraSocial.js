@@ -43,6 +43,12 @@ class SearchPresentacionesObraSocial extends Component {
         history.push('/presentaciones-obras-sociales/nueva-presentacion');
     }
 
+    presentacionClickHandler(params) {
+        const { fetchPresentacionesObraSocial } = this.props;
+        console.log(params);
+        fetchPresentacionesObraSocial(params);
+    }
+
     renderObraSocialMenuItem(option) {
         return (
             <div key={ option.id }>
@@ -80,8 +86,8 @@ class SearchPresentacionesObraSocial extends Component {
                           bsStyle='primary'
                           disabled={ !this.props.valid }
                           onClick={ this.props.handleSubmit(params =>
-                            this.props.fetchPresentacionesObraSocial(params))
-                         }
+                            this.presentacionClickHandler(params))
+                          }
                         >
                             Buscar
                         </Button>

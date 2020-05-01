@@ -1,12 +1,20 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
+import PropTypes, { func } from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap/dist/react-bootstrap';
 import initialState from '../presentacionReducerInitialState';
 import PresentacionesObraSocialTableRow from './PresentacionesObraSocialTableRow';
+import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 
 function PresentacionesObraSocialList(props) {
-    const { presentaciones } = props;
+    /* eslint-disable no-unused-vars */
+    const { presentaciones, obraSocial, fetchPresentacionesObraSocial } = props;
+
+    useEffect(() => {
+        if (obraSocial) {
+            fetchPresentacionesObraSocial(obraSocial);
+        }
+    }, []);
 
     return (
         <div>
@@ -37,10 +45,12 @@ function PresentacionesObraSocialList(props) {
     );
 }
 
-const { array } = PropTypes;
+const { array, object } = PropTypes;
 
 PresentacionesObraSocialList.propTypes = {
     presentaciones: array,
+    obraSocial: object,
+    fetchPresentacionesObraSocial: func,
 };
 
 PresentacionesObraSocialList.defaultProps = {
@@ -50,8 +60,18 @@ PresentacionesObraSocialList.defaultProps = {
 function mapStateToProps(state) {
     return {
         presentaciones: state.presentacionReducer.presentaciones,
+        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        fetchPresentacionesObraSocial: obraSocial => dispatch({
+            type: FETCH_PRESENTACIONES_OBRA_SOCIAL,
+            id: obraSocial.id,
+        }),
     };
 }
 
 export default
-    connect(mapStateToProps, null)(PresentacionesObraSocialList);
+    connect(mapStateToProps, mapDispatchToProps)(PresentacionesObraSocialList);
