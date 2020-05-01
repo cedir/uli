@@ -38,9 +38,10 @@ const store = createStore(
 
 store.subscribe(() => {
     const token = store.getState().login.token;
+    const sucursal = store.getState().login.sucursal;
     if (token) {
         const modifiedInitialState = {};
-        Object.assign(modifiedInitialState, initialState, { token });
+        Object.assign(modifiedInitialState, initialState, { token, sucursal });
         return saveStateLocally({ login: modifiedInitialState });
     }
 

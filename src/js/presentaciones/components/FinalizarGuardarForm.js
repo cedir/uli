@@ -71,7 +71,6 @@ function comprobanteObject(props) {
 
     return {
         tipo_id: parseInt(comprobanteState.tipo, 10),
-        nro_terminal: 99,
         sub_tipo: comprobanteState.subTipo,
         responsable: comprobanteState.responsable,
         gravado_id: gravadoId,
