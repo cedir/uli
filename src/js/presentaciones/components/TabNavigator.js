@@ -10,7 +10,6 @@ function TabNavigator(props) {
         listComponent,
         comprobanteState,
         estudios,
-        estudiosApiLoading,
         estudiosAgregar,
         estudiosAgregarApiLoading,
         fetchEstudiosAgregar,
@@ -36,10 +35,8 @@ function TabNavigator(props) {
         vaciarEstudiosAgregar();
     };
 
-    const isEmpty = !estudiosApiLoading && estudios.length ? ' empty' : '';
-
     return (
-        <div className={ `tab-navigator${isEmpty}` }>
+        <div className='tab-navigator'>
             <nav className='tabs'>
                 <Button
                   role='button'
@@ -122,7 +119,6 @@ TabNavigator.propTypes = {
     comprobanteState: object.isRequired,
     fetchEstudiosAgregar: func.isRequired,
     estudios: array.isRequired,
-    estudiosApiLoading: bool.isRequired,
     estudiosAgregarApiLoading: bool.isRequired,
     estudiosAgregar: array.isRequired,
     agregarEstudiosTabla: func.isRequired,

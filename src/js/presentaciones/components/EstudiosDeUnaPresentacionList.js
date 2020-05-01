@@ -14,7 +14,7 @@ function EstudiosDeUnaPresentacionList(props) {
         actualizarInput,
     } = props;
 
-    if (estudiosApiLoading || !estudios.length) {
+    if (estudiosApiLoading) {
         return <LinearProgress className='md-progress' variant='query' />;
     }
 

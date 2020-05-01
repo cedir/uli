@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes, { object } from 'prop-types';
 import { connect } from 'react-redux';
 import TabNavigator from '../../components/TabNavigator';
@@ -13,6 +13,7 @@ import {
  } from '../actionTypes';
 import { CERRAR_PRESENTACION } from '../../actionTypes';
 import initialState from '../estudiosSinPresentarReducerInitialState';
+import NotFoundPage from '../../../utilities/components/NotFoundPage';
 
 
 function NuevaPresentacionPage(props) {
@@ -33,51 +34,58 @@ function NuevaPresentacionPage(props) {
     const comprobanteState = useComprobanteState();
     const [fecha, setFecha] = useState('');
 
+    const showPage = !estudios.length && !estudiosApiLoading;
+
     return (
-        <div>
-            <h1>
-                {'Nueva Presentacion: '}
-                <strong>{obraSocial !== {} ? obraSocial.nombre : ''}</strong>
-            </h1>
-            <div
-              className='date-picker'
-              style={ { width: '35.5rem' } }
-            >
-                <div className='form-group'>
-                    <label htmlFor='date' className='control-label'>Fecha</label>
-                    <input
-                      name='date'
-                      className='form-control'
-                      type='date'
-                      value={ fecha }
-                      onChange={ e => setFecha(e.target.value) }
-                    />
+        <Fragment>
+            <div hidden={ showPage }>
+                <h1>
+                    {'Nueva Presentacion: '}
+                    <strong>{obraSocial !== {} ? obraSocial.nombre : ''}</strong>
+                </h1>
+                <div
+                  className='date-picker'
+                  style={ { width: '35.5rem' } }
+                >
+                    <div className='form-group'>
+                        <label htmlFor='date' className='control-label'>Fecha</label>
+                        <input
+                          name='date'
+                          className='form-control'
+                          type='date'
+                          value={ fecha }
+                          onChange={ e => setFecha(e.target.value) }
+                        />
+                    </div>
                 </div>
+                <TabNavigator
+                  comprobanteState={ comprobanteState }
+                  fetchEstudiosAgregar={ fetchEstudiosAgregar }
+                  estudios={ estudios }
+                  estudiosApiLoading={ estudiosApiLoading }
+                  estudiosAgregar={ estudiosAgregar }
+                  estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
+                  agregarEstudiosTabla={ agregarEstudiosTabla }
+                  crearPresentacion={ crearNuevaPresentacion }
+                  cerrarPresentacion={ cerrarPresentacion }
+                  id={ obraSocial.id !== undefined ? obraSocial.id : -1 }
+                  fecha={ fecha }
+                  listComponent={
+                      <EstudiosDeUnaPresentacionList
+                        estudios={ estudios }
+                        estudiosApiLoading={ estudiosApiLoading }
+                        importesTotales={ importesTotales }
+                        gravado={ comprobanteState.gravado }
+                        actualizarInput={ actualizarInput }
+                        eliminarEstudio={ eliminarEstudio }
+                      />
+                  }
+                />
             </div>
-            <TabNavigator
-              comprobanteState={ comprobanteState }
-              fetchEstudiosAgregar={ fetchEstudiosAgregar }
-              estudios={ estudios }
-              estudiosApiLoading={ estudiosApiLoading }
-              estudiosAgregar={ estudiosAgregar }
-              estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
-              agregarEstudiosTabla={ agregarEstudiosTabla }
-              crearPresentacion={ crearNuevaPresentacion }
-              cerrarPresentacion={ cerrarPresentacion }
-              id={ obraSocial.id !== undefined ? obraSocial.id : -1 }
-              fecha={ fecha }
-              listComponent={
-                  <EstudiosDeUnaPresentacionList
-                    estudios={ estudios }
-                    estudiosApiLoading={ estudiosApiLoading }
-                    importesTotales={ importesTotales }
-                    gravado={ comprobanteState.gravado }
-                    actualizarInput={ actualizarInput }
-                    eliminarEstudio={ eliminarEstudio }
-                  />
-              }
-            />
-        </div>
+            { showPage && (
+                <NotFoundPage />
+            )}
+        </Fragment>
     );
 }
 
