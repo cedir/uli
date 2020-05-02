@@ -8,13 +8,13 @@ import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 
 function PresentacionesObraSocialList(props) {
     /* eslint-disable no-unused-vars */
-    const { presentaciones, obraSocial, fetchPresentacionesObraSocial } = props;
+    const { presentaciones, idObraSocial, fetchPresentacionesObraSocial } = props;
 
     useEffect(() => {
-        if (obraSocial) {
-            fetchPresentacionesObraSocial(obraSocial);
+        if (idObraSocial) {
+            fetchPresentacionesObraSocial(idObraSocial);
         }
-    }, []);
+    }, [idObraSocial]);
 
     return (
         <div>
@@ -45,30 +45,31 @@ function PresentacionesObraSocialList(props) {
     );
 }
 
-const { array, object } = PropTypes;
+const { array, number } = PropTypes;
 
 PresentacionesObraSocialList.propTypes = {
     presentaciones: array,
-    obraSocial: object,
+    idObraSocial: number,
     fetchPresentacionesObraSocial: func,
 };
 
 PresentacionesObraSocialList.defaultProps = {
     presentaciones: initialState.presentaciones,
+    idObraSocial: initialState.idObraSocial,
 };
 
 function mapStateToProps(state) {
     return {
         presentaciones: state.presentacionReducer.presentaciones,
-        obraSocial: state.estudiosSinPresentarReducer.obraSocial,
+        idObraSocial: state.presentacionReducer.idObraSocial,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchPresentacionesObraSocial: obraSocial => dispatch({
+        fetchPresentacionesObraSocial: idObraSocial => dispatch({
             type: FETCH_PRESENTACIONES_OBRA_SOCIAL,
-            id: obraSocial.id,
+            id: idObraSocial,
         }),
     };
 }

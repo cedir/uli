@@ -6,7 +6,7 @@ import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import { requiredOption } from '../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
-import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
+import { LOAD_PRESENTACION_OBRA_SOCIAL_ID } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
 
@@ -44,9 +44,8 @@ class SearchPresentacionesObraSocial extends Component {
     }
 
     presentacionClickHandler(params) {
-        const { fetchPresentacionesObraSocial } = this.props;
-        console.log(params);
-        fetchPresentacionesObraSocial(params);
+        const { loadPresentacionObraSocialId } = this.props;
+        loadPresentacionObraSocialId(params);
     }
 
     renderObraSocialMenuItem(option) {
@@ -121,7 +120,7 @@ SearchPresentacionesObraSocial.propTypes = {
     handleSubmit: func.isRequired,
     valid: bool.isRequired,
     fetchObrasSociales: func.isRequired,
-    fetchPresentacionesObraSocial: func.isRequired,
+    loadPresentacionObraSocialId: func.isRequired,
     fetchEstudiosSinPresentarObraSocial: func.isRequired,
     setSelectedObraSocial: func.isRequired,
     selectedObraSocial: array,
@@ -155,8 +154,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
-        fetchPresentacionesObraSocial: params => dispatch({
-            type: FETCH_PRESENTACIONES_OBRA_SOCIAL,
+        loadPresentacionObraSocialId: params => dispatch({
+            type: LOAD_PRESENTACION_OBRA_SOCIAL_ID,
             id: params.obraSocial[0].id,
         }),
         fetchEstudiosSinPresentarObraSocial: params => dispatch({

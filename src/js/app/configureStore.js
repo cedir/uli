@@ -5,7 +5,7 @@ import { saveStateLocally, removeStateLocally, loadLocallyPersistedState } from 
 // import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
 
-const REDUX_LOGGER = 'OFF';
+const REDUX_LOGGER = 'ON';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

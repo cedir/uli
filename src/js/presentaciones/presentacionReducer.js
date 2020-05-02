@@ -4,8 +4,8 @@ import {
     LOAD_PRESENTACIONES_OBRA_SOCIAL,
     LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
     LOAD_PRESENTACION_DETAIL_ID,
+    LOAD_PRESENTACION_OBRA_SOCIAL_ID,
 } from './actionTypes';
-
 
 const actionsHandledByEpicReducer = (state) => {
     const newState = {};
@@ -29,6 +29,11 @@ const loadPresentacionesErrorReducer = (state) => {
     return newState;
 };
 
+const loadPresentacionObraSocialId = (state, action) => ({
+    ...state,
+    idObraSocial: action.id,
+});
+
 
 const loadPresentacionDetailId = (state, action) => {
     const newState = {};
@@ -50,6 +55,8 @@ export function presentacionReducer(state = initialState, action) {
             return loadPresentacionesReducer(state, action);
         case LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR:
             return loadPresentacionesErrorReducer(state);
+        case LOAD_PRESENTACION_OBRA_SOCIAL_ID:
+            return loadPresentacionObraSocialId(state, action);
         case LOAD_PRESENTACION_DETAIL_ID:
             return loadPresentacionDetailId(state, action);
 
