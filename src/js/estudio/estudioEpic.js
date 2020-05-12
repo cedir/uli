@@ -82,7 +82,7 @@ export function realizarPagoContraFacturaEpic(action$) {
             realizarPagoContraFactura(action.datos)
             .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados') }))
             .catch(data => (Rx.Observable.of({
-                type: ADD_ALERT, alert: createAlert(`Error al realizar el pago contra factura.\n${data.response.message}`, 'danger'),
+                type: ADD_ALERT, alert: createAlert(`Error al realizar el pago contra factura.\n${data.response.error}`, 'danger'),
             }))),
         );
 }
@@ -93,7 +93,7 @@ export function anularPagoContraFacturaEpic(action$) {
             anularPagoContraFactura(action.datos)
             .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados') }))
             .catch(data => (Rx.Observable.of({
-                type: ADD_ALERT, alert: createAlert(`Error al anular el pago contra factura.\n${data.response.message}`, 'danger'),
+                type: ADD_ALERT, alert: createAlert(`Error al anular el pago contra factura.\n${data.response.error}`, 'danger'),
             }))),
         );
 }
