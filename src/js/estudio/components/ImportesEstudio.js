@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { bool } from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { Field, reduxForm } from 'redux-form';
@@ -32,6 +32,7 @@ class ImportesEstudio extends React.Component {
         const datos = {
             estudio_id: this.props.estudioDetail.id,
             pago_contra_factura: params.pago_contra_factura,
+            setPagoContraFactura: this.props.setPagoContraFactura,
         };
         this.props.realizarPago(datos);
     }
@@ -39,13 +40,14 @@ class ImportesEstudio extends React.Component {
     anularPago() {
         const datos = {
             estudio_id: this.props.estudioDetail.id,
+            setPagoContraFactura: this.props.setPagoContraFactura,
         };
         this.props.anularPago(datos);
     }
 
     render() {
         const { presentacion } = this.props.estudioDetail;
-        const esPagoContraFactura = this.props.estudioDetail.es_pago_contra_factura === 0;
+        const esPagoContraFactura = this.props.esPagoContraFactura;
         const estadoPresentacion = presentacion ? presentacion.estado : undefined;
         const lockEstudioEdition =
             (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
@@ -97,7 +99,7 @@ class ImportesEstudio extends React.Component {
                           type='button'
                           bsStyle='primary'
                           style={ { marginRight: '12px' } }
-                          disabled={ lockEstudioEdition || !esPagoContraFactura }
+                          disabled={ lockEstudioEdition || esPagoContraFactura }
                           onClick={ this.props.handleSubmit(this.realizarPago) }
                         >
                         Realizar Pago
@@ -106,7 +108,7 @@ class ImportesEstudio extends React.Component {
                           type='button'
                           bsStyle='primary'
                           style={ { marginRight: '12px' } }
-                          disabled={ lockEstudioEdition || esPagoContraFactura }
+                          disabled={ lockEstudioEdition || !esPagoContraFactura }
                           onClick={ this.props.handleSubmit(this.anularPago) }
                         >
                         Anular Pago
@@ -130,6 +132,8 @@ ImportesEstudio.propTypes = {
     actulizarImportes: func.isRequired,
     realizarPago: func.isRequired,
     anularPago: func.isRequired,
+    esPagoContraFactura: bool.isRequired,
+    setPagoContraFactura: func.isRequired,
 };
 
 function mapStateToProps(state) {

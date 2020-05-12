@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
@@ -10,47 +10,55 @@ import ImportesEstudio from './ImportesEstudio';
 import { FETCH_ESTUDIO_DETAIL, RESET_ESTUDIO_DETAIL } from '../actionTypes';
 import { FETCH_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
 
-class EstudioDetailPage extends React.Component {
-    componentDidMount() {
-        this.props.fetchEstudioDetail(this.props.match.params.id);
-        this.props.fetchMedicacionEstudio(this.props.match.params.id);
-    }
+function EstudioDetailPage({
+    fetchEstudioDetail,
+    fetchMedicacionEstudio,
+    resetEstudioDetail,
+    estudioDetail,
+    ...props
+}) {
+    useEffect(() => {
+        fetchEstudioDetail(props.match.params.id);
+        fetchMedicacionEstudio(props.match.params.id);
+        return () => { resetEstudioDetail(); };
+    }, []);
 
-    componentWillUnmount() {
-        this.props.resetEstudioDetail();
-    }
+    const { paciente, practica } = estudioDetail;
+    const [
+        esPagoContraFactura,
+        setPagoContraFactura,
+    ] = useState(estudioDetail.esPagoContraFactura !== 0);
 
-    render() {
-        const { paciente, practica } = this.props.estudioDetail;
-
-        return (
-            <div className='container-fluid'>
-                { paciente && practica &&
-                <div>
-                    <h2>Paciente: { ` ${paciente.apellido}, ${paciente.nombre}.`} </h2>
-                </div>
-                }
-                { !isEmpty(this.props.estudioDetail) && <Row className='show-grid'>
-                    <Col md={ 4 } style={ { border: 'none' } }>
-                        <h3 style={ { marginBottom: '25px' } } >Detalle</h3>
-                        <EstudioDetailMain
-                          estudioDetailFormMode='edit'
-                        />
-                    </Col>
-                    <Col md={ 4 } style={ { border: 'none' } }>
-                        <h3 style={ { marginBottom: '25px' } } >Medicacion</h3>
-                        <MedicacionEstudio />
-                    </Col>
-                    <Col md={ 4 } style={ { border: 'none' } }>
-                        <h3 style={ { marginBottom: '25px' } } >Facturacion</h3>
-                        <DetalleFacturacionEstudio />
-                        <h3 style={ { marginTop: '25px' } } >Importes</h3>
-                        <ImportesEstudio />
-                    </Col>
-                </Row> }
+    return (
+        <div className='container-fluid'>
+            { paciente && practica &&
+            <div>
+                <h2>Paciente: { ` ${paciente.apellido}, ${paciente.nombre}.`} </h2>
             </div>
-        );
-    }
+            }
+            { !isEmpty(estudioDetail) && <Row className='show-grid'>
+                <Col md={ 4 } style={ { border: 'none' } }>
+                    <h3 style={ { marginBottom: '25px' } } >Detalle</h3>
+                    <EstudioDetailMain
+                      estudioDetailFormMode='edit'
+                    />
+                </Col>
+                <Col md={ 4 } style={ { border: 'none' } }>
+                    <h3 style={ { marginBottom: '25px' } } >Medicacion</h3>
+                    <MedicacionEstudio />
+                </Col>
+                <Col md={ 4 } style={ { border: 'none' } }>
+                    <h3 style={ { marginBottom: '25px' } } >Facturacion</h3>
+                    <DetalleFacturacionEstudio esPagoContraFactura={ esPagoContraFactura } />
+                    <h3 style={ { marginTop: '25px' } } >Importes</h3>
+                    <ImportesEstudio
+                      setPagoContraFactura={ setPagoContraFactura }
+                      esPagoContraFactura={ esPagoContraFactura }
+                    />
+                </Col>
+            </Row> }
+        </div>
+    );
 }
 
 const { object, func } = PropTypes;

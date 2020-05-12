@@ -80,7 +80,7 @@ export function realizarPagoContraFacturaEpic(action$) {
     return action$.ofType(REALIZAR_PAGO_CONTRA_FACTURA)
         .mergeMap(action =>
             realizarPagoContraFactura(action.datos)
-            .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados') }))
+            .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados'), actPagoContraFactura: action.datos.setPagoContraFactura(true) }))
             .catch(data => (Rx.Observable.of({
                 type: ADD_ALERT, alert: createAlert(`Error al realizar el pago contra factura.\n${data.response.error}`, 'danger'),
             }))),
@@ -91,7 +91,7 @@ export function anularPagoContraFacturaEpic(action$) {
     return action$.ofType(ANULAR_PAGO_CONTRA_FACTURA)
         .mergeMap(action =>
             anularPagoContraFactura(action.datos)
-            .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados') }))
+            .map(() => ({ type: ADD_ALERT, alert: createAlert('Cambios guardados'), actPagoContraFactura: action.datos.setPagoContraFactura(false) }))
             .catch(data => (Rx.Observable.of({
                 type: ADD_ALERT, alert: createAlert(`Error al anular el pago contra factura.\n${data.response.error}`, 'danger'),
             }))),
