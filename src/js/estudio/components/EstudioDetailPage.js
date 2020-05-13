@@ -18,16 +18,17 @@ function EstudioDetailPage({
     ...props
 }) {
     useEffect(() => {
-        fetchEstudioDetail(props.match.params.id);
+        fetchEstudioDetail(props.match.params.id, setPagoContraFactura);
         fetchMedicacionEstudio(props.match.params.id);
         return () => { resetEstudioDetail(); };
     }, []);
 
-    const { paciente, practica } = estudioDetail;
     const [
         esPagoContraFactura,
         setPagoContraFactura,
-    ] = useState(estudioDetail.esPagoContraFactura !== 0);
+    ] = useState(false);
+
+    const { paciente, practica } = estudioDetail;
 
     return (
         <div className='container-fluid'>
@@ -79,8 +80,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchEstudioDetail: estudioId =>
-            dispatch({ type: FETCH_ESTUDIO_DETAIL, estudioId }),
+        fetchEstudioDetail: (estudioId, setPagoContraFactura) =>
+            dispatch({ type: FETCH_ESTUDIO_DETAIL, estudioId, setPagoContraFactura }),
         fetchMedicacionEstudio: estudioId =>
             dispatch({ type: FETCH_MEDICACION_ESTUDIO, estudioId }),
         resetEstudioDetail: () => dispatch({ type: RESET_ESTUDIO_DETAIL }),
