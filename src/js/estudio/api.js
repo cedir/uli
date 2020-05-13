@@ -73,13 +73,27 @@ export function createEstudio(estudio) {
     return post(url, body);
 }
 
+export function realizarPagoContraFactura(datos) {
+    const url = `/api/estudio/${datos.estudio_id}/realizar_pago_contra_factura/`;
+    const body = {
+        pago_contra_factura: datos.pago_contra_factura,
+    };
+
+    return update(url, body);
+}
+
+export function anularPagoContraFactura(datos) {
+    const url = `/api/estudio/${datos.estudio_id}/anular_pago_contra_factura/`;
+
+    return update(url);
+}
+
 export function actualizaImportesEstudio(importes) {
-    const url = `/api/estudio/${importes.estudio_id}/update_importes_y_pago_contra_factura/`;
+    const url = `/api/estudio/${importes.estudio_id}/update_importes/`;
     const body = {
         pension: importes.pension,
         diferencia_paciente: importes.diferencia_paciente,
         arancel_anestesia: importes.arancel_anestesia,
-        pago_contra_factura: importes.pago_contra_factura,
     };
 
     return patch(url, body);

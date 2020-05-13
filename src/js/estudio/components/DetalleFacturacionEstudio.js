@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { bool } from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
@@ -28,9 +28,10 @@ class DetalleFacturacionEstudio extends React.Component {
 
     render() {
         const { presentacion } = this.props.estudioDetail;
+        const esPagoContraFactura = this.props.esPagoContraFactura;
         const comprobante = presentacion ? this.props.estudioDetail.presentacion.comprobante : null;
-
         const comprobanteRender = ComprobanteRender(comprobante);
+        const mensajePresentacion = esPagoContraFactura ? 'El estudio fue dado de pago contra factura' : 'El estudio no fue presentado aún';
 
         if (presentacion) {
             return (
@@ -51,7 +52,7 @@ class DetalleFacturacionEstudio extends React.Component {
         }
         return (
             <div>
-                <span>El estudio no fue presentado a&uacute;n</span>
+                <span>{mensajePresentacion}</span>
             </div>
         );
     }
@@ -61,6 +62,7 @@ const { object } = PropTypes;
 
 DetalleFacturacionEstudio.propTypes = {
     estudioDetail: object.isRequired,
+    esPagoContraFactura: bool.isRequired,
 };
 
 function mapStateToProps(state) {

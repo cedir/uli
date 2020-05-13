@@ -10,7 +10,12 @@ export function estudioDetailEpic(action$) {
     return action$.ofType(FETCH_ESTUDIO_DETAIL)
         .mergeMap(action =>
             getEstudio(action.estudioId)
-            .map(data => ({ type: LOAD_ESTUDIO_DETAIL, estudioDetail: data.response }))
+            .map(data => ({
+                type: LOAD_ESTUDIO_DETAIL,
+                estudioDetail: data.response,
+                updatePagoContraFactura:
+                action.setPagoContraFactura(data.response.es_pago_contra_factura === 1),
+            }))
             .takeUntil(action$.ofType(LOAD_ESTUDIO_DETAIL_ERROR)),
     );
 }
