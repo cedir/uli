@@ -53,7 +53,7 @@ function EstudiosDeUnaPresentacionList(props) {
             { estudios.length !== 0 &&
                 <ImportesTotales
                   estudios={ importesTotales }
-                  gravado={ parseFloat(gravado, 10) }
+                  gravado={ gravado && parseFloat(gravado, 10) }
                 />
             }
         </div>
@@ -66,8 +66,8 @@ EstudiosDeUnaPresentacionList.propTypes = {
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
     importesTotales: number.isRequired,
-    gravado: string.isRequired,
-    eliminarEstudio: func.isRequired,
+    gravado: string,
+    eliminarEstudio: func,
     actualizarInput: func.isRequired,
 };
 

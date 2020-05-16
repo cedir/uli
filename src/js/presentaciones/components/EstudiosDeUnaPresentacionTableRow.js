@@ -151,13 +151,15 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                   name='arancel_anestesia'
                 />
             </td>
-            <td className='delete'>
-                <DeleteIcon
-                  tabIndex='0'
-                  role='button'
-                  onClick={ deleteIconClickHandler }
-                />
-            </td>
+            { eliminarEstudio && (
+                <td className='delete'>
+                    <DeleteIcon
+                      tabIndex='0'
+                      role='button'
+                      onClick={ deleteIconClickHandler }
+                    />
+                </td>
+            )}
             <td style={ { display: 'none' } }>
                 <ModalMedicacion
                   show={ medicacionClicked }
@@ -174,7 +176,7 @@ const { object, func, number } = PropTypes;
 
 EstudiosDeUnaPresentacionTableRow.propTypes = {
     estudio: object.isRequired,
-    eliminarEstudio: func.isRequired,
+    eliminarEstudio: func,
     index: number.isRequired,
     actualizarInput: func.isRequired,
     cleanMedicacionesStore: func.isRequired,

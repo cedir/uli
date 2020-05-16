@@ -13,7 +13,6 @@ import {
     FINALIZAR_MODIFICAR_PRESENTACION,
 } from '../actionTypes';
 import initialState from '../modificarPresentacionReducerInitialState';
-import NotFoundPage from '../../../utilities/components/NotFoundPage';
 
 function ModificarPresentacionPage(props) {
     const {
@@ -34,11 +33,9 @@ function ModificarPresentacionPage(props) {
     } = props;
     const comprobanteState = useComprobanteState();
 
-    const showPage = !estudios.length && !estudiosApiLoading;
-
     return (
         <Fragment>
-            <div hidden={ showPage }>
+            <div>
                 <h1>
                     {'Modificar Presentacion: '}
                     <strong>{obraSocial.nombre !== undefined ? obraSocial.nombre : ''}</strong>
@@ -75,9 +72,6 @@ function ModificarPresentacionPage(props) {
                     />
                 </TabNavigator>
             </div>
-            { showPage && (
-                <NotFoundPage />
-            )}
         </Fragment>
     );
 }
