@@ -70,17 +70,16 @@ function NuevaPresentacionPage(props) {
                   cerrarPresentacion={ cerrarPresentacion }
                   id={ obraSocial.id !== undefined ? obraSocial.id : -1 }
                   fecha={ fecha }
-                  listComponent={
-                      <EstudiosDeUnaPresentacionList
-                        estudios={ estudios }
-                        estudiosApiLoading={ estudiosApiLoading }
-                        importesTotales={ importesTotales }
-                        gravado={ comprobanteState.gravado }
-                        actualizarInput={ actualizarInput }
-                        eliminarEstudio={ eliminarEstudio }
-                      />
-                  }
-                />
+                >
+                    <EstudiosDeUnaPresentacionList
+                      estudios={ estudios }
+                      estudiosApiLoading={ estudiosApiLoading }
+                      importesTotales={ importesTotales }
+                      gravado={ comprobanteState.gravado }
+                      actualizarInput={ actualizarInput }
+                      eliminarEstudio={ eliminarEstudio }
+                    />
+                </TabNavigator>
             </div>
             { showPage && (
                 <NotFoundPage />

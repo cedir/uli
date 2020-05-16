@@ -64,17 +64,16 @@ function ModificarPresentacionPage(props) {
                   updatePresentacion={ updatePresentacion }
                   cerrarPresentacion={ cerrarPresentacion }
                   fecha={ fecha }
-                  listComponent={
-                      <EstudiosDeUnaPresentacionList
-                        estudios={ estudios }
-                        estudiosApiLoading={ estudiosApiLoading }
-                        importesTotales={ importesTotales }
-                        gravado={ comprobanteState.gravado }
-                        actualizarInput={ actualizarInput }
-                        eliminarEstudio={ eliminarEstudio }
-                      />
-                  }
-                />
+                >
+                    <EstudiosDeUnaPresentacionList
+                      estudios={ estudios }
+                      estudiosApiLoading={ estudiosApiLoading }
+                      importesTotales={ importesTotales }
+                      gravado={ comprobanteState.gravado }
+                      actualizarInput={ actualizarInput }
+                      eliminarEstudio={ eliminarEstudio }
+                    />
+                </TabNavigator>
             </div>
             { showPage && (
                 <NotFoundPage />

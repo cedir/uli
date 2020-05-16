@@ -7,7 +7,7 @@ import { VACIAR_ESTUDIOS_AGREGAR } from '../nueva-presentacion/actionTypes';
 
 function TabNavigator(props) {
     const {
-        listComponent,
+        children,
         comprobanteState,
         estudios,
         estudiosAgregar,
@@ -80,7 +80,7 @@ function TabNavigator(props) {
             </nav>
             <Row className='content-1'>
                 <Col md={ 12 } className='col-1'>
-                    { listComponent }
+                    { children }
                 </Col>
             </Row>
             <ModalComprobante
@@ -115,7 +115,7 @@ function TabNavigator(props) {
 const { number, element, func, object, string, array, bool } = PropTypes;
 
 TabNavigator.propTypes = {
-    listComponent: element.isRequired,
+    children: element.isRequired,
     comprobanteState: object.isRequired,
     fetchEstudiosAgregar: func.isRequired,
     estudios: array.isRequired,
