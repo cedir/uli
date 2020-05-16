@@ -10,8 +10,8 @@ import {
     UPDATE_PRESENTACION,
     ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
+    FINALIZAR_MODIFICAR_PRESENTACION,
 } from '../actionTypes';
-import { CERRAR_PRESENTACION } from '../../actionTypes';
 import initialState from '../modificarPresentacionReducerInitialState';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
 
@@ -28,7 +28,7 @@ function ModificarPresentacionPage(props) {
         fetchEstudiosAgregar,
         agregarEstudiosTabla,
         updatePresentacion,
-        cerrarPresentacion,
+        finalizarPresentacion,
         idPresentacion,
         obraSocial,
     } = props;
@@ -62,7 +62,7 @@ function ModificarPresentacionPage(props) {
                   agregarEstudiosTabla={ agregarEstudiosTabla }
                   id={ idPresentacion }
                   updatePresentacion={ updatePresentacion }
-                  cerrarPresentacion={ cerrarPresentacion }
+                  finalizarPresentacion={ finalizarPresentacion }
                   fecha={ fecha }
                 >
                     <EstudiosDeUnaPresentacionList
@@ -97,7 +97,7 @@ ModificarPresentacionPage.propTypes = {
     fetchEstudiosAgregar: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
     updatePresentacion: func.isRequired,
-    cerrarPresentacion: func.isRequired,
+    finalizarPresentacion: func.isRequired,
     idPresentacion: number.isRequired,
 };
 
@@ -148,9 +148,9 @@ function mapDispatchToProps(dispatch) {
             dispatch({
                 type: UPDATE_PRESENTACION, presentacion, id,
             }),
-        cerrarPresentacion: (comprobante, id) =>
+        finalizarPresentacion: (presentacion, comprobante, id) =>
             dispatch({
-                type: CERRAR_PRESENTACION, comprobante, id,
+                type: FINALIZAR_MODIFICAR_PRESENTACION, presentacion, comprobante, id,
             }),
     };
 }

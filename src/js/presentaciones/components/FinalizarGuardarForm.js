@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
@@ -84,7 +85,7 @@ function FinalizarGuardarForm(props) {
         id,
         crearPresentacion,
         updatePresentacion,
-        cerrarPresentacion,
+        finalizarPresentacion,
         comprobanteState,
         finalizarButtonDisabled,
         guardarButtonDisabled,
@@ -107,17 +108,22 @@ function FinalizarGuardarForm(props) {
     });
 
     const finalizarClickHandler = () => {
-        if (crearPresentacion !== undefined) {
+        if (updatePresentacion) {
+            finalizarPresentacion(postObject, comprobante, id);
+        }
+        if (crearPresentacion) {
             crearPresentacion(postObject);
         }
-        if (updatePresentacion !== undefined) {
+    };
+
+    const guardarClickHandler = () => {
+        if (updatePresentacion) {
             updatePresentacion(postObject, id);
         }
-        cerrarPresentacion(comprobante, id);
-        setTimeout(() => {
-            history.push('/presentaciones-obras-sociales');
-        }, 1500);
-    };
+        if (crearPresentacion) {
+            crearPresentacion(postObject);
+        }
+    }
 
     return (
         <form>
@@ -143,6 +149,7 @@ function FinalizarGuardarForm(props) {
                 <Button
                   bsStyle='primary'
                   disabled={ guardarButtonDisabled }
+                  onClick={ guardarClickHandler }
                 >
                     Guardar
                 </Button>
@@ -164,7 +171,7 @@ FinalizarGuardarForm.propTypes = {
     id: number.isRequired,
     crearPresentacion: func,
     updatePresentacion: func,
-    cerrarPresentacion: func.isRequired,
+    finalizarPresentacion: func.isRequired,
     history: object.isRequired,
 };
 

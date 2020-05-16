@@ -12,10 +12,12 @@ import {
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
     UPDATE_PRESENTACION,
     LOAD_PRESENTACION_DETAIL,
+    FINALIZAR_MODIFICAR_PRESENTACION,
 } from './actionTypes';
 
 import { ADD_ALERT } from '../../utilities/components/alert/actionTypes';
 import { createAlert } from '../../utilities/components/alert/alertUtility';
+import { patchCerrarPresentacion } from '../api';
 
 export function estudiosDeUnaPresentacionEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION)
@@ -62,6 +64,28 @@ export function updatePresentacionEpic(action$) {
                 { type: ADD_ALERT, alert: createAlert('Presentación actualizada con éxito', 'success') },
                 { type: LOAD_PRESENTACION_DETAIL, data },
             ))
+            .catch(() => (Rx.Observable.of({
+                type: ADD_ALERT, alert: createAlert('Error al actualizar presentacion', 'danger'),
+            }))),
+        );
+}
+
+export function finalizarModificarPresentacionEpic(action$) {
+    return action$.ofType(FINALIZAR_MODIFICAR_PRESENTACION)
+        .mergeMap(action =>
+            updatePresentacionObraSocial(action.presentacion, action.id)
+            .mergeMap(() =>
+                patchCerrarPresentacion(action.comprobante, action.id)
+                .mergeMap(data => Rx.Observable.of(
+                    { type: ADD_ALERT, alert: createAlert('Presentación actualizada con éxito', 'success') },
+                    { type: ADD_ALERT, alert: createAlert('Presentación cerrada con éxito', 'success') },
+                    { type: LOAD_PRESENTACION_DETAIL, data },
+                ))
+                .catch(() => (Rx.Observable.of(
+                    { type: ADD_ALERT, alert: createAlert('Presentación actualizada con éxito', 'success') },
+                    { type: ADD_ALERT, alert: createAlert('Error al cerrar presentacion', 'danger') },
+                ))),
+            )
             .catch(() => (Rx.Observable.of({
                 type: ADD_ALERT, alert: createAlert('Error al actualizar presentacion', 'danger'),
             }))),

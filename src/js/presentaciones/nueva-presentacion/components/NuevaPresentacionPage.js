@@ -10,8 +10,8 @@ import {
     FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR,
     AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
     CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL,
+    FINALIZAR_NUEVA_PRESENTACION,
  } from '../actionTypes';
-import { CERRAR_PRESENTACION } from '../../actionTypes';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
 
@@ -28,7 +28,7 @@ function NuevaPresentacionPage(props) {
         estudiosAgregarApiLoading,
         agregarEstudiosTabla,
         crearNuevaPresentacion,
-        cerrarPresentacion,
+        finalizarPresentacion,
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
@@ -67,7 +67,7 @@ function NuevaPresentacionPage(props) {
                   estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
                   agregarEstudiosTabla={ agregarEstudiosTabla }
                   crearPresentacion={ crearNuevaPresentacion }
-                  cerrarPresentacion={ cerrarPresentacion }
+                  finalizarPresentacion={ finalizarPresentacion }
                   id={ obraSocial.id !== undefined ? obraSocial.id : -1 }
                   fecha={ fecha }
                 >
@@ -102,7 +102,7 @@ NuevaPresentacionPage.propTypes = {
     fetchEstudiosAgregar: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
     crearNuevaPresentacion: func.isRequired,
-    cerrarPresentacion: func.isRequired,
+    finalizarPresentacion: func.isRequired,
 };
 
 NuevaPresentacionPage.defaultProps = {
@@ -150,9 +150,9 @@ function mapDispatchToProps(dispatch) {
             dispatch({
                 type: CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL, presentacion,
             }),
-        cerrarPresentacion: (comprobante, id) =>
+        finalizarPresentacion: (comprobante, id) =>
             dispatch({
-                type: CERRAR_PRESENTACION, comprobante, id,
+                type: FINALIZAR_NUEVA_PRESENTACION, comprobante, id,
             }),
     };
 }
