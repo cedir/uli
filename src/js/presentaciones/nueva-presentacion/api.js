@@ -1,7 +1,15 @@
 import { get, post, patch } from '../../utilities/rest';
+import store from '../../app/configureStore';
+
+export function getSucursal() {
+    const sucursal = store.getState().login.sucursal;
+
+    return sucursal;
+}
 
 export function getEstudiosSinPresentarObraSocial(idObraSocial) {
-    const url = `/api/obra_social/${idObraSocial}/estudios_sin_presentar`;
+    const sucursal = getSucursal();
+    const url = `/api/obra_social/${idObraSocial}/estudios_sin_presentar?sucursal=${sucursal}`;
 
     return get(url);
 }
