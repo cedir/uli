@@ -15,7 +15,7 @@ import {
 } from './actionTypes';
 import { createAlert } from '../../utilities/components/alert/alertUtility';
 import { ADD_ALERT } from '../../utilities/components/alert/actionTypes';
-import { patchCerrarPresentacion } from '../api';
+import { patchCerrarPresentacion } from '../../presentaciones/api';
 
 export function estudiosSinPresentarEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL)

@@ -71,7 +71,7 @@ function comprobanteObject(props) {
     }, [comprobanteState.gravado]);
 
     return {
-        tipo_id: parseInt(comprobanteState.tipo, 10),
+        tipo_comprobante_id: comprobanteState.tipo,
         sub_tipo: comprobanteState.subTipo,
         responsable: comprobanteState.responsable,
         gravado_id: gravadoId,
@@ -91,7 +91,6 @@ function FinalizarGuardarForm(props) {
         guardarButtonDisabled,
         estudios,
         fecha,
-        history,
     } = props;
 
     const postObject = presentacionObject({
@@ -112,7 +111,7 @@ function FinalizarGuardarForm(props) {
             finalizarPresentacion(postObject, comprobante, id);
         }
         if (crearPresentacion) {
-            crearPresentacion(postObject);
+            finalizarPresentacion(postObject, comprobante, id);
         }
     };
 

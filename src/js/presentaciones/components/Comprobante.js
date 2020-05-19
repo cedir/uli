@@ -38,7 +38,7 @@ function Comprobante(props) {
                     <span>Comprobante</span>
                 </Col>
                 <Col>
-                    <select value={ tipo } onChange={ e => setTipo(e.target.value) }>
+                    <select value={ tipo } onChange={ e => setTipo(parseInt(e.target.value, 10)) }>
                         <option value=''>Seleccionar...</option>
                         <option value='1'>Factura</option>
                         <option value='2'>Liquidacion</option>
@@ -46,60 +46,66 @@ function Comprobante(props) {
                     </select>
                 </Col>
             </Row>
-            <Row>
-                <Col>
-                    <span>Sub-Tipo</span>
-                    <select
-                      className='subtipo'
-                      value={ subTipo }
-                      onChange={ e => setSubTipo(e.target.value) }
-                    >
-                        <option value=''>Seleccionar...</option>
-                        <option value='A'>A</option>
-                        <option value='B'>B</option>
-                    </select>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <span>Responsable</span>
-                </Col>
-                <Col>
-                    <select
-                      placeholder='Seleccionar...'
-                      value={ responsable }
-                      onChange={ e => setResponsable(e.target.value) }
-                    >
-                        <option value=''>Seleccionar...</option>
-                        <option value='Cedir'>CeDIR</option>
-                        <option value='Brunetti'>Brunetti</option>
-                    </select>
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <span>% de Gravado</span>
-                </Col>
-                <Col>
-                    <select
-                      placeholder='Seleccionar...'
-                      value={ gravado }
-                      onChange={ e => setGravado(e.target.value) }
-                    >
-                        <option value='0.00'>%0.00</option>
-                        <option value='10.50'>%10.50</option>
-                        <option value='21.00'>%21.00</option>
-                    </select>
-                </Col>
-            </Row>
+            {tipo !== 2 && (
+                <Row>
+                    <Col>
+                        <span>Sub-Tipo</span>
+                        <select
+                          className='subtipo'
+                          value={ subTipo }
+                          onChange={ e => setSubTipo(e.target.value) }
+                        >
+                            <option value=''>Seleccionar...</option>
+                            <option value='A'>A</option>
+                            <option value='B'>B</option>
+                        </select>
+                    </Col>
+                </Row>
+            )}
+            {tipo !== 2 && (
+                <Row>
+                    <Col>
+                        <span>Responsable</span>
+                    </Col>
+                    <Col>
+                        <select
+                          placeholder='Seleccionar...'
+                          value={ responsable }
+                          onChange={ e => setResponsable(e.target.value) }
+                        >
+                            <option value=''>Seleccionar...</option>
+                            <option value='Cedir'>CeDIR</option>
+                            <option value='Brunetti'>Brunetti</option>
+                        </select>
+                    </Col>
+                </Row>
+            )}
+            {tipo !== 2 && (
+                <Row>
+                    <Col>
+                        <span>% de Gravado</span>
+                    </Col>
+                    <Col>
+                        <select
+                          placeholder='Seleccionar...'
+                          value={ gravado }
+                          onChange={ e => setGravado(e.target.value) }
+                        >
+                            <option value='0.00'>%0.00</option>
+                            <option value='10.50'>%10.50</option>
+                            <option value='21.00'>%21.00</option>
+                        </select>
+                    </Col>
+                </Row>
+            )}
         </div>
     );
 }
 
-const { string, func } = PropTypes;
+const { string, func, any } = PropTypes;
 
 Comprobante.propTypes = {
-    tipo: string.isRequired,
+    tipo: any.isRequired,
     setTipo: func.isRequired,
     subTipo: string.isRequired,
     setSubTipo: func.isRequired,

@@ -214,13 +214,14 @@ export function ModalFinalizarGuardar(props) {
         // entries return an array of arrays consisted of keys & values of some object.
         // I want to know if this object has some empty value in it's attributes.
         const entries = Object.entries(comprobanteState);
+        const tipoLiquidacion = comprobanteState.tipo === 2;
         let entriesHasEmptyValues = false;
         entries.forEach((entry) => {
             if (entry[1] === '') {
                 entriesHasEmptyValues = true;
             }
         });
-        if (fecha !== '' && periodoValue !== '' && !entriesHasEmptyValues) {
+        if (fecha !== '' && periodoValue !== '' && (tipoLiquidacion || !entriesHasEmptyValues)) {
             setFinalizarButtonDisabled(false);
         } else {
             setFinalizarButtonDisabled(true);
