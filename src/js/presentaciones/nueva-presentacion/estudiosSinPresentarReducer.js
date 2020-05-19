@@ -12,7 +12,7 @@ import {
     ELIMINAR_ESTUDIO_SIN_PRESENTAR,
     AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
-    SET_IMPORTE_MEDICACION_ESTUDIO,
+    SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA,
 } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
@@ -177,7 +177,7 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return actualizarInputEstudioSinPresentarReducer(state, action);
         case AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA:
             return agregarEstudiosATablaReducer(state, action);
-        case SET_IMPORTE_MEDICACION_ESTUDIO:
+        case SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA:
             return setImporteMedicacionEstudioReducer(state, action);
         default:
             return state;

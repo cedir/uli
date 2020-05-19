@@ -16,12 +16,14 @@ export function getEstudiosSinPresentarObraSocial(idObraSocial) {
 
 export function guardarNuevaPresentacionObraSocial(presentacion) {
     const url = '/api/presentacion/';
+    const sucursal = store.getState().login.sucursal;
     const body = {
         obra_social_id: presentacion.obra_social_id,
         periodo: presentacion.periodo,
         fecha: presentacion.fecha,
         estado: presentacion.estado,
         estudios: presentacion.estudios,
+        sucursal,
     };
     const headers = {
         'Content-Type': 'application/json',

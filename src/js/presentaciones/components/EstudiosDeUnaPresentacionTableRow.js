@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes, { array } from 'prop-types';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import { ModalMedicacion } from './Modals';
-import { SET_IMPORTE_MEDICACION_ESTUDIO } from '../nueva-presentacion/actionTypes';
 import { CLEAN_MEDICACIONES_STORE } from '../../medicacion/actionTypes';
 
 function EstudiosDeUnaPresentacionTableRow(props) {
@@ -199,10 +198,6 @@ function mapDispatchToProps(dispatch) {
         cleanMedicacionesStore: () =>
             dispatch({
                 type: CLEAN_MEDICACIONES_STORE,
-            }),
-        setImporteMedicacionEstudio: (total, index) =>
-            dispatch({
-                type: SET_IMPORTE_MEDICACION_ESTUDIO, total, index,
             }),
     };
 }

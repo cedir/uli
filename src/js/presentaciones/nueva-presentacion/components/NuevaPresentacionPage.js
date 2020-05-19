@@ -11,6 +11,7 @@ import {
     AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
     CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL,
     FINALIZAR_NUEVA_PRESENTACION,
+    SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA,
  } from '../actionTypes';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
@@ -30,6 +31,7 @@ function NuevaPresentacionPage(props) {
         crearNuevaPresentacion,
         finalizarPresentacion,
         obraSocial,
+        setImporteMedicacionEstudio,
     } = props;
     const comprobanteState = useComprobanteState();
     const [fecha, setFecha] = useState('');
@@ -78,6 +80,7 @@ function NuevaPresentacionPage(props) {
                       gravado={ comprobanteState.gravado }
                       actualizarInput={ actualizarInput }
                       eliminarEstudio={ eliminarEstudio }
+                      setImporteMedicacionEstudio={ setImporteMedicacionEstudio }
                     />
                 </TabNavigator>
             </div>
@@ -103,6 +106,7 @@ NuevaPresentacionPage.propTypes = {
     agregarEstudiosTabla: func.isRequired,
     crearNuevaPresentacion: func.isRequired,
     finalizarPresentacion: func.isRequired,
+    setImporteMedicacionEstudio: func.isRequired,
 };
 
 NuevaPresentacionPage.defaultProps = {
@@ -153,6 +157,10 @@ function mapDispatchToProps(dispatch) {
         finalizarPresentacion: (comprobante, id) =>
             dispatch({
                 type: FINALIZAR_NUEVA_PRESENTACION, comprobante, id,
+            }),
+        setImporteMedicacionEstudio: (total, index) =>
+            dispatch({
+                type: SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA, total, index,
             }),
     };
 }

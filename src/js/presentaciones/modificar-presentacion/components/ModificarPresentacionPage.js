@@ -11,8 +11,11 @@ import {
     ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
     FINALIZAR_MODIFICAR_PRESENTACION,
+    SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR,
 } from '../actionTypes';
 import initialState from '../modificarPresentacionReducerInitialState';
+import NotFoundPage from '../../../utilities/components/NotFoundPage';
+
 
 function ModificarPresentacionPage(props) {
     const {
@@ -22,6 +25,7 @@ function ModificarPresentacionPage(props) {
         estudiosApiLoading,
         estudiosAgregar,
         estudiosAgregarApiLoading,
+        setImporteMedicacionEstudio,
         importesTotales,
         fecha,
         fetchEstudiosAgregar,
@@ -33,9 +37,11 @@ function ModificarPresentacionPage(props) {
     } = props;
     const comprobanteState = useComprobanteState();
 
+    const showPage = !estudios.length && !estudiosApiLoading;
+
     return (
         <Fragment>
-            <div>
+            <div hidden={ showPage }>
                 <h1>
                     {'Modificar Presentacion: '}
                     <strong>{obraSocial.nombre !== undefined ? obraSocial.nombre : ''}</strong>
@@ -69,9 +75,13 @@ function ModificarPresentacionPage(props) {
                       gravado={ comprobanteState.gravado }
                       actualizarInput={ actualizarInput }
                       eliminarEstudio={ eliminarEstudio }
+                      setImporteMedicacionEstudio={ setImporteMedicacionEstudio }
                     />
                 </TabNavigator>
             </div>
+            { showPage && (
+                <NotFoundPage />
+            )}
         </Fragment>
     );
 }
@@ -90,6 +100,7 @@ ModificarPresentacionPage.propTypes = {
     eliminarEstudio: func.isRequired,
     fetchEstudiosAgregar: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
+    setImporteMedicacionEstudio: func.isRequired,
     updatePresentacion: func.isRequired,
     finalizarPresentacion: func.isRequired,
     idPresentacion: number.isRequired,
@@ -145,6 +156,10 @@ function mapDispatchToProps(dispatch) {
         finalizarPresentacion: (presentacion, comprobante, id) =>
             dispatch({
                 type: FINALIZAR_MODIFICAR_PRESENTACION, presentacion, comprobante, id,
+            }),
+        setImporteMedicacionEstudio: (total, index) =>
+            dispatch({
+                type: SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR, total, index,
             }),
     };
 }

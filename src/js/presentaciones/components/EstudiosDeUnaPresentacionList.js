@@ -12,6 +12,7 @@ function EstudiosDeUnaPresentacionList(props) {
         gravado,
         eliminarEstudio,
         actualizarInput,
+        setImporteMedicacionEstudio,
     } = props;
 
     if (estudiosApiLoading) {
@@ -46,6 +47,7 @@ function EstudiosDeUnaPresentacionList(props) {
                           index={ estudios.indexOf(estudio) }
                           eliminarEstudio={ eliminarEstudio }
                           actualizarInput={ actualizarInput }
+                          setImporteMedicacionEstudio={ setImporteMedicacionEstudio }
                         />))
                     }
                 </tbody>
@@ -66,6 +68,7 @@ EstudiosDeUnaPresentacionList.propTypes = {
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
     importesTotales: number.isRequired,
+    setImporteMedicacionEstudio: func.isRequired,
     gravado: string,
     eliminarEstudio: func,
     actualizarInput: func.isRequired,
