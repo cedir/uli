@@ -5,6 +5,7 @@ import {
     LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
     LOAD_PRESENTACION_DETAIL_ID,
     LOAD_PRESENTACION_OBRA_SOCIAL_ID,
+    UPDATE_PRESENTACIONES_LIST,
 } from './actionTypes';
 
 const actionsHandledByEpicReducer = (state) => {
@@ -47,6 +48,15 @@ const loadPresentacionDetailId = (state, action) => {
     return newState;
 };
 
+const updatePresentacionesList = (state, action) => {
+    const newPresentaciones = JSON.parse(JSON.stringify(state.presentaciones));
+    newPresentaciones[action.index] = action.data.response;
+    return {
+        ...state,
+        presentaciones: newPresentaciones,
+    };
+};
+
 export function presentacionReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_PRESENTACIONES_OBRA_SOCIAL:
@@ -59,6 +69,8 @@ export function presentacionReducer(state = initialState, action) {
             return loadPresentacionObraSocialId(state, action);
         case LOAD_PRESENTACION_DETAIL_ID:
             return loadPresentacionDetailId(state, action);
+        case UPDATE_PRESENTACIONES_LIST:
+            return updatePresentacionesList(state, action);
 
         default:
             return state;
