@@ -154,9 +154,9 @@ function mapDispatchToProps(dispatch) {
             dispatch({
                 type: CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL, presentacion,
             }),
-        finalizarPresentacion: (presentacion, comprobante, id) =>
+        finalizarPresentacion: (presentacion, comprobante) =>
             dispatch({
-                type: FINALIZAR_NUEVA_PRESENTACION, presentacion, comprobante, id,
+                type: FINALIZAR_NUEVA_PRESENTACION, presentacion, comprobante,
             }),
         setImporteMedicacionEstudio: (total, index) =>
             dispatch({

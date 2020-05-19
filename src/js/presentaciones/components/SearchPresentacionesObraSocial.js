@@ -6,7 +6,7 @@ import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import { requiredOption } from '../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
-import { LOAD_PRESENTACION_OBRA_SOCIAL_ID } from '../actionTypes';
+import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
 
@@ -37,6 +37,8 @@ class SearchPresentacionesObraSocial extends Component {
             selectedObraSocial,
             obraSocial,
         } = this.props;
+        // Para que no se pierdan los cambios que no fueron guardado
+        // En el listado de crear o modificar presentación.
         if (obraSocial.id !== selectedObraSocial[0].id) {
             fetchEstudiosSinPresentarObraSocial(params);
         }
@@ -155,7 +157,7 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
         loadPresentacionObraSocialId: params => dispatch({
-            type: LOAD_PRESENTACION_OBRA_SOCIAL_ID,
+            type: FETCH_PRESENTACIONES_OBRA_SOCIAL,
             id: params.obraSocial[0].id,
         }),
         fetchEstudiosSinPresentarObraSocial: params => dispatch({

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
@@ -91,6 +90,7 @@ function FinalizarGuardarForm(props) {
         guardarButtonDisabled,
         estudios,
         fecha,
+        history,
     } = props;
 
     const postObject = presentacionObject({
@@ -111,8 +111,11 @@ function FinalizarGuardarForm(props) {
             finalizarPresentacion(postObject, comprobante, id);
         }
         if (crearPresentacion) {
-            finalizarPresentacion(postObject, comprobante, id);
+            finalizarPresentacion(postObject, comprobante);
         }
+        setTimeout(() => {
+            history.push('/presentaciones-obras-sociales');
+        }, 1500);
     };
 
     const guardarClickHandler = () => {
@@ -122,7 +125,10 @@ function FinalizarGuardarForm(props) {
         if (crearPresentacion) {
             crearPresentacion(postObject);
         }
-    }
+        setTimeout(() => {
+            history.push('/presentaciones-obras-sociales');
+        }, 1500);
+    };
 
     return (
         <form>

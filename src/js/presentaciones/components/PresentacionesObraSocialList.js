@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes, { func } from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap/dist/react-bootstrap';
@@ -9,12 +9,6 @@ import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 function PresentacionesObraSocialList(props) {
     /* eslint-disable no-unused-vars */
     const { presentaciones, idObraSocial, fetchPresentacionesObraSocial } = props;
-
-    useEffect(() => {
-        if (idObraSocial) {
-            fetchPresentacionesObraSocial(idObraSocial);
-        }
-    }, [idObraSocial]);
 
     return (
         <div>

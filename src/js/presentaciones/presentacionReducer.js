@@ -50,7 +50,12 @@ const loadPresentacionDetailId = (state, action) => {
 
 const updatePresentacionesList = (state, action) => {
     const newPresentaciones = JSON.parse(JSON.stringify(state.presentaciones));
-    newPresentaciones[action.index] = action.data.response;
+    newPresentaciones.forEach((presentacion) => {
+        if (presentacion.id === action.data.response.id) {
+            const index = newPresentaciones.indexOf(presentacion);
+            newPresentaciones.splice(index, 1, action.data.response);
+        }
+    });
     return {
         ...state,
         presentaciones: newPresentaciones,
