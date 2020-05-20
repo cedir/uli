@@ -16,7 +16,7 @@ function PresentacionesObraSocialTableRow(props) {
     const { presentacion, history, index } = props;
     const {
         id, fecha, total_facturado: totalFacturado, estado,
-        obra_social: obraSocial, total,
+        obra_social: obraSocial, total_cobrado: totalCobrado,
     } = props.presentacion;
     const [modalAbrirPresentacion, setModalAbrirPresentacion] = useState(false);
 
@@ -68,7 +68,7 @@ function PresentacionesObraSocialTableRow(props) {
                 <td>{ estado }</td>
                 <td>{ obraSocial.nombre }</td>
                 <td>{ totalFacturado }</td>
-                <td>{ total }</td>
+                <td>{ totalCobrado }</td>
                 <td>
                     <a
                       href='#'

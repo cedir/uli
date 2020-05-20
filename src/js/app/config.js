@@ -3,3 +3,5 @@ export const config = {
     baseUrl: 'http://staging.cedirsalud.com.ar',
     // baseUrl: 'http://localhost:8000',
 };
+
+export const REDUX_LOGGER_STATUS = 0;
