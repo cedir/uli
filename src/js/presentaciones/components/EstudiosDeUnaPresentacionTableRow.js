@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes, { array } from 'prop-types';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import { ModalMedicacion } from './Modals';
-import { SET_IMPORTE_MEDICACION_ESTUDIO } from '../nueva-presentacion/actionTypes';
 import { CLEAN_MEDICACIONES_STORE } from '../../medicacion/actionTypes';
 
 function EstudiosDeUnaPresentacionTableRow(props) {
@@ -151,13 +150,15 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                   name='arancel_anestesia'
                 />
             </td>
-            <td className='delete'>
-                <DeleteIcon
-                  tabIndex='0'
-                  role='button'
-                  onClick={ deleteIconClickHandler }
-                />
-            </td>
+            { eliminarEstudio && (
+                <td className='delete'>
+                    <DeleteIcon
+                      tabIndex='0'
+                      role='button'
+                      onClick={ deleteIconClickHandler }
+                    />
+                </td>
+            )}
             <td style={ { display: 'none' } }>
                 <ModalMedicacion
                   show={ medicacionClicked }
@@ -174,7 +175,7 @@ const { object, func, number } = PropTypes;
 
 EstudiosDeUnaPresentacionTableRow.propTypes = {
     estudio: object.isRequired,
-    eliminarEstudio: func.isRequired,
+    eliminarEstudio: func,
     index: number.isRequired,
     actualizarInput: func.isRequired,
     cleanMedicacionesStore: func.isRequired,
@@ -197,10 +198,6 @@ function mapDispatchToProps(dispatch) {
         cleanMedicacionesStore: () =>
             dispatch({
                 type: CLEAN_MEDICACIONES_STORE,
-            }),
-        setImporteMedicacionEstudio: (total, index) =>
-            dispatch({
-                type: SET_IMPORTE_MEDICACION_ESTUDIO, total, index,
             }),
     };
 }

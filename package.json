@@ -21,6 +21,7 @@
     "postbuild": "babel-node tools/distServer.js"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.11",
     "animate.less": "^2.2.0",
     "babel-polyfill": "6.8.0",
     "babel-preset-2017": "0.0.0",
@@ -43,7 +44,7 @@
     "react-redux": "^5.1.2",
     "react-router": "^5.1.2",
     "react-router-bootstrap": "^0.24.4",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^5.1.2",
     "redux": "3.6.0",
     "redux-form": "^7.4.2",
     "redux-observable": "^0.12.2",

@@ -10,14 +10,18 @@ function ImportesTotales(props) {
                 <span>Estudios:</span>
                 <div>{ `$${estudios.toFixed(2)}` }</div>
             </div>
+            { (gravado === 0 || gravado) && (
             <div className='col gravado'>
                 <span>Gravado:</span>
                 <div>{ `%${gravado}` }</div>
             </div>
+            )}
+            { (gravado === 0 || gravado) && (
             <div className='col'>
                 <span>Total:</span>
                 <div>{ `$${total.toFixed(2)}` }</div>
             </div>
+            )}
         </div>
     );
 }

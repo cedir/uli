@@ -62,13 +62,17 @@ export function patchAbrirPresentacion(idPresentacion) {
 
 export function patchCerrarPresentacion(comprobante, id) {
     const url = `/api/presentacion/${id}/cerrar/`;
-    const body = {
-        tipo_comprobante_id: comprobante.tipo_id,
-        nro_terminal: comprobante.nro_terminal,
-        sub_tipo: comprobante.sub_tipo,
-        responsable: comprobante.responsable,
-        gravado_id: comprobante.gravado_id,
-    };
+    const tipoLiquidacion = comprobante.tipo_comprobante_id === 2;
+    let body;
+    if (tipoLiquidacion) {
+        body = {
+            tipo_comprobante_id: comprobante.tipo_comprobante_id,
+        };
+    } else {
+        body = {
+            ...comprobante,
+        };
+    }
     const headers = {
         'Content-Type': 'application/json',
     };

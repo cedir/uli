@@ -14,7 +14,7 @@ import {
     LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
     ABRIR_PRESENTACION,
     CERRAR_PRESENTACION,
-    UPDATE_PRESENTACION,
+    UPDATE_PRESENTACIONES_LIST,
 } from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
@@ -46,7 +46,7 @@ export function abrirPresentacionEpic(action$) {
         .mergeMap(action =>
             patchAbrirPresentacion(action.id)
             .mergeMap(data => Rx.Observable.of(
-                { type: UPDATE_PRESENTACION, data, index: action.index },
+                { type: UPDATE_PRESENTACIONES_LIST, data, index: action.index },
                 { type: ADD_ALERT, alert: createAlert('La presentacion fue abierta exitosamente') },
             ))
             .catch(() => (Rx.Observable.of({

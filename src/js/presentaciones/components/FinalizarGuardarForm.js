@@ -70,8 +70,7 @@ function comprobanteObject(props) {
     }, [comprobanteState.gravado]);
 
     return {
-        tipo_id: parseInt(comprobanteState.tipo, 10),
-        nro_terminal: 99,
+        tipo_comprobante_id: comprobanteState.tipo,
         sub_tipo: comprobanteState.subTipo,
         responsable: comprobanteState.responsable,
         gravado_id: gravadoId,
@@ -85,7 +84,7 @@ function FinalizarGuardarForm(props) {
         id,
         crearPresentacion,
         updatePresentacion,
-        cerrarPresentacion,
+        finalizarPresentacion,
         comprobanteState,
         finalizarButtonDisabled,
         guardarButtonDisabled,
@@ -108,13 +107,24 @@ function FinalizarGuardarForm(props) {
     });
 
     const finalizarClickHandler = () => {
-        if (crearPresentacion !== undefined) {
-            crearPresentacion(postObject);
+        if (updatePresentacion) {
+            finalizarPresentacion(postObject, comprobante, id);
         }
-        if (updatePresentacion !== undefined) {
+        if (crearPresentacion) {
+            finalizarPresentacion(postObject, comprobante);
+        }
+        setTimeout(() => {
+            history.push('/presentaciones-obras-sociales');
+        }, 1500);
+    };
+
+    const guardarClickHandler = () => {
+        if (updatePresentacion) {
             updatePresentacion(postObject, id);
         }
-        cerrarPresentacion(comprobante, id);
+        if (crearPresentacion) {
+            crearPresentacion(postObject);
+        }
         setTimeout(() => {
             history.push('/presentaciones-obras-sociales');
         }, 1500);
@@ -144,6 +154,7 @@ function FinalizarGuardarForm(props) {
                 <Button
                   bsStyle='primary'
                   disabled={ guardarButtonDisabled }
+                  onClick={ guardarClickHandler }
                 >
                     Guardar
                 </Button>
@@ -165,7 +176,7 @@ FinalizarGuardarForm.propTypes = {
     id: number.isRequired,
     crearPresentacion: func,
     updatePresentacion: func,
-    cerrarPresentacion: func.isRequired,
+    finalizarPresentacion: func.isRequired,
     history: object.isRequired,
 };
 

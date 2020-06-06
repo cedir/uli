@@ -7,16 +7,17 @@ import { VACIAR_ESTUDIOS_AGREGAR } from '../nueva-presentacion/actionTypes';
 
 function TabNavigator(props) {
     const {
-        listComponent,
+        children,
         comprobanteState,
         estudios,
         estudiosAgregar,
+        estudiosAgregarApiLoading,
         fetchEstudiosAgregar,
         agregarEstudiosTabla,
         id,
         crearPresentacion,
         updatePresentacion,
-        cerrarPresentacion,
+        finalizarPresentacion,
         fecha,
         vaciarEstudiosAgregar,
     } = props;
@@ -79,7 +80,7 @@ function TabNavigator(props) {
             </nav>
             <Row className='content-1'>
                 <Col md={ 12 } className='col-1'>
-                    { listComponent }
+                    { children }
                 </Col>
             </Row>
             <ModalComprobante
@@ -96,13 +97,14 @@ function TabNavigator(props) {
               id={ id }
               crearPresentacion={ crearPresentacion }
               updatePresentacion={ updatePresentacion }
-              cerrarPresentacion={ cerrarPresentacion }
+              finalizarPresentacion={ finalizarPresentacion }
             />
             <ModalAgregarEstudio
               show={ agregarEstudios }
               alert={ alert }
               onClickClose={ cerrarClickHandler }
               estudios={ estudios }
+              estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
               estudiosAgregar={ estudiosAgregar }
               agregarEstudiosTabla={ agregarEstudiosTabla }
             />
@@ -110,19 +112,20 @@ function TabNavigator(props) {
     );
 }
 
-const { number, element, func, object, string, array } = PropTypes;
+const { number, element, func, object, string, array, bool } = PropTypes;
 
 TabNavigator.propTypes = {
-    listComponent: element.isRequired,
+    children: element.isRequired,
     comprobanteState: object.isRequired,
     fetchEstudiosAgregar: func.isRequired,
     estudios: array.isRequired,
+    estudiosAgregarApiLoading: bool.isRequired,
     estudiosAgregar: array.isRequired,
     agregarEstudiosTabla: func.isRequired,
     id: number.isRequired,
     crearPresentacion: func,
     updatePresentacion: func,
-    cerrarPresentacion: func.isRequired,
+    finalizarPresentacion: func.isRequired,
     fecha: string.isRequired,
     vaciarEstudiosAgregar: func.isRequired,
 };

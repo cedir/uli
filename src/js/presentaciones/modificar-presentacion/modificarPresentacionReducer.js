@@ -11,6 +11,7 @@ import {
     ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
     AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
+    SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR,
 } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
@@ -148,6 +149,20 @@ const agregarEstudiosDeUnaPresentacionATablaReducer = (state, action) => {
     });
 };
 
+const setImporteMedicacionEstudioReducer = (state, action) => {
+    const { estudios } = state;
+    const newEstudio = {
+        ...estudios[action.index],
+        importe_medicacion: action.total.toString(),
+    };
+    estudios.splice(action.index, 1, newEstudio);
+
+    return sumarImportesEstudios({
+        ...state,
+        estudios,
+    });
+};
+
 export function modificarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_DE_UNA_PRESENTACION:
@@ -171,6 +186,8 @@ export function modificarPresentacionReducer(state = initialState, action) {
             return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
         case AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA:
             return agregarEstudiosDeUnaPresentacionATablaReducer(state, action);
+        case SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR:
+            return setImporteMedicacionEstudioReducer(state, action);
         default:
             return state;
     }

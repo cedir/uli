@@ -1,16 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import ImportesTotales from './ImportesTotales';
 import EstudiosDeUnaPresentacionTableRow from './EstudiosDeUnaPresentacionTableRow';
 
 function EstudiosDeUnaPresentacionList(props) {
     const {
         estudios,
+        estudiosApiLoading,
         importesTotales,
         gravado,
         eliminarEstudio,
         actualizarInput,
+        setImporteMedicacionEstudio,
     } = props;
+
+    if (estudiosApiLoading) {
+        return <LinearProgress className='md-progress' variant='query' />;
+    }
 
     return (
         <div>
@@ -40,6 +47,7 @@ function EstudiosDeUnaPresentacionList(props) {
                           index={ estudios.indexOf(estudio) }
                           eliminarEstudio={ eliminarEstudio }
                           actualizarInput={ actualizarInput }
+                          setImporteMedicacionEstudio={ setImporteMedicacionEstudio }
                         />))
                     }
                 </tbody>
@@ -47,20 +55,22 @@ function EstudiosDeUnaPresentacionList(props) {
             { estudios.length !== 0 &&
                 <ImportesTotales
                   estudios={ importesTotales }
-                  gravado={ parseFloat(gravado, 10) }
+                  gravado={ gravado && parseFloat(gravado, 10) }
                 />
             }
         </div>
     );
 }
 
-const { string, array, number, func } = PropTypes;
+const { string, array, number, func, bool } = PropTypes;
 
 EstudiosDeUnaPresentacionList.propTypes = {
     estudios: array.isRequired,
+    estudiosApiLoading: bool.isRequired,
     importesTotales: number.isRequired,
-    gravado: string.isRequired,
-    eliminarEstudio: func.isRequired,
+    setImporteMedicacionEstudio: func.isRequired,
+    gravado: string,
+    eliminarEstudio: func,
     actualizarInput: func.isRequired,
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes, { object, string } from 'prop-types';
 import { connect } from 'react-redux';
 import TabNavigator from '../../components/TabNavigator';
@@ -10,71 +10,89 @@ import {
     UPDATE_PRESENTACION,
     ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION,
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
+    FINALIZAR_MODIFICAR_PRESENTACION,
+    SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR,
 } from '../actionTypes';
-import { CERRAR_PRESENTACION } from '../../actionTypes';
 import initialState from '../modificarPresentacionReducerInitialState';
+import NotFoundPage from '../../../utilities/components/NotFoundPage';
+
 
 function ModificarPresentacionPage(props) {
     const {
         actualizarInput,
         eliminarEstudio,
         estudios,
+        estudiosApiLoading,
         estudiosAgregar,
+        estudiosAgregarApiLoading,
+        setImporteMedicacionEstudio,
         importesTotales,
         fecha,
         fetchEstudiosAgregar,
         agregarEstudiosTabla,
         updatePresentacion,
-        cerrarPresentacion,
+        finalizarPresentacion,
         idPresentacion,
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
 
+    const showPage = !estudios.length && !estudiosApiLoading;
+
     return (
-        <div>
-            <h1>
-                {'Modificar Presentacion: '}
-                <strong>{obraSocial.nombre !== undefined ? obraSocial.nombre : ''}</strong>
-            </h1>
-            <div
-              className='date-picker'
-              style={ { width: '35.5rem' } }
-            >
-                <div className='form-group'>
-                    <label htmlFor='date' className='control-label'>Fecha</label>
-                    <input name='date' className='form-control' value={ fecha } type='date' />
+        <Fragment>
+            <div hidden={ showPage }>
+                <h1>
+                    {'Modificar Presentacion: '}
+                    <strong>{obraSocial.nombre !== undefined ? obraSocial.nombre : ''}</strong>
+                </h1>
+                <div
+                  className='date-picker'
+                  style={ { width: '35.5rem' } }
+                >
+                    <div className='form-group'>
+                        <label htmlFor='date' className='control-label'>Fecha</label>
+                        <input name='date' className='form-control' value={ fecha } type='date' />
+                    </div>
                 </div>
+                <TabNavigator
+                  comprobanteState={ comprobanteState }
+                  fetchEstudiosAgregar={ fetchEstudiosAgregar }
+                  estudios={ estudios }
+                  estudiosApiLoading={ estudiosApiLoading }
+                  estudiosAgregar={ estudiosAgregar }
+                  estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
+                  agregarEstudiosTabla={ agregarEstudiosTabla }
+                  id={ idPresentacion }
+                  updatePresentacion={ updatePresentacion }
+                  finalizarPresentacion={ finalizarPresentacion }
+                  fecha={ fecha }
+                >
+                    <EstudiosDeUnaPresentacionList
+                      estudios={ estudios }
+                      estudiosApiLoading={ estudiosApiLoading }
+                      importesTotales={ importesTotales }
+                      gravado={ comprobanteState.gravado }
+                      actualizarInput={ actualizarInput }
+                      eliminarEstudio={ eliminarEstudio }
+                      setImporteMedicacionEstudio={ setImporteMedicacionEstudio }
+                    />
+                </TabNavigator>
             </div>
-            <TabNavigator
-              comprobanteState={ comprobanteState }
-              fetchEstudiosAgregar={ fetchEstudiosAgregar }
-              estudios={ estudios }
-              estudiosAgregar={ estudiosAgregar }
-              agregarEstudiosTabla={ agregarEstudiosTabla }
-              id={ idPresentacion }
-              updatePresentacion={ updatePresentacion }
-              cerrarPresentacion={ cerrarPresentacion }
-              fecha={ fecha }
-              listComponent={
-                  <EstudiosDeUnaPresentacionList
-                    estudios={ estudios }
-                    importesTotales={ importesTotales }
-                    gravado={ comprobanteState.gravado }
-                    actualizarInput={ actualizarInput }
-                    eliminarEstudio={ eliminarEstudio }
-                  />
-              }
-            />
-        </div>
+            { showPage && (
+                <NotFoundPage />
+            )}
+        </Fragment>
     );
 }
 
-const { func, array, number } = PropTypes;
+const { func, array, number, bool } = PropTypes;
 
 ModificarPresentacionPage.propTypes = {
     estudios: array.isRequired,
+    estudiosApiLoading: bool.isRequired,
     estudiosAgregar: array.isRequired,
+    estudiosAgregarApiLoading: bool.isRequired,
     obraSocial: object.isRequired,
     importesTotales: number.isRequired,
     fecha: string.isRequired,
@@ -82,14 +100,17 @@ ModificarPresentacionPage.propTypes = {
     eliminarEstudio: func.isRequired,
     fetchEstudiosAgregar: func.isRequired,
     agregarEstudiosTabla: func.isRequired,
+    setImporteMedicacionEstudio: func.isRequired,
     updatePresentacion: func.isRequired,
-    cerrarPresentacion: func.isRequired,
+    finalizarPresentacion: func.isRequired,
     idPresentacion: number.isRequired,
 };
 
 ModificarPresentacionPage.defaultProps = {
     estudios: initialState.estudios,
+    estudiosApiLoading: initialState.estudiosApiLoading,
     estudiosAgregar: initialState.estudiosAgregar,
+    estudiosAgregarApiLoading: initialState.estudiosApiLoading,
     idPresentacion: initialState.idPresentacion,
     obraSocial: initialState.obraSocial,
     fecha: initialState.fecha,
@@ -100,7 +121,9 @@ ModificarPresentacionPage.defaultProps = {
 function mapStateToProps(state) {
     return {
         estudios: state.modificarPresentacionReducer.estudios,
+        estudiosApiLoading: state.modificarPresentacionReducer.estudiosApiLoading,
         estudiosAgregar: state.modificarPresentacionReducer.estudiosAgregar,
+        estudiosAgregarApiLoading: state.modificarPresentacionReducer.estudiosAgregarApiLoading,
         idPresentacion: state.modificarPresentacionReducer.id,
         obraSocial: state.modificarPresentacionReducer.obraSocial,
         fecha: state.modificarPresentacionReducer.fecha,
@@ -130,9 +153,13 @@ function mapDispatchToProps(dispatch) {
             dispatch({
                 type: UPDATE_PRESENTACION, presentacion, id,
             }),
-        cerrarPresentacion: (comprobante, id) =>
+        finalizarPresentacion: (presentacion, comprobante, id) =>
             dispatch({
-                type: CERRAR_PRESENTACION, comprobante, id,
+                type: FINALIZAR_MODIFICAR_PRESENTACION, presentacion, comprobante, id,
+            }),
+        setImporteMedicacionEstudio: (total, index) =>
+            dispatch({
+                type: SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR, total, index,
             }),
     };
 }

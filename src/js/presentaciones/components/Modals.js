@@ -14,8 +14,10 @@ export default function ModalAgregarEstudio(props) {
         onClickClose,
         agregarEstudiosTabla,
         estudios,
+        estudiosAgregarApiLoading,
         estudiosAgregar,
     } = props;
+    // TODO BUG
     const [selected, setSelected] = useState(new Map([]));
     const [alert, setAlert] = useState(false);
     const [success, setSuccess] = useState(false);
@@ -87,6 +89,7 @@ export default function ModalAgregarEstudio(props) {
             <Modal.Body>
                 <AgregarEstudioList
                   estudios={ estudiosAgregar }
+                  estudiosApiLoading={ estudiosAgregarApiLoading }
                   onClickIcon={ handleClick }
                   selected={ selected }
                 />
@@ -202,7 +205,7 @@ export function ModalFinalizarGuardar(props) {
         id,
         crearPresentacion,
         updatePresentacion,
-        cerrarPresentacion,
+        finalizarPresentacion,
     } = props;
     const [periodoValue, setPeriodoValue] = useState('');
     const [finalizarButtonDisabled, setFinalizarButtonDisabled] = useState(true);
@@ -211,13 +214,14 @@ export function ModalFinalizarGuardar(props) {
         // entries return an array of arrays consisted of keys & values of some object.
         // I want to know if this object has some empty value in it's attributes.
         const entries = Object.entries(comprobanteState);
+        const tipoLiquidacion = comprobanteState.tipo === 2;
         let entriesHasEmptyValues = false;
         entries.forEach((entry) => {
             if (entry[1] === '') {
                 entriesHasEmptyValues = true;
             }
         });
-        if (fecha !== '' && periodoValue !== '' && !entriesHasEmptyValues) {
+        if (fecha !== '' && periodoValue !== '' && (tipoLiquidacion || !entriesHasEmptyValues)) {
             setFinalizarButtonDisabled(false);
         } else {
             setFinalizarButtonDisabled(true);
@@ -246,7 +250,7 @@ export function ModalFinalizarGuardar(props) {
                   id={ id }
                   crearPresentacion={ crearPresentacion }
                   updatePresentacion={ updatePresentacion }
-                  cerrarPresentacion={ cerrarPresentacion }
+                  finalizarPresentacion={ finalizarPresentacion }
                 />
             </Modal.Body>
             <Modal.Footer>
@@ -270,6 +274,7 @@ ModalAgregarEstudio.propTypes = {
     agregarEstudiosTabla: func.isRequired,
     estudios: array.isRequired,
     estudiosAgregar: array.isRequired,
+    estudiosAgregarApiLoading: bool.isRequired,
 };
 
 ModalComprobante.propTypes = {
@@ -286,7 +291,7 @@ ModalFinalizarGuardar.propTypes = {
     estudios: array.isRequired,
     crearPresentacion: func,
     updatePresentacion: func,
-    cerrarPresentacion: func.isRequired,
+    finalizarPresentacion: func.isRequired,
     id: number.isRequired,
 };
 

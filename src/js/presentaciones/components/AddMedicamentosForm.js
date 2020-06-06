@@ -112,10 +112,10 @@ const { func, array, bool, string, object } = PropTypes;
 
 AddMedicamentosForm.propTypes = {
     handleSubmit: func.isRequired,
-    estudioDetail: object.isRequired,
+    estudioDetail: object,
     medicamentos: array.isRequired,
     medicamentosApiLoading: bool.isRequired,
-    selectedMedicamento: array.isRequired,
+    selectedMedicamento: array,
     importe: string.isRequired,
     setSelectedMedicamento: func.isRequired,
     setImporte: func.isRequired,
