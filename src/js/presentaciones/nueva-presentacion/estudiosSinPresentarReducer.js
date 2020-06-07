@@ -13,6 +13,7 @@ import {
     AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
     SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA,
+    CLEAN_ESTUDIOS_FROM_STORE,
 } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
@@ -154,6 +155,11 @@ const setImporteMedicacionEstudioReducer = (state, action) => {
     });
 };
 
+const cleanEstudiosFromStore = state => ({
+    ...state,
+    estudios: [],
+});
+
 export function estudiosSinPresentarReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
@@ -179,6 +185,8 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return agregarEstudiosATablaReducer(state, action);
         case SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA:
             return setImporteMedicacionEstudioReducer(state, action);
+        case CLEAN_ESTUDIOS_FROM_STORE:
+            return cleanEstudiosFromStore(state);
         default:
             return state;
     }
