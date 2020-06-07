@@ -85,6 +85,10 @@ function EstudiosDeUnaPresentacionTableRow(props) {
 
     const isMedicacionActive = medicacionClicked ? 'active' : '';
 
+    const { descripcion } = practica;
+    const descripcionAbreviada = descripcion &&
+        descripcion.slice(0, 8).concat(descripcion.length > 8 ? '...' : '');
+
     return (
         <tr className='table-row'>
             <td className='icon'>
@@ -110,7 +114,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                 { paciente.apellido }
             </td>
             <td title={ practica.descripcion } className='practica'>
-                { practica.abreviatura }
+                { practica.abreviatura || descripcionAbreviada }
             </td>
             <td title={ `${medico.nombre} ${medico.apellido}` }>
                 { medico.apellido }
