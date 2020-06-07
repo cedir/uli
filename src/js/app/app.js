@@ -24,6 +24,7 @@ import CajaMain from '../caja/components/CajaMain';
 import Comprobantes from '../comprobantes/components/Comprobantes';
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
+import ScriptCrearEstudios from '../utilities/components/ScriptCrearEstudios';
 
 function App(props) {
     useEffect(() => {
@@ -138,6 +139,11 @@ function App(props) {
                     <PrivateRoute
                       path='/comprobantes'
                       component={ Comprobantes }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      path='/script-crear-estudios'
+                      component={ ScriptCrearEstudios }
                       authenticated={ !!props.token }
                     />
                 </div>

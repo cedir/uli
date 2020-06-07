@@ -37,9 +37,12 @@ class SearchPresentacionesObraSocial extends Component {
             selectedObraSocial,
             obraSocial,
         } = this.props;
-        // Para que no se pierdan los cambios que no fueron guardado
-        // En el listado de crear o modificar presentación.
-        if (obraSocial.id !== selectedObraSocial[0].id) {
+        // // Para que no se pierdan los cambios que no fueron guardado
+        // // En el listado de crear o modificar presentación.
+        // if (obraSocial.id !== selectedObraSocial[0].id) {
+        //     fetchEstudiosSinPresentarObraSocial(params);
+        // }
+        if (!estudios.length) {
             fetchEstudiosSinPresentarObraSocial(params);
         }
         history.push('/presentaciones-obras-sociales/nueva-presentacion');
