@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ImportesTotales from './ImportesTotales';
@@ -20,7 +20,7 @@ function EstudiosDeUnaPresentacionList(props) {
     }
 
     return (
-        <div>
+        <Fragment>
             <table id='tabla' className='estudios-table'>
                 <thead>
                     <tr className='titles'>
@@ -36,7 +36,7 @@ function EstudiosDeUnaPresentacionList(props) {
                         <th>Dif. Paciente</th>
                         <th className='medicacion'>Medicacion</th>
                         <th>Anestesista</th>
-                        <th className='last-row-title delete' />
+                        <th className='last-row-title icon' />
                     </tr>
                 </thead>
                 <tbody>
@@ -58,7 +58,7 @@ function EstudiosDeUnaPresentacionList(props) {
                   gravado={ gravado && parseFloat(gravado, 10) }
                 />
             }
-        </div>
+        </Fragment>
     );
 }
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import ModalAgregarEstudio, { ModalFinalizarGuardar, ModalComprobante } from './Modals';
 import { VACIAR_ESTUDIOS_AGREGAR } from '../nueva-presentacion/actionTypes';
 
@@ -78,11 +78,9 @@ function TabNavigator(props) {
                     Agregar
                 </Button>
             </nav>
-            <Row className='content-1'>
-                <Col md={ 12 } className='col-1'>
-                    { children }
-                </Col>
-            </Row>
+            <div className='content-1'>
+                { children }
+            </div>
             <ModalComprobante
               show={ openComprobante }
               onClickClose={ () => setComprobante(false) }

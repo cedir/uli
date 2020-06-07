@@ -155,15 +155,16 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                 />
             </td>
             { eliminarEstudio && (
-                <td className='delete'>
+                <td>
                     <DeleteIcon
+                      className='delete-icon'
                       tabIndex='0'
                       role='button'
                       onClick={ deleteIconClickHandler }
                     />
                 </td>
             )}
-            <td style={ { display: 'none' } }>
+            <td hidden>
                 <ModalMedicacion
                   show={ medicacionClicked }
                   onClickClose={ medicacionCloseHandler }

@@ -32,6 +32,7 @@
 /* PRESENTACIONES SCREEN STYLING */
 
 .tab-navigator {
+  overflow: auto;
   &.empty {
     overflow: scroll;
   }
@@ -60,7 +61,7 @@
   }
 
   .content-1 {
-    width: 130rem;
+    width: 100%;
     height: auto;
     padding-bottom: 5rem;
   }
@@ -103,22 +104,20 @@
 }
 
 .estudios-table {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 2s, visibility 0s;
   &.hidden {
     transition: opacity 2s, visibility 0s linear 2s !important;
     opacity: 0 !important;
     visibility: hidden !important;
   }
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 2s, visibility 0s;
   width: 100%;
   height: auto;
   background-color: #eee;
   border-spacing: 0.7rem;
   border-collapse: separate;
   display: table-cell;
-  align-items: center;
-  justify-content: center;
   td {
     border-radius: 0.2rem;
     background-color: lighten(#eee, 5%);
@@ -126,16 +125,10 @@
     padding: 0.5rem 1rem 0.5rem 1rem;
   }
   th {
-    width: 10rem;
+    min-width: 10rem;
   }
   th.icon {
-    width: 4rem;
-  }
-  th.delete {
-    width: 4rem;
-  }
-  th.practica {
-    width: 10rem;
+    min-width: 4rem;
   }
   td.medicacion {
     text-align: right;
@@ -154,11 +147,11 @@
   }
   i.active {
     color: @navy;
-  }
+  }e
   i.trash-icon {
     color: inherit;
   }
-  i.trash-icon-active {
+  .delete-icon:hover {
     color: red;
   }
 }
