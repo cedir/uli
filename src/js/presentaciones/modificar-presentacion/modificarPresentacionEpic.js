@@ -79,8 +79,7 @@ export function finalizarModificarPresentacionEpic(action$) {
                 patchCerrarPresentacion(action.comprobante, action.id)
                 .mergeMap(data => Rx.Observable.of(
                     { type: UPDATE_PRESENTACIONES_LIST, data },
-                    { type: ADD_ALERT, alert: createAlert('Presentación actualizada con éxito', 'success') },
-                    { type: ADD_ALERT, alert: createAlert('Presentación cerrada con éxito', 'success') },
+                    { type: ADD_ALERT, alert: createAlert('Presentación actualizada y cerrada con éxito', 'success') },
                     { type: LOAD_PRESENTACION_DETAIL, data },
                 ))
                 .catch(() => (Rx.Observable.of(

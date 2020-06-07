@@ -77,8 +77,7 @@ export function finalizarNuevaPresentacionEpic(action$) {
                 .mergeMap(data => Rx.Observable.of(
                     { type: CLEAN_ESTUDIOS_FROM_STORE },
                     { type: UPDATE_PRESENTACIONES_LIST, data },
-                    { type: ADD_ALERT, alert: createAlert('Presentación creada con éxito', 'success') },
-                    { type: ADD_ALERT, alert: createAlert('Presentación cerrada con éxito', 'success') },
+                    { type: ADD_ALERT, alert: createAlert('Presentación creada y cerrada con éxito', 'success') },
                 ))
                 .catch(() => (Rx.Observable.of(
                     { type: ADD_ALERT, alert: createAlert('Presentación creada con éxito', 'success') },
