@@ -58,7 +58,6 @@ export function updateEstudio(estudio) {
 
 export function createEstudio(estudio) {
     const url = '/api/estudio/';
-    console.log(JSON.stringify(estudio));
     const body = {
         fecha: estudio.fecha,
         paciente: estudio.paciente[0].id,
