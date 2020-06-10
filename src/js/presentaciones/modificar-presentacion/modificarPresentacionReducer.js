@@ -44,7 +44,8 @@ const fetchEstudiosDeUnaPresentacionReducer = state => ({
 
 
 const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
-    const estudios = action.data.response;
+    const estudios = [...action.data.response];
+    const estudiosExistentes = [...action.data.response];
     const fecha = action.fecha;
     const obraSocial = action.obraSocial;
     const id = action.id;
@@ -54,6 +55,7 @@ const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
         id,
         obraSocial,
         estudios,
+        estudiosExistentes,
         estudiosApiLoading: false,
         fecha,
     });
@@ -62,6 +64,7 @@ const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
 const loadEstudiosDeUnaPresentacionErrorReducer = state => ({
     ...state,
     estudios: [],
+    estudiosAgregar: [],
     estudiosApiLoading: false,
 });
 
@@ -70,9 +73,10 @@ const fetchEstudiosDeUnaPresentacionAgregarReducer = state => ({
     estudiosAgregarApiLoading: true,
 });
 
-
 const loadEstudiosDeUnaPresentacionAgregarReducer = (state, action) => {
-    const estudiosAgregar = action.data.response;
+    const { estudiosExistentes } = state;
+    const estudiosSinPresentar = action.data.response;
+    const estudiosAgregar = estudiosSinPresentar.concat(estudiosExistentes);
 
     return sumarImportesEstudios({
         ...state,

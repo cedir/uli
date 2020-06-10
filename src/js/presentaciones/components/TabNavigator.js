@@ -15,6 +15,7 @@ function TabNavigator(props) {
         fetchEstudiosAgregar,
         agregarEstudiosTabla,
         id,
+        idObraSocial,
         crearPresentacion,
         updatePresentacion,
         finalizarPresentacion,
@@ -26,7 +27,7 @@ function TabNavigator(props) {
     const [agregarEstudios, setAgregarEstudios] = useState(false);
 
     const agregarClickHandler = () => {
-        fetchEstudiosAgregar(id);
+        fetchEstudiosAgregar(idObraSocial || id);
         setAgregarEstudios(true);
     };
 
@@ -121,6 +122,7 @@ TabNavigator.propTypes = {
     estudiosAgregar: array.isRequired,
     agregarEstudiosTabla: func.isRequired,
     id: number.isRequired,
+    idObraSocial: number,
     crearPresentacion: func,
     updatePresentacion: func,
     finalizarPresentacion: func.isRequired,

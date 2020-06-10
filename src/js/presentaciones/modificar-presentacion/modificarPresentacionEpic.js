@@ -18,6 +18,7 @@ import { ADD_ALERT } from '../../utilities/components/alert/actionTypes';
 import { createAlert } from '../../utilities/components/alert/alertUtility';
 import { patchCerrarPresentacion } from '../api';
 import { UPDATE_PRESENTACIONES_LIST } from '../actionTypes';
+import { getEstudiosSinPresentarObraSocial } from '../nueva-presentacion/api';
 
 export function estudiosDeUnaPresentacionEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION)
@@ -42,7 +43,7 @@ export function estudiosDeUnaPresentacionEpic(action$) {
 export function estudiosDeUnaPresentacionAgregarEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR)
         .mergeMap(action =>
-            getEstudiosDeUnaPresentacion(action.id)
+            getEstudiosSinPresentarObraSocial(action.id)
             .mergeMap(data => Rx.Observable.of(
                 { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
                 {

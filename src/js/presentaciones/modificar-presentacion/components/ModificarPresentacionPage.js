@@ -64,6 +64,7 @@ function ModificarPresentacionPage(props) {
                   estudiosAgregarApiLoading={ estudiosAgregarApiLoading }
                   agregarEstudiosTabla={ agregarEstudiosTabla }
                   id={ idPresentacion }
+                  idObraSocial={ obraSocial.id }
                   updatePresentacion={ updatePresentacion }
                   finalizarPresentacion={ finalizarPresentacion }
                   fecha={ fecha }
@@ -141,9 +142,9 @@ function mapDispatchToProps(dispatch) {
             dispatch({
                 type: ELIMINAR_ESTUDIO_DE_UNA_PRESENTACION, index,
             }),
-        fetchEstudiosAgregar: idPresentacion =>
+        fetchEstudiosAgregar: idObraSocial =>
             dispatch({
-                type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR, id: idPresentacion,
+                type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR, id: idObraSocial,
             }),
         agregarEstudiosTabla: estudios =>
             dispatch({
