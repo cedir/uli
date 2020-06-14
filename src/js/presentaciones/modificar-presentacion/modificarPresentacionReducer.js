@@ -115,7 +115,7 @@ const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
     switch (action.input) {
         case 'nro_de_orden':
             newEstudio.nro_de_orden = action.value;
-            estudios.splice(action.payload.index, 1, newEstudio);
+            estudios.splice(action.index, 1, newEstudio);
             break;
         case 'importe_estudio':
             newEstudio.importe_estudio = action.value;

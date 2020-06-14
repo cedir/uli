@@ -106,6 +106,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                   value={ nroOrden }
                   placeholder={ nroOrden }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='nro_de_orden'
                 />
             </td>
@@ -124,6 +125,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                   type='number'
                   value={ importe }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='importe_estudio'
                 />
             </td>
@@ -132,6 +134,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                   type='number'
                   value={ pensionState }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='pension'
                 />
             </td>
@@ -140,6 +143,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                   type='number'
                   value={ difPaciente }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='diferencia_paciente'
                 />
             </td>
@@ -151,6 +155,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                   type='number'
                   value={ parseFloat(anestesista, 10) }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='arancel_anestesia'
                 />
             </td>
