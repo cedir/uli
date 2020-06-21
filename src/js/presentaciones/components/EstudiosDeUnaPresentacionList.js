@@ -24,7 +24,6 @@ function EstudiosDeUnaPresentacionList(props) {
             <table id='tabla' className='estudios-table'>
                 <thead>
                     <tr className='titles'>
-                        <th className='first-row-title icon' />
                         <th>Fecha</th>
                         <th>Orden</th>
                         <th>Afiliado</th>

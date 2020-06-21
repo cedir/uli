@@ -8,7 +8,7 @@ import { ADD_MEDICACION_ESTUDIO, ADD_DEFAULT_MEDICACION_ESTUDIO } from '../../me
 import addMedicamentosFormInitialState from '../addMedicamentosFormInitialState';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
-import { ESTADOS } from '../constants';
+// import { ESTADOS } from '../constants';
 
 class AddMedicamentosForm extends Component {
     constructor(props) {
@@ -53,10 +53,10 @@ class AddMedicamentosForm extends Component {
         const medicamentoIsSelected =
             (Array.isArray(selectedMedicamento) && selectedMedicamento[0]
             && selectedMedicamento[0].id);
-        const { presentacion } = this.props.estudioDetail;
-        const estadoPresentacion = presentacion ? presentacion.estado : undefined;
-        const lockEstudioEdition =
-            (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
+        // const { presentacion } = this.props.estudioDetail;
+        // const estadoPresentacion = presentacion ? presentacion.estado : undefined;
+        // const lockEstudioEdition =
+        //     (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
         return (
             <div>
                 <form onSubmit={ this.props.handleSubmit(this.addMedicacionToEstudio) }>
@@ -66,7 +66,6 @@ class AddMedicamentosForm extends Component {
                             <Field
                               name='medicamento'
                               label='Nombre'
-                              staticField={ lockEstudioEdition }
                               align='left'
                               component={ AsyncTypeaheadRF }
                               options={ this.props.medicamentos }
@@ -88,14 +87,13 @@ class AddMedicamentosForm extends Component {
                       type='submit'
                       bsStyle='primary'
                       style={ { marginRight: '12px' } }
-                      disabled={ !(medicamentoIsSelected && importe && !lockEstudioEdition) }
+                      disabled={ !(medicamentoIsSelected && importe) }
                     >
                         Agregar
                     </Button>
                     <Button
                       bsStyle='primary'
                       onClick={ this.addDefaultMedicacionToEstudio }
-                      disabled={ lockEstudioEdition }
                     >
                         Medicacion Por defecto
                     </Button>

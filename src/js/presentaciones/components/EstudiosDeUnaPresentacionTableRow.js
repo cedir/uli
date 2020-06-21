@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes, { array } from 'prop-types';
+import { useHistory } from 'react-router';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import { ModalMedicacion } from './Modals';
 import { CLEAN_MEDICACIONES_STORE } from '../../medicacion/actionTypes';
@@ -19,7 +20,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     const {
         fecha, nro_de_orden: orden,
         paciente, practica, medico,
-        importe_estudio,
+        importe_estudio, id,
         pension, diferencia_paciente,
         importe_medicacion: medicacion,
         arancel_anestesia,
@@ -32,6 +33,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     const [anestesista, setAnestesista] = useState(parseFloat(arancel_anestesia, 10));
     const [medicacionClicked, setMedicacionClicked] = useState(false);
     const [renderRow, setRenderRow] = useState(true);
+    const history = useHistory();
 
     const deleteIconClickHandler = () => {
         setRenderRow(!renderRow);
@@ -65,23 +67,23 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         }
     };
 
-    const medicacionCloseHandler = () => {
-        setMedicacionClicked(false);
-        cleanMedicacionesStore();
-    };
+    // const medicacionCloseHandler = () => {
+    //     setMedicacionClicked(false);
+    //     cleanMedicacionesStore();
+    // };
 
-    const medicacionChargeHandler = () => {
-        cleanMedicacionesStore();
-        setMedicacionClicked(false);
-        let total = 0;
-        if (medicaciones.length > 0) {
-            const reducer = (importeAcum, currentValue) => importeAcum + currentValue;
-            total = medicaciones
-                .map(med => parseFloat(med.importe || med.medicamento.importe))
-                .reduce(reducer);
-        }
-        setImporteMedicacionEstudio(total, index);
-    };
+    // const medicacionChargeHandler = () => {
+    //     cleanMedicacionesStore();
+    //     setMedicacionClicked(false);
+    //     let total = 0;
+    //     if (medicaciones.length > 0) {
+    //         const reducer = (importeAcum, currentValue) => importeAcum + currentValue;
+    //         total = medicaciones
+    //             .map(med => parseFloat(med.importe || med.medicamento.importe))
+    //             .reduce(reducer);
+    //     }
+    //     setImporteMedicacionEstudio(total, index);
+    // };
 
     const isMedicacionActive = medicacionClicked ? 'active' : '';
 
@@ -89,17 +91,15 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     const descripcionAbreviada = descripcion &&
         descripcion.slice(0, 8).concat(descripcion.length > 8 ? '...' : '');
 
+    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     return (
-        <tr className='table-row'>
-            <td className='icon'>
-                <i
-                  className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
-                  tabIndex='0'
-                  role='button'
-                  onClick={ () => setMedicacionClicked(true) }
-                />
+        <tr className='estudios-table-row'>
+            <td
+              className='fecha'
+              onClick={ () => history.push(`/estudios/detail/${id}`) }
+            >
+                { fecha }
             </td>
-            <td className='fecha'>{ fecha }</td>
             <td>
                 <input
                   type='text'
@@ -169,14 +169,14 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                     />
                 </td>
             )}
-            <td hidden>
+            {/* <td hidden>
                 <ModalMedicacion
                   show={ medicacionClicked }
                   onClickClose={ medicacionCloseHandler }
                   onClickDo={ medicacionChargeHandler }
                   estudio={ estudio }
                 />
-            </td>
+            </td> */}
         </tr>
     );
 }
