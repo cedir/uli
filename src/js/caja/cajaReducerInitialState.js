@@ -1,5 +1,5 @@
 const initialState = {
-    movimientos: [],
+    movimientos: [{ monto_acumulado: 0 }],
 };
 
 export default initialState;

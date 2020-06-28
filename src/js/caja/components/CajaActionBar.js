@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { ButtonToolbar, Button } from 'react-bootstrap/dist/react-bootstrap';
+import { Button, Well, Grid, Col } from 'react-bootstrap/dist/react-bootstrap';
 
 export default class CajaActionBar extends Component {
     render() {
         return (
-            <ButtonToolbar>
-                <Button
-                  onClick={ this.props.openSearchCajaModal }
-                >
-                    Buscar movimiento</Button>
-                <Button
-                  bsStyle='primary'
-                >
-                    Agregar movimiento
-                </Button>
-            </ButtonToolbar>
+            <Grid>
+                <Col md={ 2 } mdOffset={ 2 }>
+                    <Well>Monto acumulado: { this.props.montoAcumulado }</Well>
+                </Col>
+                <Col md={ 2 } mdOffset={ 6 }>
+                    <Button onClick={ this.props.openSearchCajaModal }>
+                        Buscar movimiento
+                    </Button>
+                </Col>
+            </Grid>
         );
     }
 }
 
-const { func } = PropTypes;
+const { func, string } = PropTypes;
 
 CajaActionBar.propTypes = {
     openSearchCajaModal: func.isRequired,
+    montoAcumulado: string.isRequired,
 };

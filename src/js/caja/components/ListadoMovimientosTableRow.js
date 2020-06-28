@@ -29,7 +29,6 @@ class ListadoMovimientosTableRow extends Component {
         return (
             <tr>
                 <td>{ fechaMovimiento } {horaMovimiento}</td>
-                <td> -- </td>
                 <td>{ tipoMovimiento }</td>
                 <td>{ estadoLabel }</td>
                 <td className='col-md-3'>{ descripcionMovimiento }</td>
