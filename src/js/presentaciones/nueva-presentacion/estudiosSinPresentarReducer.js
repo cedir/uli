@@ -14,6 +14,7 @@ import {
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
     SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA,
     CLEAN_ESTUDIOS_FROM_STORE,
+    ADD_MEDICACION_ESTUDIO_NUEVA,
 } from './actionTypes';
 
 const sumarImportesEstudios = (state) => {
@@ -160,6 +161,30 @@ const cleanEstudiosFromStore = state => ({
     estudios: [],
 });
 
+const addMedicacionEstudioNueva = (state, action) => {
+    const newEstudios = [...state.estudios];
+    let indexOfEstudio;
+    const estudio = newEstudios.filter(e => e.id === action.idEstudio);
+    const previousMedicacion = estudio[0].importe_medicacion;
+    newEstudios.forEach((e, index) => {
+        if (e.id === action.idEstudio) {
+            indexOfEstudio = index;
+        }
+    });
+    const totalMedicacion =
+        parseInt(action.importeMedicacion, 10) + parseInt(previousMedicacion, 10);
+    const newEstudio = {
+        ...estudio[0],
+        importe_medicacion: totalMedicacion.toString(),
+    };
+    newEstudios.splice(indexOfEstudio, 1, newEstudio);
+
+    return sumarImportesEstudios({
+        ...state,
+        estudios: newEstudios,
+    });
+};
+
 export function estudiosSinPresentarReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL:
@@ -187,6 +212,8 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return setImporteMedicacionEstudioReducer(state, action);
         case CLEAN_ESTUDIOS_FROM_STORE:
             return cleanEstudiosFromStore(state);
+        case ADD_MEDICACION_ESTUDIO_NUEVA:
+            return addMedicacionEstudioNueva(state, action);
         default:
             return state;
     }

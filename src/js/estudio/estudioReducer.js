@@ -100,6 +100,7 @@ const handlePagoAMedicoSuccess = (state) => {
     return newState;
 };
 
+
 export function estudioReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_DIARIOS:

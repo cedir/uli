@@ -82,7 +82,7 @@ function App(props) {
                     />
                     <PrivateRoute
                       exact
-                      path='/estudios/detail/:id'
+                      path='/estudios/detail/:id/:seccion'
                       component={ EstudioDetailPage }
                       authenticated={ !!props.token }
                     />

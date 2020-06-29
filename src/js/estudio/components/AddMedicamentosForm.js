@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -8,6 +9,8 @@ import { ADD_MEDICACION_ESTUDIO, ADD_DEFAULT_MEDICACION_ESTUDIO } from '../../me
 import addMedicamentosFormInitialState from '../addMedicamentosFormInitialState';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
+import { ADD_MEDICACION_ESTUDIO_MODIFICAR } from '../../presentaciones/modificar-presentacion/actionTypes';
+import { ADD_MEDICACION_ESTUDIO_NUEVA } from '../../presentaciones/nueva-presentacion/actionTypes';
 // import { ESTADOS } from '../constants';
 
 class AddMedicamentosForm extends Component {
@@ -40,6 +43,9 @@ class AddMedicamentosForm extends Component {
             importe: params.importe,
         };
         this.props.addMedicacionToEstudio(medicacion);
+        const { seccion } = this.props.params;
+        if (seccion === 'modificarPresentacion') this.props.addMedicacionEstudioModificar(this.props.estudioDetail.id, params.importe);
+        if (seccion === 'nuevaPresentacion') this.props.addMedicacionEstudioNueva(this.props.estudioDetail.id, params.importe);
     }
 
     addDefaultMedicacionToEstudio() {
@@ -118,6 +124,9 @@ AddMedicamentosForm.propTypes = {
     resetImporteMedicamento: func.isRequired,
     addMedicacionToEstudio: func.isRequired,
     addDefaultMedicacionToEstudio: func.isRequired,
+    params: object.isRequired,
+    addMedicacionEstudioModificar: func.isRequired,
+    addMedicacionEstudioNueva: func.isRequired,
 };
 
 AddMedicamentosForm.defaultProps = {
@@ -158,6 +167,10 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: ADD_MEDICACION_ESTUDIO, medicacion }),
         addDefaultMedicacionToEstudio: estudioId =>
             dispatch({ type: ADD_DEFAULT_MEDICACION_ESTUDIO, estudioId }),
+        addMedicacionEstudioModificar: (idEstudio, importeMedicacion) =>
+            dispatch({ type: ADD_MEDICACION_ESTUDIO_MODIFICAR, idEstudio, importeMedicacion }),
+        addMedicacionEstudioNueva: (idEstudio, importeMedicacion) =>
+            dispatch({ type: ADD_MEDICACION_ESTUDIO_NUEVA, idEstudio, importeMedicacion }),
     };
 }
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import PropTypes, { array } from 'prop-types';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import { ModalMedicacion } from './Modals';
@@ -16,6 +16,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         setImporteMedicacionEstudio,
         medicaciones,
         index,
+        seccion,
     } = props;
     const {
         fecha, nro_de_orden: orden,
@@ -96,7 +97,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         <tr className='estudios-table-row'>
             <td
               className='fecha'
-              onClick={ () => history.push(`/estudios/detail/${id}`) }
+              onClick={ () => history.push(`/estudios/detail/${id}/${seccion}`) }
             >
                 { fecha }
             </td>
@@ -181,7 +182,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     );
 }
 
-const { object, func, number } = PropTypes;
+const { object, func, number, string, array } = PropTypes;
 
 EstudiosDeUnaPresentacionTableRow.propTypes = {
     estudio: object.isRequired,
@@ -191,6 +192,7 @@ EstudiosDeUnaPresentacionTableRow.propTypes = {
     cleanMedicacionesStore: func.isRequired,
     setImporteMedicacionEstudio: func.isRequired,
     medicaciones: array,
+    seccion: string.isRequired,
 };
 
 EstudiosDeUnaPresentacionTableRow.defaultProps = {
