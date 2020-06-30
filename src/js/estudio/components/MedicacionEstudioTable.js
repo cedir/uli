@@ -1,24 +1,36 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Button }
     from 'react-bootstrap/dist/react-bootstrap';
 import '../../../../node_modules/print-this';
-
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
+import { UPDATE_MEDICACION_ESTUDIO_MODIFICAR } from '../../presentaciones/modificar-presentacion/actionTypes';
+import { UPDATE_MEDICACION_ESTUDIO_NUEVA } from '../../presentaciones/nueva-presentacion/actionTypes';
 import './MedicacionEstudioTable.css';
 
 class MedicacionEstudiosTable extends React.Component {
     constructor(props) {
         super(props);
-
         this.removeMedicacionEstudio = this.removeMedicacionEstudio.bind(this);
         this.calculateImporteTotal = this.calculateImporteTotal.bind(this);
         this.printMedicacionEstudio = this.printMedicacionEstudio.bind(this);
     }
 
     removeMedicacionEstudio(medicacion) {
+        const { seccion } = this.props.params;
+        if (seccion === 'modificarPresentacion') {
+            this.props.deleteMedicacionEstudioModificar(
+                medicacion.estudio_id, medicacion.importe,
+            );
+        }
+        if (seccion === 'nuevaPresentacion') {
+            this.props.deleteMedicacionEstudioNueva(
+                medicacion.estudio_id, medicacion.importe,
+            );
+        }
         this.props.removeMedicacionEstudio(medicacion);
     }
 
@@ -83,11 +95,14 @@ class MedicacionEstudiosTable extends React.Component {
     }
 }
 
-const { array, func } = PropTypes;
+const { array, func, object } = PropTypes;
 
 MedicacionEstudiosTable.propTypes = {
     medicaciones: array.isRequired,
     removeMedicacionEstudio: func.isRequired,
+    deleteMedicacionEstudioModificar: func.isRequired,
+    deleteMedicacionEstudioNueva: func.isRequired,
+    params: object.isRequired,
 };
 
 MedicacionEstudiosTable.defaultProps = {
@@ -104,6 +119,16 @@ function mapDispatchToProps(dispatch) {
     return {
         removeMedicacionEstudio: medicacion =>
             dispatch({ type: DELETE_MEDICACION_ESTUDIO, medicacion }),
+        deleteMedicacionEstudioModificar: (idEstudio, importeMedicacion) =>
+            dispatch({
+                type: UPDATE_MEDICACION_ESTUDIO_MODIFICAR,
+                idEstudio, importeMedicacion,
+            }),
+        deleteMedicacionEstudioNueva: (idEstudio, importeMedicacion) =>
+            dispatch({
+                type: UPDATE_MEDICACION_ESTUDIO_NUEVA,
+                idEstudio, importeMedicacion,
+            }),
     };
 }
 
