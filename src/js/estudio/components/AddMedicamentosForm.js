@@ -11,7 +11,7 @@ import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
 import { UPDATE_MEDICACION_ESTUDIO_MODIFICAR } from '../../presentaciones/modificar-presentacion/actionTypes';
 import { UPDATE_MEDICACION_ESTUDIO_NUEVA } from '../../presentaciones/nueva-presentacion/actionTypes';
-// import { ESTADOS } from '../constants';
+import { ESTADOS } from '../constants';
 
 class AddMedicamentosForm extends Component {
     constructor(props) {
@@ -45,14 +45,14 @@ class AddMedicamentosForm extends Component {
         this.props.addMedicacionToEstudio(medicacion);
         const { seccion } = this.props.params;
         const isAddingMedicacion = true;
-        if (seccion === 'modificarPresentacion') {
+        if (seccion === 'modificar-presentacion') {
             this.props.addMedicacionEstudioModificar(
-                isAddingMedicacion, this.props.estudioDetail.id, params.importe,
+                isAddingMedicacion, medicacion.estudio, medicacion.importe,
             );
         }
-        if (seccion === 'nuevaPresentacion') {
+        if (seccion === 'nueva-presentacion') {
             this.props.addMedicacionEstudioNueva(
-                isAddingMedicacion, this.props.estudioDetail.id, params.importe,
+                isAddingMedicacion, medicacion.estudio, medicacion.importe,
             );
         }
     }
@@ -68,10 +68,12 @@ class AddMedicamentosForm extends Component {
         const medicamentoIsSelected =
             (Array.isArray(selectedMedicamento) && selectedMedicamento[0]
             && selectedMedicamento[0].id);
-        // const { presentacion } = this.props.estudioDetail;
-        // const estadoPresentacion = presentacion ? presentacion.estado : undefined;
-        // const lockEstudioEdition =
-        //     (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
+        const { presentacion } = this.props.estudioDetail;
+        const estadoPresentacion = presentacion ? presentacion.estado : undefined;
+        const isPresentacionEditable =
+            estadoPresentacion === ESTADOS.ABIERTO;
+        const lockEstudioEdition =
+            (estadoPresentacion && isPresentacionEditable) || false;
         return (
             <div>
                 <form onSubmit={ this.props.handleSubmit(this.addMedicacionToEstudio) }>
@@ -81,6 +83,7 @@ class AddMedicamentosForm extends Component {
                             <Field
                               name='medicamento'
                               label='Nombre'
+                              staticField={ lockEstudioEdition }
                               align='left'
                               component={ AsyncTypeaheadRF }
                               options={ this.props.medicamentos }
@@ -102,13 +105,14 @@ class AddMedicamentosForm extends Component {
                       type='submit'
                       bsStyle='primary'
                       style={ { marginRight: '12px' } }
-                      disabled={ !(medicamentoIsSelected && importe) }
+                      disabled={ !(medicamentoIsSelected && importe && !lockEstudioEdition) }
                     >
                         Agregar
                     </Button>
                     <Button
                       bsStyle='primary'
                       onClick={ this.addDefaultMedicacionToEstudio }
+                      disabled={ lockEstudioEdition }
                     >
                         Medicacion Por defecto
                     </Button>

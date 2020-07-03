@@ -1,20 +1,13 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import DeleteIcon from 'mdi-react/DeleteIcon';
-import { ModalMedicacion } from './Modals';
-import { CLEAN_MEDICACIONES_STORE } from '../../medicacion/actionTypes';
 
 function EstudiosDeUnaPresentacionTableRow(props) {
     const {
         estudio,
         actualizarInput,
         eliminarEstudio,
-        cleanMedicacionesStore,
-        setImporteMedicacionEstudio,
-        medicaciones,
         index,
         seccion,
     } = props;
@@ -32,7 +25,6 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     const [pensionState, setPension] = useState(parseFloat(pension, 10));
     const [difPaciente, setDifPaciente] = useState(parseFloat(diferencia_paciente, 10));
     const [anestesista, setAnestesista] = useState(parseFloat(arancel_anestesia, 10));
-    const [medicacionClicked, setMedicacionClicked] = useState(false);
     const [renderRow, setRenderRow] = useState(true);
     const history = useHistory();
 
@@ -68,26 +60,6 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         }
     };
 
-    // const medicacionCloseHandler = () => {
-    //     setMedicacionClicked(false);
-    //     cleanMedicacionesStore();
-    // };
-
-    // const medicacionChargeHandler = () => {
-    //     cleanMedicacionesStore();
-    //     setMedicacionClicked(false);
-    //     let total = 0;
-    //     if (medicaciones.length > 0) {
-    //         const reducer = (importeAcum, currentValue) => importeAcum + currentValue;
-    //         total = medicaciones
-    //             .map(med => parseFloat(med.importe || med.medicamento.importe))
-    //             .reduce(reducer);
-    //     }
-    //     setImporteMedicacionEstudio(total, index);
-    // };
-
-    const isMedicacionActive = medicacionClicked ? 'active' : '';
-
     const { descripcion } = practica;
     const descripcionAbreviada = descripcion &&
         descripcion.slice(0, 8).concat(descripcion.length > 8 ? '...' : '');
@@ -97,7 +69,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         <tr className='estudios-table-row'>
             <td
               className='fecha'
-              onClick={ () => history.push(`/estudios/detail/${id}/${seccion}`) }
+              onClick={ seccion && (() => history.push(`/estudios/detail/${id}/${seccion}`)) }
             >
                 { fecha }
             </td>
@@ -170,48 +142,18 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                     />
                 </td>
             )}
-            {/* <td hidden>
-                <ModalMedicacion
-                  show={ medicacionClicked }
-                  onClickClose={ medicacionCloseHandler }
-                  onClickDo={ medicacionChargeHandler }
-                  estudio={ estudio }
-                />
-            </td> */}
         </tr>
     );
 }
 
-const { object, func, number, string, array } = PropTypes;
+const { object, func, number, string } = PropTypes;
 
 EstudiosDeUnaPresentacionTableRow.propTypes = {
     estudio: object.isRequired,
     eliminarEstudio: func,
     index: number.isRequired,
     actualizarInput: func.isRequired,
-    cleanMedicacionesStore: func.isRequired,
-    setImporteMedicacionEstudio: func.isRequired,
-    medicaciones: array,
     seccion: string.isRequired,
 };
 
-EstudiosDeUnaPresentacionTableRow.defaultProps = {
-    medicaciones: [],
-};
-
-function mapStateToProps(state) {
-    return {
-        medicaciones: state.medicacionReducer.medicaciones,
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        cleanMedicacionesStore: () =>
-            dispatch({
-                type: CLEAN_MEDICACIONES_STORE,
-            }),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EstudiosDeUnaPresentacionTableRow);
+export default EstudiosDeUnaPresentacionTableRow;

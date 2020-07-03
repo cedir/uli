@@ -6,7 +6,6 @@ import { REDUX_LOGGER_STATUS } from './config';
 // import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
 
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
@@ -36,9 +35,10 @@ const store = createStore(
     // applyMiddleware(thunk, reduxImmutableStateInvariant())
 );
 
+export const sucursal = store.getState().login.sucursal;
+
 store.subscribe(() => {
     const token = store.getState().login.token;
-    const sucursal = store.getState().login.sucursal;
     if (token) {
         const modifiedInitialState = {};
         Object.assign(modifiedInitialState, initialState, { token, sucursal });

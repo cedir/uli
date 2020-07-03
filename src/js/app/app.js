@@ -24,7 +24,7 @@ import CajaMain from '../caja/components/CajaMain';
 import Comprobantes from '../comprobantes/components/Comprobantes';
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
-import ScriptCrearEstudios from '../utilities/components/ScriptCrearEstudios';
+// import ScriptCrearEstudios from '../utilities/components/ScriptCrearEstudios';
 
 function App(props) {
     useEffect(() => {
@@ -147,11 +147,12 @@ function App(props) {
                       component={ Comprobantes }
                       authenticated={ !!props.token }
                     />
-                    <PrivateRoute
+                    {/* para crear estudios rapidamente */}
+                    {/* <PrivateRoute
                       path='/script-crear-estudios'
                       component={ ScriptCrearEstudios }
                       authenticated={ !!props.token }
-                    />
+                    /> */}
                 </div>
                 <Route path='/login' component={ Login } />
                 <Footer />

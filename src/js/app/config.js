@@ -4,4 +4,4 @@ export const config = {
     // baseUrl: 'http://localhost:8000',
 };
 
-export const REDUX_LOGGER_STATUS = 1;
+export const REDUX_LOGGER_STATUS = 0;

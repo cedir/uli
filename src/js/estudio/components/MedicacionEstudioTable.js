@@ -21,12 +21,12 @@ class MedicacionEstudiosTable extends React.Component {
 
     removeMedicacionEstudio(medicacion) {
         const { seccion } = this.props.params;
-        if (seccion === 'modificarPresentacion') {
+        if (seccion === 'modificar-presentacion') {
             this.props.deleteMedicacionEstudioModificar(
                 medicacion.estudio_id, medicacion.importe,
             );
         }
-        if (seccion === 'nuevaPresentacion') {
+        if (seccion === 'nueva-presentacion') {
             this.props.deleteMedicacionEstudioNueva(
                 medicacion.estudio_id, medicacion.importe,
             );

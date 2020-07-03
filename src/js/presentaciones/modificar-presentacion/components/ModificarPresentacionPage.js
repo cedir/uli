@@ -77,7 +77,7 @@ function ModificarPresentacionPage(props) {
                       actualizarInput={ actualizarInput }
                       eliminarEstudio={ eliminarEstudio }
                       setImporteMedicacionEstudio={ setImporteMedicacionEstudio }
-                      seccion='modificarPresentacion'
+                      seccion='modificar-presentacion'
                     />
                 </TabNavigator>
             </div>

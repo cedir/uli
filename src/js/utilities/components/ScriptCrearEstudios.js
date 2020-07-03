@@ -2,22 +2,15 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { CREATE_ESTUDIO } from '../../estudio/actionTypes';
-import store from '../../app/configureStore';
+import { sucursal } from '../../app/configureStore';
 
 /* SCRIPT PARA CREAR ESTUDIOS DE A CANTIDAD AUTOMATICAMENTE */
 /* SETEADO POR DEFAULT PARA OSDE BINARIO, TODO IMPLEMENTAR
 ALGO MAS SOFISTICADO TRAYENDO LOS ID DE OBRA SOCIAL Y NOMBRE */
 
-export function getSucursal() {
-    const sucursal = store.getState().login.sucursal;
-
-    return sucursal;
-}
-
 
 const ScriptCrearEstudios = (props) => {
     const { createEstudio } = props;
-    const sucursal = getSucursal();
     const [cantidadEstudios, setCantidadEstudios] = useState(null);
 
     const onChangeCantidadEstudios = (e) => {

@@ -81,7 +81,7 @@ function NuevaPresentacionPage(props) {
                       actualizarInput={ actualizarInput }
                       eliminarEstudio={ eliminarEstudio }
                       setImporteMedicacionEstudio={ setImporteMedicacionEstudio }
-                      seccion='nuevaPresentacion'
+                      seccion='nueva-presentacion'
                     />
                 </TabNavigator>
             </div>
