@@ -173,7 +173,7 @@ const updateMedicacionEstudioReducer = (state, action) => {
     const medicaciones = action.data.response;
     const estudios = [...state.estudios];
     const { estudioId } = action;
-    const total = calculateImporteTotal(medicaciones);
+    const total = estudios.length > 0 && calculateImporteTotal(medicaciones);
     /* eslint-disable eqeqeq */
     const indexOfEstudio = estudios.findIndex(e => e.id == estudioId);
     const newEstudio = {
