@@ -14,6 +14,7 @@ import {
     SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR,
     UPDATE_MEDICACION_ESTUDIO_MODIFICAR,
 } from './actionTypes';
+import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
 
 const sumarImportesEstudios = (state) => {
     const { estudios } = state;
@@ -168,33 +169,21 @@ const setImporteMedicacionEstudioReducer = (state, action) => {
     });
 };
 
-const updateMedicacionEstudioModificar = (state, action) => {
-    const newEstudios = [...state.estudios];
-    let indexOfEstudio;
-    const estudio = newEstudios.filter(e => e.id === action.idEstudio);
-    const previousMedicacion = estudio[0].importe_medicacion;
-    newEstudios.forEach((e, index) => {
-        if (e.id === action.idEstudio) {
-            indexOfEstudio = index;
-        }
-    });
-    let totalMedicacion;
-    if (action.isAddingMedicacion) {
-        totalMedicacion =
-            parseInt(previousMedicacion, 10) + parseInt(action.importeMedicacion, 10);
-    } else {
-        totalMedicacion =
-            parseInt(previousMedicacion, 10) - parseInt(action.importeMedicacion, 10);
-    }
+const updateMedicacionEstudioReducer = (state, action) => {
+    const medicaciones = action.data.response;
+    const estudios = [...state.estudios];
+    const { estudioId } = action;
+    const total = calculateImporteTotal(medicaciones);
+    /* eslint-disable eqeqeq */
+    const indexOfEstudio = estudios.findIndex(e => e.id == estudioId);
     const newEstudio = {
-        ...estudio[0],
-        importe_medicacion: totalMedicacion.toString(),
+        ...estudios[indexOfEstudio],
+        importe_medicacion: total.toString(),
     };
-    newEstudios.splice(indexOfEstudio, 1, newEstudio);
-
+    estudios.splice(indexOfEstudio, 1, newEstudio);
     return sumarImportesEstudios({
         ...state,
-        estudios: newEstudios,
+        estudios,
     });
 };
 
@@ -224,7 +213,7 @@ export function modificarPresentacionReducer(state = initialState, action) {
         case SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR:
             return setImporteMedicacionEstudioReducer(state, action);
         case UPDATE_MEDICACION_ESTUDIO_MODIFICAR:
-            return updateMedicacionEstudioModificar(state, action);
+            return updateMedicacionEstudioReducer(state, action);
         default:
             return state;
     }

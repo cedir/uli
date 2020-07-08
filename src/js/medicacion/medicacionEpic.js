@@ -8,16 +8,22 @@ import { FETCH_MEDICACION_ESTUDIO, LOAD_MEDICACION_ESTUDIO,
     ADD_DEFAULT_MEDICACION_ESTUDIO,
     ADD_DEFAULT_MEDICACION_ESTUDIO_ERROR }
     from './actionTypes';
+import { UPDATE_MEDICACION_ESTUDIO_MODIFICAR } from '../presentaciones/modificar-presentacion/actionTypes';
+import { UPDATE_MEDICACION_ESTUDIO_NUEVA } from '../presentaciones/nueva-presentacion/actionTypes';
 
 export function medicacionEpic(action$) {
     return action$.ofType(FETCH_MEDICACION_ESTUDIO)
         .mergeMap(action =>
             getMedicacion(action.estudioId)
-            .map(data => ({ type: LOAD_MEDICACION_ESTUDIO, data }))
+            .mergeMap(data => Rx.Observable.of(
+                { type: LOAD_MEDICACION_ESTUDIO, data },
+                { type: UPDATE_MEDICACION_ESTUDIO_MODIFICAR, data, estudioId: action.estudioId },
+                { type: UPDATE_MEDICACION_ESTUDIO_NUEVA, data, estudioId: action.estudioId },
+            ))
             .catch(() => (Rx.Observable.of({
                 type: LOAD_MEDICACION_ESTUDIO_ERROR,
             }))),
-    );
+        );
 }
 
 export function addMedicacionToEstudioEpic(action$) {

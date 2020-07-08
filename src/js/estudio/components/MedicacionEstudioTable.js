@@ -7,42 +7,19 @@ import { Table, Button }
 import '../../../../node_modules/print-this';
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
-import { UPDATE_MEDICACION_ESTUDIO_MODIFICAR } from '../../presentaciones/modificar-presentacion/actionTypes';
-import { UPDATE_MEDICACION_ESTUDIO_NUEVA } from '../../presentaciones/nueva-presentacion/actionTypes';
 import './MedicacionEstudioTable.css';
+import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
 
 class MedicacionEstudiosTable extends React.Component {
     constructor(props) {
         super(props);
         this.removeMedicacionEstudio = this.removeMedicacionEstudio.bind(this);
-        this.calculateImporteTotal = this.calculateImporteTotal.bind(this);
         this.printMedicacionEstudio = this.printMedicacionEstudio.bind(this);
     }
 
     removeMedicacionEstudio(medicacion) {
         const { seccion } = this.props.params;
-        if (seccion === 'modificar-presentacion') {
-            this.props.deleteMedicacionEstudioModificar(
-                medicacion.estudio_id, medicacion.importe,
-            );
-        }
-        if (seccion === 'nueva-presentacion') {
-            this.props.deleteMedicacionEstudioNueva(
-                medicacion.estudio_id, medicacion.importe,
-            );
-        }
         this.props.removeMedicacionEstudio(medicacion);
-    }
-
-    calculateImporteTotal() {
-        const medicaciones = this.props.medicaciones;
-        let importeTotal;
-        if (medicaciones.length > 0) {
-            importeTotal = medicaciones
-                .map(medicacion => parseFloat(medicacion.importe || medicacion.medicamento.importe))
-                .reduce((importeAcum, currentImporte) => importeAcum + currentImporte);
-        }
-        return importeTotal.toFixed(2);
     }
 
     printMedicacionEstudio() {
@@ -80,7 +57,7 @@ class MedicacionEstudiosTable extends React.Component {
                             )) }
                         </tbody>
                     </Table>
-                    <h3>Total: { this.calculateImporteTotal() }</h3>
+                    <h3>Total: { calculateImporteTotal(this.props.medicaciones) }</h3>
                     <Button
                       className='hide-on-print'
                       bsStyle='primary'
@@ -100,8 +77,6 @@ const { array, func, object } = PropTypes;
 MedicacionEstudiosTable.propTypes = {
     medicaciones: array.isRequired,
     removeMedicacionEstudio: func.isRequired,
-    deleteMedicacionEstudioModificar: func.isRequired,
-    deleteMedicacionEstudioNueva: func.isRequired,
     params: object.isRequired,
 };
 
@@ -119,16 +94,6 @@ function mapDispatchToProps(dispatch) {
     return {
         removeMedicacionEstudio: medicacion =>
             dispatch({ type: DELETE_MEDICACION_ESTUDIO, medicacion }),
-        deleteMedicacionEstudioModificar: (idEstudio, importeMedicacion) =>
-            dispatch({
-                type: UPDATE_MEDICACION_ESTUDIO_MODIFICAR,
-                idEstudio, importeMedicacion,
-            }),
-        deleteMedicacionEstudioNueva: (idEstudio, importeMedicacion) =>
-            dispatch({
-                type: UPDATE_MEDICACION_ESTUDIO_NUEVA,
-                idEstudio, importeMedicacion,
-            }),
     };
 }
 
