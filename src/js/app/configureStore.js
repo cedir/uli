@@ -26,7 +26,6 @@ if (process.env.NODE_ENV !== 'production' && REDUX_LOGGER_STATUS) {
     middleware = applyMiddleware(epicMiddleware);
 }
 
-
 const store = createStore(
     rootReducer,
     locallyPersistedState,
@@ -34,11 +33,9 @@ const store = createStore(
     // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
     // applyMiddleware(thunk, reduxImmutableStateInvariant())
 );
-
-export const sucursal = store.getState().login.sucursal;
-
 store.subscribe(() => {
     const token = store.getState().login.token;
+    const sucursal = store.getState().login.sucursal;
     if (token) {
         const modifiedInitialState = {};
         Object.assign(modifiedInitialState, initialState, { token, sucursal });

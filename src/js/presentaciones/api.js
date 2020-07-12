@@ -1,10 +1,12 @@
 import { get, patch } from '../utilities/rest';
 import saveFile from '../utilities/saveFile';
-import store, { sucursal } from '../app/configureStore';
+import store from '../app/configureStore';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
+import { getSucursal } from '../app/storeHelper';
 
 export function getPresentacionesObraSocial(idObraSocial) {
+    const sucursal = getSucursal();
     const url = `/api/presentacion/?obra_social=${idObraSocial}&sucursal=${sucursal}`;
 
     return get(url);
