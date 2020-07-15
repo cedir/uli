@@ -163,17 +163,17 @@ const cleanEstudiosFromStore = state => ({
 });
 
 const updateMedicacionEstudioReducer = (state, action) => {
-    const medicaciones = action.data.response;
     const estudios = [...state.estudios];
+    const medicaciones = estudios.length > 0 && action.data.response;
     const { estudioId } = action;
-    const total = estudios.length && calculateImporteTotal(medicaciones);
+    const total = estudios.length > 0 && calculateImporteTotal(medicaciones);
     /* eslint-disable eqeqeq */
-    const indexOfEstudio = estudios.findIndex(e => e.id == estudioId);
+    const indexOfEstudio = estudios.length > 0 && estudios.findIndex(e => e.id == estudioId);
     const newEstudio = {
         ...estudios[indexOfEstudio],
-        importe_medicacion: total.toString(),
+        importe_medicacion: total && total.toString(),
     };
-    estudios.splice(indexOfEstudio, 1, newEstudio);
+    if (estudios.length > 0) estudios.splice(indexOfEstudio, 1, newEstudio);
     return sumarImportesEstudios({
         ...state,
         estudios,

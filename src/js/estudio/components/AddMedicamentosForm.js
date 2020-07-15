@@ -9,8 +9,6 @@ import { ADD_MEDICACION_ESTUDIO, ADD_DEFAULT_MEDICACION_ESTUDIO } from '../../me
 import addMedicamentosFormInitialState from '../addMedicamentosFormInitialState';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import InputRF from '../../utilities/InputRF';
-import { UPDATE_MEDICACION_ESTUDIO_MODIFICAR } from '../../presentaciones/modificar-presentacion/actionTypes';
-import { UPDATE_MEDICACION_ESTUDIO_NUEVA } from '../../presentaciones/nueva-presentacion/actionTypes';
 import { ESTADOS } from '../constants';
 
 class AddMedicamentosForm extends Component {
@@ -42,25 +40,15 @@ class AddMedicamentosForm extends Component {
             medicamento: params.medicamento[0].id,
             importe: params.importe,
         };
-        this.props.addMedicacionToEstudio(medicacion);
         const { seccion } = this.props.params;
-        const isAddingMedicacion = true;
-        if (seccion === 'modificar-presentacion') {
-            this.props.addMedicacionEstudioModificar(
-                isAddingMedicacion, medicacion.estudio, medicacion.importe,
-            );
-        }
-        if (seccion === 'nueva-presentacion') {
-            this.props.addMedicacionEstudioNueva(
-                isAddingMedicacion, medicacion.estudio, medicacion.importe,
-            );
-        }
+        this.props.addMedicacionToEstudio(medicacion, seccion);
     }
 
     addDefaultMedicacionToEstudio() {
         const estudioId = this.props.estudioDetail.id;
+        const { seccion } = this.props.params;
 
-        this.props.addDefaultMedicacionToEstudio(estudioId);
+        this.props.addDefaultMedicacionToEstudio(estudioId, seccion);
     }
 
     render() {
@@ -138,8 +126,6 @@ AddMedicamentosForm.propTypes = {
     addMedicacionToEstudio: func.isRequired,
     addDefaultMedicacionToEstudio: func.isRequired,
     params: object.isRequired,
-    addMedicacionEstudioModificar: func.isRequired,
-    addMedicacionEstudioNueva: func.isRequired,
 };
 
 AddMedicamentosForm.defaultProps = {
@@ -176,20 +162,10 @@ function mapDispatchToProps(dispatch) {
         setImporte: medicamento =>
             dispatch(change('searchMedicamentos', 'importe', medicamento.importe)),
         resetImporteMedicamento: () => dispatch(change('searchMedicamentos', 'importe', '')),
-        addMedicacionToEstudio: medicacion =>
-            dispatch({ type: ADD_MEDICACION_ESTUDIO, medicacion }),
-        addDefaultMedicacionToEstudio: estudioId =>
-            dispatch({ type: ADD_DEFAULT_MEDICACION_ESTUDIO, estudioId }),
-        addMedicacionEstudioModificar: (isAddingMedicacion, idEstudio, importeMedicacion) =>
-            dispatch({
-                type: UPDATE_MEDICACION_ESTUDIO_MODIFICAR,
-                isAddingMedicacion, idEstudio, importeMedicacion,
-            }),
-        addMedicacionEstudioNueva: (isAddingMedicacion, idEstudio, importeMedicacion) =>
-            dispatch({
-                type: UPDATE_MEDICACION_ESTUDIO_NUEVA,
-                isAddingMedicacion, idEstudio, importeMedicacion,
-            }),
+        addMedicacionToEstudio: (medicacion, seccion) =>
+            dispatch({ type: ADD_MEDICACION_ESTUDIO, medicacion, seccion }),
+        addDefaultMedicacionToEstudio: (estudioId, seccion) =>
+            dispatch({ type: ADD_DEFAULT_MEDICACION_ESTUDIO, estudioId, seccion }),
     };
 }
 

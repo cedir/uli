@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -19,7 +18,7 @@ class MedicacionEstudiosTable extends React.Component {
 
     removeMedicacionEstudio(medicacion) {
         const { seccion } = this.props.params;
-        this.props.removeMedicacionEstudio(medicacion);
+        this.props.removeMedicacionEstudio(medicacion, seccion);
     }
 
     printMedicacionEstudio() {
@@ -92,8 +91,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        removeMedicacionEstudio: medicacion =>
-            dispatch({ type: DELETE_MEDICACION_ESTUDIO, medicacion }),
+        removeMedicacionEstudio: (medicacion, seccion) =>
+            dispatch({ type: DELETE_MEDICACION_ESTUDIO, medicacion, seccion }),
     };
 }
 
