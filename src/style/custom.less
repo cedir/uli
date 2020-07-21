@@ -68,6 +68,7 @@
 }
 
 .estudios-table {
+  height: auto;
   input {
     padding: 0.2rem 0.5rem;
     max-width: 120px;
@@ -76,6 +77,10 @@
   }
   td.fecha {
     min-width: 100px;
+    cursor: pointer;
+    &:hover {
+      font-weight: 600;
+    }
   }
   td {
     text-align: center;
@@ -161,9 +166,9 @@
   justify-content: flex-end;
   .modal-body {
     max-width: 90rem;
-    table {
-      height: 50rem;
+    .table-responsive {
       overflow: scroll;
+      height: 50rem;
       .mdi-icon {
         font-size: 15px;
         transition: color 0s;

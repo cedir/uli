@@ -30,7 +30,6 @@ function EstudiosDeUnaPresentacionList(props) {
               responsive='sm'
               size='sm'
             >
-                {/* <table id='tabla' className='estudios-table'> */}
                 <thead>
                     <tr>
                         <th>Fecha</th>
