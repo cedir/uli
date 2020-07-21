@@ -63,7 +63,28 @@
   .content-1 {
     width: 100%;
     height: auto;
-    // padding-bottom: 5rem;
+    padding-bottom: 5rem;
+  }
+}
+
+.estudios-table {
+  input {
+    padding: 0.2rem 0.5rem;
+    max-width: 120px;
+    float: right;
+    text-align: right;
+  }
+  td.fecha {
+    min-width: 100px;
+  }
+  td {
+    text-align: center;
+  }
+  td.medicacion {
+    text-align: right;
+  }
+  .delete-icon:hover {
+    color: red;
   }
 }
 
@@ -100,51 +121,6 @@
   }
   div.gravado {
     width: 25%;
-  }
-}
-
-.estudios-table {
-  width: 100%;
-  height: auto;
-  display: table-cell;
-  border-spacing: 1rem;
-  border-collapse: separate;
-  background-color: #eee;
-  transition: opacity 2s, visibility 0s;
-  opacity: 1;
-  visibility: visible;
-  &.hidden {
-    transition: opacity 2s, visibility 0s linear 2s !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-  }
-  td {
-    min-width: 50px;
-    width: 5vw;
-    padding: 0.5rem 1rem;
-    border-radius: 0.2rem;
-    text-align: center;
-    background-color: lighten(#eee, 5%);
-  }
-  td {
-    min-width: 50px;
-  }
-  th.icon {
-    td {
-      width: 2vw;
-      min-width: 40px;
-    }
-  }
-  input, td.medicacion {
-    width: 8vw;
-    min-width: 80px;
-    text-align: right;
-  }
-  .delete-icon:hover {
-    color: red;
-  }
-  td.fecha:hover {
-    cursor: pointer;
   }
 }
 

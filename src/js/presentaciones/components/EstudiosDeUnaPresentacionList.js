@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ImportesTotales from './ImportesTotales';
@@ -22,21 +23,28 @@ function EstudiosDeUnaPresentacionList(props) {
 
     return (
         <Fragment>
-            <table id='tabla' className='estudios-table'>
+            <Table
+              className='estudios-table'
+              striped
+              bordered
+              responsive='sm'
+              size='sm'
+            >
+                {/* <table id='tabla' className='estudios-table'> */}
                 <thead>
-                    <tr className='titles'>
+                    <tr>
                         <th>Fecha</th>
                         <th>Orden</th>
                         <th>Afiliado</th>
                         <th>Paciente</th>
-                        <th className='practica'>Practica</th>
+                        <th>Practica</th>
                         <th>Actuante</th>
                         <th>Importe</th>
                         <th>Pension</th>
                         <th>Dif. Paciente</th>
                         <th className='medicacion'>Medicacion</th>
                         <th>Anestesista</th>
-                        <th className='last-row-title icon' />
+                        <th />
                     </tr>
                 </thead>
                 <tbody>
@@ -52,7 +60,7 @@ function EstudiosDeUnaPresentacionList(props) {
                         />))
                     }
                 </tbody>
-            </table>
+            </Table>
             { estudios.length !== 0 &&
                 <ImportesTotales
                   estudios={ importesTotales }
