@@ -34,26 +34,23 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     };
 
     const onChangeHandler = (e) => {
-        let parsedValue = parseFloat(e.target.value, 10);
-        if (isNaN(parsedValue)) {
-            parsedValue = 0;
-        }
-        actualizarInput(index, e.target.name, parsedValue);
+        const inputValue = e.target.value || '0.00';
+        actualizarInput(index, e.target.name, inputValue);
         switch (e.target.name) {
             case 'nro_de_orden':
                 setNroOrden(e.target.value);
                 break;
             case 'importe_estudio':
-                setImporte(parsedValue);
+                setImporte(inputValue);
                 break;
             case 'pension':
-                setPension(parsedValue);
+                setPension(inputValue);
                 break;
             case 'diferencia_paciente':
-                setDifPaciente(parsedValue);
+                setDifPaciente(inputValue);
                 break;
             case 'arancel_anestesia':
-                setAnestesista(parsedValue);
+                setAnestesista(inputValue);
                 break;
             default:
                 break;
@@ -95,7 +92,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
             </td>
             <td>
                 <input
-                  type='number'
+                  type='text'
                   value={ importe }
                   onChange={ e => onChangeHandler(e) }
                   onFocus={ e => e.target.select() }
@@ -104,7 +101,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
             </td>
             <td>
                 <input
-                  type='number'
+                  type='text'
                   value={ pensionState }
                   onChange={ e => onChangeHandler(e) }
                   onFocus={ e => e.target.select() }
@@ -113,7 +110,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
             </td>
             <td>
                 <input
-                  type='number'
+                  type='text'
                   value={ difPaciente }
                   onChange={ e => onChangeHandler(e) }
                   onFocus={ e => e.target.select() }
@@ -121,12 +118,12 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                 />
             </td>
             <td className='medicacion'>
-                <div>{ parseFloat(medicacion, 10).toFixed(2) }</div>
+                <div>{ medicacion }</div>
             </td>
             <td>
                 <input
-                  type='number'
-                  value={ parseFloat(anestesista, 10) }
+                  type='text'
+                  value={ anestesista }
                   onChange={ e => onChangeHandler(e) }
                   onFocus={ e => e.target.select() }
                   name='arancel_anestesia'

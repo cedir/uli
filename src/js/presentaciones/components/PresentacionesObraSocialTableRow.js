@@ -36,14 +36,10 @@ function PresentacionesObraSocialTableRow(props) {
     const redirectPage = () => {
         if (estado === 'Abierto') {
             props.fetchEstudios(presentacion.id, obraSocial, fecha);
-            setTimeout(() => {
-                history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
-            }, 1000);
+            history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
         } else {
             props.fetchEstudios(presentacion.id, obraSocial, fecha);
-            setTimeout(() => {
-                history.push(`/presentaciones-obras-sociales/ver-presentacion/${presentacion.id}`);
-            });
+            history.push(`/presentaciones-obras-sociales/ver-presentacion/${presentacion.id}`);
         }
     };
 
@@ -66,7 +62,7 @@ function PresentacionesObraSocialTableRow(props) {
             <tr>
                 <td>{ fecha }</td>
                 <td>{ estado }</td>
-                <td>{ obraSocial.nombre }</td>
+                <td>{ obraSocial && obraSocial.nombre }</td>
                 <td>{ totalFacturado }</td>
                 <td>{ totalCobrado }</td>
                 <td>
