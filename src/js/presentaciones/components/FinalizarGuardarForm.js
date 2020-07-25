@@ -19,7 +19,7 @@ function presentacionObject(props) {
         importe_estudio,
         pension,
         diferencia_paciente,
-        medicacion,
+        importe_medicacion,
         arancel_anestesia,
     }) => ({
         id,
@@ -27,7 +27,7 @@ function presentacionObject(props) {
         importe_estudio,
         pension,
         diferencia_paciente,
-        medicacion,
+        importe_medicacion,
         arancel_anestesia,
     });
     /* eslint-disable no-else-return */

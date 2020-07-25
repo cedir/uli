@@ -27,7 +27,7 @@ function EstudiosDeUnaPresentacionList(props) {
               className='estudios-table'
               striped
               bordered
-              responsive='sm'
+              responsive
               size='sm'
             >
                 <thead>

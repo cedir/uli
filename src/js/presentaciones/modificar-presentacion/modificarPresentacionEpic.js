@@ -13,6 +13,7 @@ import {
     UPDATE_PRESENTACION,
     LOAD_PRESENTACION_DETAIL,
     FINALIZAR_MODIFICAR_PRESENTACION,
+    CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE,
 } from './actionTypes';
 import { ADD_ALERT } from '../../utilities/components/alert/actionTypes';
 import { createAlert } from '../../utilities/components/alert/alertUtility';
@@ -62,6 +63,7 @@ export function updatePresentacionEpic(action$) {
         .mergeMap(action =>
             updatePresentacionObraSocial(action.presentacion, action.id)
             .mergeMap(data => Rx.Observable.of(
+                { type: CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE },
                 { type: ADD_ALERT, alert: createAlert('Presentación actualizada con éxito', 'success') },
                 { type: LOAD_PRESENTACION_DETAIL, data },
                 { type: FETCH_PRESENTACIONES_OBRA_SOCIAL, id: data.response.obra_social_id },
@@ -77,19 +79,22 @@ export function finalizarModificarPresentacionEpic(action$) {
         .mergeMap(action =>
             updatePresentacionObraSocial(action.presentacion, action.id)
             .mergeMap(() =>
-                patchCerrarPresentacion(action.comprobante, action.id)
-                .mergeMap(data => Rx.Observable.of(
+            patchCerrarPresentacion(action.comprobante, action.id)
+            .mergeMap(data => Rx.Observable.of(
+                    { type: CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE },
                     { type: UPDATE_PRESENTACIONES_LIST, data },
                     { type: ADD_ALERT, alert: createAlert('Presentación actualizada y cerrada con éxito', 'success') },
                     { type: LOAD_PRESENTACION_DETAIL, data },
                 ))
                 .catch(() => (Rx.Observable.of(
+                    { type: CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE },
                     { type: ADD_ALERT, alert: createAlert('Presentación actualizada con éxito', 'success') },
                     { type: ADD_ALERT, alert: createAlert('Error al cerrar presentacion', 'danger') },
                 ))),
             )
-            .catch(() => (Rx.Observable.of({
-                type: ADD_ALERT, alert: createAlert('Error al actualizar presentacion', 'danger'),
-            }))),
+            .catch(() => (Rx.Observable.of(
+                { type: ADD_ALERT, alert: createAlert('Error al actualizar presentacion', 'danger') },
+                { type: CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE },
+            ))),
         );
 }

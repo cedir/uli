@@ -13,6 +13,7 @@ import {
     AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
     SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR,
     UPDATE_MEDICACION_ESTUDIO_MODIFICAR,
+    CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE,
 } from './actionTypes';
 import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
 
@@ -187,6 +188,13 @@ const updateMedicacionEstudioReducer = (state, action) => {
     });
 };
 
+const cleanEstudiosDeUnaPresentacionReducer = state => ({
+    ...state,
+    estudios: [],
+    estudiosAgregar: [],
+    estudiosExistentes: [],
+});
+
 export function modificarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_DE_UNA_PRESENTACION:
@@ -214,6 +222,8 @@ export function modificarPresentacionReducer(state = initialState, action) {
             return setImporteMedicacionEstudioReducer(state, action);
         case UPDATE_MEDICACION_ESTUDIO_MODIFICAR:
             return updateMedicacionEstudioReducer(state, action);
+        case CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE:
+            return cleanEstudiosDeUnaPresentacionReducer(state);
         default:
             return state;
     }
