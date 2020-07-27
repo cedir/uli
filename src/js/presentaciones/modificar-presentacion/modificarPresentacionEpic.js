@@ -86,10 +86,10 @@ export function finalizarModificarPresentacionEpic(action$) {
                     { type: ADD_ALERT, alert: createAlert('Presentación actualizada y cerrada con éxito', 'success') },
                     { type: LOAD_PRESENTACION_DETAIL, data },
                 ))
-                .catch(() => (Rx.Observable.of(
+                .catch(e => (Rx.Observable.of(
                     { type: CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE },
                     { type: ADD_ALERT, alert: createAlert('Presentación actualizada con éxito', 'success') },
-                    { type: ADD_ALERT, alert: createAlert('Error al cerrar presentacion', 'danger') },
+                    { type: ADD_ALERT, alert: createAlert(e.response.error, 'danger') },
                 ))),
             )
             .catch(() => (Rx.Observable.of(

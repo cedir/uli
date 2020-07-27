@@ -79,9 +79,9 @@ export function finalizarNuevaPresentacionEpic(action$) {
                     { type: UPDATE_PRESENTACIONES_LIST, data },
                     { type: ADD_ALERT, alert: createAlert('Presentación creada y cerrada con éxito', 'success') },
                 ))
-                .catch(() => (Rx.Observable.of(
+                .catch(e => (Rx.Observable.of(
                     { type: ADD_ALERT, alert: createAlert('Presentación creada con éxito', 'success') },
-                    { type: ADD_ALERT, alert: createAlert('Error al cerrar presentacion', 'danger') },
+                    { type: ADD_ALERT, alert: createAlert(e.response.error, 'danger') },
                 ))),
             )
             .catch(() => (Rx.Observable.of({
