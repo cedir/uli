@@ -13,23 +13,15 @@ import {
     AGREGAR_ESTUDIOS_SIN_PRESENTAR_A_TABLA,
     ACTUALIZAR_INPUT_ESTUDIO_SIN_PRESENTAR,
     SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA,
+    CLEAN_ESTUDIOS_FROM_STORE,
+    UPDATE_MEDICACION_ESTUDIO_NUEVA,
 } from './actionTypes';
+import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
+import { sumarImportesEstudios } from '../presentacionHelper';
 
-const sumarImportesEstudios = (state) => {
-    const estudios = state.estudios;
-    let importesTotales = 0;
-    estudios.forEach((estudio) => {
-        /* eslint-disable no-mixed-operators */
-        // desactive esta regla porque me parecio que queda
-        // mas legible la operacion de esta forma (mezclando operadores)
-        importesTotales = importesTotales +
-            parseFloat(estudio.importe_estudio, 10) +
-            parseFloat(estudio.pension, 10) -
-            parseFloat(estudio.diferencia_paciente, 10) +
-            parseFloat(estudio.importe_medicacion) +
-            parseFloat(estudio.arancel_anestesia, 10) + 0.0001;
-    });
-    importesTotales -= 0.0001;
+const sumarImportesEstudiosSinPresentar = (state) => {
+    const estudios = [...state.estudios];
+    const importesTotales = sumarImportesEstudios(estudios);
 
     return {
         ...state,
@@ -46,7 +38,7 @@ const fetchEstudiosSinPresentarReducer = state => ({
 const loadEstudiosSinPresentarReducer = (state, action) => {
     const estudios = action.data.response;
     const obraSocial = action.obraSocial;
-    return sumarImportesEstudios({
+    return sumarImportesEstudiosSinPresentar({
         ...state,
         estudios,
         estudiosApiLoading: false,
@@ -66,7 +58,7 @@ const fetchEstudiosSinPresentarAgregarReducer = state => ({
 });
 
 const loadEstudiosSinPresentarAgregarReducer = (state, action) =>
-    sumarImportesEstudios({
+    sumarImportesEstudiosSinPresentar({
         ...state,
         estudiosAgregar: action.data.response,
         estudiosAgregarApiLoading: false,
@@ -87,7 +79,7 @@ const eliminarEstudioSinPresentarReducer = (state, action) => {
     const { estudios } = state;
     estudios.splice(action.index, 1);
 
-    return sumarImportesEstudios({
+    return sumarImportesEstudiosSinPresentar({
         ...state,
         estudios,
     });
@@ -124,7 +116,7 @@ const actualizarInputEstudioSinPresentarReducer = (state, action) => {
             break;
     }
 
-    return sumarImportesEstudios({
+    return sumarImportesEstudiosSinPresentar({
         ...state,
         estudios,
     });
@@ -134,7 +126,7 @@ const agregarEstudiosATablaReducer = (state, action) => {
     const { estudios } = state;
     const estudiosAgregar = action.estudios;
     const newEstudios = estudios.concat(estudiosAgregar);
-    return sumarImportesEstudios({
+    return sumarImportesEstudiosSinPresentar({
         ...state,
         estudios: newEstudios,
     });
@@ -148,7 +140,32 @@ const setImporteMedicacionEstudioReducer = (state, action) => {
     };
     estudios.splice(action.index, 1, newEstudio);
 
-    return sumarImportesEstudios({
+    return sumarImportesEstudiosSinPresentar({
+        ...state,
+        estudios,
+    });
+};
+
+const cleanEstudiosFromStore = state => ({
+    ...state,
+    estudios: [],
+    estudiosAgregar: [],
+    estudiosExistentes: [],
+});
+
+const updateMedicacionEstudioReducer = (state, action) => {
+    const estudios = [...state.estudios];
+    const medicaciones = estudios.length > 0 && action.data.response;
+    const { estudioId } = action;
+    const total = estudios.length > 0 && calculateImporteTotal(medicaciones);
+    /* eslint-disable eqeqeq */
+    const indexOfEstudio = estudios.length > 0 && estudios.findIndex(e => e.id == estudioId);
+    const newEstudio = {
+        ...estudios[indexOfEstudio],
+        importe_medicacion: total && total.toString(),
+    };
+    if (estudios.length > 0) estudios.splice(indexOfEstudio, 1, newEstudio);
+    return sumarImportesEstudiosSinPresentar({
         ...state,
         estudios,
     });
@@ -179,6 +196,10 @@ export function estudiosSinPresentarReducer(state = initialState, action) {
             return agregarEstudiosATablaReducer(state, action);
         case SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA:
             return setImporteMedicacionEstudioReducer(state, action);
+        case CLEAN_ESTUDIOS_FROM_STORE:
+            return cleanEstudiosFromStore(state);
+        case UPDATE_MEDICACION_ESTUDIO_NUEVA:
+            return updateMedicacionEstudioReducer(state, action);
         default:
             return state;
     }

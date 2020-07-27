@@ -4,33 +4,21 @@ import { connect } from 'react-redux';
 import { Table, Button }
     from 'react-bootstrap/dist/react-bootstrap';
 import '../../../../node_modules/print-this';
-
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
 import './MedicacionEstudioTable.css';
+import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
 
 class MedicacionEstudiosTable extends React.Component {
     constructor(props) {
         super(props);
-
         this.removeMedicacionEstudio = this.removeMedicacionEstudio.bind(this);
-        this.calculateImporteTotal = this.calculateImporteTotal.bind(this);
         this.printMedicacionEstudio = this.printMedicacionEstudio.bind(this);
     }
 
     removeMedicacionEstudio(medicacion) {
-        this.props.removeMedicacionEstudio(medicacion);
-    }
-
-    calculateImporteTotal() {
-        const medicaciones = this.props.medicaciones;
-        let importeTotal;
-        if (medicaciones.length > 0) {
-            importeTotal = medicaciones
-                .map(medicacion => parseFloat(medicacion.importe || medicacion.medicamento.importe))
-                .reduce((importeAcum, currentImporte) => importeAcum + currentImporte);
-        }
-        return importeTotal.toFixed(2);
+        const { seccion } = this.props.params;
+        this.props.removeMedicacionEstudio(medicacion, seccion);
     }
 
     printMedicacionEstudio() {
@@ -68,7 +56,7 @@ class MedicacionEstudiosTable extends React.Component {
                             )) }
                         </tbody>
                     </Table>
-                    <h3>Total: { this.calculateImporteTotal() }</h3>
+                    <h3>Total: { calculateImporteTotal(this.props.medicaciones) }</h3>
                     <Button
                       className='hide-on-print'
                       bsStyle='primary'
@@ -83,11 +71,12 @@ class MedicacionEstudiosTable extends React.Component {
     }
 }
 
-const { array, func } = PropTypes;
+const { array, func, object } = PropTypes;
 
 MedicacionEstudiosTable.propTypes = {
     medicaciones: array.isRequired,
     removeMedicacionEstudio: func.isRequired,
+    params: object.isRequired,
 };
 
 MedicacionEstudiosTable.defaultProps = {
@@ -102,8 +91,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        removeMedicacionEstudio: medicacion =>
-            dispatch({ type: DELETE_MEDICACION_ESTUDIO, medicacion }),
+        removeMedicacionEstudio: (medicacion, seccion) =>
+            dispatch({ type: DELETE_MEDICACION_ESTUDIO, medicacion, seccion }),
     };
 }
 

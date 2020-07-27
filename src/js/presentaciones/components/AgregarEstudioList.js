@@ -1,5 +1,5 @@
-/* eslint-disable object-shorthand */
 import React from 'react';
+import { Table } from 'react-bootstrap';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import PropTypes from 'prop-types';
 import AgreagarEstudioTableRow from './AgregarEstudioTableRow';
@@ -14,7 +14,13 @@ function AgregarEstudioList(props) {
     }
 
     return (
-        <table className='estudios-table'>
+        <Table
+          className='estudios-table'
+          striped
+          bordered
+          responsive='sm'
+          size='sm'
+        >
             <thead>
                 <tr>
                     <th
@@ -41,7 +47,7 @@ function AgregarEstudioList(props) {
                     ))
                 }
             </tbody>
-        </table>
+        </Table>
     );
 }
 

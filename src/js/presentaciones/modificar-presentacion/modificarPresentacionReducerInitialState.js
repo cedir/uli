@@ -1,7 +1,8 @@
 const initialState = {
     id: -1,
     estudios: [],
-    estudiosAgregar: [1],
+    estudiosExistentes: [],
+    estudiosAgregar: [],
     obraSocial: {},
     importesTotales: 0,
     fecha: '',

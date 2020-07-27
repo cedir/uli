@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Modal, Button } from 'react-bootstrap';
 import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
-import MedicacionEstudio from './MedicacionEstudio';
 import AgregarEstudioList from './AgregarEstudioList';
 import AlertModal from '../../utilities/components/alert/AlertModal';
 
@@ -161,39 +160,6 @@ export function ModalComprobante(props) {
         </Modal>
     );
 }
-export function ModalMedicacion(props) {
-    const { show, onClickClose, onClickDo, estudio } = props;
-    return (
-        <div className='modal-medicacion-box'>
-            <Modal show={ show } className='modal-medicacion'>
-                <Modal.Header>
-                    <strong>Medicacion</strong>
-                </Modal.Header>
-                <Modal.Body>
-                    <MedicacionEstudio
-                      estudio={ estudio }
-                    />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button
-                      bsStyle='primary'
-                      onClick={ onClickDo }
-                      type='button'
-                    >
-                        Cargar
-                    </Button>
-                    <Button
-                      bsStyle='danger'
-                      onClick={ onClickClose }
-                      type='button'
-                    >
-                        Cerrar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </div>
-    );
-}
 
 export function ModalFinalizarGuardar(props) {
     const {
@@ -293,11 +259,4 @@ ModalFinalizarGuardar.propTypes = {
     updatePresentacion: func,
     finalizarPresentacion: func.isRequired,
     id: number.isRequired,
-};
-
-ModalMedicacion.propTypes = {
-    show: bool.isRequired,
-    onClickClose: func.isRequired,
-    onClickDo: func.isRequired,
-    estudio: object.isRequired,
 };

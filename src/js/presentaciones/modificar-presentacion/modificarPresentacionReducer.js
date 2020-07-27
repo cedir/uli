@@ -12,7 +12,10 @@ import {
     ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION,
     AGREGAR_ESTUDIOS_DE_UNA_PRESENTACION_A_TABLA,
     SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR,
+    UPDATE_MEDICACION_ESTUDIO_MODIFICAR,
+    CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE,
 } from './actionTypes';
+import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
 
 const sumarImportesEstudios = (state) => {
     const { estudios } = state;
@@ -44,7 +47,8 @@ const fetchEstudiosDeUnaPresentacionReducer = state => ({
 
 
 const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
-    const estudios = action.data.response;
+    const estudios = [...action.data.response];
+    const estudiosExistentes = [...action.data.response];
     const fecha = action.fecha;
     const obraSocial = action.obraSocial;
     const id = action.id;
@@ -54,6 +58,7 @@ const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
         id,
         obraSocial,
         estudios,
+        estudiosExistentes,
         estudiosApiLoading: false,
         fecha,
     });
@@ -62,6 +67,7 @@ const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
 const loadEstudiosDeUnaPresentacionErrorReducer = state => ({
     ...state,
     estudios: [],
+    estudiosAgregar: [],
     estudiosApiLoading: false,
 });
 
@@ -70,9 +76,10 @@ const fetchEstudiosDeUnaPresentacionAgregarReducer = state => ({
     estudiosAgregarApiLoading: true,
 });
 
-
 const loadEstudiosDeUnaPresentacionAgregarReducer = (state, action) => {
-    const estudiosAgregar = action.data.response;
+    const { estudiosExistentes } = state;
+    const estudiosSinPresentar = action.data.response;
+    const estudiosAgregar = estudiosSinPresentar.concat(estudiosExistentes);
 
     return sumarImportesEstudios({
         ...state,
@@ -111,7 +118,7 @@ const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
     switch (action.input) {
         case 'nro_de_orden':
             newEstudio.nro_de_orden = action.value;
-            estudios.splice(action.payload.index, 1, newEstudio);
+            estudios.splice(action.index, 1, newEstudio);
             break;
         case 'importe_estudio':
             newEstudio.importe_estudio = action.value;
@@ -163,6 +170,31 @@ const setImporteMedicacionEstudioReducer = (state, action) => {
     });
 };
 
+const updateMedicacionEstudioReducer = (state, action) => {
+    const estudios = [...state.estudios];
+    const medicaciones = estudios.length > 0 && action.data.response;
+    const { estudioId } = action;
+    const total = estudios.length > 0 && calculateImporteTotal(medicaciones);
+    /* eslint-disable eqeqeq */
+    const indexOfEstudio = estudios.length > 0 && estudios.findIndex(e => e.id == estudioId);
+    const newEstudio = {
+        ...estudios[indexOfEstudio],
+        importe_medicacion: total && total.toString(),
+    };
+    if (estudios.length > 0) estudios.splice(indexOfEstudio, 1, newEstudio);
+    return sumarImportesEstudios({
+        ...state,
+        estudios,
+    });
+};
+
+const cleanEstudiosDeUnaPresentacionReducer = state => ({
+    ...state,
+    estudios: [],
+    estudiosAgregar: [],
+    estudiosExistentes: [],
+});
+
 export function modificarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_DE_UNA_PRESENTACION:
@@ -188,6 +220,10 @@ export function modificarPresentacionReducer(state = initialState, action) {
             return agregarEstudiosDeUnaPresentacionATablaReducer(state, action);
         case SET_IMPORTE_MEDICACION_ESTUDIO_MODIFICAR:
             return setImporteMedicacionEstudioReducer(state, action);
+        case UPDATE_MEDICACION_ESTUDIO_MODIFICAR:
+            return updateMedicacionEstudioReducer(state, action);
+        case CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE:
+            return cleanEstudiosDeUnaPresentacionReducer(state);
         default:
             return state;
     }

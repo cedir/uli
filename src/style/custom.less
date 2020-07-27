@@ -32,6 +32,7 @@
 /* PRESENTACIONES SCREEN STYLING */
 
 .tab-navigator {
+  overflow: auto;
   &.empty {
     overflow: scroll;
   }
@@ -60,9 +61,35 @@
   }
 
   .content-1 {
-    width: 130rem;
+    width: 100%;
     height: auto;
     padding-bottom: 5rem;
+  }
+}
+
+.estudios-table {
+  height: auto;
+  input {
+    padding: 0.2rem 0.5rem;
+    max-width: 120px;
+    float: right;
+    text-align: right;
+  }
+  td.fecha {
+    min-width: 100px;
+    cursor: pointer;
+    &:hover {
+      font-weight: 600;
+    }
+  }
+  td {
+    text-align: center;
+  }
+  td.medicacion {
+    text-align: right;
+  }
+  .delete-icon:hover {
+    color: red;
   }
 }
 
@@ -99,67 +126,6 @@
   }
   div.gravado {
     width: 25%;
-  }
-}
-
-.estudios-table {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 2s, visibility 0s;
-  &.hidden {
-    transition: opacity 2s, visibility 0s linear 2s !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-  }
-  width: 100%;
-  height: auto;
-  background-color: #eee;
-  border-spacing: 0.7rem;
-  border-collapse: separate;
-  display: table-cell;
-  align-items: center;
-  justify-content: center;
-  td {
-    border-radius: 0.2rem;
-    background-color: lighten(#eee, 5%);
-    text-align: center;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-  }
-  th {
-    width: 10rem;
-  }
-  th.icon {
-    width: 4rem;
-  }
-  th.delete {
-    width: 4rem;
-  }
-  th.practica {
-    width: 10rem;
-  }
-  td.medicacion {
-    text-align: right;
-  }
-  input {
-    width: 7rem;
-    text-align: right;
-  }
-  i {
-    outline: none;
-    color: lighten(@navy, 30%);
-    font-size: 1.5rem;
-    &:hover {
-      color: lighten(@navy, 10%);
-    }
-  }
-  i.active {
-    color: @navy;
-  }
-  i.trash-icon {
-    color: inherit;
-  }
-  i.trash-icon-active {
-    color: red;
   }
 }
 
@@ -200,9 +166,9 @@
   justify-content: flex-end;
   .modal-body {
     max-width: 90rem;
-    table {
-      height: 50rem;
+    .table-responsive {
       overflow: scroll;
+      height: 50rem;
       .mdi-icon {
         font-size: 15px;
         transition: color 0s;

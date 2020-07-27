@@ -1,14 +1,12 @@
 import React from 'react';
-import PropTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap/dist/react-bootstrap';
 import initialState from '../presentacionReducerInitialState';
 import PresentacionesObraSocialTableRow from './PresentacionesObraSocialTableRow';
-import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 
 function PresentacionesObraSocialList(props) {
-    /* eslint-disable no-unused-vars */
-    const { presentaciones, idObraSocial, fetchPresentacionesObraSocial } = props;
+    const { presentaciones } = props;
 
     return (
         <div>
@@ -39,12 +37,10 @@ function PresentacionesObraSocialList(props) {
     );
 }
 
-const { array, number } = PropTypes;
+const { array } = PropTypes;
 
 PresentacionesObraSocialList.propTypes = {
     presentaciones: array,
-    idObraSocial: number,
-    fetchPresentacionesObraSocial: func,
 };
 
 PresentacionesObraSocialList.defaultProps = {
@@ -59,14 +55,5 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchPresentacionesObraSocial: idObraSocial => dispatch({
-            type: FETCH_PRESENTACIONES_OBRA_SOCIAL,
-            id: idObraSocial,
-        }),
-    };
-}
-
 export default
-    connect(mapStateToProps, mapDispatchToProps)(PresentacionesObraSocialList);
+    connect(mapStateToProps, null)(PresentacionesObraSocialList);

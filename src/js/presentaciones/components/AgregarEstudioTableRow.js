@@ -10,6 +10,10 @@ function AgregarEstudioTableRow(props) {
         id, fecha, paciente, practica, medico,
     } = props.estudios;
 
+    const { descripcion } = practica;
+    const descripcionAbreviada = descripcion &&
+        descripcion.slice(0, 8).concat(descripcion.length > 8 ? '...' : '');
+
     return (
         <tr
           className={ selected ? 'selected' : '' }
@@ -25,7 +29,7 @@ function AgregarEstudioTableRow(props) {
                 { paciente.apellido }
             </td>
             <td title={ practica.descripcion }>
-                { practica.abreviatura }
+                { practica.abreviatura || descripcionAbreviada }
             </td>
             <td title={ ` ${medico.nombre} ${medico.apellido} ` }>
                 { medico.apellido }

@@ -6,7 +6,6 @@ import { REDUX_LOGGER_STATUS } from './config';
 // import reduxImmutableStateInvariant from 'redux-immutable-state-invariant';
 // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
 
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const initialState = {
@@ -27,7 +26,6 @@ if (process.env.NODE_ENV !== 'production' && REDUX_LOGGER_STATUS) {
     middleware = applyMiddleware(epicMiddleware);
 }
 
-
 const store = createStore(
     rootReducer,
     locallyPersistedState,
@@ -35,7 +33,6 @@ const store = createStore(
     // TODO: esto lo hace asi Cory. Ver para que sirve y probarlo.
     // applyMiddleware(thunk, reduxImmutableStateInvariant())
 );
-
 store.subscribe(() => {
     const token = store.getState().login.token;
     const sucursal = store.getState().login.sucursal;

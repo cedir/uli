@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -39,13 +40,15 @@ class AddMedicamentosForm extends Component {
             medicamento: params.medicamento[0].id,
             importe: params.importe,
         };
-        this.props.addMedicacionToEstudio(medicacion);
+        const { seccion } = this.props.params;
+        this.props.addMedicacionToEstudio(medicacion, seccion);
     }
 
     addDefaultMedicacionToEstudio() {
         const estudioId = this.props.estudioDetail.id;
+        const { seccion } = this.props.params;
 
-        this.props.addDefaultMedicacionToEstudio(estudioId);
+        this.props.addDefaultMedicacionToEstudio(estudioId, seccion);
     }
 
     render() {
@@ -55,8 +58,10 @@ class AddMedicamentosForm extends Component {
             && selectedMedicamento[0].id);
         const { presentacion } = this.props.estudioDetail;
         const estadoPresentacion = presentacion ? presentacion.estado : undefined;
+        const isPresentacionEditable =
+            estadoPresentacion === ESTADOS.ABIERTO;
         const lockEstudioEdition =
-            (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
+            (estadoPresentacion && isPresentacionEditable) || false;
         return (
             <div>
                 <form onSubmit={ this.props.handleSubmit(this.addMedicacionToEstudio) }>
@@ -120,6 +125,7 @@ AddMedicamentosForm.propTypes = {
     resetImporteMedicamento: func.isRequired,
     addMedicacionToEstudio: func.isRequired,
     addDefaultMedicacionToEstudio: func.isRequired,
+    params: object.isRequired,
 };
 
 AddMedicamentosForm.defaultProps = {
@@ -156,10 +162,10 @@ function mapDispatchToProps(dispatch) {
         setImporte: medicamento =>
             dispatch(change('searchMedicamentos', 'importe', medicamento.importe)),
         resetImporteMedicamento: () => dispatch(change('searchMedicamentos', 'importe', '')),
-        addMedicacionToEstudio: medicacion =>
-            dispatch({ type: ADD_MEDICACION_ESTUDIO, medicacion }),
-        addDefaultMedicacionToEstudio: estudioId =>
-            dispatch({ type: ADD_DEFAULT_MEDICACION_ESTUDIO, estudioId }),
+        addMedicacionToEstudio: (medicacion, seccion) =>
+            dispatch({ type: ADD_MEDICACION_ESTUDIO, medicacion, seccion }),
+        addDefaultMedicacionToEstudio: (estudioId, seccion) =>
+            dispatch({ type: ADD_DEFAULT_MEDICACION_ESTUDIO, estudioId, seccion }),
     };
 }
 

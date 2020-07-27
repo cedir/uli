@@ -1,25 +1,20 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import PropTypes, { array } from 'prop-types';
+import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import DeleteIcon from 'mdi-react/DeleteIcon';
-import { ModalMedicacion } from './Modals';
-import { CLEAN_MEDICACIONES_STORE } from '../../medicacion/actionTypes';
 
 function EstudiosDeUnaPresentacionTableRow(props) {
     const {
         estudio,
         actualizarInput,
         eliminarEstudio,
-        cleanMedicacionesStore,
-        setImporteMedicacionEstudio,
-        medicaciones,
         index,
+        seccion,
     } = props;
     const {
         fecha, nro_de_orden: orden,
         paciente, practica, medico,
-        importe_estudio,
+        importe_estudio, id,
         pension, diferencia_paciente,
         importe_medicacion: medicacion,
         arancel_anestesia,
@@ -30,8 +25,8 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     const [pensionState, setPension] = useState(parseFloat(pension, 10));
     const [difPaciente, setDifPaciente] = useState(parseFloat(diferencia_paciente, 10));
     const [anestesista, setAnestesista] = useState(parseFloat(arancel_anestesia, 10));
-    const [medicacionClicked, setMedicacionClicked] = useState(false);
     const [renderRow, setRenderRow] = useState(true);
+    const history = useHistory();
 
     const deleteIconClickHandler = () => {
         setRenderRow(!renderRow);
@@ -39,69 +34,49 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     };
 
     const onChangeHandler = (e) => {
-        let parsedValue = parseFloat(e.target.value, 10);
-        if (isNaN(parsedValue)) {
-            parsedValue = 0;
-        }
-        actualizarInput(index, e.target.name, parsedValue);
+        const inputValue = e.target.value || '0.00';
+        actualizarInput(index, e.target.name, inputValue);
         switch (e.target.name) {
             case 'nro_de_orden':
                 setNroOrden(e.target.value);
                 break;
             case 'importe_estudio':
-                setImporte(parsedValue);
+                setImporte(inputValue);
                 break;
             case 'pension':
-                setPension(parsedValue);
+                setPension(inputValue);
                 break;
             case 'diferencia_paciente':
-                setDifPaciente(parsedValue);
+                setDifPaciente(inputValue);
                 break;
             case 'arancel_anestesia':
-                setAnestesista(parsedValue);
+                setAnestesista(inputValue);
                 break;
             default:
                 break;
         }
     };
 
-    const medicacionCloseHandler = () => {
-        setMedicacionClicked(false);
-        cleanMedicacionesStore();
-    };
+    const { descripcion } = practica;
+    const descripcionAbreviada = descripcion &&
+        descripcion.slice(0, 8).concat(descripcion.length > 8 ? '...' : '');
 
-    const medicacionChargeHandler = () => {
-        cleanMedicacionesStore();
-        setMedicacionClicked(false);
-        let total = 0;
-        if (medicaciones.length > 0) {
-            const reducer = (importeAcum, currentValue) => importeAcum + currentValue;
-            total = medicaciones
-                .map(med => parseFloat(med.importe || med.medicamento.importe))
-                .reduce(reducer);
-        }
-        setImporteMedicacionEstudio(total, index);
-    };
-
-    const isMedicacionActive = medicacionClicked ? 'active' : '';
-
+    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     return (
-        <tr className='table-row'>
-            <td className='icon'>
-                <i
-                  className={ `fa fa-plus-circle fa-1x ${isMedicacionActive}` }
-                  tabIndex='0'
-                  role='button'
-                  onClick={ () => setMedicacionClicked(true) }
-                />
+        <tr className='estudios-table-row'>
+            <td
+              className='fecha'
+              onClick={ seccion && (() => history.push(`/estudios/detail/${id}/${seccion}`)) }
+            >
+                { fecha }
             </td>
-            <td className='fecha'>{ fecha }</td>
             <td>
                 <input
                   type='text'
                   value={ nroOrden }
                   placeholder={ nroOrden }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='nro_de_orden'
                 />
             </td>
@@ -110,96 +85,72 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                 { paciente.apellido }
             </td>
             <td title={ practica.descripcion } className='practica'>
-                { practica.abreviatura }
+                { practica.abreviatura || descripcionAbreviada }
             </td>
             <td title={ `${medico.nombre} ${medico.apellido}` }>
                 { medico.apellido }
             </td>
             <td>
                 <input
-                  type='number'
+                  type='text'
                   value={ importe }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='importe_estudio'
                 />
             </td>
             <td>
                 <input
-                  type='number'
+                  type='text'
                   value={ pensionState }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='pension'
                 />
             </td>
             <td>
                 <input
-                  type='number'
+                  type='text'
                   value={ difPaciente }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='diferencia_paciente'
                 />
             </td>
             <td className='medicacion'>
-                <div>{ parseFloat(medicacion, 10).toFixed(2) }</div>
+                <div>{ medicacion }</div>
             </td>
             <td>
                 <input
-                  type='number'
-                  value={ parseFloat(anestesista, 10) }
+                  type='text'
+                  value={ anestesista }
                   onChange={ e => onChangeHandler(e) }
+                  onFocus={ e => e.target.select() }
                   name='arancel_anestesia'
                 />
             </td>
             { eliminarEstudio && (
-                <td className='delete'>
+                <td>
                     <DeleteIcon
+                      className='delete-icon'
                       tabIndex='0'
                       role='button'
                       onClick={ deleteIconClickHandler }
                     />
                 </td>
             )}
-            <td style={ { display: 'none' } }>
-                <ModalMedicacion
-                  show={ medicacionClicked }
-                  onClickClose={ medicacionCloseHandler }
-                  onClickDo={ medicacionChargeHandler }
-                  estudio={ estudio }
-                />
-            </td>
         </tr>
     );
 }
 
-const { object, func, number } = PropTypes;
+const { object, func, number, string } = PropTypes;
 
 EstudiosDeUnaPresentacionTableRow.propTypes = {
     estudio: object.isRequired,
     eliminarEstudio: func,
     index: number.isRequired,
     actualizarInput: func.isRequired,
-    cleanMedicacionesStore: func.isRequired,
-    setImporteMedicacionEstudio: func.isRequired,
-    medicaciones: array,
+    seccion: string.isRequired,
 };
 
-EstudiosDeUnaPresentacionTableRow.defaultProps = {
-    medicaciones: [],
-};
-
-function mapStateToProps(state) {
-    return {
-        medicaciones: state.medicacionReducer.medicaciones,
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        cleanMedicacionesStore: () =>
-            dispatch({
-                type: CLEAN_MEDICACIONES_STORE,
-            }),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EstudiosDeUnaPresentacionTableRow);
+export default EstudiosDeUnaPresentacionTableRow;

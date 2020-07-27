@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import ImportesTotales from './ImportesTotales';
@@ -13,6 +14,7 @@ function EstudiosDeUnaPresentacionList(props) {
         eliminarEstudio,
         actualizarInput,
         setImporteMedicacionEstudio,
+        seccion,
     } = props;
 
     if (estudiosApiLoading) {
@@ -20,23 +22,28 @@ function EstudiosDeUnaPresentacionList(props) {
     }
 
     return (
-        <div>
-            <table id='tabla' className='estudios-table'>
+        <Fragment>
+            <Table
+              className='estudios-table'
+              striped
+              bordered
+              responsive
+              size='sm'
+            >
                 <thead>
-                    <tr className='titles'>
-                        <th className='first-row-title icon' />
+                    <tr>
                         <th>Fecha</th>
                         <th>Orden</th>
                         <th>Afiliado</th>
                         <th>Paciente</th>
-                        <th className='practica'>Practica</th>
+                        <th>Practica</th>
                         <th>Actuante</th>
                         <th>Importe</th>
                         <th>Pension</th>
                         <th>Dif. Paciente</th>
                         <th className='medicacion'>Medicacion</th>
                         <th>Anestesista</th>
-                        <th className='last-row-title delete' />
+                        <th />
                     </tr>
                 </thead>
                 <tbody>
@@ -48,17 +55,18 @@ function EstudiosDeUnaPresentacionList(props) {
                           eliminarEstudio={ eliminarEstudio }
                           actualizarInput={ actualizarInput }
                           setImporteMedicacionEstudio={ setImporteMedicacionEstudio }
+                          seccion={ seccion }
                         />))
                     }
                 </tbody>
-            </table>
+            </Table>
             { estudios.length !== 0 &&
                 <ImportesTotales
                   estudios={ importesTotales }
                   gravado={ gravado && parseFloat(gravado, 10) }
                 />
             }
-        </div>
+        </Fragment>
     );
 }
 
@@ -72,6 +80,7 @@ EstudiosDeUnaPresentacionList.propTypes = {
     gravado: string,
     eliminarEstudio: func,
     actualizarInput: func.isRequired,
+    seccion: string.isRequired,
 };
 
 export default EstudiosDeUnaPresentacionList;

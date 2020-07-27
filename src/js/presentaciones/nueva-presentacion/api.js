@@ -1,11 +1,5 @@
 import { get, post } from '../../utilities/rest';
-import store from '../../app/configureStore';
-
-export function getSucursal() {
-    const sucursal = store.getState().login.sucursal;
-
-    return sucursal;
-}
+import { getSucursal } from '../../app/storeHelper';
 
 export function getEstudiosSinPresentarObraSocial(idObraSocial) {
     const sucursal = getSucursal();
@@ -15,6 +9,7 @@ export function getEstudiosSinPresentarObraSocial(idObraSocial) {
 }
 
 export function guardarNuevaPresentacionObraSocial(presentacion) {
+    const sucursal = getSucursal();
     const url = '/api/presentacion/';
     const body = {
         obra_social_id: presentacion.obra_social_id,
@@ -22,7 +17,7 @@ export function guardarNuevaPresentacionObraSocial(presentacion) {
         fecha: presentacion.fecha,
         estado: presentacion.estado,
         estudios: presentacion.estudios,
-        sucursal: getSucursal(),
+        sucursal,
     };
     const headers = {
         'Content-Type': 'application/json',
