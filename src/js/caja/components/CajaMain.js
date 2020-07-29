@@ -18,7 +18,12 @@ class CajaMain extends Component {
 
         this.openSearchCajaModal = this.openSearchCajaModal.bind(this);
         this.closeSearchCajaModal = this.closeSearchCajaModal.bind(this);
+        this.getMontoAcumulado = this.getMontoAcumulado.bind(this);
         this.props.fetchMovimientosCaja();
+    }
+
+    getMontoAcumulado() {
+        return this.props.movimientos.length > 0 ? this.props.movimientos[0].monto_acumulado : '0';
     }
 
     openSearchCajaModal() {
@@ -29,13 +34,14 @@ class CajaMain extends Component {
         this.setState({ modalOpened: false });
     }
 
+
     render() {
         return (
             <div className='ibox-content'>
                 <div className='pull-right'>
                     <CajaActionBar
                       montoAcumulado={
-                        this.props.movimientos[0].monto_acumulado
+                        this.getMontoAcumulado()
                     }
                       openSearchCajaModal={ this.openSearchCajaModal }
                     />
