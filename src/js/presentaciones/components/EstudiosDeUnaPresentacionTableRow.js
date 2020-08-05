@@ -80,7 +80,9 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                   name='nro_de_orden'
                 />
             </td>
-            <td>{ paciente.id }</td>
+            <td title={ paciente.informacion_extra ? `${paciente.informacion_extra}` : 'No hay información extra' }>
+                { paciente.nroAfiliado }
+            </td>
             <td title={ `${paciente.nombre} ${paciente.apellido}` }>
                 { paciente.apellido }
             </td>

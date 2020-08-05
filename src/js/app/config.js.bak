@@ -1,0 +1,7 @@
+export const config = {
+    baseUrl: 'http://127.0.0.1:8000',
+    // baseUrl: 'https://staging.cedir.com.ar',
+    // baseUrl: 'https://cedir.com.ar',
+};
+
+export const REDUX_LOGGER_STATUS = 0;
