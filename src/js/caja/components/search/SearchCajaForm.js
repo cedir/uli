@@ -194,17 +194,23 @@ function mapStateToProps(state) {
             : [];
 
     return {
+        tiposMovimiento: [
+            'General',
+            'Honorario Médico',
+            'Honorario Anestesista',
+            'Medicación',
+            'Práctica',
+            'Descartable',
+            'Material Específico',
+            'Pago a Médico',
+            'Consultorio 1',
+            'Coseguro',
+            'Egreso',
+            'Consultorio 2',
+        ],
         medicosActuantes: state.medicoReducer.medicosActuantes,
         selectedMedicoActuante: medicoActuante,
         medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
-        tiposMovimiento: [
-            'Sin definir',
-            'General',
-            'Honorarios medico',
-            'Honorarios anestesista',
-            'Practica',
-            'Descartables',
-        ],
     };
 }
 
