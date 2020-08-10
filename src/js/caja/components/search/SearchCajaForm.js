@@ -6,7 +6,6 @@ import { Row, Col, Button }
     from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
-import CheckboxRF from '../../../utilities/CheckboxRF';
 import { FETCH_MEDICOS_ACTUANTES } from '../../../medico/actionTypes';
 import { required, dateBeforeThan, dateAfterThan }
     from '../../../utilities/reduxFormValidators';
@@ -63,6 +62,7 @@ class SearchCajaForm extends Component {
     }
 
     render() {
+        const booleanOptions = [{ text: 'Si', value: 'true' }, { text: 'No', value: 'false' }];
         return (
             <form
               onSubmit={
@@ -130,20 +130,30 @@ class SearchCajaForm extends Component {
                         </Row>
                         <Row>
                             <Col md={ 6 }>
-                                <Row>
-                                    <Field
-                                      className='padding-left-15'
-                                      name='pagado'
-                                      label='Pagado'
-                                      component={ CheckboxRF }
-                                    />
-                                    <Field
-                                      className='padding-left-15'
-                                      name='incluirEstudio'
-                                      label='Incluir estudio'
-                                      component={ CheckboxRF }
-                                    />
-                                </Row>
+                                <Field
+                                  className='padding-left-15'
+                                  name='pagado'
+                                  label='Pagado'
+                                  componentClass='select'
+                                  component={ InputRF }
+                                  selectOptions={ booleanOptions }
+                                  renderOptionHandler={ opcion => opcion.text }
+                                  selectionValue='value'
+                                  optionKey='text'
+                                />
+                            </Col>
+                            <Col md={ 6 }>
+                                <Field
+                                  className='padding-left-15'
+                                  name='incluirEstudio'
+                                  label='Incluir estudio'
+                                  componentClass='select'
+                                  component={ InputRF }
+                                  selectOptions={ booleanOptions }
+                                  renderOptionHandler={ opcion => opcion.text }
+                                  selectionValue='value'
+                                  optionKey='text'
+                                />
                             </Col>
                         </Row>
                         <Row>
