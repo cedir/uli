@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 class ListadoMovimientosTableRow extends Component {
     render() {
         const movimiento = this.props.movimiento;
-        const estadoLabel = movimiento.estado ? 'pagado' : 'no pagado';
         const monto = movimiento.monto;
         const montoAcumulado = movimiento.monto_acumulado;
         const descripcionMovimiento = movimiento.concepto;
@@ -30,7 +29,6 @@ class ListadoMovimientosTableRow extends Component {
             <tr>
                 <td>{ fechaMovimiento } {horaMovimiento}</td>
                 <td>{ tipoMovimiento }</td>
-                <td>{ estadoLabel }</td>
                 <td className='col-md-3'>{ descripcionMovimiento }</td>
                 <td>{ monto }</td>
                 <td>{ montoAcumulado }</td>

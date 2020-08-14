@@ -62,7 +62,7 @@ class SearchCajaForm extends Component {
     }
 
     render() {
-        const booleanOptions = [{ text: 'Si', value: 'true' }, { text: 'No', value: 'false' }];
+        const booleanOptions = [{ text: 'Si', value: 'True' }, { text: 'No', value: 'False' }];
         return (
             <form
               onSubmit={
@@ -129,19 +129,6 @@ class SearchCajaForm extends Component {
                             </Col>
                         </Row>
                         <Row>
-                            <Col md={ 6 }>
-                                <Field
-                                  className='padding-left-15'
-                                  name='pagado'
-                                  label='Pagado'
-                                  componentClass='select'
-                                  component={ InputRF }
-                                  selectOptions={ booleanOptions }
-                                  renderOptionHandler={ opcion => opcion.text }
-                                  selectionValue='value'
-                                  optionKey='text'
-                                />
-                            </Col>
                             <Col md={ 6 }>
                                 <Field
                                   className='padding-left-15'
