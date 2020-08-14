@@ -80,6 +80,7 @@ class SearchCajaForm extends Component {
                                   componentClass='select'
                                   component={ InputRF }
                                   selectOptions={ this.props.tiposMovimiento }
+                                  nullValue=''
                                 />
                             </Col>
                             <Col md={ 6 }>
@@ -140,6 +141,7 @@ class SearchCajaForm extends Component {
                                   renderOptionHandler={ opcion => opcion.text }
                                   selectionValue='value'
                                   optionKey='text'
+                                  nullValue=''
                                 />
                             </Col>
                         </Row>
