@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import PropTypes, { object, string } from 'prop-types';
 import { connect } from 'react-redux';
 import TabNavigator from '../../components/TabNavigator';
@@ -36,6 +36,7 @@ function ModificarPresentacionPage(props) {
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
+    const [fechaNueva, setFechaNueva] = useState('');
 
     const showPage = !estudios.length && !estudiosApiLoading;
 
@@ -52,7 +53,13 @@ function ModificarPresentacionPage(props) {
                 >
                     <div className='form-group'>
                         <label htmlFor='date' className='control-label'>Fecha</label>
-                        <input name='date' className='form-control' value={ fecha } type='date' />
+                        <input
+                          name='date'
+                          className='form-control'
+                          type='date'
+                          value={ fechaNueva || fecha }
+                          onChange={ event => setFechaNueva(event.target.value) }
+                        />
                     </div>
                 </div>
                 <TabNavigator
@@ -67,7 +74,7 @@ function ModificarPresentacionPage(props) {
                   idObraSocial={ obraSocial.id }
                   updatePresentacion={ updatePresentacion }
                   finalizarPresentacion={ finalizarPresentacion }
-                  fecha={ fecha }
+                  fecha={ fechaNueva }
                 >
                     <EstudiosDeUnaPresentacionList
                       estudios={ estudios }
