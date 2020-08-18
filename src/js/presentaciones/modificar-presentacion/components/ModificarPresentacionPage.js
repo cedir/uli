@@ -36,7 +36,7 @@ function ModificarPresentacionPage(props) {
         obraSocial,
     } = props;
     const comprobanteState = useComprobanteState();
-    const [fechaNueva, setFecha] = useState(fecha);
+    const [fechaNueva, setFechaNueva] = useState('');
 
     const showPage = !estudios.length && !estudiosApiLoading;
 
@@ -57,8 +57,8 @@ function ModificarPresentacionPage(props) {
                           name='date'
                           className='form-control'
                           type='date'
-                          value={ fechaNueva }
-                          onChange={ e => setFecha(e.target.value) }
+                          value={ fechaNueva || fecha }
+                          onChange={ event => setFechaNueva(event.target.value) }
                         />
                     </div>
                 </div>
