@@ -1,4 +1,5 @@
 import { get, update, post, patch } from '../utilities/rest';
+import { getSucursal } from '../app/storeHelper';
 
 
 function createSearchQueryString(fetchEstudiosParams) {
@@ -18,7 +19,8 @@ function createSearchQueryString(fetchEstudiosParams) {
         `&paciente_nombre=${nombrePaciente}&paciente_apellido=${apellidoPaciente}` +
         `&medico_nombre=${nombreMedicoActuante}&medico_apellido=${apellidoMedicoActuante}` +
         `&medico_solicitante_nombre=${nombreMedicoSolicitante}` +
-        `&medico_solicitante_apellido=${apellidoMedicoSolicitante}&page=${actualPage}&ordering=-fecha,-id`;
+        `&medico_solicitante_apellido=${apellidoMedicoSolicitante}&page=${actualPage}&ordering=-fecha,-id` +
+        `&sucursal=${getSucursal()}`;
     return queryString;
 }
 
@@ -29,17 +31,18 @@ export function getEstudios(fetchEstudiosParams) {
 }
 
 export function getEstudiosImpagos(medico) {
-    const url = `/api/medico/${medico.id}/get_estudios_pendientes_de_pago/`;
+    const url = `/api/medico/${medico.id}/get_estudios_pendientes_de_pago/?sucursal=${getSucursal()}`;
     return get(url);
 }
 
 export function getEstudio(estudioId) {
-    const url = `/api/estudio/${estudioId}/`;
+    const url = `/api/estudio/${estudioId}/?sucursal=${getSucursal()}`;
 
     return get(url);
 }
 
 export function updateEstudio(estudio) {
+    const sucursal = getSucursal();
     const url = `/api/estudio/${estudio.id}/`;
     const body = {
         fecha: estudio.fecha,
@@ -51,12 +54,14 @@ export function updateEstudio(estudio) {
         obra_social: estudio.obraSocial[0].id,
         motivo: estudio.motivo || '',
         informe: estudio.informe || '',
+        sucursal,
     };
 
     return update(url, body);
 }
 
 export function createEstudio(estudio) {
+    const sucursal = getSucursal();
     const url = '/api/estudio/';
     const body = {
         fecha: estudio.fecha,
@@ -68,32 +73,41 @@ export function createEstudio(estudio) {
         obra_social: estudio.obraSocial[0].id,
         motivo: estudio.motivo || '',
         informe: estudio.informe || '',
+        sucursal,
     };
 
     return post(url, body);
 }
 
 export function realizarPagoContraFactura(datos) {
+    const sucursal = getSucursal();
     const url = `/api/estudio/${datos.estudio_id}/realizar_pago_contra_factura/`;
     const body = {
         pago_contra_factura: datos.pago_contra_factura,
+        sucursal,
     };
 
     return update(url, body);
 }
 
 export function anularPagoContraFactura(datos) {
+    const sucursal = getSucursal();
     const url = `/api/estudio/${datos.estudio_id}/anular_pago_contra_factura/`;
+    const body = {
+        sucursal,
+    };
 
-    return update(url);
+    return update(url, body);
 }
 
 export function actualizaImportesEstudio(importes) {
+    const sucursal = getSucursal();
     const url = `/api/estudio/${importes.estudio_id}/update_importes/`;
     const body = {
         pension: importes.pension,
         diferencia_paciente: importes.diferencia_paciente,
         arancel_anestesia: importes.arancel_anestesia,
+        sucursal,
     };
 
     return patch(url, body);
