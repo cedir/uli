@@ -17,7 +17,6 @@ class ListadoMovimientosTable extends Component {
                         <tr>
                             <th>Fecha Movimiento</th>
                             <th>Tipo Movimiento</th>
-                            <th>Estado</th>
                             <th>Descripcion Movimiento</th>
                             <th>Monto</th>
                             <th>Monto acumulado</th>
