@@ -5,13 +5,9 @@ import { Table }
     from 'react-bootstrap/dist/react-bootstrap';
 
 import ListadoMovimientosTableRow from './ListadoMovimientosTableRow';
-import { FETCH_MOVIMIENTOS_CAJA } from '../actionTypes';
 import './ListadoMovimientosTable.css';
 
 class ListadoMovimientosTable extends Component {
-    componentDidMount() {
-        this.props.fetchMovimientosCaja();
-    }
 
     render() {
         return (
@@ -20,9 +16,7 @@ class ListadoMovimientosTable extends Component {
                     <thead>
                         <tr>
                             <th>Fecha Movimiento</th>
-                            <th>Usuario</th>
                             <th>Tipo Movimiento</th>
-                            <th>Estado</th>
                             <th>Descripcion Movimiento</th>
                             <th>Monto</th>
                             <th>Monto acumulado</th>
@@ -50,24 +44,10 @@ class ListadoMovimientosTable extends Component {
     }
 }
 
-const { array, func } = propTypes;
+const { array } = propTypes;
 
 ListadoMovimientosTable.propTypes = {
     movimientos: array.isRequired,
-    fetchMovimientosCaja: func.isRequired,
 };
 
-function mapStateToProps(state) {
-    return {
-        movimientos: state.cajaReducer.movimientos,
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchMovimientosCaja: () =>
-            dispatch({ type: FETCH_MOVIMIENTOS_CAJA }),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListadoMovimientosTable);
+export default connect(null, null)(ListadoMovimientosTable);

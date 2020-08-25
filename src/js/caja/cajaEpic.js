@@ -5,8 +5,8 @@ import { FETCH_MOVIMIENTOS_CAJA, LOAD_MOVIMIENTOS_CAJA, LOAD_MOVIMIENTOS_CAJA_ER
 
 export function movimientosCajaEpic(action$) {
     return action$.ofType(FETCH_MOVIMIENTOS_CAJA)
-        .mergeMap(() =>
-            getMovimientos()
+        .mergeMap(action =>
+            getMovimientos(action.searchParams)
             .map(data => ({ type: LOAD_MOVIMIENTOS_CAJA, data }))
             .catch(() => (Rx.Observable.of({
                 type: LOAD_MOVIMIENTOS_CAJA_ERROR,

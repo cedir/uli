@@ -23,6 +23,7 @@ class InputRF extends React.Component {
             customErrorMsg,
             // this is the key to be used for tracking repeated options
             optionKey,
+            nullValue = null,
             ...props
         } = this.props;
         let { componentClass } = this.props;
@@ -74,7 +75,7 @@ class InputRF extends React.Component {
                                 <option key={ key } value={ value }>{optionDisplay}</option>
                             );
                         });
-                        options.unshift(<option key={ uuidv1() } value={ null }>--</option>);
+                        options.unshift(<option key={ uuidv1() } value={ nullValue }>--</option>);
                         return options;
                     })()
                     }
@@ -108,6 +109,7 @@ InputRF.propTypes = {
     renderOptionHandler: func,
     customErrorMsg: string,
     optionKey: string,
+    nullValue: string,
 };
 
 export default InputRF;

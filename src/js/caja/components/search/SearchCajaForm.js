@@ -6,12 +6,12 @@ import { Row, Col, Button }
     from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
-import CheckboxRF from '../../../utilities/CheckboxRF';
 import { FETCH_MEDICOS_ACTUANTES } from '../../../medico/actionTypes';
 import { required, dateBeforeThan, dateAfterThan }
     from '../../../utilities/reduxFormValidators';
 import './SearchCajaForm.css';
 
+import { FETCH_MOVIMIENTOS_CAJA } from '../../actionTypes';
 
 class SearchCajaForm extends Component {
     constructor(props) {
@@ -21,6 +21,8 @@ class SearchCajaForm extends Component {
             this.setSelectedMedicoActuante.bind(this);
         this.searchMedicosActuantes =
             this.searchMedicosActuantes.bind(this);
+        this.searchMovimientosCaja =
+            this.searchMovimientosCaja.bind(this);
     }
 
     setSelectedMedicoActuante(selection) {
@@ -46,6 +48,11 @@ class SearchCajaForm extends Component {
         return `${option.apellido}, ${option.nombre}`;
     }
 
+    searchMovimientosCaja(searchParams) {
+        this.props.closeModal();
+        this.props.fetchMovimientosCaja(searchParams);
+    }
+
     renderMedicoMenuItem(option) {
         return (
             <div style={ { width: '100%' } } key={ option.id }>
@@ -55,8 +62,14 @@ class SearchCajaForm extends Component {
     }
 
     render() {
+        const booleanOptions = [{ text: 'Si', value: 'True' }, { text: 'No', value: 'False' }];
         return (
-            <form className='search-caja-form'>
+            <form
+              onSubmit={
+                this.props.handleSubmit(searchParams => this.searchMovimientosCaja(searchParams))
+              }
+              className='search-caja-form'
+            >
                 <Row>
                     <Col md={ 12 }>
                         <Row>
@@ -67,6 +80,7 @@ class SearchCajaForm extends Component {
                                   componentClass='select'
                                   component={ InputRF }
                                   selectOptions={ this.props.tiposMovimiento }
+                                  nullValue=''
                                 />
                             </Col>
                             <Col md={ 6 }>
@@ -117,20 +131,18 @@ class SearchCajaForm extends Component {
                         </Row>
                         <Row>
                             <Col md={ 6 }>
-                                <Row>
-                                    <Field
-                                      className='padding-left-15'
-                                      name='pagado'
-                                      label='Pagado'
-                                      component={ CheckboxRF }
-                                    />
-                                    <Field
-                                      className='padding-left-15'
-                                      name='incluirEstudio'
-                                      label='Incluir estudio'
-                                      component={ CheckboxRF }
-                                    />
-                                </Row>
+                                <Field
+                                  className='padding-left-15'
+                                  name='incluirEstudio'
+                                  label='Incluir estudio'
+                                  componentClass='select'
+                                  component={ InputRF }
+                                  selectOptions={ booleanOptions }
+                                  renderOptionHandler={ opcion => opcion.text }
+                                  selectionValue='value'
+                                  optionKey='text'
+                                  nullValue=''
+                                />
                             </Col>
                         </Row>
                         <Row>
@@ -138,8 +150,8 @@ class SearchCajaForm extends Component {
                                 <Button
                                   className='pull-right'
                                   bsStyle='primary'
+                                  type='submit'
                                   disabled={ !this.props.valid }
-                                  onClick={ this.props.closeModal }
                                 >
                                     Buscar Movimientos
                                 </Button>
@@ -155,7 +167,7 @@ class SearchCajaForm extends Component {
 const { func, array, bool } = PropTypes;
 
 SearchCajaForm.propTypes = {
-    // handleSubmit: func.isRequired,
+    handleSubmit: func.isRequired,
     valid: bool.isRequired,
     closeModal: func.isRequired,
     fetchMedicosActuantes: func.isRequired,
@@ -164,6 +176,7 @@ SearchCajaForm.propTypes = {
     medicosActuantes: array,
     tiposMovimiento: array,
     medicoActuanteApiLoading: bool.isRequired,
+    fetchMovimientosCaja: func.isRequired,
 };
 
 const SearchCajaFormReduxForm = reduxForm({
@@ -180,17 +193,23 @@ function mapStateToProps(state) {
             : [];
 
     return {
+        tiposMovimiento: [
+            'General',
+            'Honorario Médico',
+            'Honorario Anestesista',
+            'Medicación',
+            'Práctica',
+            'Descartable',
+            'Material Específico',
+            'Pago a Médico',
+            'Consultorio 1',
+            'Coseguro',
+            'Egreso',
+            'Consultorio 2',
+        ],
         medicosActuantes: state.medicoReducer.medicosActuantes,
         selectedMedicoActuante: medicoActuante,
         medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
-        tiposMovimiento: [
-            'Sin definir',
-            'General',
-            'Honorarios medico',
-            'Honorarios anestesista',
-            'Practica',
-            'Descartables',
-        ],
     };
 }
 
@@ -200,6 +219,8 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
         setSelectedMedicoActuante: medicoActuante =>
             dispatch(change('searchCaja', 'medicoActuante', medicoActuante)),
+        fetchMovimientosCaja: searchParams =>
+            dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams }),
     };
 }
 
