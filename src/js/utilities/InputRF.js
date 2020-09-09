@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, FormControl }
     from 'react-bootstrap';
 import uuidv1 from 'uuid/v1';
+import { HelpBlock } from 'react-bootstrap/dist/react-bootstrap';
 
 class InputRF extends React.Component {
     render() {
         const {
             input,
             label,
+            helpText,
             type,
             meta: { error, warning, touched },
             staticField,
@@ -46,6 +48,7 @@ class InputRF extends React.Component {
         return (
             <FormGroup validationState={ validationState }>
                 { !hideLabel && <ControlLabel>{ label }</ControlLabel> }
+                { helpText && <HelpBlock>{ helpText }</HelpBlock>}
                 { !staticField && componentClass !== 'select' && <FormControl
                   { ...input }
                   type={ type }
@@ -103,6 +106,7 @@ InputRF.propTypes = {
     meta: object,
     staticField: bool,
     hideLabel: bool,
+    helpText: string,
     componentClass: string,
     selectOptions: array,
     selectionValue: string,

@@ -51,6 +51,8 @@ class ImportesEstudio extends React.Component {
         const estadoPresentacion = presentacion ? presentacion.estado : undefined;
         const lockEstudioEdition =
             (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
+        const valorAproximadoPension = this.props.estudioDetail ?
+            this.props.estudioDetail.obra_social.valor_aproximado_pension : 0;
         return (
             <div>
                 <form>
@@ -60,6 +62,7 @@ class ImportesEstudio extends React.Component {
                           type='number'
                           staticField={ lockEstudioEdition }
                           label='Pension'
+                          helpText={ `Valor aproximado: ${valorAproximadoPension}` }
                           component={ InputRF }
                         />
                         <Field
