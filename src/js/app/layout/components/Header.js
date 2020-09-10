@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import { LOGOUT } from '../../../login/actionTypes';
+import { getSucursal } from '../../storeHelper';
 
 class Header extends React.Component {
     constructor(props) {
@@ -15,6 +16,13 @@ class Header extends React.Component {
         if (!this.props.token) {
             this.props.history.push('/login');
         }
+    }
+
+    getNombreSucursal() {
+        if (getSucursal() === 2) {
+            return 'Hospital Italiano';
+        }
+        return 'C.E.Di.R';
     }
 
     logout() {
@@ -34,6 +42,7 @@ class Header extends React.Component {
                         </a>
                     </div>
                     <ul className='nav navbar-top-links navbar-right'>
+                        <span>{ this.getNombreSucursal() }</span>
                         <li>
                             <Button bsStyle='link' onClick={ this.logout } >
                                 <i className='fa fa-sign-out' /> Log out

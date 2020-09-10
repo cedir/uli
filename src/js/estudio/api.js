@@ -1,4 +1,5 @@
 import { get, update, post, patch } from '../utilities/rest';
+import { getSucursal } from '../app/storeHelper';
 
 
 function createSearchQueryString(fetchEstudiosParams) {
@@ -18,7 +19,8 @@ function createSearchQueryString(fetchEstudiosParams) {
         `&paciente_nombre=${nombrePaciente}&paciente_apellido=${apellidoPaciente}` +
         `&medico_nombre=${nombreMedicoActuante}&medico_apellido=${apellidoMedicoActuante}` +
         `&medico_solicitante_nombre=${nombreMedicoSolicitante}` +
-        `&medico_solicitante_apellido=${apellidoMedicoSolicitante}&page=${actualPage}&ordering=-fecha,-id`;
+        `&medico_solicitante_apellido=${apellidoMedicoSolicitante}&page=${actualPage}&ordering=-fecha,-id` +
+        `&sucursal=${getSucursal()}`;
     return queryString;
 }
 
@@ -29,7 +31,7 @@ export function getEstudios(fetchEstudiosParams) {
 }
 
 export function getEstudiosImpagos(medico) {
-    const url = `/api/medico/${medico.id}/get_estudios_pendientes_de_pago/`;
+    const url = `/api/medico/${medico.id}/get_estudios_pendientes_de_pago/?sucursal=${getSucursal()}`;
     return get(url);
 }
 
@@ -57,6 +59,7 @@ export function updateEstudio(estudio) {
 }
 
 export function createEstudio(estudio) {
+    const sucursal = getSucursal();
     const url = '/api/estudio/';
     const body = {
         fecha: estudio.fecha,
@@ -68,6 +71,7 @@ export function createEstudio(estudio) {
         obra_social: estudio.obraSocial[0].id,
         motivo: estudio.motivo || '',
         informe: estudio.informe || '',
+        sucursal,
     };
 
     return post(url, body);
