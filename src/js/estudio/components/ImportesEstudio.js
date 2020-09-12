@@ -8,7 +8,6 @@ import InputRF from '../../utilities/InputRF';
 import { ESTADOS } from '../constants';
 import { ACTULIZA_IMPORTES_ESTUDIO, REALIZAR_PAGO_CONTRA_FACTURA, ANULAR_PAGO_CONTRA_FACTURA } from '../actionTypes';
 
-
 class ImportesEstudio extends React.Component {
 
     constructor(props) {
@@ -46,13 +45,12 @@ class ImportesEstudio extends React.Component {
     }
 
     render() {
-        const { presentacion } = this.props.estudioDetail;
+        const { presentacion, obra_social: obraSocial } = this.props.estudioDetail;
         const esPagoContraFactura = this.props.esPagoContraFactura;
         const estadoPresentacion = presentacion ? presentacion.estado : undefined;
         const lockEstudioEdition =
             (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
-        const valorAproximadoPension = this.props.estudioDetail ?
-            this.props.estudioDetail.obra_social.valor_aproximado_pension : 0;
+        const valorAproximadoPension = obraSocial ? obraSocial.valor_aproximado_pension : 0;
         return (
             <div>
                 <form>
