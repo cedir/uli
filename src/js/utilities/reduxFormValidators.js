@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import constants from './constants';
 
-const { dniLength } = constants.validations;
+const { dniMinLength, dniMaxLength } = constants.validations;
 
 export function required(value) {
     const valCopy = typeof value === 'undefined' ? '' : `${value}`;
@@ -21,17 +21,17 @@ export function requiredOption(value) {
 
 export function alpha(value) {
     const valueWithoutSpaces = value ? value.replace(/\s+/g, '') : '';
-    return isEmpty(valueWithoutSpaces) || isAlpha(valueWithoutSpaces) ? undefined : 'Solo letras';
+    return isEmpty(valueWithoutSpaces) || isAlpha(valueWithoutSpaces, 'es-ES') ? undefined : 'Solo letras';
 }
 
 export function alphaNum(value) {
     const valueWithoutSpaces = value ? value.replace(/\s+/g, '') : '';
-    return isEmpty(valueWithoutSpaces) || isAlphanumeric(valueWithoutSpaces) ? undefined : 'Solo alfanumericos';
+    return isEmpty(valueWithoutSpaces) || isAlphanumeric(valueWithoutSpaces, 'es-ES') ? undefined : 'Solo alfanumericos';
 }
 
 export function dni(value) {
     const val = typeof value === 'undefined' ? '' : value;
-    return isEmpty(val) || (isInt(val) && isLength(val, { min: dniLength, max: dniLength })) ? undefined : 'No es un dni valido';
+    return isEmpty(val) || (isInt(val) && isLength(val, { min: dniMinLength, max: dniMaxLength })) ? undefined : 'No es un dni valido';
 }
 
 export function dateBeforeThan(fieldToCompareName, errorMessage) {

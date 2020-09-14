@@ -8,7 +8,6 @@ import InputRF from '../../utilities/InputRF';
 import { ESTADOS } from '../constants';
 import { ACTULIZA_IMPORTES_ESTUDIO, REALIZAR_PAGO_CONTRA_FACTURA, ANULAR_PAGO_CONTRA_FACTURA } from '../actionTypes';
 
-
 class ImportesEstudio extends React.Component {
 
     constructor(props) {
@@ -46,11 +45,12 @@ class ImportesEstudio extends React.Component {
     }
 
     render() {
-        const { presentacion } = this.props.estudioDetail;
+        const { presentacion, obra_social: obraSocial } = this.props.estudioDetail;
         const esPagoContraFactura = this.props.esPagoContraFactura;
         const estadoPresentacion = presentacion ? presentacion.estado : undefined;
         const lockEstudioEdition =
             (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
+        const valorAproximadoPension = obraSocial ? obraSocial.valor_aproximado_pension : 0;
         return (
             <div>
                 <form>
@@ -60,6 +60,7 @@ class ImportesEstudio extends React.Component {
                           type='number'
                           staticField={ lockEstudioEdition }
                           label='Pension'
+                          helpText={ `Valor aproximado: ${valorAproximadoPension}` }
                           component={ InputRF }
                         />
                         <Field

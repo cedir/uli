@@ -1,5 +1,6 @@
 export default {
     validations: {
-        dniLength: 8,
+        dniMinLength: 7,
+        dniMaxLength: 8,
     },
 };
