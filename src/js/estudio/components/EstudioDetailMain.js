@@ -100,8 +100,14 @@ class EstudioDetailMain extends Component {
 
     getPacienteText(paciente) {
         if (paciente.length === 1) {
-            const { apellido, nombre, dni } = paciente[0];
-            return `${apellido}, ${nombre} - DNI: ${dni}`;
+            const {
+                apellido,
+                nombre,
+                dni,
+                nroAfiliado,
+                informacion_extra: informacionExtra,
+            } = paciente[0];
+            return `${apellido}, ${nombre} - DNI: ${dni} - AFILIADO: ${nroAfiliado || '-'}, ${informacionExtra || '-'}`;
         }
 
         return 'vacio';
