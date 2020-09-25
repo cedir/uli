@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, Button }
-    from 'react-bootstrap/dist/react-bootstrap';
+import { Table } from 'react-bootstrap/dist/react-bootstrap';
 import '../../../../node_modules/print-this';
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
@@ -34,6 +33,14 @@ class MedicacionEstudiosTable extends React.Component {
                     <h5>No hay medicaciones cargadas para este estudio</h5>
                 }
                 { this.props.medicaciones.length > 0 && <div id='medic'>
+                    {
+                        this.props.showPaciente &&
+                        <div>
+                            <h3> Paciente: </h3>
+                            <h3> Práctica: </h3>
+                            <h3> Fecha: </h3>
+                        </div>
+                    }
                     <Table
                       striped
                       responsive
@@ -57,13 +64,6 @@ class MedicacionEstudiosTable extends React.Component {
                         </tbody>
                     </Table>
                     <h3>Total: { calculateImporteTotal(this.props.medicaciones) }</h3>
-                    <Button
-                      className='hide-on-print'
-                      bsStyle='primary'
-                      onClick={ this.printMedicacionEstudio }
-                    >
-                      Imprimir medicacion
-                    </Button>
                 </div>
                 }
             </div>
@@ -71,12 +71,13 @@ class MedicacionEstudiosTable extends React.Component {
     }
 }
 
-const { array, func, object } = PropTypes;
+const { array, func, object, bool } = PropTypes;
 
 MedicacionEstudiosTable.propTypes = {
     medicaciones: array.isRequired,
     removeMedicacionEstudio: func.isRequired,
     params: object.isRequired,
+    showPaciente: bool.isRequired,
 };
 
 MedicacionEstudiosTable.defaultProps = {
