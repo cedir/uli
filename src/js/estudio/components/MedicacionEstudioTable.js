@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table } from 'react-bootstrap/dist/react-bootstrap';
+import { Table, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import '../../../../node_modules/print-this';
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
@@ -35,11 +35,15 @@ class MedicacionEstudiosTable extends React.Component {
                 { this.props.medicaciones.length > 0 && <div id='medic'>
                     {
                         this.props.showPaciente &&
-                        <div>
-                            <h3> Paciente: </h3>
-                            <h3> Práctica: </h3>
-                            <h3> Fecha: </h3>
-                        </div>
+                        <Row>
+                            <Col xs={ 6 }>
+                                <ListGroup>
+                                    <ListGroupItem>Paciente: { `${this.props.paciente.nombre}, ${this.props.paciente.apellido}` }</ListGroupItem>
+                                    <ListGroupItem>Práctica: { `${this.props.descripcionPractica}` }</ListGroupItem>
+                                    <ListGroupItem>Fecha: { `${this.props.fechaEstudio}` }</ListGroupItem>
+                                </ListGroup>
+                            </Col>
+                        </Row>
                     }
                     <Table
                       striped
@@ -71,13 +75,16 @@ class MedicacionEstudiosTable extends React.Component {
     }
 }
 
-const { array, func, object, bool } = PropTypes;
+const { array, func, object, bool, string } = PropTypes;
 
 MedicacionEstudiosTable.propTypes = {
     medicaciones: array.isRequired,
     removeMedicacionEstudio: func.isRequired,
     params: object.isRequired,
     showPaciente: bool.isRequired,
+    paciente: object.isRequired,
+    descripcionPractica: string.isRequired,
+    fechaEstudio: string.isRequired,
 };
 
 MedicacionEstudiosTable.defaultProps = {

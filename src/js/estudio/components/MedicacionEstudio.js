@@ -1,11 +1,16 @@
 import React, { useRef, useCallback, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useReactToPrint } from 'react-to-print';
 import { useParams } from 'react-router';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import MedicacionEstudioTable from './MedicacionEstudioTable';
 import AddMedicamentosForm from './AddMedicamentosForm';
 
-function MedicacionEstudio() {
+function MedicacionEstudio({
+    paciente,
+    descripcionPractica,
+    fechaEstudio,
+ }) {
     const params = useParams();
     const componentRef = useRef(null);
 
@@ -22,6 +27,7 @@ function MedicacionEstudio() {
         onAfterPrint: () => { setShowPaciente(false); },
         removeAfterPrint: true,
     });
+
     return (
         <div>
             <AddMedicamentosForm params={ params } />
@@ -30,10 +36,21 @@ function MedicacionEstudio() {
               params={ params }
               showPaciente={ showPaciente }
               ref={ componentRef }
+              paciente={ paciente }
+              descripcionPractica={ descripcionPractica }
+              fechaEstudio={ fechaEstudio }
             />
             <Button bsStyle='primary' onClick={ handlePrint }> Imprimir medicación</Button>
         </div>
     );
 }
+
+const { string, object } = PropTypes;
+
+MedicacionEstudio.propTypes = {
+    paciente: object.isRequired,
+    descripcionPractica: string.isRequired,
+    fechaEstudio: string.isRequired,
+};
 
 export default MedicacionEstudio;
