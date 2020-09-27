@@ -36,7 +36,7 @@ class MedicacionEstudiosTable extends React.Component {
                     {
                         this.props.showPaciente &&
                         <Row>
-                            <Col xs={ 6 }>
+                            <Col xs={ 8 }>
                                 <ListGroup>
                                     <ListGroupItem>Paciente: { `${this.props.paciente.nombre}, ${this.props.paciente.apellido}` }</ListGroupItem>
                                     <ListGroupItem>Práctica: { `${this.props.descripcionPractica}` }</ListGroupItem>

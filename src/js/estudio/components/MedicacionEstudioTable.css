@@ -15,4 +15,14 @@
         max-height: none;
         overflow-y: visible!important;
     }
+
+    .medicacion-table tr {
+        padding: 0;
+        font-size: 13px;
+    }
+
+    body {
+        padding: 3em;
+        padding-top: 13em;
+    }
 }

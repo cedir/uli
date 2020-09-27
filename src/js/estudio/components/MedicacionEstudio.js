@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import MedicacionEstudioTable from './MedicacionEstudioTable';
 import AddMedicamentosForm from './AddMedicamentosForm';
+import './MedicacionEstudioTable.css';
 
 function MedicacionEstudio({
     paciente,
