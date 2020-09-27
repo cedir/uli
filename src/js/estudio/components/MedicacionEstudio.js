@@ -9,7 +9,7 @@ import './MedicacionEstudioTable.css';
 
 function MedicacionEstudio({
     paciente,
-    descripcionPractica,
+    practica,
     fechaEstudio,
  }) {
     const params = useParams();
@@ -38,7 +38,7 @@ function MedicacionEstudio({
               showPaciente={ showPaciente }
               ref={ componentRef }
               paciente={ paciente }
-              descripcionPractica={ descripcionPractica }
+              practica={ practica }
               fechaEstudio={ fechaEstudio }
             />
             <Button bsStyle='primary' onClick={ handlePrint }> Imprimir medicación</Button>
@@ -49,9 +49,9 @@ function MedicacionEstudio({
 const { string, object } = PropTypes;
 
 MedicacionEstudio.propTypes = {
-    paciente: object.isRequired,
-    descripcionPractica: string.isRequired,
-    fechaEstudio: string.isRequired,
+    paciente: object,
+    practica: object,
+    fechaEstudio: string,
 };
 
 export default MedicacionEstudio;

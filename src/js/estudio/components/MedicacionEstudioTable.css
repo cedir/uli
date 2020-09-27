@@ -21,8 +21,9 @@
         font-size: 13px;
     }
 
-    body {
-        padding: 3em;
-        padding-top: 13em;
-    }
+}
+
+@page {
+    margin: 3em;
+    margin-top: 13em;
 }

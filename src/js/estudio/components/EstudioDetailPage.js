@@ -48,7 +48,7 @@ function EstudioDetailPage({
                     <h3 style={ { marginBottom: '25px' } } >Medicacion</h3>
                     <MedicacionEstudio
                       paciente={ paciente }
-                      descripcionPractica={ practica.descripcion }
+                      practica={ practica }
                       fechaEstudio={ fecha }
                     />
                 </Col>

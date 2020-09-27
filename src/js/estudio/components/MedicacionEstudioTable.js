@@ -27,6 +27,7 @@ class MedicacionEstudiosTable extends React.Component {
     }
 
     render() {
+        const { paciente, practica, fechaEstudio } = this.props;
         return (
             <div>
                 { this.props.medicaciones.length === 0 &&
@@ -38,9 +39,9 @@ class MedicacionEstudiosTable extends React.Component {
                         <Row>
                             <Col xs={ 8 }>
                                 <ListGroup>
-                                    <ListGroupItem>Paciente: { `${this.props.paciente.nombre}, ${this.props.paciente.apellido}` }</ListGroupItem>
-                                    <ListGroupItem>Práctica: { `${this.props.descripcionPractica}` }</ListGroupItem>
-                                    <ListGroupItem>Fecha: { `${this.props.fechaEstudio}` }</ListGroupItem>
+                                    <ListGroupItem>Paciente: { paciente && `${paciente.nombre}, ${paciente.apellido}` }</ListGroupItem>
+                                    <ListGroupItem>Práctica: { practica && `${practica.descripcion}` }</ListGroupItem>
+                                    <ListGroupItem>Fecha: { fechaEstudio && `${fechaEstudio}` }</ListGroupItem>
                                 </ListGroup>
                             </Col>
                         </Row>
@@ -82,9 +83,9 @@ MedicacionEstudiosTable.propTypes = {
     removeMedicacionEstudio: func.isRequired,
     params: object.isRequired,
     showPaciente: bool.isRequired,
-    paciente: object.isRequired,
-    descripcionPractica: string.isRequired,
-    fechaEstudio: string.isRequired,
+    paciente: object,
+    practica: object,
+    fechaEstudio: string,
 };
 
 MedicacionEstudiosTable.defaultProps = {
