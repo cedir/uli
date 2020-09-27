@@ -6,7 +6,7 @@ import { Form, Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import PropTypes from 'prop-types';
 import { FETCH_COMPROBANTES_FILTRO } from '../actionTypes';
 
-function FilterComprobantes({ ejecutar_busqueda }) {
+function FilterComprobantes({ ejecutar_busqueda, history }) {
     const [searching, setSearching] = useState(false);
 
     const handleSave = (event) => {
@@ -15,29 +15,39 @@ function FilterComprobantes({ ejecutar_busqueda }) {
         ejecutar_busqueda(event.target.filtro.value, setSearching);
     };
 
+    const createComprobante = () => history.push('/comprobantes/create');
+
     return (
         <Form
           inline
           onSubmit={ handleSave }
         >
             <Row className='search-grid'>
-                <Col md={ 9 } style={ { border: 'none' } } >
+                <Col md={ 10 }>
                     <Field
                       name='filtro'
                       type='text'
                       placeholder='Buscar...'
-                      align='left'
                       component='input'
                       className='form-control'
                     />
                 </Col>
-                <Col md={ 3 } style={ { border: 'none' } }>
+                <Col md={ 2 }>
                     <Button
                       type='submit'
                       bsStyle='primary'
                       disabled={ searching }
+                      style={ { marginTop: 0 } }
                     >
                         Buscar
+                    </Button>
+                    <Button
+                      bsStyle='primary'
+                      disabled={ searching }
+                      style={ { marginTop: 0 } }
+                      onClick={ createComprobante }
+                    >
+                        Agregar
                     </Button>
                 </Col>
             </Row>
@@ -45,8 +55,11 @@ function FilterComprobantes({ ejecutar_busqueda }) {
     );
 }
 
+const { func, object } = PropTypes;
+
 FilterComprobantes.propTypes = {
-    ejecutar_busqueda: PropTypes.func.isRequired,
+    ejecutar_busqueda: func.isRequired,
+    history: object.isRequired,
 };
 
 const FilterComprobantesForm =
