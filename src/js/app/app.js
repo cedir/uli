@@ -22,7 +22,7 @@ import ModificarPresentacionPage from '../presentaciones/modificar-presentacion/
 import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
 import CajaMain from '../caja/components/CajaMain';
 import Comprobantes from '../comprobantes/components/Comprobantes';
-import CreateComprobante from '../comprobantes/components/CreateComprobante';
+import CreateComprobante from '../comprobantes/components/crear-comprobante/CreateComprobante';
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
 import ScriptCrearEstudios from '../utilities/components/ScriptCrearEstudios';
