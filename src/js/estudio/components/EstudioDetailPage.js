@@ -28,7 +28,7 @@ function EstudioDetailPage({
         setPagoContraFactura,
     ] = useState(false);
 
-    const { paciente, practica } = estudioDetail;
+    const { paciente, practica, fecha } = estudioDetail;
 
     return (
         <div className='container-fluid'>
@@ -46,7 +46,11 @@ function EstudioDetailPage({
                 </Col>
                 <Col md={ 4 } style={ { border: 'none' } }>
                     <h3 style={ { marginBottom: '25px' } } >Medicacion</h3>
-                    <MedicacionEstudio />
+                    <MedicacionEstudio
+                      paciente={ paciente }
+                      practica={ practica }
+                      fechaEstudio={ fecha }
+                    />
                 </Col>
                 <Col md={ 4 } style={ { border: 'none' } }>
                     <h3 style={ { marginBottom: '25px' } } >Facturacion</h3>
