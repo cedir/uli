@@ -16,6 +16,7 @@ function MedicacionEstudio({
     const componentRef = useRef(null);
 
     const [showPaciente, setShowPaciente] = useState(false);
+    const [filtrarEspecificos, setFiltrarEspecificos] = useState(false);
 
     const medicacionContent = useCallback(
         () => componentRef.current,
@@ -24,8 +25,14 @@ function MedicacionEstudio({
 
     const handlePrint = useReactToPrint({
         content: medicacionContent,
-        onBeforeGetContent: () => { setShowPaciente(true); },
-        onAfterPrint: () => { setShowPaciente(false); },
+        onBeforeGetContent: () => {
+            setShowPaciente(true);
+            setFiltrarEspecificos(true);
+        },
+        onAfterPrint: () => {
+            setShowPaciente(false);
+            setFiltrarEspecificos(false);
+        },
         removeAfterPrint: true,
     });
 
@@ -40,6 +47,7 @@ function MedicacionEstudio({
               paciente={ paciente }
               practica={ practica }
               fechaEstudio={ fechaEstudio }
+              filtrarEspecificos={ filtrarEspecificos }
             />
             <Button bsStyle='primary' onClick={ handlePrint }> Imprimir medicación</Button>
         </div>

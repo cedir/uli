@@ -21,12 +21,16 @@ class MedicacionEstudiosTable extends React.Component {
 
     render() {
         const { paciente, practica, fechaEstudio } = this.props;
+        let medicaciones = this.props.medicaciones;
+        if (this.props.filtrarEspecificos) {
+            medicaciones = medicaciones.filter(medicacion => medicacion.medicamento.tipo !== 'Mat Esp');
+        }
         return (
             <div>
-                { this.props.medicaciones.length === 0 &&
+                { medicaciones.length === 0 &&
                     <h5>No hay medicaciones cargadas para este estudio</h5>
                 }
-                { this.props.medicaciones.length > 0 && <div id='medic'>
+                { medicaciones.length > 0 && <div id='medic'>
                     {
                         this.props.showPaciente &&
                         <Row>
@@ -64,7 +68,7 @@ class MedicacionEstudiosTable extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            { this.props.medicaciones.map(medicacion => (
+                            { medicaciones.map(medicacion => (
                                 <MedicacionEstudioTableRow
                                   key={ medicacion.id }
                                   medicacion={ medicacion }
@@ -73,7 +77,7 @@ class MedicacionEstudiosTable extends React.Component {
                             )) }
                         </tbody>
                     </Table>
-                    <h3>Total: { calculateImporteTotal(this.props.medicaciones) }</h3>
+                    <h3>Total: { calculateImporteTotal(medicaciones) }</h3>
                 </div>
                 }
             </div>
@@ -91,6 +95,7 @@ MedicacionEstudiosTable.propTypes = {
     paciente: object,
     practica: object,
     fechaEstudio: string,
+    filtrarEspecificos: bool,
 };
 
 MedicacionEstudiosTable.defaultProps = {
