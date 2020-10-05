@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
+import { Table, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 import '../../../../node_modules/print-this';
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
@@ -12,18 +12,11 @@ class MedicacionEstudiosTable extends React.Component {
     constructor(props) {
         super(props);
         this.removeMedicacionEstudio = this.removeMedicacionEstudio.bind(this);
-        this.printMedicacionEstudio = this.printMedicacionEstudio.bind(this);
     }
 
     removeMedicacionEstudio(medicacion) {
         const { seccion } = this.props.params;
         this.props.removeMedicacionEstudio(medicacion, seccion);
-    }
-
-    printMedicacionEstudio() {
-        $('#medic').printThis({
-            importStyle: true,
-        });
     }
 
     render() {
@@ -38,17 +31,29 @@ class MedicacionEstudiosTable extends React.Component {
                         this.props.showPaciente &&
                         <Row>
                             <Col xs={ 8 }>
-                                <ListGroup>
-                                    <ListGroupItem>Paciente: { paciente && `${paciente.nombre}, ${paciente.apellido}` }</ListGroupItem>
-                                    <ListGroupItem>Práctica: { practica && `${practica.descripcion}` }</ListGroupItem>
-                                    <ListGroupItem>Fecha: { fechaEstudio && `${fechaEstudio}` }</ListGroupItem>
-                                </ListGroup>
+                                <Table condensed striped bordered>
+                                    <tbody>
+                                        <tr>
+                                            <td>Paciente</td>
+                                            { paciente && <td>{ `${paciente.nombre}, ${paciente.apellido}` }</td> }
+                                        </tr>
+                                        <tr>
+                                            <td>Práctica</td>
+                                            { practica && <td> { `${practica.descripcion}` }</td> }
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha</td>
+                                            { fechaEstudio && <td> {`${fechaEstudio}`}</td> }
+                                        </tr>
+                                    </tbody>
+                                </Table>
                             </Col>
                         </Row>
                     }
                     <Table
                       striped
                       responsive
+                      condensed
                       className='medicacion-table'
                     >
                         <thead>

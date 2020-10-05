@@ -20,6 +20,12 @@
         padding: 0;
         font-size: 13px;
     }
+    
+    #medic tr td {
+        font-size: 13px;
+        padding: 0.3em;
+        margin: 0.3em;
+    }
 
 }
 
