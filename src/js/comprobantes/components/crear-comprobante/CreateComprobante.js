@@ -13,8 +13,12 @@ function CreateComprobante() {
             <Panel header='Cliente' collapsible defaultExpanded>
                 <ClienteForm />
             </Panel>
-            <CabeceraForm />
-            <LineaForm />
+            <Panel header='Cabecera' collapsible defaultExpanded>
+                <CabeceraForm />
+            </Panel>
+            <Panel header='Lineas' collapsible defaultExpanded>
+                <LineaForm />
+            </Panel>
             <Button
               type='submit'
               bsStyle='primary'
