@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Table, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
+import { Table, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 import '../../../../node_modules/print-this';
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
@@ -12,7 +12,6 @@ class MedicacionEstudiosTable extends React.Component {
     constructor(props) {
         super(props);
         this.removeMedicacionEstudio = this.removeMedicacionEstudio.bind(this);
-        this.printMedicacionEstudio = this.printMedicacionEstudio.bind(this);
     }
 
     removeMedicacionEstudio(medicacion) {
@@ -20,35 +19,45 @@ class MedicacionEstudiosTable extends React.Component {
         this.props.removeMedicacionEstudio(medicacion, seccion);
     }
 
-    printMedicacionEstudio() {
-        $('#medic').printThis({
-            importStyle: true,
-        });
-    }
-
     render() {
         const { paciente, practica, fechaEstudio } = this.props;
+        let medicaciones = this.props.medicaciones;
+        if (this.props.filtrarEspecificos) {
+            medicaciones = medicaciones.filter(medicacion => medicacion.medicamento.tipo !== 'Mat Esp');
+        }
         return (
             <div>
-                { this.props.medicaciones.length === 0 &&
+                { medicaciones.length === 0 &&
                     <h5>No hay medicaciones cargadas para este estudio</h5>
                 }
-                { this.props.medicaciones.length > 0 && <div id='medic'>
+                { medicaciones.length > 0 && <div id='medic'>
                     {
                         this.props.showPaciente &&
                         <Row>
                             <Col xs={ 8 }>
-                                <ListGroup>
-                                    <ListGroupItem>Paciente: { paciente && `${paciente.nombre}, ${paciente.apellido}` }</ListGroupItem>
-                                    <ListGroupItem>Práctica: { practica && `${practica.descripcion}` }</ListGroupItem>
-                                    <ListGroupItem>Fecha: { fechaEstudio && `${fechaEstudio}` }</ListGroupItem>
-                                </ListGroup>
+                                <Table condensed striped bordered>
+                                    <tbody>
+                                        <tr>
+                                            <td>Paciente</td>
+                                            { paciente && <td>{ `${paciente.nombre}, ${paciente.apellido}` }</td> }
+                                        </tr>
+                                        <tr>
+                                            <td>Práctica</td>
+                                            { practica && <td> { `${practica.descripcion}` }</td> }
+                                        </tr>
+                                        <tr>
+                                            <td>Fecha</td>
+                                            { fechaEstudio && <td> {`${fechaEstudio}`}</td> }
+                                        </tr>
+                                    </tbody>
+                                </Table>
                             </Col>
                         </Row>
                     }
                     <Table
                       striped
                       responsive
+                      condensed
                       className='medicacion-table'
                     >
                         <thead>
@@ -59,7 +68,7 @@ class MedicacionEstudiosTable extends React.Component {
                             </tr>
                         </thead>
                         <tbody>
-                            { this.props.medicaciones.map(medicacion => (
+                            { medicaciones.map(medicacion => (
                                 <MedicacionEstudioTableRow
                                   key={ medicacion.id }
                                   medicacion={ medicacion }
@@ -68,7 +77,7 @@ class MedicacionEstudiosTable extends React.Component {
                             )) }
                         </tbody>
                     </Table>
-                    <h3>Total: { calculateImporteTotal(this.props.medicaciones) }</h3>
+                    <h3>Total: { calculateImporteTotal(medicaciones) }</h3>
                 </div>
                 }
             </div>
@@ -86,6 +95,7 @@ MedicacionEstudiosTable.propTypes = {
     paciente: object,
     practica: object,
     fechaEstudio: string,
+    filtrarEspecificos: bool,
 };
 
 MedicacionEstudiosTable.defaultProps = {
