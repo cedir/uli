@@ -14,6 +14,7 @@ function MedicacionEstudio({
  }) {
     const params = useParams();
     const componentRef = useRef(null);
+    const onBeforeGetContentResolve = useRef(Promise.resolve);
 
     const [showPaciente, setShowPaciente] = useState(false);
     const [filtrarEspecificos, setFiltrarEspecificos] = useState(false);
@@ -25,16 +26,24 @@ function MedicacionEstudio({
 
     const handlePrint = useReactToPrint({
         content: medicacionContent,
-        onBeforeGetContent: () => {
+        onBeforeGetContent: () => new Promise((resolve) => {
+            onBeforeGetContentResolve.current = resolve;
             setShowPaciente(true);
             setFiltrarEspecificos(true);
-        },
+            resolve();
+        }),
         onAfterPrint: () => {
             setShowPaciente(false);
             setFiltrarEspecificos(false);
         },
         removeAfterPrint: true,
     });
+
+    React.useEffect(() => {
+        if (showPaciente && filtrarEspecificos && typeof onBeforeGetContentResolve.current === 'function') {
+            onBeforeGetContentResolve.current();
+        }
+    }, [onBeforeGetContentResolve.current, showPaciente, filtrarEspecificos]);
 
     return (
         <div>
