@@ -2,9 +2,11 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { Row, Col, Button, ButtonToolbar, FormGroup } from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
-import { requiredOption } from '../../../utilities/reduxFormValidators';
+import { required, alpha, dni } from '../../../utilities/reduxFormValidators';
 
 function ClienteForm() {
+    const tiposDocumento = ['DNI', 'CUIT', 'CUIL'];
+    const tiposCondicionFiscal = ['RESPONSABLE INSCRIPTO', 'EXENTO', 'CONSUMIDOR FINAL'];
     return (
         <Row>
             <Col md={ 6 }>
@@ -20,14 +22,14 @@ function ClienteForm() {
                   name='nombreCliente'
                   label='Nombre'
                   component={ InputRF }
-                  validate={ requiredOption }
+                  validate={ required }
                   type='text'
                 />
                 <Field
                   name='domicilioCliente'
                   label='Domicilio'
                   component={ InputRF }
-                  validate={ requiredOption }
+                  validate={ required }
                   type='text'
                 />
             </Col>
@@ -36,7 +38,7 @@ function ClienteForm() {
                   name='dni'
                   label='DNI'
                   component={ InputRF }
-                  validate={ requiredOption }
+                  validate={ [required, dni] }
                   type='text'
                 />
             </Col>
@@ -46,7 +48,9 @@ function ClienteForm() {
                   label='Tipo de documento'
                   component={ InputRF }
                   componentClass='select'
-                  validate={ requiredOption }
+                  selectOptions={ tiposDocumento }
+                  validate={ alpha }
+                  customErrorMsg='Debe seleccionar una opcion'
                   type='text'
                 />
             </Col>
@@ -56,7 +60,9 @@ function ClienteForm() {
                   label='Condicion fiscal'
                   component={ InputRF }
                   componentClass='select'
-                  validate={ requiredOption }
+                  selectOptions={ tiposCondicionFiscal }
+                  validate={ alpha }
+                  customErrorMsg='Debe seleccionar una opcion'
                   type='text'
                 />
             </Col>

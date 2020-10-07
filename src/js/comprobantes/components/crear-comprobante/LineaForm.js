@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { Field } from 'redux-form';
 import InputRF from '../../../utilities/InputRF';
-import { requiredOption } from '../../../utilities/reduxFormValidators';
+import { required } from '../../../utilities/reduxFormValidators';
 
 function LineaForm() {
     return (
@@ -12,7 +12,7 @@ function LineaForm() {
                   name='concepto'
                   label='Concepto'
                   component={ InputRF }
-                  validate={ requiredOption }
+                  validate={ required }
                   type='text'
                 />
             </Col>
@@ -21,7 +21,7 @@ function LineaForm() {
                   name='importeNeto'
                   label='Importe Neto'
                   component={ InputRF }
-                  validate={ requiredOption }
+                  validate={ required }
                   type='text'
                 />
             </Col>
@@ -31,7 +31,7 @@ function LineaForm() {
                   name='importeIva'
                   label='Importe Iva'
                   component={ InputRF }
-                  validate={ requiredOption }
+                  validate={ required }
                   type='text'
                 />
             </Col>
@@ -41,7 +41,7 @@ function LineaForm() {
                   name='subtotal'
                   label='Sub-Total'
                   component={ InputRF }
-                  validate={ requiredOption }
+                  validate={ required }
                   type='text'
                 />
             </Col>
