@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { Row, Col, Button, ButtonToolbar, FormGroup } from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
-import { required, alpha, dni } from '../../../utilities/reduxFormValidators';
+import { required, alpha } from '../../../utilities/reduxFormValidators';
 
 function ClienteForm() {
     const tiposDocumento = ['DNI', 'CUIT', 'CUIL'];
@@ -38,7 +38,7 @@ function ClienteForm() {
                   name='dni'
                   label='DNI'
                   component={ InputRF }
-                  validate={ [required, dni] }
+                  validate={ required }
                   type='text'
                 />
             </Col>

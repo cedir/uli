@@ -28,6 +28,17 @@ export function searchComprobante(filtro) {
     return get(url);
 }
 
-export function crearComprobante() {
-    return post('/api/comprobante');
+export function crearComprobante(comprobante) {
+    return post('/api/comprobante', {
+        tipo_comprobante_id: comprobante.tipoComprobante,
+        sub_tipo: comprobante.subTipo,
+        responsable: comprobante.responsable,
+        gravado_id: comprobante.iva,
+        neto: comprobante.importeNeto,
+        nombre_cliente: comprobante.nombreCliente,
+        domicilio_cliente: comprobante.domicilioCliente,
+        nro_cuit: comprobante.dni,
+        condicion_fiscal: comprobante.condicionFiscal,
+        concepto: comprobante.concepto,
+    });
 }

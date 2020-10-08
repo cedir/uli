@@ -7,14 +7,12 @@ import Panel from 'react-bootstrap/lib/Panel';
 import CabeceraForm from './CabeceraForm';
 import ClienteForm from './ClienteForm';
 import LineaForm from './LineaForm';
-import CREATE_COMPROBANTE from '../../actionTypes';
+import { CREATE_COMPROBANTE } from '../../actionTypes';
 
-function CreateComprobante({ crearComprobante }) {
+function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
     return (
-        <Form onSubmit={ (e) => {
-            e.preventDefault();
-            crearComprobante();
-        } }
+        <Form onSubmit={
+            handleSubmit(comprobante => crearComprobante(comprobante)) }
         >
             <h1> Crear comprobante </h1>
             <Panel header='Cliente' collapsible defaultExpanded>
@@ -29,6 +27,7 @@ function CreateComprobante({ crearComprobante }) {
             <Button
               type='submit'
               bsStyle='primary'
+              disabled={ !valid }
             >
                 Crear comprobante
             </Button>
@@ -36,10 +35,12 @@ function CreateComprobante({ crearComprobante }) {
     );
 }
 
-const { func } = PropTypes;
+const { func, bool } = PropTypes;
 
 CreateComprobante.propTypes = {
     crearComprobante: func.isRequired,
+    valid: bool,
+    handleSubmit: func,
 };
 
 const CreateComprobanteForm = reduxForm({

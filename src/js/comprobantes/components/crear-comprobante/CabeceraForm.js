@@ -2,12 +2,24 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
-import { alpha, required } from '../../../utilities/reduxFormValidators';
+import { alpha, alphaNum, required } from '../../../utilities/reduxFormValidators';
 
 function CabeceraForm() {
     const opcionesResponsable = ['Cedir', 'Brunetti'];
-    const opcionesIva = ['Iva inscripto 21', 'Iva inscripto 10.5', 'Exento'];
-    const tiposComprobante = ['Factura', 'Liquidacion', 'Nota De Debito', 'Nota De Credito', 'Factura Electronica', 'Nota de Debito Electronica', 'Nota de Credito Electronica'];
+    const opcionesIva = [
+      { text: 'Exento', value: 1 },
+      { text: 'Iva inscripto 10.5', value: 2 },
+      { text: 'Iva inscripto 21', value: 3 },
+    ];
+    const tiposComprobante = [
+      { text: 'Factura', value: 1 },
+      { text: 'Liquidacion', value: 2 },
+      { text: 'Nota De Debito', value: 3 },
+      { text: 'Nota De Credito', value: 4 },
+      { text: 'Factura Electronica', value: 5 },
+      { text: 'Nota de Debito Electronica', value: 6 },
+      { text: 'Nota de Credito Electronica', value: 7 },
+    ];
     const subTiposComprobante = ['A', 'B'];
     return (
         <Row>
@@ -20,7 +32,6 @@ function CabeceraForm() {
                   validate={ alpha }
                   customErrorMsg='Debe seleccionar una opcion'
                   selectOptions={ opcionesResponsable }
-                  type='text'
                 />
                 <Field
                   name='iva'
@@ -31,7 +42,9 @@ function CabeceraForm() {
                   nullValue=''
                   customErrorMsg='Debe seleccionar una opcion'
                   selectOptions={ opcionesIva }
-                  type='text'
+                  selectionValue='value'
+                  renderOptionHandler={ opcion => opcion.text }
+                  optionKey='text'
                 />
             </Col>
             <Col md={ 4 } mdOffset={ 2 }>
@@ -40,10 +53,12 @@ function CabeceraForm() {
                   label='Tipo de comprobante'
                   component={ InputRF }
                   componentClass='select'
-                  validate={ alpha }
+                  validate={ alphaNum }
                   customErrorMsg='Debe seleccionar una opcion'
                   selectOptions={ tiposComprobante }
-                  type='text'
+                  selectionValue='value'
+                  renderOptionHandler={ opcion => opcion.text }
+                  optionKey='text'
                 />
                 <Field
                   name='subTipo'
@@ -52,7 +67,6 @@ function CabeceraForm() {
                   componentClass='select'
                   selectOptions={ subTiposComprobante }
                   nullValue=''
-                  type='text'
                 />
             </Col>
         </Row>
