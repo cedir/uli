@@ -27,3 +27,7 @@ export function searchComprobante(filtro) {
 
     return get(url);
 }
+
+export function crearComprobante() {
+    return post('/api/comprobante');
+}

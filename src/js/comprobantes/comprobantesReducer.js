@@ -56,8 +56,19 @@ const createdComprobanteAsociadoFailedReducer = state => ({
     comprobantesApiLoading: false,
 });
 
+const createComprobante = (state, action) => ({
+    ...state,
+    comprobante: action.comprobante,
+});
+
+const createComprobanteFailed = state => ({
+    ...state,
+    comprobante: [],
+});
+
 export function comprobantesReducer(state = initialState, action) {
     switch (action.type) {
+        case types.CREATE_COMPROBANTE_SUCCESS:
         case types.FETCH_COMPROBANTES_PAGO:
         case types.FETCH_COMPROBANTES_LISTA:
             return actionsHandledByEpicReducer(state);
@@ -75,6 +86,10 @@ export function comprobantesReducer(state = initialState, action) {
             return createdComprobanteAsociadoSuccessReducer(state, action);
         case types.CREATED_COMPROBANTE_ASOCIADO_FAILED:
             return createdComprobanteAsociadoFailedReducer(state);
+        case types.CREATE_COMPROBANTE:
+            return createComprobante(state, action);
+        case types.CREATED_COMPROBANTE_FAILED:
+            return createComprobanteFailed(state);
         default:
             return state;
     }

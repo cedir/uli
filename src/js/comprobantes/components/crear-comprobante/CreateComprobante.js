@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, reduxForm } from 'redux-form';
 import { Button } from 'react-bootstrap';
@@ -8,11 +9,11 @@ import ClienteForm from './ClienteForm';
 import LineaForm from './LineaForm';
 import CREATE_COMPROBANTE from '../../actionTypes';
 
-function CreateComprobante(props) {
+function CreateComprobante({ crearComprobante }) {
     return (
         <Form onSubmit={ (e) => {
-            console.log(props);
             e.preventDefault();
+            crearComprobante();
         } }
         >
             <h1> Crear comprobante </h1>
@@ -34,6 +35,12 @@ function CreateComprobante(props) {
         </Form>
     );
 }
+
+const { func } = PropTypes;
+
+CreateComprobante.propTypes = {
+    crearComprobante: func.isRequired,
+};
 
 const CreateComprobanteForm = reduxForm({
     form: 'CreateComprobanteForm',

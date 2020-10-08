@@ -1,5 +1,6 @@
 import Rx from 'rxjs';
-import { getComprobantesPago, getComprobantes, saveComprobanteAsociado, searchComprobante } from './api';
+import { getComprobantesPago, getComprobantes, saveComprobanteAsociado,
+    searchComprobante, crearComprobante } from './api';
 import {
     FETCH_COMPROBANTES_PAGO,
     LOAD_COMPROBANTES_PAGO,
@@ -10,7 +11,10 @@ import {
     SEND_COMPROBANTE_ASOCIADO,
     CREATED_COMPROBANTE_ASOCIADO_SUCCESS,
     CREATED_COMPROBANTE_ASOCIADO_FAILED,
-    FETCH_COMPROBANTES_FILTRO } from './actionTypes';
+    FETCH_COMPROBANTES_FILTRO,
+    CREATE_COMPROBANTE,
+    CREATE_COMPROBANTE_SUCCESS,
+    CREATED_COMPROBANTE_FAILED } from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
 
@@ -67,5 +71,23 @@ export function obtenerComprobantesConFiltroEpic(action$) {
                     data,
                     accion: action.setSearching(false),
                 },
+            )));
+}
+
+export function crearComprobanteEpic(action$) {
+    return action$.ofType(CREATE_COMPROBANTE)
+        .mergeMap(action =>
+            crearComprobante(action.comprobante)
+            .mergeMap(data => Rx.Observable.of(
+                {
+                    type: CREATE_COMPROBANTE_SUCCESS,
+                },
+                { type: ADD_ALERT, alert: createAlert(data.response.message) },
+            ))
+            .catch(data => Rx.Observable.of(
+                {
+                    type: CREATED_COMPROBANTE_FAILED,
+                },
+                { type: ADD_ALERT, alert: createAlert(data.response.message, 'danger') },
             )));
 }
