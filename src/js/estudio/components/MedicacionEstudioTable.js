@@ -12,6 +12,7 @@ class MedicacionEstudiosTable extends React.Component {
     constructor(props) {
         super(props);
         this.removeMedicacionEstudio = this.removeMedicacionEstudio.bind(this);
+        this.filtrarMedicacion = this.filtrarMedicacion.bind(this);
     }
 
     removeMedicacionEstudio(medicacion) {
@@ -19,12 +20,13 @@ class MedicacionEstudiosTable extends React.Component {
         this.props.removeMedicacionEstudio(medicacion, seccion);
     }
 
+    filtrarMedicacion(medicaciones) {
+        return this.props.filtrarEspecificos ? medicaciones.filter(medicacion => medicacion.medicamento.tipo !== 'Mat Esp') : medicaciones;
+    }
+
     render() {
         const { paciente, practica, fechaEstudio } = this.props;
-        let medicaciones = this.props.medicaciones;
-        if (this.props.filtrarEspecificos) {
-            medicaciones = medicaciones.filter(medicacion => medicacion.medicamento.tipo !== 'Mat Esp');
-        }
+        const medicaciones = this.filtrarMedicacion(this.props.medicaciones);
         return (
             <div>
                 { medicaciones.length === 0 &&
