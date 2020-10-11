@@ -7,9 +7,9 @@ import { alpha, alphaNum, required } from '../../../utilities/reduxFormValidator
 function CabeceraForm() {
     const opcionesResponsable = ['Cedir', 'Brunetti'];
     const opcionesIva = [
-      { text: 'Exento', value: 1 },
-      { text: 'Iva inscripto 10.5', value: 2 },
-      { text: 'Iva inscripto 21', value: 3 },
+      { text: 'Exento', value: 0 },
+      { text: 'Iva inscripto 10.5', value: 10.5 },
+      { text: 'Iva inscripto 21', value: 21 },
     ];
     const tiposComprobante = [
       { text: 'Factura', value: 1 },
@@ -45,6 +45,7 @@ function CabeceraForm() {
                   selectionValue='value'
                   renderOptionHandler={ opcion => opcion.text }
                   optionKey='text'
+                  type='number'
                 />
             </Col>
             <Col md={ 4 } mdOffset={ 2 }>

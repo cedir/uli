@@ -78,9 +78,10 @@ export function crearComprobanteEpic(action$) {
     return action$.ofType(CREATE_COMPROBANTE)
         .mergeMap(action =>
             crearComprobante(action.comprobante)
-            .mergeMap(() => Rx.Observable.of(
+            .mergeMap(data => Rx.Observable.of(
                 {
                     type: CREATE_COMPROBANTE_SUCCESS,
+                    comprobante: data.response.data,
                 },
                 { type: ADD_ALERT, alert: createAlert('Comprobante creado correctamente') },
             ))
