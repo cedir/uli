@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
+import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { Field, formValueSelector } from 'redux-form';
 import InputRF from '../../../utilities/InputRF';
 import { required } from '../../../utilities/reduxFormValidators';
 
-function LineaForm({ iva, importe }) {
-    const getIva = () => ((iva / 100) * importe);
+function LineaForm({ iva, importe, hideLabel, key, prefijo, removeField }) {
+    const importeIva = Math.round(iva * importe) / 100;
+    const importeTotal = importeIva ? Math.round((importeIva + importe) * 100) / 100 : importe;
     return (
-        <Row>
-            <Col md={ 8 }>
+        <Row key={ key }>
+            <Col md={ 7 }>
                 <Field
-                  name='concepto'
+                  name={ `${prefijo}.concepto` }
                   label='Concepto'
+                  hideLabel={ hideLabel }
                   component={ InputRF }
                   validate={ required }
                   type='text'
@@ -21,8 +23,9 @@ function LineaForm({ iva, importe }) {
             </Col>
             <Col md={ 2 }>
                 <Field
-                  name='importeNeto'
+                  name={ `${prefijo}.importeNeto` }
                   label='Importe Neto'
+                  hideLabel={ hideLabel }
                   component={ InputRF }
                   validate={ required }
                   type='text'
@@ -30,31 +33,58 @@ function LineaForm({ iva, importe }) {
             </Col>
 
             <Col md={ 1 }>
-                <label className='control-label' htmlFor='importeIva'>Iva</label>
-                <p className='form-control-static'>{getIva() || '-'}</p>
+                {!hideLabel &&
+                    <label
+                      className='control-label'
+                      htmlFor='importeIva'
+                    >
+                    Iva
+                    </label>
+                }
+                <p className='form-control-static'>
+                    {importeIva || '-'}
+                </p>
             </Col>
 
             <Col md={ 1 }>
-                <label className='control-label' htmlFor='subTotal'>Sub-total</label>
-                <p className='form-control-static'>{importe + getIva() || importe || '-'}</p>
+                {!hideLabel &&
+                    <label className='control-label' htmlFor='subTotal'>
+                        Sub-total
+                    </label>
+                }
+                <p className='form-control-static'>
+                    {importeTotal || '-'}
+                </p>
+            </Col>
+            <Col md={ 1 }>
+                <Button
+                  bsStyle='link'
+                  onClick={ removeField }
+                  style={ !hideLabel ? { marginTop: '1.6em' } : {} }
+                >
+                    <Glyphicon glyph='remove' />
+                </Button>
             </Col>
         </Row>
     );
 }
 
-const { number } = PropTypes;
+const { number, func, bool, string } = PropTypes;
 
 LineaForm.propTypes = {
     iva: number,
     importe: number,
+    hideLabel: bool,
+    key: number,
+    prefijo: string,
+    removeField: func,
 };
 
 const selector = formValueSelector('CreateComprobanteForm');
 
-function mapStateToProps(state) {
+function mapStateToProps(state, { prefijo }) {
     return {
-        iva: Number(selector(state, 'iva')),
-        importe: Number(selector(state, 'importeNeto')),
+        importe: Number(selector(state, `${prefijo}.importeNeto`)),
     };
 }
 

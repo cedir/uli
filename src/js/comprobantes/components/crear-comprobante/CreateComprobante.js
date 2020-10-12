@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, reduxForm } from 'redux-form';
+import { Form, reduxForm, FieldArray } from 'redux-form';
 import { Button } from 'react-bootstrap';
 import Panel from 'react-bootstrap/lib/Panel';
 import CabeceraForm from './CabeceraForm';
 import ClienteForm from './ClienteForm';
-import LineaForm from './LineaForm';
+import LineasForm from './LineasForm';
 import { CREATE_COMPROBANTE } from '../../actionTypes';
 
 function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
@@ -22,7 +22,7 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
                 <CabeceraForm />
             </Panel>
             <Panel header='Lineas' collapsible defaultExpanded>
-                <LineaForm />
+                <FieldArray name='lineas' component={ LineasForm } />
             </Panel>
             <Button
               type='submit'
