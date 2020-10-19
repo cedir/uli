@@ -52,7 +52,11 @@ import {
     finalizarModificarPresentacionEpic,
 } from '../presentaciones/modificar-presentacion/modificarPresentacionEpic';
 import { loginEpic } from '../login/loginEpic';
-import { comprobantesEpic, obtenerComprobantesEpic, guardarComprobanteAsociadoEpic, obtenerComprobantesConFiltroEpic } from '../comprobantes/comprobantesEpic';
+import { comprobantesEpic,
+    obtenerComprobantesEpic,
+    guardarComprobanteAsociadoEpic,
+    obtenerComprobantesConFiltroEpic,
+    crearComprobanteEpic } from '../comprobantes/comprobantesEpic';
 import { movimientosCajaEpic } from '../caja/cajaEpic';
 
 export const rootEpic = combineEpics(
@@ -95,6 +99,7 @@ export const rootEpic = combineEpics(
     obtenerComprobantesEpic,
     guardarComprobanteAsociadoEpic,
     obtenerComprobantesConFiltroEpic,
+    crearComprobanteEpic,
     movimientosCajaEpic,
 );
 

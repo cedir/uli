@@ -9,7 +9,7 @@ import { FETCH_COMPROBANTES_LISTA } from '../actionTypes';
 import ImporteModal from './ImporteComprobanteAsociado';
 import Buscador from './FilterComprobante';
 
-function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
+function BuscarComprobante({ comprobantesLista, cargar_comprobantes, history }) {
     const [showImporteModal, setShowImporteModal] = useState(false);
     const [idComprobante, setComprobanteId] = useState(0);
 
@@ -25,7 +25,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
               setShowImporteModal={ setShowImporteModal }
               idComprobante={ idComprobante }
             />
-            <Buscador />
+            <Buscador history={ history } />
             <Table striped responsive style={ { marginTop: '20px' } }>
                 <thead>
                     <tr>
@@ -59,9 +59,12 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes }) {
     );
 }
 
+const { array, func, object } = PropTypes;
+
 BuscarComprobante.propTypes = {
-    comprobantesLista: PropTypes.array.isRequired,
-    cargar_comprobantes: PropTypes.func.isRequired,
+    comprobantesLista: array.isRequired,
+    cargar_comprobantes: func.isRequired,
+    history: object.isRequired,
 };
 
 BuscarComprobante.defaultProps = {

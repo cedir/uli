@@ -22,6 +22,7 @@ import ModificarPresentacionPage from '../presentaciones/modificar-presentacion/
 import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
 import CajaMain from '../caja/components/CajaMain';
 import Comprobantes from '../comprobantes/components/Comprobantes';
+import CreateComprobante from '../comprobantes/components/crear-comprobante/CreateComprobante';
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
 import ScriptCrearEstudios from '../utilities/components/ScriptCrearEstudios';
@@ -128,6 +129,18 @@ function App(props) {
                       authenticated={ !!props.token }
                     />
                     <PrivateRoute
+                      exact
+                      path='/comprobantes'
+                      component={ Comprobantes }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/comprobantes/create'
+                      component={ CreateComprobante }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
                       path='/caja/main'
                       component={ CajaMain }
                       authenticated={ !!props.token }
@@ -140,11 +153,6 @@ function App(props) {
                     <PrivateRoute
                       path='/medicos/pago'
                       component={ PagoMedicos }
-                      authenticated={ !!props.token }
-                    />
-                    <PrivateRoute
-                      path='/comprobantes'
-                      component={ Comprobantes }
                       authenticated={ !!props.token }
                     />
                     {/* para crear estudios rapidamente */}
