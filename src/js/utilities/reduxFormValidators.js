@@ -2,8 +2,9 @@ import { isAlpha, isAlphanumeric, isEmpty, isInt, isLength } from 'validator';
 import moment from 'moment';
 
 import constants from './constants';
+import { onlyNums } from './reduxFormNormalizers';
 
-const { dniMinLength, dniMaxLength } = constants.validations;
+const { dniMinLength, dniMaxLength, cuitMaxLength } = constants.validations;
 
 export function required(value) {
     const valCopy = typeof value === 'undefined' ? '' : `${value}`;
@@ -56,4 +57,14 @@ export function dateAfterThan(fieldToCompareName, errorMessage) {
 export function integerValue(value) {
     const val = typeof value === 'undefined' ? '' : value;
     return isEmpty(val) || (isInt(val)) ? undefined : 'No es numero';
+}
+
+export function nonEmpty(value) {
+    return value && value.length > 0 ? undefined : 'Debe poseer al menos uno';
+}
+
+export function dniOrCuit(value) {
+    const valNum = onlyNums(value);
+    const val = typeof valNum === 'undefined' ? '' : valNum;
+    return isEmpty(val) || (isInt(val) && isLength(val, { min: dniMinLength, max: cuitMaxLength })) ? undefined : 'No es un documento valido';
 }

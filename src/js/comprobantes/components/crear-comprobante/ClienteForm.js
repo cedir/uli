@@ -2,10 +2,10 @@ import React from 'react';
 import { Field } from 'redux-form';
 import { Row, Col, Button, ButtonToolbar, FormGroup } from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
-import { required, alpha } from '../../../utilities/reduxFormValidators';
+import { required, alpha, dniOrCuit } from '../../../utilities/reduxFormValidators';
+import { normalizeDniCuit } from '../../../utilities/reduxFormNormalizers';
 
 function ClienteForm() {
-    const tiposDocumento = ['DNI', 'CUIT', 'CUIL'];
     const tiposCondicionFiscal = ['RESPONSABLE INSCRIPTO', 'EXENTO', 'CONSUMIDOR FINAL'];
     return (
         <Row>
@@ -38,20 +38,9 @@ function ClienteForm() {
                   name='dni'
                   label='DNI'
                   component={ InputRF }
-                  validate={ required }
+                  validate={ [required, dniOrCuit] }
                   type='text'
-                />
-            </Col>
-            <Col md={ 3 }>
-                <Field
-                  name='tipoDocumento'
-                  label='Tipo de documento'
-                  component={ InputRF }
-                  componentClass='select'
-                  selectOptions={ tiposDocumento }
-                  validate={ alpha }
-                  customErrorMsg='Debe seleccionar una opcion'
-                  type='text'
+                  normalize={ normalizeDniCuit }
                 />
             </Col>
             <Col md={ 3 }>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
@@ -6,6 +6,10 @@ import { formValueSelector } from 'redux-form';
 import LineaForm from './LineaForm';
 
 function LineasForm({ fields, iva }) {
+    useEffect(() => {
+        fields.push({});
+    }, []);
+
     return (
         <React.Fragment>
             {fields.map((linea, index) => (
