@@ -1,4 +1,5 @@
 import { get, post } from '../utilities/rest';
+import { onlyNums } from '../utilities/reduxFormNormalizers';
 
 export function getComprobantesPago(year, month) {
     const url = `/api/comprobantes/?mes=${month}&anio=${year}`;
@@ -37,8 +38,9 @@ export function crearComprobante(comprobante) {
         neto: comprobante.importeNeto,
         nombre_cliente: comprobante.nombreCliente,
         domicilio_cliente: comprobante.domicilioCliente,
-        nro_cuit: comprobante.dni,
+        nro_cuit: onlyNums(comprobante.dni),
         condicion_fiscal: comprobante.condicionFiscal,
         concepto: comprobante.concepto,
+        lineas: comprobante.lineas,
     });
 }

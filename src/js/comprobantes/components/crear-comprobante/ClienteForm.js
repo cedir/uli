@@ -1,23 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Field } from 'redux-form';
-import { Row, Col, Button, ButtonToolbar, FormGroup } from 'react-bootstrap/dist/react-bootstrap';
+import { Row, Col, Button, FormGroup, ButtonToolbar } from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
 import { required, alpha, dniOrCuit } from '../../../utilities/reduxFormValidators';
 import { normalizeDniCuit } from '../../../utilities/reduxFormNormalizers';
 
 function ClienteForm() {
     const tiposCondicionFiscal = ['RESPONSABLE INSCRIPTO', 'EXENTO', 'CONSUMIDOR FINAL'];
+    const [tipoCliente, setTipoCliente] = useState(0);
+    const busquedaPaciente = 1;
+    const busquedaObraSocial = 2;
+
+    const setTipoClienteHandler = value =>
+        (tipoCliente === value ? setTipoCliente(0) : setTipoCliente(value));
+
     return (
         <Row>
             <Col md={ 6 }>
                 <FormGroup>
                     <ButtonToolbar>
-                        <Button>Paciente</Button>
-                        <Button>Obra Social</Button>
+                        <Button
+                          onClick={ () => setTipoClienteHandler(busquedaPaciente) }
+                          className={ tipoCliente === busquedaPaciente && 'active' }
+                        >
+                            Paciente
+                        </Button>
+                        <Button
+                          onClick={ () => setTipoClienteHandler(busquedaObraSocial) }
+                          className={ tipoCliente === busquedaObraSocial && 'active' }
+                        >
+                            Obra Social
+                        </Button>
                     </ButtonToolbar>
                 </FormGroup>
             </Col>
-            <Col md={ 8 }>
+            <Col md={ 7 }>
                 <Field
                   name='nombreCliente'
                   label='Nombre'
@@ -33,7 +50,7 @@ function ClienteForm() {
                   type='text'
                 />
             </Col>
-            <Col md={ 6 }>
+            <Col md={ 3 }>
                 <Field
                   name='dni'
                   label='DNI'
