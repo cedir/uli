@@ -1,14 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { formValueSelector } from 'redux-form';
 import LineaForm from './LineaForm';
 
-function LineasForm({ fields, iva }) {
+function LineasForm({ fields, iva, lineas }) {
     useEffect(() => {
         fields.push({});
     }, []);
+
+    const [netoTotal, setNetoTotal] = useState(0);
+    const [total, setTotal] = useState(0);
+
+    useEffect(() => {
+        setNetoTotal(
+            lineas.map(linea => Number(linea.importeNeto || 0))
+                  .reduce((importeTotal, importe) => importeTotal + importe, 0),
+        );
+        setTotal(
+            Math.round((netoTotal * 100) + (netoTotal * (iva || 0))) / 100,
+        );
+    });
 
     return (
         <React.Fragment>
@@ -31,15 +44,25 @@ function LineasForm({ fields, iva }) {
                     </Button>
                 </Col>
             </Row>
+            <Row>
+                <Col mdOffset={ 10 } md={ 2 }>
+                    Total: ${ total }
+                </Col>
+            </Row>
         </React.Fragment>
     );
 }
 
-const { number, object } = PropTypes;
+const { number, object, array } = PropTypes;
 
 LineasForm.propTypes = {
     fields: object,
     iva: number,
+    lineas: array,
+};
+
+LineasForm.defaultProps = {
+    lineas: [],
 };
 
 const selector = formValueSelector('CreateComprobanteForm');
@@ -47,6 +70,7 @@ const selector = formValueSelector('CreateComprobanteForm');
 function mapStateToProps(state) {
     return {
         iva: Number(selector(state, 'iva')),
+        lineas: selector(state, 'lineas'),
     };
 }
 

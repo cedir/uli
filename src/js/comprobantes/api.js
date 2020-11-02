@@ -35,12 +35,10 @@ export function crearComprobante(comprobante) {
         sub_tipo: comprobante.subTipo,
         responsable: comprobante.responsable,
         gravado_id: comprobante.iva,
-        neto: comprobante.importeNeto,
         nombre_cliente: comprobante.nombreCliente,
         domicilio_cliente: comprobante.domicilioCliente,
         nro_cuit: onlyNums(comprobante.dni),
         condicion_fiscal: comprobante.condicionFiscal,
-        concepto: comprobante.concepto,
         lineas: comprobante.lineas,
     });
 }
