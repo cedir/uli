@@ -8,6 +8,7 @@ import CabeceraForm from './CabeceraForm';
 import ClienteForm from './ClienteForm';
 import LineasForm from './LineasForm';
 import { CREATE_COMPROBANTE } from '../../actionTypes';
+import { nonEmpty } from '../../../utilities/reduxFormValidators';
 
 function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
     return (
@@ -22,7 +23,7 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
                 <CabeceraForm />
             </Panel>
             <Panel header='Lineas' collapsible defaultExpanded>
-                <FieldArray name='lineas' component={ LineasForm } />
+                <FieldArray name='lineas' component={ LineasForm } validate={ nonEmpty } />
             </Panel>
             <Button
               type='submit'
