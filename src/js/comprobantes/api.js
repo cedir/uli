@@ -30,7 +30,14 @@ export function searchComprobante(filtro) {
 }
 
 export function crearComprobante(comprobante) {
-    return post('/api/comprobante', {
+    const url = '/api/comprobante';
+
+    const lineas = comprobante.lineas.map(linea => ({
+        concepto: linea.concepto,
+        importe_neto: linea.importeNeto,
+    }));
+
+    const body = {
         tipo_comprobante_id: comprobante.tipoComprobante,
         sub_tipo: comprobante.subTipo,
         responsable: comprobante.responsable,
@@ -39,6 +46,12 @@ export function crearComprobante(comprobante) {
         domicilio_cliente: comprobante.domicilioCliente,
         nro_cuit: onlyNums(comprobante.dni),
         condicion_fiscal: comprobante.condicionFiscal,
-        lineas: comprobante.lineas,
-    });
+        lineas,
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    return post(url, body, headers);
 }
