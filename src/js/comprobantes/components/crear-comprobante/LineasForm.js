@@ -5,7 +5,7 @@ import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { formValueSelector } from 'redux-form';
 import LineaForm from './LineaForm';
 
-function LineasForm({ fields, iva, lineas }) {
+function LineasForm({ fields, iva, lineas, opcionesIva }) {
     useEffect(() => {
         fields.push({});
     }, []);
@@ -23,6 +23,8 @@ function LineasForm({ fields, iva, lineas }) {
         );
     });
 
+    const getIva = () => Number(iva && opcionesIva.find(e => e.gravado === iva).porcentaje);
+
     return (
         <React.Fragment>
             {fields.map((linea, index) => (
@@ -30,7 +32,7 @@ function LineasForm({ fields, iva, lineas }) {
                   hideLabel={ index !== 0 }
                   key={ index }
                   prefijo={ linea }
-                  iva={ iva }
+                  iva={ getIva() }
                   removeField={ () => fields.remove(index) }
                 />
             ))}
@@ -59,6 +61,7 @@ LineasForm.propTypes = {
     fields: object,
     iva: number,
     lineas: array,
+    opcionesIva: array.isRequired,
 };
 
 LineasForm.defaultProps = {

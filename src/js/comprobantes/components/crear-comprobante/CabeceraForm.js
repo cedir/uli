@@ -38,7 +38,7 @@ function CabeceraForm({ opcionesIva }) {
                   nullValue=''
                   customErrorMsg='Debe seleccionar una opcion'
                   selectOptions={ opcionesIva }
-                  selectionValue='porcentaje'
+                  selectionValue='gravado'
                   renderOptionHandler={ opcion => opcion.text }
                   optionKey='text'
                   type='number'

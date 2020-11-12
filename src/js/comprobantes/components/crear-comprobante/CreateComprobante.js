@@ -18,13 +18,7 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
     ];
     return (
         <Form
-          onSubmit={ handleSubmit((comprobante) => {
-              crearComprobante({
-                  ...comprobante,
-                  iva: opcionesIva.find(e => (e.porcentaje === Number(comprobante.iva)),
-                  ).gravado,
-              });
-          }) }
+          onSubmit={ handleSubmit(comprobante => crearComprobante(comprobante)) }
         >
             <h1> Crear comprobante </h1>
             <Panel header='Cliente' collapsible defaultExpanded>
@@ -34,7 +28,12 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
                 <CabeceraForm opcionesIva={ opcionesIva } />
             </Panel>
             <Panel header='Lineas' collapsible defaultExpanded>
-                <FieldArray name='lineas' component={ LineasForm } validate={ nonEmpty } />
+                <FieldArray
+                  name='lineas'
+                  component={ LineasForm }
+                  validate={ nonEmpty }
+                  opcionesIva={ opcionesIva }
+                />
             </Panel>
             <Button
               type='submit'
