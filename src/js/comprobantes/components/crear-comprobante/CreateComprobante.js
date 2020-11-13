@@ -11,19 +11,29 @@ import { CREATE_COMPROBANTE } from '../../actionTypes';
 import { nonEmpty } from '../../../utilities/reduxFormValidators';
 
 function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
+    const opcionesIva = [
+        { text: 'Exento', porcentaje: 0, gravado: 1 },
+        { text: 'Iva inscripto 10.5', porcentaje: 10.5, gravado: 2 },
+        { text: 'Iva inscripto 21', porcentaje: 21, gravado: 3 },
+    ];
     return (
-        <Form onSubmit={
-            handleSubmit(comprobante => crearComprobante(comprobante)) }
+        <Form
+          onSubmit={ handleSubmit(comprobante => crearComprobante(comprobante)) }
         >
             <h1> Crear comprobante </h1>
             <Panel header='Cliente' collapsible defaultExpanded>
                 <ClienteForm />
             </Panel>
             <Panel header='Cabecera' collapsible defaultExpanded>
-                <CabeceraForm />
+                <CabeceraForm opcionesIva={ opcionesIva } />
             </Panel>
             <Panel header='Lineas' collapsible defaultExpanded>
-                <FieldArray name='lineas' component={ LineasForm } validate={ nonEmpty } />
+                <FieldArray
+                  name='lineas'
+                  component={ LineasForm }
+                  validate={ nonEmpty }
+                  opcionesIva={ opcionesIva }
+                />
             </Panel>
             <Button
               type='submit'

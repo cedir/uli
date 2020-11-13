@@ -1,16 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
 import { alpha, alphaNum, required } from '../../../utilities/reduxFormValidators';
 
-function CabeceraForm() {
+function CabeceraForm({ opcionesIva }) {
     const opcionesResponsable = ['Cedir', 'Brunetti'];
-    const opcionesIva = [
-      { text: 'Exento', value: 0 },
-      { text: 'Iva inscripto 10.5', value: 10.5 },
-      { text: 'Iva inscripto 21', value: 21 },
-    ];
     const tiposComprobante = [
       { text: 'Factura', value: 1 },
       { text: 'Liquidacion', value: 2 },
@@ -42,7 +38,7 @@ function CabeceraForm() {
                   nullValue=''
                   customErrorMsg='Debe seleccionar una opcion'
                   selectOptions={ opcionesIva }
-                  selectionValue='value'
+                  selectionValue='gravado'
                   renderOptionHandler={ opcion => opcion.text }
                   optionKey='text'
                   type='number'
@@ -73,5 +69,11 @@ function CabeceraForm() {
         </Row>
     );
 }
+
+const { array } = PropTypes;
+
+CabeceraForm.propTypes = {
+    opcionesIva: array.isRequired,
+};
 
 export default CabeceraForm;
