@@ -5,7 +5,7 @@ import { Form, reduxForm, FieldArray } from 'redux-form';
 import { Button } from 'react-bootstrap';
 import Panel from 'react-bootstrap/lib/Panel';
 import CabeceraForm from './CabeceraForm';
-import ClienteForm from './ClienteForm';
+import ClienteForm from './cliente-form/ClienteForm';
 import LineasForm from './LineasForm';
 import { CREATE_COMPROBANTE } from '../../actionTypes';
 import { nonEmpty } from '../../../utilities/reduxFormValidators';
