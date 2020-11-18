@@ -4,19 +4,23 @@ import { Col } from 'react-bootstrap';
 import { Field } from 'redux-form';
 
 import InputRF from '../../../../utilities/InputRF';
+import AsyncTypeaheadRF from '../../../../utilities/AsyncTypeaheadRF';
 import { required, dniOrCuit, alpha } from '../../../../utilities/reduxFormValidators';
 import { normalizeDniCuit } from '../../../../utilities/reduxFormNormalizers';
 
-function CamposCliente({ tiposCondicionFiscal }) {
+function CamposCliente({ tiposCondicionFiscal, optionalProps }) {
+    const componente = Object.keys(optionalProps).length === 0 ? InputRF : AsyncTypeaheadRF;
+
     return (
         <React.Fragment>
             <Col md={ 7 }>
                 <Field
                   name='nombreCliente'
                   label='Nombre'
-                  component={ InputRF }
+                  component={ componente }
                   validate={ required }
                   type='text'
+                  { ...optionalProps }
                 />
                 <Field
                   name='domicilioCliente'
@@ -29,7 +33,7 @@ function CamposCliente({ tiposCondicionFiscal }) {
             <Col md={ 3 }>
                 <Field
                   name='dni'
-                  label='DNI'
+                  label='DNI/CUIT'
                   component={ InputRF }
                   validate={ [required, dniOrCuit] }
                   type='text'
@@ -52,10 +56,11 @@ function CamposCliente({ tiposCondicionFiscal }) {
     );
 }
 
-const { array } = PropTypes;
+const { array, object } = PropTypes;
 
 CamposCliente.propTypes = {
     tiposCondicionFiscal: array.isRequired,
+    optionalProps: object.isRequired,
 };
 
 export default CamposCliente;
