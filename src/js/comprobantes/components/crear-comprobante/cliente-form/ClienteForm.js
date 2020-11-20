@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row } from 'react-bootstrap/dist/react-bootstrap';
+import { formValueSelector, change } from 'redux-form';
 import TipoClienteSelect from './TipoClienteSelect';
 import CamposCliente from './CamposCliente';
 import { FETCH_OBRAS_SOCIALES } from '../../../../obraSocial/actionTypes';
 
-function ClienteForm({ opciones, fetchObrasSociales, apiLoading }) {
+function ClienteForm({
+    opciones,
+    fetchObrasSociales,
+    apiLoading = false,
+    selectedOption,
+    updateForm,
+}) {
     const tiposCondicionFiscal = ['RESPONSABLE INSCRIPTO', 'EXENTO', 'CONSUMIDOR FINAL'];
     const [tipoCliente, setTipoCliente] = useState(0);
     const setTipoClienteHandler = value =>
@@ -36,6 +43,8 @@ function ClienteForm({ opciones, fetchObrasSociales, apiLoading }) {
             <CamposCliente
               tiposCondicionFiscal={ tiposCondicionFiscal }
               optionalProps={ asyncProps }
+              selectedOption={ selectedOption }
+              updateForm={ updateForm }
             />
         </Row>
     );
@@ -49,24 +58,35 @@ ClienteForm.fields = [
     'condicionFiscal',
 ];
 
-const { array, func, bool } = PropTypes;
+const { array, func, bool, object } = PropTypes;
 
 ClienteForm.propTypes = {
     opciones: array,
-    fetchObrasSociales: func,
+    fetchObrasSociales: func.isRequired,
     apiLoading: bool,
+    selectedOption: object.isRequired,
+    updateForm: func.isRequired,
 };
 
+const selector = formValueSelector('CreateComprobanteForm');
+
 function mapStateToProps(state) {
+    const obraSocial = selector(state, 'nombreCliente');
+    const selectedOption =
+        Array.isArray(obraSocial) && obraSocial.length !== 0
+            ? obraSocial[0]
+            : {};
     return {
         opciones: state.obraSocialReducer.obrasSociales,
         obrasSocialesApiLoading: state.obraSocialReducer.apiLoading,
+        selectedOption,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
+        updateForm: (name, value) => dispatch(change('CreateComprobanteForm', name, value)),
     };
 }
 

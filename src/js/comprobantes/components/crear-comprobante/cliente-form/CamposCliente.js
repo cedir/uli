@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Col } from 'react-bootstrap';
 import { Field } from 'redux-form';
@@ -8,8 +8,17 @@ import AsyncTypeaheadRF from '../../../../utilities/AsyncTypeaheadRF';
 import { required, dniOrCuit, alpha } from '../../../../utilities/reduxFormValidators';
 import { normalizeDniCuit } from '../../../../utilities/reduxFormNormalizers';
 
-function CamposCliente({ tiposCondicionFiscal, optionalProps }) {
+function CamposCliente({ tiposCondicionFiscal, optionalProps, selectedOption, updateForm }) {
     const componente = Object.keys(optionalProps).length === 0 ? InputRF : AsyncTypeaheadRF;
+
+    useEffect(() => {
+        if (selectedOption.nombre) {
+            updateForm('domicilioCliente', selectedOption.direccion);
+            updateForm('dni', selectedOption.nro_cuit);
+            updateForm('condicionFiscal', selectedOption.condicion_fiscal);
+        }
+    }, [selectedOption.nombre]);
+
 
     return (
         <React.Fragment>
@@ -56,11 +65,13 @@ function CamposCliente({ tiposCondicionFiscal, optionalProps }) {
     );
 }
 
-const { array, object } = PropTypes;
+const { array, object, func } = PropTypes;
 
 CamposCliente.propTypes = {
     tiposCondicionFiscal: array.isRequired,
     optionalProps: object.isRequired,
+    selectedOption: object.isRequired,
+    updateForm: func.isRequired,
 };
 
 export default CamposCliente;
