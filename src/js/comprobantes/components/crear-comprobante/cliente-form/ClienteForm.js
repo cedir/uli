@@ -24,7 +24,7 @@ function ClienteForm({
 
     const [asyncProps, setAsyncProps] = useState({});
 
-    const renderOption = option => (
+    const renderOptionSelector = option => (
         <div key={ option.id }>
             { option.apellido && `${option.apellido}, ` }
             { option.nombre }
@@ -32,13 +32,20 @@ function ClienteForm({
         </div>
     );
 
+    const renderOption = (option) => {
+        if (option.apellido) {
+            return `${option.nombre} ${option.apellido}`;
+        }
+        return `${option.nombre}`;
+    };
+
     useEffect(() => {
         setAsyncProps(
             !tipoCliente ? {} : {
                 options: opciones,
-                labelKey: 'nombre',
+                labelKey: renderOption,
                 onSearch: tipoCliente === 1 ? fetchPacientes : fetchObrasSociales,
-                renderMenuItemChildren: renderOption,
+                renderMenuItemChildren: renderOptionSelector,
                 isLoading: apiLoading,
             },
         );
@@ -46,6 +53,7 @@ function ClienteForm({
 
     useEffect(() => {
         borrarOpciones();
+        updateForm('nombreCliente', '');
     }, [tipoCliente]);
 
     return (

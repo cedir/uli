@@ -16,6 +16,10 @@ function CamposCliente({ tiposCondicionFiscal, optionalProps, selectedOption, up
             updateForm('domicilioCliente', selectedOption.direccion);
             updateForm('dni', (selectedOption.nro_cuit || selectedOption.dni).toString());
             updateForm('condicionFiscal', selectedOption.condicion_fiscal);
+        } else {
+            updateForm('domicilioCliente', '');
+            updateForm('dni', '');
+            updateForm('condicionFiscal', '');
         }
     }, [selectedOption.nombre]);
 
