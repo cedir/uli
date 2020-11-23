@@ -29,6 +29,7 @@ export function obraSocialReducer(state = initialState, action) {
         case types.LOAD_OBRAS_SOCIALES:
             return loadObrasSocialesReducer(state, action);
         case types.LOAD_OBRAS_SOCIALES_ERROR:
+        case types.DELETE_OBRAS_SOCIALES:
             return loadObrasSocialesErrorReducer(state);
         default:
             return state;

@@ -14,7 +14,7 @@ function CamposCliente({ tiposCondicionFiscal, optionalProps, selectedOption, up
     useEffect(() => {
         if (selectedOption.nombre) {
             updateForm('domicilioCliente', selectedOption.direccion);
-            updateForm('dni', selectedOption.nro_cuit);
+            updateForm('dni', (selectedOption.nro_cuit || selectedOption.dni).toString());
             updateForm('condicionFiscal', selectedOption.condicion_fiscal);
         }
     }, [selectedOption.nombre]);

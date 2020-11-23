@@ -1,5 +1,5 @@
 import initialState from './pacienteReducerInitialState';
-import { FETCH_PACIENTES, LOAD_PACIENTES, LOAD_PACIENTES_ERROR } from './actionTypes';
+import { FETCH_PACIENTES, LOAD_PACIENTES, LOAD_PACIENTES_ERROR, DELETE_PACIENTES } from './actionTypes';
 
 const fetchPacientes = (state) => {
     const newState = {};
@@ -31,6 +31,7 @@ export function pacienteReducer(state = initialState, action) {
         case LOAD_PACIENTES:
             return loadPacientes(state, action);
         case LOAD_PACIENTES_ERROR:
+        case DELETE_PACIENTES:
             return loadPacientesError(state);
         default:
             return state;

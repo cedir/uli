@@ -5,14 +5,17 @@ import { Row } from 'react-bootstrap/dist/react-bootstrap';
 import { formValueSelector, change } from 'redux-form';
 import TipoClienteSelect from './TipoClienteSelect';
 import CamposCliente from './CamposCliente';
-import { FETCH_OBRAS_SOCIALES } from '../../../../obraSocial/actionTypes';
+import { FETCH_OBRAS_SOCIALES, DELETE_OBRAS_SOCIALES } from '../../../../obraSocial/actionTypes';
+import { FETCH_PACIENTES, DELETE_PACIENTES } from '../../../../paciente/actionTypes';
 
 function ClienteForm({
     opciones,
-    fetchObrasSociales,
     apiLoading = false,
     selectedOption,
+    fetchObrasSociales,
+    fetchPacientes,
     updateForm,
+    borrarOpciones,
 }) {
     const tiposCondicionFiscal = ['RESPONSABLE INSCRIPTO', 'EXENTO', 'CONSUMIDOR FINAL'];
     const [tipoCliente, setTipoCliente] = useState(0);
@@ -21,18 +24,29 @@ function ClienteForm({
 
     const [asyncProps, setAsyncProps] = useState({});
 
+    const renderOption = option => (
+        <div key={ option.id }>
+            { option.apellido && `${option.apellido}, ` }
+            { option.nombre }
+            <div>DNI/CUIT: {option.nro_cuit || option.dni}</div>
+        </div>
+    );
+
     useEffect(() => {
-        const renderOption = option => <div key={ option.id }>{ option.nombre }</div>;
         setAsyncProps(
             !tipoCliente ? {} : {
                 options: opciones,
                 labelKey: 'nombre',
-                onSearch: fetchObrasSociales,
+                onSearch: tipoCliente === 1 ? fetchPacientes : fetchObrasSociales,
                 renderMenuItemChildren: renderOption,
                 isLoading: apiLoading,
             },
         );
     }, [tipoCliente, opciones]);
+
+    useEffect(() => {
+        borrarOpciones();
+    }, [tipoCliente]);
 
     return (
         <Row>
@@ -62,23 +76,31 @@ const { array, func, bool, object } = PropTypes;
 
 ClienteForm.propTypes = {
     opciones: array,
-    fetchObrasSociales: func.isRequired,
     apiLoading: bool,
     selectedOption: object.isRequired,
+    fetchObrasSociales: func.isRequired,
+    fetchPacientes: func.isRequired,
     updateForm: func.isRequired,
+    borrarOpciones: func.isRequired,
 };
 
 const selector = formValueSelector('CreateComprobanteForm');
 
 function mapStateToProps(state) {
-    const obraSocial = selector(state, 'nombreCliente');
+    const cliente = selector(state, 'nombreCliente');
     const selectedOption =
-        Array.isArray(obraSocial) && obraSocial.length !== 0
-            ? obraSocial[0]
+        Array.isArray(cliente) && cliente.length !== 0
+            ? cliente[0]
             : {};
+
+    const opciones =
+    state.obraSocialReducer.obrasSociales.length > 0
+        ? state.obraSocialReducer.obrasSociales
+        : state.pacienteReducer.pacientes;
+
     return {
-        opciones: state.obraSocialReducer.obrasSociales,
-        obrasSocialesApiLoading: state.obraSocialReducer.apiLoading,
+        apiLoading: state.obraSocialReducer.apiLoading || state.pacienteReducer.pacienteApiLoading,
+        opciones,
         selectedOption,
     };
 }
@@ -86,7 +108,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
+        fetchPacientes: nombre => dispatch({ type: FETCH_PACIENTES, searchText: nombre }),
         updateForm: (name, value) => dispatch(change('CreateComprobanteForm', name, value)),
+        borrarOpciones: () => {
+            dispatch({ type: DELETE_PACIENTES });
+            dispatch({ type: DELETE_OBRAS_SOCIALES });
+        },
     };
 }
 
