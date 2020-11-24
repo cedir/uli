@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, reduxForm, FieldArray } from 'redux-form';
-import { Button } from 'react-bootstrap';
 import Panel from 'react-bootstrap/lib/Panel';
 import CabeceraForm from './CabeceraForm';
 import ClienteForm from './cliente-form/ClienteForm';
 import LineasForm from './LineasForm';
 import { CREATE_COMPROBANTE } from '../../actionTypes';
 import { nonEmpty } from '../../../utilities/reduxFormValidators';
+import BotonesForm from './BotonesForm';
 
-function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
+function CreateComprobante({ crearComprobante, valid, handleSubmit, cae }) {
     const opcionesIva = [
         { text: 'Exento', porcentaje: 0, gravado: 1 },
         { text: 'Iva inscripto 10.5', porcentaje: 10.5, gravado: 2 },
@@ -48,28 +48,29 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
                   opcionesIva={ opcionesIva }
                 />
             </Panel>
-            <Button
-              type='submit'
-              bsStyle='primary'
-              disabled={ !valid }
-            >
-                Crear comprobante
-            </Button>
+            <BotonesForm valid={ valid } cae={ cae } />
         </Form>
     );
 }
 
-const { func, bool } = PropTypes;
+const { func, bool, string } = PropTypes;
 
 CreateComprobante.propTypes = {
     crearComprobante: func.isRequired,
-    valid: bool,
-    handleSubmit: func,
+    valid: bool.isRequired,
+    handleSubmit: func.isRequired,
+    cae: string.isRequired,
 };
 
 const CreateComprobanteForm = reduxForm({
     form: 'CreateComprobanteForm',
 })(CreateComprobante);
+
+function mapStateToProps(state) {
+    return {
+        cae: state.comprobantesReducer.cae || '',
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
@@ -77,4 +78,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(CreateComprobanteForm);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateComprobanteForm);
