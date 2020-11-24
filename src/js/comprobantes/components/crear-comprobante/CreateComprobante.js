@@ -5,7 +5,7 @@ import { Form, reduxForm, FieldArray } from 'redux-form';
 import { Button } from 'react-bootstrap';
 import Panel from 'react-bootstrap/lib/Panel';
 import CabeceraForm from './CabeceraForm';
-import ClienteForm from './ClienteForm';
+import ClienteForm from './cliente-form/ClienteForm';
 import LineasForm from './LineasForm';
 import { CREATE_COMPROBANTE } from '../../actionTypes';
 import { nonEmpty } from '../../../utilities/reduxFormValidators';
@@ -16,9 +16,22 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit }) {
         { text: 'Iva inscripto 10.5', porcentaje: 10.5, gravado: 2 },
         { text: 'Iva inscripto 21', porcentaje: 21, gravado: 3 },
     ];
+
+    const getNombreCliente = (nombreCliente) => {
+        if (Array.isArray(nombreCliente)) {
+            const { apellido, nombre } = nombreCliente[0];
+            return apellido ? `${nombre} ${apellido}` : `${nombre}`;
+        }
+        return nombreCliente;
+    };
     return (
         <Form
-          onSubmit={ handleSubmit(comprobante => crearComprobante(comprobante)) }
+          onSubmit={ handleSubmit(comprobante =>
+              crearComprobante({
+                  ...comprobante,
+                  nombreCliente: getNombreCliente(comprobante.nombreCliente),
+              }),
+          ) }
         >
             <h1> Crear comprobante </h1>
             <Panel header='Cliente' collapsible defaultExpanded>

@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -9,21 +10,17 @@ function LineasForm({ fields, iva, lineas, opcionesIva }) {
     useEffect(() => {
         fields.push({});
     }, []);
+    const getIva = () => Number(iva && opcionesIva.find(e => e.gravado === iva).porcentaje);
 
-    const [netoTotal, setNetoTotal] = useState(0);
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
-        setNetoTotal(
-            lineas.map(linea => Number(linea.importeNeto || 0))
-                  .reduce((importeTotal, importe) => importeTotal + importe, 0),
-        );
-        setTotal(
-            Math.round((netoTotal * 100) + (netoTotal * (iva || 0))) / 100,
-        );
-    });
+        const neto = lineas
+            .map(linea => Number(linea.importeNeto || 0))
+            .reduce((importeTotal, importe) => importeTotal + importe, 0);
 
-    const getIva = () => Number(iva && opcionesIva.find(e => e.gravado === iva).porcentaje);
+        setTotal(Math.round(neto * 100 + neto * (getIva() || 0)) / 100);
+    });
 
     return (
         <React.Fragment>
@@ -45,10 +42,8 @@ function LineasForm({ fields, iva, lineas, opcionesIva }) {
                         <Glyphicon glyph='plus' />
                     </Button>
                 </Col>
-            </Row>
-            <Row>
-                <Col mdOffset={ 10 } md={ 2 }>
-                    Total: ${ total }
+                <Col mdOffset={ 5 } md={ 2 }>
+                    Total: ${ total || 0 }
                 </Col>
             </Row>
         </React.Fragment>
