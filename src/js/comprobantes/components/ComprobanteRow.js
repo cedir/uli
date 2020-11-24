@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button, Glyphicon } from 'react-bootstrap';
+import { config } from '../../app/config';
 
 function ComprobanteRow({
     NombreCliente,
@@ -11,6 +13,7 @@ function ComprobanteRow({
     setShowImporteModal,
     setComprobanteId,
     idComprobante,
+    cae,
 }) {
     const setOnClick = () => {
         setShowImporteModal(true);
@@ -30,6 +33,16 @@ function ComprobanteRow({
                     Crear asociado
                 </a>
             </td>
+            <td>
+                {cae &&
+                    <Button
+                      bsStyle='link'
+                      onClick={ () => window.open(`${config.baseUrl}/comprobante/imprimir/${cae}/`) }
+                    >
+                        <Glyphicon glyph='print' />
+                    </Button>
+                }
+            </td>
         </tr>
     );
 }
@@ -44,6 +57,7 @@ ComprobanteRow.propTypes = {
     setShowImporteModal: PropTypes.func.isRequired,
     setComprobanteId: PropTypes.func.isRequired,
     idComprobante: PropTypes.number.isRequired,
+    cae: PropTypes.string,
 };
 
 export default ComprobanteRow;

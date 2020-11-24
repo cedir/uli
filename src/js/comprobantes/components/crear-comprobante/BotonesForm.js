@@ -17,7 +17,6 @@ function BotonesForm({ valid, cae }) {
                     Crear comprobante
                 </Button>
                 <Button
-                  type='submit'
                   bsStyle='primary'
                   onClick={ () => window.open(`${config.baseUrl}/comprobante/imprimir/${cae}/${leyenda ? '?leyenda' : ''}`) }
                   disabled={ !cae }
