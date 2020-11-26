@@ -71,6 +71,11 @@ const createComprobanteFailed = state => ({
     comprobante: [],
 });
 
+const deleteCae = state => ({
+    ...state,
+    cae: initialState.cae,
+});
+
 export function comprobantesReducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCH_COMPROBANTES_PAGO:
@@ -96,6 +101,8 @@ export function comprobantesReducer(state = initialState, action) {
             return createComprobanteSuccess(state, action);
         case types.CREATED_COMPROBANTE_FAILED:
             return createComprobanteFailed(state);
+        case types.DELETE_CAE:
+            return deleteCae(state);
         default:
             return state;
     }
