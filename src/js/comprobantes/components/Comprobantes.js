@@ -36,6 +36,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes, history }) 
                         <th>Fecha de emision</th>
                         <th>Tipo de comprobante</th>
                         <th>Crear asociado</th>
+                        <th>Imprimir</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,6 +52,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes, history }) 
                           setShowImporteModal={ setShowImporteModal }
                           setComprobanteId={ setComprobanteId }
                           idComprobante={ comprobante.id }
+                          cae={ comprobante.cae }
                         />
                     ))}
                 </tbody>
