@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, reduxForm, FieldArray } from 'redux-form';
@@ -6,11 +6,11 @@ import Panel from 'react-bootstrap/lib/Panel';
 import CabeceraForm from './CabeceraForm';
 import ClienteForm from './cliente-form/ClienteForm';
 import LineasForm from './LineasForm';
-import { CREATE_COMPROBANTE } from '../../actionTypes';
+import { CREATE_COMPROBANTE, DELETE_CAE } from '../../actionTypes';
 import { nonEmpty } from '../../../utilities/reduxFormValidators';
 import BotonesForm from './BotonesForm';
 
-function CreateComprobante({ crearComprobante, valid, handleSubmit, cae }) {
+function CreateComprobante({ crearComprobante, valid, handleSubmit, borrarCae, cae }) {
     const opcionesIva = [
         { text: 'Exento', porcentaje: 0, gravado: 1 },
         { text: 'Iva inscripto 10.5', porcentaje: 10.5, gravado: 2 },
@@ -24,6 +24,11 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit, cae }) {
         }
         return nombreCliente;
     };
+
+    useEffect(() => {
+        borrarCae();
+    }, []);
+
     return (
         <Form
           onSubmit={ handleSubmit(comprobante =>
@@ -59,6 +64,7 @@ CreateComprobante.propTypes = {
     crearComprobante: func.isRequired,
     valid: bool.isRequired,
     handleSubmit: func.isRequired,
+    borrarCae: func.isRequired,
     cae: string.isRequired,
 };
 
@@ -75,6 +81,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         crearComprobante: comprobante => dispatch({ type: CREATE_COMPROBANTE, comprobante }),
+        borrarCae: () => dispatch({ type: DELETE_CAE }),
     };
 }
 
