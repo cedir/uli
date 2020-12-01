@@ -5,6 +5,7 @@ import EstudiosDeUnaPresentacionList from '../../components/EstudiosDeUnaPresent
 import initialState from '../../modificar-presentacion/modificarPresentacionReducerInitialState';
 import { ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION } from '../../modificar-presentacion/actionTypes';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
+import BotonesCobrar from './BotonesCobrar';
 
 const VerPresentacionPage = ({
     estudios, estudiosApiLoading, importesTotales,
@@ -16,9 +17,10 @@ const VerPresentacionPage = ({
             { !showPage && (
                 <Fragment>
                     <h1>
-                        {'Ver presentacion: '}
+                        {'Ver/Cobrar presentacion: '}
                         <strong>{obraSocial.nombre && obraSocial.nombre}</strong>
                     </h1>
+                    <BotonesCobrar />
                     <EstudiosDeUnaPresentacionList
                       estudios={ estudios }
                       estudiosApiLoading={ estudiosApiLoading }
