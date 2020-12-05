@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 
-function DefaultModal({ modalOpened, titulo, modalBody, handleClose, modalSize }) {
+function DefaultModal({
+    modalOpened,
+    titulo,
+    modalBody,
+    handleClose,
+    modalSize,
+    modalFooter,
+}) {
+    const modalFooterExp = modalFooter();
     return (
         <Modal
           show={ modalOpened }
@@ -12,9 +20,8 @@ function DefaultModal({ modalOpened, titulo, modalBody, handleClose, modalSize }
             <Modal.Header closeButton>
                 <Modal.Title>{ titulo }</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
-                { modalBody() }
-            </Modal.Body>
+            <Modal.Body>{ modalBody() }</Modal.Body>
+            { modalFooterExp && <Modal.Footer> { modalFooterExp } </Modal.Footer> }
         </Modal>
     );
 }
@@ -27,6 +34,7 @@ DefaultModal.propTypes = {
     modalBody: func.isRequired,
     handleClose: func.isRequired,
     modalSize: string.isRequired,
+    modalFooter: func,
 };
 
 export default DefaultModal;
