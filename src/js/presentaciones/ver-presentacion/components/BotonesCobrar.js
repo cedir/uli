@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Well, Row } from 'react-bootstrap';
 import DefaultModal from './DefaultModal';
 import PorcentajeDescontadoModal from './PorcentajeDescontadoModal';
 import ComprobanteModal from './ComprobanteModal';
@@ -52,35 +52,42 @@ function BotonesCobrar() {
               modalSize={ modalSize }
               modalFooter={ modalFooter }
             />
-            <div className='tab-navigator'>
-                <nav className='tabs' style={ { marginTop: '2rem' } }>
-                    <Button
-                      role='button'
-                      style={ { width: '18rem' } }
-                      bsStyle='primary'
-                      onClick={ showPorcentajeModal }
-                      className='primero'
-                    >
-                        Porcentaje descontado
-                    </Button>
-                    <Button
-                      role='button'
-                      style={ { width: '15rem' } }
-                      bsStyle='primary'
-                      onClick={ showComprobanteModal }
-                    >
-                        Ver Comprobante
-                    </Button>
-                    <Button
-                      role='button'
-                      bsStyle='primary'
-                      className='ultimo'
-                      onClick={ showCobrarModal }
-                    >
-                        Cobrar
-                    </Button>
-                </nav>
-            </div>
+            <Row className='tab-navigator'>
+                <Col md={ 10 }>
+                    <ButtonGroup className='tabs' style={ { marginTop: '2rem' } }>
+                        <Button
+                          role='button'
+                          style={ { width: '18rem' } }
+                          bsStyle='primary'
+                          onClick={ showPorcentajeModal }
+                          className='primero'
+                        >
+                            Porcentaje descontado
+                        </Button>
+                        <Button
+                          role='button'
+                          style={ { width: '15rem' } }
+                          bsStyle='primary'
+                          onClick={ showComprobanteModal }
+                        >
+                            Ver Comprobante
+                        </Button>
+                        <Button
+                          role='button'
+                          bsStyle='primary'
+                          className='ultimo'
+                          onClick={ showCobrarModal }
+                        >
+                            Cobrar
+                        </Button>
+                    </ButtonGroup>
+                </Col>
+                <Col md={ 2 } >
+                    <Well bsSize='small'>
+                        Retencion impositiva: 32% - Directa
+                    </Well>
+                </Col>
+            </Row>
         </React.Fragment>
     );
 }
