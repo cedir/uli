@@ -1,16 +1,12 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import EstudiosDeUnaPresentacionList from '../../components/EstudiosDeUnaPresentacionList';
 import initialState from '../../modificar-presentacion/modificarPresentacionReducerInitialState';
-import { ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION } from '../../modificar-presentacion/actionTypes';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
 import BotonesCobrar from './BotonesCobrar';
+import CobrarPresentacionEstudios from './CobrarPresentacionEstudios';
 
-const VerPresentacionPage = ({
-    estudios, estudiosApiLoading, importesTotales,
-    actualizarInput, obraSocial,
-}) => {
+const VerPresentacionPage = ({ estudios, estudiosApiLoading, obraSocial }) => {
     const showPage = !estudios.length && !estudiosApiLoading;
     return (
         <Fragment>
@@ -21,11 +17,10 @@ const VerPresentacionPage = ({
                         <strong>{obraSocial.nombre && obraSocial.nombre}</strong>
                     </h1>
                     <BotonesCobrar />
-                    <EstudiosDeUnaPresentacionList
+                    <CobrarPresentacionEstudios
                       estudios={ estudios }
                       estudiosApiLoading={ estudiosApiLoading }
-                      importesTotales={ importesTotales }
-                      actualizarInput={ actualizarInput }
+                      obraSocial={ obraSocial }
                     />
                 </Fragment>
             )}
@@ -36,13 +31,11 @@ const VerPresentacionPage = ({
     );
 };
 
-const { array, bool, func, number, object } = PropTypes;
+const { array, bool, object } = PropTypes;
 
 VerPresentacionPage.propTypes = {
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
-    importesTotales: number.isRequired,
-    actualizarInput: func.isRequired,
     obraSocial: object.isRequired,
 };
 
@@ -57,18 +50,8 @@ function mapStateToProps(state) {
     return {
         estudios: state.modificarPresentacionReducer.estudios,
         estudiosApiLoading: state.modificarPresentacionReducer.estudiosApiLoading,
-        importesTotales: state.modificarPresentacionReducer.importesTotales,
         obraSocial: state.modificarPresentacionReducer.obraSocial,
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actualizarInput: (index, input, value) =>
-            dispatch({
-                type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, index, input, value,
-            }),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(VerPresentacionPage);
+export default connect(mapStateToProps)(VerPresentacionPage);
