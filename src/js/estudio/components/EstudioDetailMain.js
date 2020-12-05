@@ -14,6 +14,7 @@ import { FETCH_PRACTICAS } from '../../practica/actionTypes';
 import { UPDATE_ESTUDIO, CREATE_ESTUDIO } from '../../estudio/actionTypes';
 import { ESTADOS, ANESTESIA_SIN_ANESTESISTA } from '../constants';
 import { config } from '../../app/config';
+import EliminarEstudioModal from './EliminarEstudioModal';
 
 import { requiredOption, required } from '../../utilities/reduxFormValidators';
 // import { stat } from 'fs';
@@ -35,7 +36,10 @@ function initEditFormObject(estudio) {
 class EstudioDetailMain extends Component {
     constructor(props) {
         super(props);
-
+        this.state = {
+            showModal: false,
+        };
+        this.setShowModal = this.setShowModal.bind(this);
         this.setSelectedObraSocial = this.setSelectedObraSocial.bind(this);
         this.setSelectedMedicoActuante = this.setSelectedMedicoActuante.bind(this);
         this.setSelectedMedicoSolicitante = this.setSelectedMedicoSolicitante.bind(this);
@@ -57,6 +61,10 @@ class EstudioDetailMain extends Component {
         if (selection[0] && selection[0].id) {
             this.props.setSelectedObraSocial(selection[0]);
         }
+    }
+
+    setShowModal() {
+        this.setState({ showModal: !this.state.showModal });
     }
 
     setSelectedMedicoActuante(selection) {
@@ -280,8 +288,13 @@ class EstudioDetailMain extends Component {
         const estadoPresentacion = presentacion ? presentacion.estado : undefined;
         const lockEstudioEdition =
             (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
+        const showModal = this.state.showModal;
         return (
             <div className='estudio-detail-main' style={ { marginBottom: '20px' } }>
+                <EliminarEstudioModal
+                  modalOpened={ showModal }
+                  setShowEliminarEstudioModal={ this.setShowModal }
+                />
                 <form
                   onSubmit={ this.props.handleSubmit(editParams =>
                     this.handleFormSubmit(editParams)) }
@@ -492,6 +505,14 @@ class EstudioDetailMain extends Component {
                       style={ { height: '200px' } }
                       component={ InputRF }
                     />
+                    { this.props.estudioDetailFormMode === 'edit' && <Button
+                      bsStyle='danger'
+                      onClick={ () => this.setState({ showModal: true }) }
+                    >
+                        Eliminar
+                    </Button>
+                    }
+
                     <div className='pull-right'>
                         { this.props.estudioDetailFormMode === 'edit' && <a
                           className='btn btn-default'
