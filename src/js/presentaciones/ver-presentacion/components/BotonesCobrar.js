@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, ButtonGroup, Col, Well, Row } from 'react-bootstrap';
+import { Button, ButtonGroup, Col, Well, Row, FormGroup, InputGroup, FormControl } from 'react-bootstrap';
 import DefaultModal from './DefaultModal';
 import PorcentajeDescontadoModal from './PorcentajeDescontadoModal';
 import ComprobanteModal from './ComprobanteModal';
@@ -42,6 +42,14 @@ function BotonesCobrar() {
         setTituloModal('');
     };
 
+    const styles = {
+        porcentajeButton: { width: '18rem' },
+        comprobanteButton: { width: '15rem' },
+        inlineForm: { marginTop: '.5rem' },
+        formGroup: { marginLeft: '1rem', marginTop: '2rem' },
+        well: { marginBottom: '0rem', marginTop: '1rem' },
+    };
+
     return (
         <React.Fragment>
             <DefaultModal
@@ -57,7 +65,7 @@ function BotonesCobrar() {
                     <ButtonGroup className='tabs' style={ { marginTop: '2rem' } }>
                         <Button
                           role='button'
-                          style={ { width: '18rem' } }
+                          style={ styles.porcentajeButton }
                           bsStyle='primary'
                           onClick={ showPorcentajeModal }
                           className='primero'
@@ -66,7 +74,7 @@ function BotonesCobrar() {
                         </Button>
                         <Button
                           role='button'
-                          style={ { width: '15rem' } }
+                          style={ styles.comprobanteButton }
                           bsStyle='primary'
                           onClick={ showComprobanteModal }
                         >
@@ -81,9 +89,19 @@ function BotonesCobrar() {
                             Cobrar
                         </Button>
                     </ButtonGroup>
+                    <span className='form-inline' style={ styles.inlineForm }>
+                        <FormGroup style={ styles.formGroup }>
+                            <InputGroup>
+                                <InputGroup.Button>
+                                    <Button>Nro. de recibo:</Button>
+                                </InputGroup.Button>
+                                <FormControl type='text' />
+                            </InputGroup>
+                        </FormGroup>
+                    </span>
                 </Col>
                 <Col md={ 2 } >
-                    <Well bsSize='small'>
+                    <Well bsSize='small' style={ styles.well }>
                         Retencion impositiva: 32% - Directa
                     </Well>
                 </Col>
