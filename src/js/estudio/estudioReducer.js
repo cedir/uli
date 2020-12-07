@@ -5,7 +5,11 @@ import { FETCH_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     UPDATE_SEARCH_PAGE, UPDATE_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
     FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS, PAGO_MEDICO_SUCCESS,
     RESET_ESTUDIOS_IMPAGOS, ACTULIZA_IMPORTES_ESTUDIO, REALIZAR_PAGO_CONTRA_FACTURA,
-    ANULAR_PAGO_CONTRA_FACTURA } from './actionTypes';
+    ANULAR_PAGO_CONTRA_FACTURA,
+    ELIMINAR_ESTUDIO,
+    ELIMINAR_ESTUDIO_ERROR,
+    ELIMINAR_ESTUDIO_SUCCES } from './actionTypes';
+
 
 const PAGE_SIZE = 100;
 
@@ -100,6 +104,22 @@ const handlePagoAMedicoSuccess = (state) => {
     return newState;
 };
 
+const eliminarEstudio = state => ({
+    ...state,
+    estudioApiLoading: true,
+});
+
+const eliminarEstudioError = state => ({
+    ...state,
+    estudioApiLoading: false,
+});
+
+const eliminarEstudioSucces = state => ({
+    ...state,
+    estudioApiLoading: false,
+    estudioDetail: {},
+});
+
 
 export function estudioReducer(state = initialState, action) {
     switch (action.type) {
@@ -133,6 +153,12 @@ export function estudioReducer(state = initialState, action) {
             return resetEstudiosImpagos(state);
         case PAGO_MEDICO_SUCCESS:
             return handlePagoAMedicoSuccess(state);
+        case ELIMINAR_ESTUDIO:
+            return eliminarEstudio(state);
+        case ELIMINAR_ESTUDIO_ERROR:
+            return eliminarEstudioError(state);
+        case ELIMINAR_ESTUDIO_SUCCES:
+            return eliminarEstudioSucces(state);
         default:
             return state;
     }
