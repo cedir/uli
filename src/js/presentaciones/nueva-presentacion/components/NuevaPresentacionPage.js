@@ -42,7 +42,7 @@ function NuevaPresentacionPage(props) {
         <Fragment>
             <div hidden={ showPage }>
                 <h1>
-                    {'Nueva Presentacion: '}
+                    {'Nueva Presentacion: '}
                     <strong>{obraSocial !== {} ? obraSocial.nombre : ''}</strong>
                 </h1>
                 <div

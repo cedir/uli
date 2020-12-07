@@ -42,7 +42,7 @@ function TabNavigator(props) {
                 <Button
                   role='button'
                   bsStyle='primary'
-                  className='ayuda'
+                  className='primero'
                   tabIndex='0'
                   disabled
                 >   Ayuda
@@ -72,7 +72,7 @@ function TabNavigator(props) {
                   role='button'
                   tabIndex='0'
                   bsStyle='primary'
-                  className='agregar-estudios'
+                  className='ultimo'
                   onClick={ agregarClickHandler }
                   disabled={ estudios.length === 0 }
                 >
