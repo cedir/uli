@@ -1,54 +1,57 @@
-import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import EstudiosDeUnaPresentacionList from '../../components/EstudiosDeUnaPresentacionList';
-import initialState from '../../modificar-presentacion/modificarPresentacionReducerInitialState';
+import REFACTURAR_ESTUDIO from '../actionTypes';
 import { ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION } from '../../modificar-presentacion/actionTypes';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
+import BotonesCobrar from './BotonesCobrar';
 
-const VerPresentacionPage = ({
-    estudios, estudiosApiLoading, importesTotales,
-    actualizarInput, obraSocial,
-}) => {
+function CobrarPresentacionPage({
+    eliminarEstudio,
+    importesTotales,
+    actualizarInput,
+    estudios,
+    estudiosApiLoading,
+    obraSocial,
+}) {
     const showPage = !estudios.length && !estudiosApiLoading;
     return (
-        <Fragment>
+        <React.Fragment>
             { !showPage && (
-                <Fragment>
+                <React.Fragment>
                     <h1>
-                        {'Ver presentacion: '}
+                        {'Cobrar presentacion: '}
                         <strong>{obraSocial.nombre && obraSocial.nombre}</strong>
                     </h1>
+                    <BotonesCobrar />
                     <EstudiosDeUnaPresentacionList
                       estudios={ estudios }
                       estudiosApiLoading={ estudiosApiLoading }
                       importesTotales={ importesTotales }
                       actualizarInput={ actualizarInput }
+                      obraSocial={ obraSocial }
+                      eliminarEstudio={ eliminarEstudio }
                     />
-                </Fragment>
+                </React.Fragment>
             )}
             { showPage && (
                 <NotFoundPage />
             )}
-        </Fragment>
+        </React.Fragment>
     );
-};
+}
 
-const { array, bool, func, number, object } = PropTypes;
 
-VerPresentacionPage.propTypes = {
+const { number, func, array, bool, object } = PropTypes;
+
+CobrarPresentacionPage.propTypes = {
+    eliminarEstudio: func.isRequired,
+    actualizarInput: func.isRequired,
+    importesTotales: number.isRequired,
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
-    importesTotales: number.isRequired,
-    actualizarInput: func.isRequired,
     obraSocial: object.isRequired,
-};
-
-VerPresentacionPage.defaultProps = {
-    estudios: initialState.estudios,
-    estudiosApiLoading: initialState.estudiosApiLoading,
-    importesTotales: initialState.importesTotales,
-    obraSocial: initialState.obraSocial,
 };
 
 function mapStateToProps(state) {
@@ -62,6 +65,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        eliminarEstudio: estudio => dispatch({ REFACTURAR_ESTUDIO, estudioId: estudio.id }),
         actualizarInput: (index, input, value) =>
             dispatch({
                 type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, index, input, value,
@@ -69,4 +73,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(VerPresentacionPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CobrarPresentacionPage);

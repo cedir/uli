@@ -15,7 +15,7 @@ const refacturarEstudioFailed = state => ({
     estudiosApiLoading: false,
 });
 
-export function comprobantesReducer(state, action) {
+export function cobrarPresentacionReducer(state, action) {
     switch (action.type) {
         case types.REFACTURAR_ESTUDIO:
             return actionsHandledByEpicReducer(state);
