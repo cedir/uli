@@ -7,4 +7,5 @@ export default {
     importesTotales: 0,
     fecha: '',
     estudiosApiLoading: false,
+    comprobante: {},
 };

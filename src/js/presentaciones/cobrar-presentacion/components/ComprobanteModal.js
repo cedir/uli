@@ -1,15 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ListGroupItem, ListGroup } from 'react-bootstrap';
 
-function ComprobanteModal() {
+function ComprobanteModal({ comprobante }) {
     return (
         <ListGroup>
-            <ListGroupItem>Fecha: 04/09/2020</ListGroupItem>
-            <ListGroupItem>Responsable: Cedir - Factura A</ListGroupItem>
-            <ListGroupItem>Comprobante nro: 1713</ListGroupItem>
-            <ListGroupItem>Iva: 10.50%</ListGroupItem>
+            <ListGroupItem>Fecha: {comprobante.fecha_emision}</ListGroupItem>
+            <ListGroupItem>
+                Responsable: Cedir - {comprobante.tipo_comprobante.nombre} {comprobante.sub_tipo}
+            </ListGroupItem>
+            <ListGroupItem>
+                Comprobante nro: {comprobante.numero}
+            </ListGroupItem>
+            <ListGroupItem>Iva: {comprobante.gravado.porcentaje}%</ListGroupItem>
         </ListGroup>
     );
 }
+
+const { object } = PropTypes;
+
+ComprobanteModal.propTypes = {
+    comprobante: object.isRequired,
+};
 
 export default ComprobanteModal;

@@ -9,6 +9,7 @@ function DefaultModal({
     handleClose,
     modalSize,
     modalFooter,
+    childProps = {},
 }) {
     const modalFooterExp = modalFooter();
     return (
@@ -20,13 +21,13 @@ function DefaultModal({
             <Modal.Header closeButton>
                 <Modal.Title>{ titulo }</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{ modalBody() }</Modal.Body>
+            <Modal.Body>{ modalBody(childProps) }</Modal.Body>
             { modalFooterExp && <Modal.Footer> { modalFooterExp } </Modal.Footer> }
         </Modal>
     );
 }
 
-const { bool, string, func } = PropTypes;
+const { bool, string, func, object } = PropTypes;
 
 DefaultModal.propTypes = {
     modalOpened: bool.isRequired,
@@ -35,6 +36,7 @@ DefaultModal.propTypes = {
     handleClose: func.isRequired,
     modalSize: string.isRequired,
     modalFooter: func,
+    childProps: object,
 };
 
 export default DefaultModal;
