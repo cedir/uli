@@ -56,10 +56,10 @@ CobrarPresentacionPage.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        estudios: state.modificarPresentacionReducer.estudios,
-        estudiosApiLoading: state.modificarPresentacionReducer.estudiosApiLoading,
-        importesTotales: state.modificarPresentacionReducer.importesTotales,
-        obraSocial: state.modificarPresentacionReducer.obraSocial,
+        estudios: state.cobrarPresentacionReducer.estudios,
+        estudiosApiLoading: state.cobrarPresentacionReducer.estudiosApiLoading,
+        importesTotales: state.cobrarPresentacionReducer.importesTotales,
+        obraSocial: state.cobrarPresentacionReducer.obraSocial,
     };
 }
 

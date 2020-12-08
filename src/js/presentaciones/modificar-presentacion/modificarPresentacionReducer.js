@@ -17,7 +17,7 @@ import {
 } from './actionTypes';
 import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
 
-const sumarImportesEstudios = (state) => {
+export const sumarImportesEstudios = (state) => {
     const { estudios } = state;
     let importesTotales = 0;
     estudios.forEach((estudio) => {
