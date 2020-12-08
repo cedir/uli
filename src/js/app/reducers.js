@@ -14,6 +14,7 @@ import { practicaReducer } from '../practica/practicaReducer';
 import { presentacionReducer } from '../presentaciones/presentacionReducer';
 import { estudiosSinPresentarReducer } from '../presentaciones/nueva-presentacion/estudiosSinPresentarReducer';
 import { modificarPresentacionReducer } from '../presentaciones/modificar-presentacion/modificarPresentacionReducer';
+import { cobrarPresentacionReducer } from '../presentaciones/cobrar-presentacion/cobrarPresentacionReducer';
 import { loginReducer } from '../login/loginReducer';
 import { alertReducer } from '../utilities/components/alert/alertReducer';
 import { comprobantesReducer } from '../comprobantes/comprobantesReducer';
@@ -115,6 +116,7 @@ export const rootReducer = combineReducers({
     practicaReducer,
     presentacionReducer,
     estudiosSinPresentarReducer,
+    cobrarPresentacionReducer,
     modificarPresentacionReducer,
     login: loginReducer,
     alertReducer,

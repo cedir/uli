@@ -10,6 +10,7 @@ import LockOpenIcon from 'mdi-react/LockOpenIcon';
 import { getPresentacionFormatoOsde, getPresentacionFormatoAMR } from '../api';
 import { ABRIR_PRESENTACION } from '../actionTypes';
 import { FETCH_ESTUDIOS_DE_UNA_PRESENTACION } from '../modificar-presentacion/actionTypes';
+import { FETCH_DATOS_DE_UNA_PRESENTACION } from '../cobrar-presentacion/actionTypes';
 import AlertModal from '../../utilities/components/alert/AlertModal';
 
 function PresentacionesObraSocialTableRow(props) {
@@ -37,6 +38,9 @@ function PresentacionesObraSocialTableRow(props) {
         if (estado === 'Abierto') {
             props.fetchEstudios(presentacion.id, obraSocial, fecha);
             history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
+        } else if (estado === 'Pendiente') {
+            props.fetchPresentacion(presentacion.id, obraSocial, fecha);
+            history.push(`/presentaciones-obras-sociales/cobrar-presentacion/${presentacion.id}`);
         } else {
             props.fetchEstudios(presentacion.id, obraSocial, fecha);
             history.push(`/presentaciones-obras-sociales/ver-presentacion/${presentacion.id}`);
@@ -118,6 +122,7 @@ PresentacionesObraSocialTableRow.propTypes = {
     presentacion: object.isRequired,
     abrirPresentacion: func.isRequired,
     fetchEstudios: func.isRequired,
+    fetchPresentacion: func.isRequired,
     history: object.isRequired,
     index: number.isRequired,
 };
@@ -128,6 +133,8 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: ABRIR_PRESENTACION, id, index }),
         fetchEstudios: (id, obraSocial, fecha) =>
             dispatch({ type: FETCH_ESTUDIOS_DE_UNA_PRESENTACION, id, obraSocial, fecha }),
+        fetchPresentacion: (id, obraSocial, fecha) =>
+            dispatch({ type: FETCH_DATOS_DE_UNA_PRESENTACION, id, obraSocial, fecha }),
     };
 }
 
