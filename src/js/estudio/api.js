@@ -1,4 +1,4 @@
-import { get, update, post, patch } from '../utilities/rest';
+import { get, update, post, patch, remove } from '../utilities/rest';
 import { getSucursal } from '../app/storeHelper';
 
 
@@ -101,6 +101,11 @@ export function actualizaImportesEstudio(importes) {
     };
 
     return patch(url, body);
+}
+
+export function eliminarEstudio(estudio) {
+    const url = `/api/estudio/${estudio}/`;
+    return remove(url);
 }
 
 export function createPagoAMedico(pago) {
