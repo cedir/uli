@@ -31,6 +31,7 @@ function CobrarPresentacionPage({
                       actualizarInput={ actualizarInput }
                       obraSocial={ obraSocial }
                       eliminarEstudio={ eliminarEstudio }
+                      seccion='cobrar-presentacion'
                     />
                 </React.Fragment>
             )}
