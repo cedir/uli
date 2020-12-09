@@ -125,7 +125,7 @@ BotonesCobrar.propTypes = {
 
 function mapStateToProps(state) {
     const { se_presenta_por_AMR: AMR } = state.cobrarPresentacionReducer.obraSocial;
-    const retencionImpositiva = AMR === '1' ? 32 : 25;
+    const retencionImpositiva = Number(AMR) ? 32 : 25;
     return {
         comprobante: state.cobrarPresentacionReducer.comprobante,
         retencionImpositiva,
