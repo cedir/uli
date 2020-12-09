@@ -7,8 +7,9 @@ import PorcentajeDescontadoModal from './PorcentajeDescontadoModal';
 import ComprobanteModal from './ComprobanteModal';
 import CobrarModal from './CobrarModal';
 import CobrarModalFooter from './CobrarModalFooter';
+import { DESCONTAR_A_ESTUDIOS } from '../actionTypes';
 
-function BotonesCobrar({ comprobante, retencionImpositiva }) {
+function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
     const [showModal, setShowModal] = useState(false);
     const [tituloModal, setTituloModal] = useState('');
     const [modalBody, setModalBody] = useState(() => () => {});
@@ -21,6 +22,7 @@ function BotonesCobrar({ comprobante, retencionImpositiva }) {
         setShowModal(true);
         setModalBody(() => PorcentajeDescontadoModal);
         setModalSize('large');
+        setChildProps({ descontarGeneral, handleModalClose });
     };
 
     const showComprobanteModal = () => {
@@ -116,11 +118,12 @@ function BotonesCobrar({ comprobante, retencionImpositiva }) {
     );
 }
 
-const { object, number } = PropTypes;
+const { object, number, func } = PropTypes;
 
 BotonesCobrar.propTypes = {
     comprobante: object.isRequired,
     retencionImpositiva: number.isRequired,
+    descontarGeneral: func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -132,4 +135,10 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(BotonesCobrar);
+function mapDispatchToProps(dispatch) {
+    return {
+        descontarGeneral: porcentaje => dispatch({ type: DESCONTAR_A_ESTUDIOS, porcentaje }),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BotonesCobrar);

@@ -109,7 +109,7 @@ const eliminarEstudioDeUnaPresentacionReducer = (state, action) => {
     });
 };
 
-const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
+export const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
     const { estudios } = state;
     // newEstudio is a copy of an estudios[action.index]
     // console.log(newEstudio === estudios[action.index]) -> false

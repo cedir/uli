@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import initialState from './cobrarPresentacionInitialState';
-import { sumarImportesEstudios } from '../modificar-presentacion/modificarPresentacionReducer';
+import { sumarImportesEstudios, actualizarInputEstudioDeUnaPresentacionReducer } from '../modificar-presentacion/modificarPresentacionReducer';
 
 const actionsHandledByEpicReducer = state => ({
     ...state,
@@ -33,6 +33,21 @@ const fetchDatosDeUnaPresentacionFailed = state => ({
     estudiosApiLoading: false,
 });
 
+const descontarAEstudios = (state, action) => {
+    const porcentaje = 1 - (action.porcentaje / 100);
+    return sumarImportesEstudios({
+        ...state,
+        estudios: state.estudios.map(estudio => ({
+            ...estudio,
+            importe_estudio: Math.round(estudio.importe_estudio * porcentaje * 100) / 100,
+            diferencia_paciente: Math.round(estudio.diferencia_paciente * porcentaje * 100) / 100,
+            importe_medicacion: Math.round(estudio.importe_medicacion * porcentaje * 100) / 100,
+            arancel_anestesia: Math.round(estudio.arancel_anestesia * porcentaje * 100) / 100,
+            pension: Math.round(estudio.pension * porcentaje * 100) / 100,
+        })),
+    });
+};
+
 export function cobrarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
         case types.REFACTURAR_ESTUDIO:
@@ -46,6 +61,10 @@ export function cobrarPresentacionReducer(state = initialState, action) {
             return fetchDatosDeUnaPresentacionSuccess(state, action);
         case types.FETCH_DATOS_DE_UNA_PRESENTACION_FAILED:
             return fetchDatosDeUnaPresentacionFailed(state);
+        case types.DESCONTAR_A_ESTUDIOS:
+            return descontarAEstudios(state, action);
+        case types.ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION:
+            return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
         default:
             return state;
     }
