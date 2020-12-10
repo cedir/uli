@@ -13,7 +13,6 @@ export function getDatosDeUnaPresentacionEpic(action$) {
         .mergeMap(action =>
             getDatosDeUnaPresentacion(action.id)
             .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
                 {
                     type: FETCH_DATOS_DE_UNA_PRESENTACION_SUCCESS,
                     presentacion: data.response,
@@ -21,6 +20,7 @@ export function getDatosDeUnaPresentacionEpic(action$) {
                     id: action.id,
                     fecha: action.fecha,
                 },
+                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
             ))
             .catch(() => (Rx.Observable.of(
                 { type: FETCH_DATOS_DE_UNA_PRESENTACION_ERROR },
