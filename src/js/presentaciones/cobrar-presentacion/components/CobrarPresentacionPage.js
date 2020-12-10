@@ -23,7 +23,7 @@ function CobrarPresentacionPage({
                         {'Cobrar presentacion: '}
                         <strong>{obraSocial.nombre && obraSocial.nombre}</strong>
                     </h1>
-                    <BotonesCobrar />
+                    <BotonesCobrar cargando={ estudiosApiLoading } />
                     <EstudiosDeUnaPresentacionList
                       estudios={ estudios }
                       estudiosApiLoading={ estudiosApiLoading }

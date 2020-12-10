@@ -9,7 +9,7 @@ import CobrarModal from './CobrarModal';
 import CobrarModalFooter from './CobrarModalFooter';
 import { DESCONTAR_A_ESTUDIOS } from '../actionTypes';
 
-function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
+function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral, cargando }) {
     const [showModal, setShowModal] = useState(false);
     const [tituloModal, setTituloModal] = useState('');
     const [modalBody, setModalBody] = useState(() => () => {});
@@ -72,6 +72,7 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
                 <Col md={ 10 }>
                     <ButtonGroup className='tabs' style={ { marginTop: '2rem' } }>
                         <Button
+                          disabled={ cargando }
                           role='button'
                           style={ styles.porcentajeButton }
                           bsStyle='primary'
@@ -81,6 +82,7 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
                             Porcentaje descontado
                         </Button>
                         <Button
+                          disabled={ cargando }
                           role='button'
                           style={ styles.comprobanteButton }
                           bsStyle='primary'
@@ -89,6 +91,7 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
                             Ver Comprobante
                         </Button>
                         <Button
+                          disabled={ cargando }
                           role='button'
                           bsStyle='primary'
                           className='ultimo'
@@ -118,12 +121,13 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
     );
 }
 
-const { object, number, func } = PropTypes;
+const { object, number, func, bool } = PropTypes;
 
 BotonesCobrar.propTypes = {
     comprobante: object.isRequired,
     retencionImpositiva: number.isRequired,
     descontarGeneral: func.isRequired,
+    cargando: bool.isRequired,
 };
 
 function mapStateToProps(state) {
