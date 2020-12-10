@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import DeleteIcon from 'mdi-react/DeleteIcon';
@@ -60,6 +60,13 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     const { descripcion } = practica;
     const descripcionAbreviada = descripcion &&
         descripcion.slice(0, 8).concat(descripcion.length > 8 ? '...' : '');
+
+    useEffect(() => {
+        setImporte(parseFloat(importe_estudio, 10));
+        setPension(parseFloat(pension, 10));
+        setDifPaciente(parseFloat(diferencia_paciente, 10));
+        setAnestesista(parseFloat(arancel_anestesia, 10));
+    }, [estudio.importe_estudio === importe]);
 
     /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     return (

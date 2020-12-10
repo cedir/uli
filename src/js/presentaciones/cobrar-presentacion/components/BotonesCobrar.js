@@ -1,23 +1,28 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Button, ButtonGroup, Col, Well, Row, FormGroup, InputGroup, FormControl } from 'react-bootstrap';
 import DefaultModal from './DefaultModal';
 import PorcentajeDescontadoModal from './PorcentajeDescontadoModal';
 import ComprobanteModal from './ComprobanteModal';
 import CobrarModal from './CobrarModal';
 import CobrarModalFooter from './CobrarModalFooter';
+import { DESCONTAR_A_ESTUDIOS } from '../actionTypes';
 
-function BotonesCobrar() {
+function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
     const [showModal, setShowModal] = useState(false);
     const [tituloModal, setTituloModal] = useState('');
     const [modalBody, setModalBody] = useState(() => () => {});
     const [modalSize, setModalSize] = useState('small');
     const [modalFooter, setModalFooter] = useState(() => () => {});
+    const [childProps, setChildProps] = useState({});
 
     const showPorcentajeModal = () => {
         setTituloModal('Porcentaje descontado');
         setShowModal(true);
         setModalBody(() => PorcentajeDescontadoModal);
         setModalSize('large');
+        setChildProps({ descontarGeneral, handleModalClose });
     };
 
     const showComprobanteModal = () => {
@@ -25,6 +30,7 @@ function BotonesCobrar() {
         setShowModal(true);
         setModalBody(() => ComprobanteModal);
         setModalSize('large');
+        setChildProps({ comprobante });
     };
 
     const showCobrarModal = () => {
@@ -40,6 +46,7 @@ function BotonesCobrar() {
         setModalBody(() => () => {});
         setModalFooter(() => () => {});
         setTituloModal('');
+        setChildProps({});
     };
 
     const styles = {
@@ -59,6 +66,7 @@ function BotonesCobrar() {
               handleClose={ handleModalClose }
               modalSize={ modalSize }
               modalFooter={ modalFooter }
+              childProps={ childProps }
             />
             <Row className='tab-navigator'>
                 <Col md={ 10 }>
@@ -102,7 +110,7 @@ function BotonesCobrar() {
                 </Col>
                 <Col md={ 2 } >
                     <Well bsSize='small' style={ styles.well }>
-                        Retencion impositiva: 32% - Directa
+                        Retencion impositiva: {retencionImpositiva} - {retencionImpositiva === 32 ? 'AMR' : 'Directa'}
                     </Well>
                 </Col>
             </Row>
@@ -110,4 +118,27 @@ function BotonesCobrar() {
     );
 }
 
-export default BotonesCobrar;
+const { object, number, func } = PropTypes;
+
+BotonesCobrar.propTypes = {
+    comprobante: object.isRequired,
+    retencionImpositiva: number.isRequired,
+    descontarGeneral: func.isRequired,
+};
+
+function mapStateToProps(state) {
+    const { se_presenta_por_AMR: AMR } = state.cobrarPresentacionReducer.obraSocial;
+    const retencionImpositiva = Number(AMR) ? 32 : 25;
+    return {
+        comprobante: state.cobrarPresentacionReducer.comprobante,
+        retencionImpositiva,
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        descontarGeneral: porcentaje => dispatch({ type: DESCONTAR_A_ESTUDIOS, porcentaje }),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BotonesCobrar);

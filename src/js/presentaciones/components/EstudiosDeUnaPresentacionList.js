@@ -76,7 +76,7 @@ EstudiosDeUnaPresentacionList.propTypes = {
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
     importesTotales: number.isRequired,
-    setImporteMedicacionEstudio: func.isRequired,
+    setImporteMedicacionEstudio: func,
     gravado: string,
     eliminarEstudio: func,
     actualizarInput: func.isRequired,

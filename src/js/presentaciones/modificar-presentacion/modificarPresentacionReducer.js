@@ -17,7 +17,7 @@ import {
 } from './actionTypes';
 import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
 
-const sumarImportesEstudios = (state) => {
+export const sumarImportesEstudios = (state) => {
     const { estudios } = state;
     let importesTotales = 0;
     estudios.forEach((estudio) => {
@@ -109,7 +109,7 @@ const eliminarEstudioDeUnaPresentacionReducer = (state, action) => {
     });
 };
 
-const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
+export const actualizarInputEstudioDeUnaPresentacionReducer = (state, action) => {
     const { estudios } = state;
     // newEstudio is a copy of an estudios[action.index]
     // console.log(newEstudio === estudios[action.index]) -> false

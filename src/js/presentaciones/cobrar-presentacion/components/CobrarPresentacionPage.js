@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import EstudiosDeUnaPresentacionList from '../../components/EstudiosDeUnaPresentacionList';
-import REFACTURAR_ESTUDIO from '../actionTypes';
-import { ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION } from '../../modificar-presentacion/actionTypes';
+import { REFACTURAR_ESTUDIO, ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION } from '../actionTypes';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
 import BotonesCobrar from './BotonesCobrar';
 
@@ -32,6 +31,7 @@ function CobrarPresentacionPage({
                       actualizarInput={ actualizarInput }
                       obraSocial={ obraSocial }
                       eliminarEstudio={ eliminarEstudio }
+                      seccion='cobrar-presentacion'
                     />
                 </React.Fragment>
             )}
@@ -56,10 +56,10 @@ CobrarPresentacionPage.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        estudios: state.modificarPresentacionReducer.estudios,
-        estudiosApiLoading: state.modificarPresentacionReducer.estudiosApiLoading,
-        importesTotales: state.modificarPresentacionReducer.importesTotales,
-        obraSocial: state.modificarPresentacionReducer.obraSocial,
+        estudios: state.cobrarPresentacionReducer.estudios,
+        estudiosApiLoading: state.cobrarPresentacionReducer.estudiosApiLoading,
+        importesTotales: state.cobrarPresentacionReducer.importesTotales,
+        obraSocial: state.cobrarPresentacionReducer.obraSocial,
     };
 }
 
@@ -68,7 +68,7 @@ function mapDispatchToProps(dispatch) {
         eliminarEstudio: estudio => dispatch({ REFACTURAR_ESTUDIO, estudioId: estudio.id }),
         actualizarInput: (index, input, value) =>
             dispatch({
-                type: ACTUALIZAR_INPUT_ESTUDIO_DE_UNA_PRESENTACION, index, input, value,
+                type: ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION, index, input, value,
             }),
     };
 }
