@@ -26,6 +26,13 @@ const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstud
     estado: action.presentacion.estado,
     obraSocial: action.obraSocial,
     id: action.id,
+    importesOriginales: action.presentacion.estudios.map(estudio => ({
+        importe_estudio: estudio.importe_estudio || 0,
+        diferencia_paciente: estudio.diferencia_paciente || 0,
+        importe_medicacion: estudio.importe_medicacion || 0,
+        arancel_anestesia: estudio.arancel_anestesia || 0,
+        pension: estudio.pension || 0,
+    })),
 });
 
 const fetchDatosDeUnaPresentacionFailed = state => ({
@@ -39,6 +46,7 @@ const descontarAEstudios = (state, action) => {
         ...state,
         estudios: state.estudios.map(estudio => ({
             ...estudio,
+            actualizarImportes: true,
             importe_estudio: Math.round(estudio.importe_estudio * porcentaje * 100) / 100,
             diferencia_paciente: Math.round(estudio.diferencia_paciente * porcentaje * 100) / 100,
             importe_medicacion: Math.round(estudio.importe_medicacion * porcentaje * 100) / 100,
@@ -47,6 +55,23 @@ const descontarAEstudios = (state, action) => {
         })),
     });
 };
+
+const resetearImportes = state => sumarImportesEstudios({
+    ...state,
+    estudios: state.estudios.map((estudio, i) => ({
+        ...estudio,
+        ...state.importesOriginales[i],
+        actualizarImportes: true,
+    })),
+});
+
+const importesActualizadosReducer = (state, action) => ({
+    ...state,
+    estudios: state.estudios.map((estudio, id) => ({
+        ...estudio,
+        actualizarImportes: id === action.id ? estudio.actualizarImportes : false,
+    })),
+});
 
 export function cobrarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
@@ -65,6 +90,10 @@ export function cobrarPresentacionReducer(state = initialState, action) {
             return descontarAEstudios(state, action);
         case types.ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION:
             return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
+        case types.RESETEAR_TODOS_LOS_IMPORTES:
+            return resetearImportes(state);
+        case types.IMPORTES_ACTUALIZADOS:
+            return importesActualizadosReducer(state, action);
         default:
             return state;
     }

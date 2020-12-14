@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, FormControl, FormGroup, Form, InputGroup, HelpBlock } from 'react-bootstrap';
 
 function PorcentajeDescontadoModal({ descontarGeneral, handleModalClose }) {
-    const [porcentaje, setPorcentaje] = useState(0);
+    const [porcentaje, setPorcentaje] = useState(1);
 
     const porcentajeIsValid = () => porcentaje >= 1 && porcentaje <= 100;
 
