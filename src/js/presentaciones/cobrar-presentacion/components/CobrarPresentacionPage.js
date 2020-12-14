@@ -3,11 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
 import EstudiosDeUnaPresentacionList from '../../components/EstudiosDeUnaPresentacionList';
-import { RESETEAR_IMPORTE_ESTUDIO, ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION, RESETEAR_TODOS_LOS_IMPORTES, IMPORTES_ACTUALIZADOS } from '../actionTypes';
+import { RESETEAR_IMPORTE_ESTUDIO, COBRAR_PRESENTACION, ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION, RESETEAR_TODOS_LOS_IMPORTES, IMPORTES_ACTUALIZADOS } from '../actionTypes';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
 import BotonesCobrar from './BotonesCobrar';
 
 function CobrarPresentacionPage({
+    idPresentacion,
     resetImporte,
     importesTotales,
     actualizarInput,
@@ -16,6 +17,9 @@ function CobrarPresentacionPage({
     obraSocial,
     resetImportes,
     importesActualizados,
+    cobrarPresentacion,
+    diferenciaCobrada,
+    cobrada,
 }) {
     const showPage = !estudios.length && !estudiosApiLoading;
     return (
@@ -33,12 +37,20 @@ function CobrarPresentacionPage({
                             <Button
                               onClick={ resetImportes }
                               style={ { marginTop: '2rem' } }
+                              disabled={ cobrada }
                             >
                                 Reset importes
                             </Button>
                         </Col>
                     </Row>
-                    <BotonesCobrar cargando={ estudiosApiLoading } />
+                    <BotonesCobrar
+                      cargando={ estudiosApiLoading }
+                      cobrarPresentacion={ cobrarPresentacion }
+                      estudios={ estudios }
+                      idPresentacion={ idPresentacion }
+                      diferenciaCobrada={ diferenciaCobrada }
+                      cobrada={ cobrada }
+                    />
                     <EstudiosDeUnaPresentacionList
                       estudios={ estudios }
                       estudiosApiLoading={ estudiosApiLoading }
@@ -70,6 +82,10 @@ CobrarPresentacionPage.propTypes = {
     obraSocial: object.isRequired,
     resetImportes: func.isRequired,
     importesActualizados: func,
+    cobrarPresentacion: func,
+    idPresentacion: number.isRequired,
+    diferenciaCobrada: number.isRequired,
+    cobrada: bool.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -78,6 +94,9 @@ function mapStateToProps(state) {
         estudiosApiLoading: state.cobrarPresentacionReducer.estudiosApiLoading,
         importesTotales: state.cobrarPresentacionReducer.importesTotales,
         obraSocial: state.cobrarPresentacionReducer.obraSocial,
+        idPresentacion: state.cobrarPresentacionReducer.id,
+        diferenciaCobrada: state.cobrarPresentacionReducer.diferenciaCobrada,
+        cobrada: state.cobrarPresentacionReducer.cobrada,
     };
 }
 
@@ -91,6 +110,14 @@ function mapDispatchToProps(dispatch) {
         importesActualizados: id => dispatch({ type: IMPORTES_ACTUALIZADOS, id }),
         resetImporte: id =>
             dispatch({ type: RESETEAR_IMPORTE_ESTUDIO, estudioId: id }),
+        cobrarPresentacion: (idPresentacion, estudios, nroRecibo, retencionImpositiva) =>
+            dispatch({
+                type: COBRAR_PRESENTACION,
+                idPresentacion,
+                estudios,
+                nroRecibo,
+                retencionImpositiva,
+            }),
     };
 }
 

@@ -7,4 +7,6 @@ export default {
     estudiosApiLoading: false,
     comprobante: {},
     estudiosRefacturar: [],
+    diferenciaCobrada: 0,
+    cobrada: false,
 };

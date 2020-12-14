@@ -86,10 +86,23 @@ const resetearImporteEstudioReducer = (state, action) => sumarImportesEstudios({
     }),
 });
 
+const cobrarPresentacionSuccess = (state, action) => ({
+    ...state,
+    diferenciaCobrada: action.diferencia,
+    cobrada: true,
+    estudiosApiLoading: false,
+});
+
+const cobrarPresentacionFailed = state => ({
+    ...state,
+    estudiosApiLoading: false,
+});
+
 export function cobrarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
         case types.REFACTURAR_ESTUDIO:
         case types.FETCH_DATOS_DE_UNA_PRESENTACION:
+        case types.COBRAR_PRESENTACION:
             return actionsHandledByEpicReducer(state);
         case types.REFACTURAR_ESTUDIO_SUCCESS:
             return refacturarEstudioSuccess(state);
@@ -109,6 +122,10 @@ export function cobrarPresentacionReducer(state = initialState, action) {
             return resetearImporteEstudioReducer(state, action);
         case types.IMPORTES_ACTUALIZADOS:
             return importesActualizadosReducer(state, action);
+        case types.COBRAR_PRESENTACION_SUCCESS:
+            return cobrarPresentacionSuccess(state, action);
+        case types.COBRAR_PRESENTACION_FAILED:
+            return cobrarPresentacionFailed(state);
         default:
             return state;
     }

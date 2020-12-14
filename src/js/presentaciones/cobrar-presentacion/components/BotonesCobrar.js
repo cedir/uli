@@ -9,13 +9,25 @@ import CobrarModal from './CobrarModal';
 import CobrarModalFooter from './CobrarModalFooter';
 import { DESCONTAR_A_ESTUDIOS } from '../actionTypes';
 
-function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral, cargando }) {
+function BotonesCobrar({
+    estudios,
+    comprobante,
+    retencionImpositiva,
+    descontarGeneral,
+    cargando,
+    cobrarPresentacion,
+    idPresentacion,
+    cobrada,
+    diferenciaCobrada,
+}) {
+    console.log(diferenciaCobrada);
     const [showModal, setShowModal] = useState(false);
     const [tituloModal, setTituloModal] = useState('');
     const [modalBody, setModalBody] = useState(() => () => {});
     const [modalSize, setModalSize] = useState('small');
     const [modalFooter, setModalFooter] = useState(() => () => {});
     const [childProps, setChildProps] = useState({});
+    const [nroRecibo, setNroRecibo] = useState('');
 
     const showPorcentajeModal = () => {
         setTituloModal('Porcentaje descontado');
@@ -39,6 +51,13 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral, car
         setModalBody(() => CobrarModal);
         setModalFooter(() => CobrarModalFooter);
         setModalSize('large');
+        setChildProps({
+            estudios,
+            retencionImpositiva,
+            nroRecibo,
+            cobrarPresentacion,
+            idPresentacion,
+        });
     };
 
     const handleModalClose = () => {
@@ -72,7 +91,7 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral, car
                 <Col md={ 10 }>
                     <ButtonGroup className='tabs' style={ { marginTop: '2rem' } }>
                         <Button
-                          disabled={ cargando }
+                          disabled={ cargando || cobrada }
                           role='button'
                           style={ styles.porcentajeButton }
                           bsStyle='primary'
@@ -91,7 +110,7 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral, car
                             Ver Comprobante
                         </Button>
                         <Button
-                          disabled={ cargando }
+                          disabled={ cargando || cobrada }
                           role='button'
                           bsStyle='primary'
                           className='ultimo'
@@ -106,7 +125,11 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral, car
                                 <InputGroup.Button>
                                     <Button>Nro. de recibo:</Button>
                                 </InputGroup.Button>
-                                <FormControl type='text' />
+                                <FormControl
+                                  type='text'
+                                  value={ nroRecibo }
+                                  onChange={ e => setNroRecibo(e.target.value) }
+                                />
                             </InputGroup>
                         </FormGroup>
                     </span>
@@ -121,13 +144,18 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral, car
     );
 }
 
-const { object, number, func, bool } = PropTypes;
+const { object, number, func, bool, array } = PropTypes;
 
 BotonesCobrar.propTypes = {
     comprobante: object.isRequired,
     retencionImpositiva: number.isRequired,
     descontarGeneral: func.isRequired,
     cargando: bool.isRequired,
+    estudios: array.isRequired,
+    cobrarPresentacion: func.isRequired,
+    idPresentacion: number.isRequired,
+    cobrada: bool.isRequired,
+    diferenciaCobrada: number.isRequired,
 };
 
 function mapStateToProps(state) {
