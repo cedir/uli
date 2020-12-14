@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes, { bool } from 'prop-types';
 import { useHistory } from 'react-router';
 import DeleteIcon from 'mdi-react/DeleteIcon';
+import RestartIcon from 'mdi-react/RestartIcon';
 
 function EstudiosDeUnaPresentacionTableRow(props) {
     const {
@@ -11,6 +12,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         index,
         seccion,
         importesActualizados,
+        resetImporte,
     } = props;
     const {
         fecha, nro_de_orden: orden,
@@ -153,6 +155,13 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                     />
                 </td>
             )}
+            { resetImporte && (
+                <td>
+                    <RestartIcon
+                      onClick={ () => resetImporte(index) }
+                    />
+                </td>
+            )}
         </tr>
     );
 }
@@ -167,6 +176,7 @@ EstudiosDeUnaPresentacionTableRow.propTypes = {
     seccion: string.isRequired,
     actualizarImportes: bool,
     importesActualizados: func,
+    resetImporte: func,
 };
 
 export default EstudiosDeUnaPresentacionTableRow;

@@ -73,6 +73,19 @@ const importesActualizadosReducer = (state, action) => ({
     })),
 });
 
+const resetearImporteEstudioReducer = (state, action) => sumarImportesEstudios({
+    ...state,
+    estudios: state.estudios.map((estudio, i) => {
+        const importes = i === action.estudioId ?
+            { ...state.importesOriginales[i], actualizarImportes: true } : {};
+
+        return {
+            ...estudio,
+            ...importes,
+        };
+    }),
+});
+
 export function cobrarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
         case types.REFACTURAR_ESTUDIO:
@@ -92,6 +105,8 @@ export function cobrarPresentacionReducer(state = initialState, action) {
             return actualizarInputEstudioDeUnaPresentacionReducer(state, action);
         case types.RESETEAR_TODOS_LOS_IMPORTES:
             return resetearImportes(state);
+        case types.RESETEAR_IMPORTE_ESTUDIO:
+            return resetearImporteEstudioReducer(state, action);
         case types.IMPORTES_ACTUALIZADOS:
             return importesActualizadosReducer(state, action);
         default:

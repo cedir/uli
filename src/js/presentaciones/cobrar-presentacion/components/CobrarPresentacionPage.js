@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
 import EstudiosDeUnaPresentacionList from '../../components/EstudiosDeUnaPresentacionList';
-import { REFACTURAR_ESTUDIO, ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION, RESETEAR_TODOS_LOS_IMPORTES, IMPORTES_ACTUALIZADOS } from '../actionTypes';
+import { RESETEAR_IMPORTE_ESTUDIO, ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION, RESETEAR_TODOS_LOS_IMPORTES, IMPORTES_ACTUALIZADOS } from '../actionTypes';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
 import BotonesCobrar from './BotonesCobrar';
 
 function CobrarPresentacionPage({
-    eliminarEstudio,
+    resetImporte,
     importesTotales,
     actualizarInput,
     estudios,
@@ -45,7 +45,7 @@ function CobrarPresentacionPage({
                       importesTotales={ importesTotales }
                       actualizarInput={ actualizarInput }
                       obraSocial={ obraSocial }
-                      eliminarEstudio={ eliminarEstudio }
+                      resetImporte={ resetImporte }
                       seccion='cobrar-presentacion'
                       importesActualizados={ importesActualizados }
                     />
@@ -62,7 +62,7 @@ function CobrarPresentacionPage({
 const { number, func, array, bool, object } = PropTypes;
 
 CobrarPresentacionPage.propTypes = {
-    eliminarEstudio: func.isRequired,
+    resetImporte: func.isRequired,
     actualizarInput: func.isRequired,
     importesTotales: number.isRequired,
     estudios: array.isRequired,
@@ -83,13 +83,14 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        eliminarEstudio: estudio => dispatch({ type: REFACTURAR_ESTUDIO, estudioId: estudio.id }),
         actualizarInput: (index, input, value) =>
             dispatch({
                 type: ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION, index, input, value,
             }),
         resetImportes: () => dispatch({ type: RESETEAR_TODOS_LOS_IMPORTES }),
         importesActualizados: id => dispatch({ type: IMPORTES_ACTUALIZADOS, id }),
+        resetImporte: id =>
+            dispatch({ type: RESETEAR_IMPORTE_ESTUDIO, estudioId: id }),
     };
 }
 

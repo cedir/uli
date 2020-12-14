@@ -16,6 +16,7 @@ function EstudiosDeUnaPresentacionList(props) {
         setImporteMedicacionEstudio,
         seccion,
         importesActualizados = undefined,
+        resetImporte = undefined,
     } = props;
 
     if (estudiosApiLoading) {
@@ -56,6 +57,7 @@ function EstudiosDeUnaPresentacionList(props) {
                           eliminarEstudio={ eliminarEstudio }
                           actualizarInput={ actualizarInput }
                           setImporteMedicacionEstudio={ setImporteMedicacionEstudio }
+                          resetImporte={ resetImporte }
                           seccion={ seccion }
                           importesActualizados={ importesActualizados }
                         />))
@@ -84,6 +86,7 @@ EstudiosDeUnaPresentacionList.propTypes = {
     actualizarInput: func.isRequired,
     seccion: string.isRequired,
     importesActualizados: func,
+    resetImporte: func,
 };
 
 export default EstudiosDeUnaPresentacionList;
