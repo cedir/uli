@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup, Col, Well, Row, FormGroup, InputGroup, FormControl } from 'react-bootstrap';
 import DefaultModal from './DefaultModal';
@@ -8,6 +9,9 @@ import ComprobanteModal from './ComprobanteModal';
 import CobrarModal from './CobrarModal';
 import CobrarModalFooter from './CobrarModalFooter';
 import { DESCONTAR_A_ESTUDIOS } from '../actionTypes';
+import DiferenciaCobradaModal from './DiferenciaCobradaModal';
+import DiferenciaCobradaFooter from './DiferenciaCobradaFooter';
+import ImporteModal from '../../../comprobantes/components/ImporteComprobanteAsociado';
 
 function BotonesCobrar({
     estudios,
@@ -20,7 +24,6 @@ function BotonesCobrar({
     cobrada,
     diferenciaCobrada,
 }) {
-    console.log(diferenciaCobrada);
     const [showModal, setShowModal] = useState(false);
     const [tituloModal, setTituloModal] = useState('');
     const [modalBody, setModalBody] = useState(() => () => {});
@@ -28,6 +31,7 @@ function BotonesCobrar({
     const [modalFooter, setModalFooter] = useState(() => () => {});
     const [childProps, setChildProps] = useState({});
     const [nroRecibo, setNroRecibo] = useState('');
+    const [showAsociadoModal, setShowAsociadoModal] = useState(false);
 
     const showPorcentajeModal = () => {
         setTituloModal('Porcentaje descontado');
@@ -60,6 +64,20 @@ function BotonesCobrar({
         });
     };
 
+    const crearAsociado = () => {
+        handleModalClose();
+        setShowAsociadoModal(true);
+    };
+
+    const showDiferenciaCobradaModal = () => {
+        setTituloModal('Diferencia cobrada');
+        setShowModal(true);
+        setModalBody(() => DiferenciaCobradaModal);
+        setModalFooter(() => DiferenciaCobradaFooter);
+        setModalSize('large');
+        setChildProps({ diferenciaCobrada, crearAsociado });
+    };
+
     const handleModalClose = () => {
         setShowModal(false);
         setModalBody(() => () => {});
@@ -76,17 +94,31 @@ function BotonesCobrar({
         well: { marginBottom: '0rem', marginTop: '1rem' },
     };
 
+    useEffect(() => {
+        if (Math.abs(diferenciaCobrada) > 1) {
+            showDiferenciaCobradaModal();
+        }
+    }, [diferenciaCobrada]);
+
     return (
         <React.Fragment>
-            <DefaultModal
-              modalOpened={ showModal }
-              titulo={ tituloModal }
-              modalBody={ modalBody }
-              handleClose={ handleModalClose }
-              modalSize={ modalSize }
-              modalFooter={ modalFooter }
-              childProps={ childProps }
+            <ImporteModal
+              modalOpened={ showAsociadoModal }
+              setShowImporteModal={ setShowAsociadoModal }
+              idComprobante={ comprobante.id || 0 }
+              importeDefault={ diferenciaCobrada }
             />
+            {!showAsociadoModal &&
+                <DefaultModal
+                  modalOpened={ showModal }
+                  titulo={ tituloModal }
+                  modalBody={ modalBody }
+                  handleClose={ handleModalClose }
+                  modalSize={ modalSize }
+                  modalFooter={ modalFooter }
+                  childProps={ childProps }
+                />
+            }
             <Row className='tab-navigator'>
                 <Col md={ 10 }>
                     <ButtonGroup className='tabs' style={ { marginTop: '2rem' } }>
@@ -173,4 +205,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BotonesCobrar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BotonesCobrar));

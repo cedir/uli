@@ -88,7 +88,7 @@ const resetearImporteEstudioReducer = (state, action) => sumarImportesEstudios({
 
 const cobrarPresentacionSuccess = (state, action) => ({
     ...state,
-    diferenciaCobrada: action.diferencia,
+    diferenciaCobrada: Number(action.diferencia),
     cobrada: true,
     estudiosApiLoading: false,
 });

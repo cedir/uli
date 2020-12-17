@@ -7,6 +7,7 @@ function ImporteForm({
     idComprobante,
     crear_nota_de_credito_asociada,
     setShowImporteModal,
+    importeDefault,
 }) {
     const [saving, setSaving] = useState(false);
 
@@ -32,6 +33,7 @@ function ImporteForm({
                       className='form-control'
                       placeholder='Importe'
                       step='.01'
+                      defaultValue={ importeDefault }
                     />
                 </div>
             </div>
@@ -57,6 +59,7 @@ ImporteForm.propTypes = {
     idComprobante: PropTypes.number.isRequired,
     crear_nota_de_credito_asociada: PropTypes.func.isRequired,
     setShowImporteModal: PropTypes.func.isRequired,
+    importeDefault: PropTypes.number,
 };
 
 function mapDispatchToProps(dispatch) {

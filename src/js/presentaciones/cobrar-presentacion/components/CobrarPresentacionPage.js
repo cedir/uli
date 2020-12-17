@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
 import EstudiosDeUnaPresentacionList from '../../components/EstudiosDeUnaPresentacionList';
-import { RESETEAR_IMPORTE_ESTUDIO, COBRAR_PRESENTACION, ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION, RESETEAR_TODOS_LOS_IMPORTES, IMPORTES_ACTUALIZADOS } from '../actionTypes';
+import {
+    RESETEAR_IMPORTE_ESTUDIO,
+    COBRAR_PRESENTACION,
+    ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION,
+    RESETEAR_TODOS_LOS_IMPORTES,
+    IMPORTES_ACTUALIZADOS,
+    } from '../actionTypes';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
 import BotonesCobrar from './BotonesCobrar';
 

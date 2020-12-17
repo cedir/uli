@@ -45,7 +45,7 @@ export function cobrarPresentacionEpic(action$) {
                 { type: ADD_ALERT, alert: createAlert('Presentacion cobrada') },
                 {
                     type: COBRAR_PRESENTACION_SUCCESS,
-                    diferencia: data.response.diferencia_cobrada,
+                    diferencia: data.response.diferencia_facturada,
                 },
             ))
             .catch(data => (Rx.Observable.of(
