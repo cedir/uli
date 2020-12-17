@@ -7,7 +7,7 @@ function DefaultModal({
     titulo,
     modalBody,
     handleClose,
-    modalSize,
+    modalSize = 'sm',
     modalFooter,
     childProps = {},
 }) {

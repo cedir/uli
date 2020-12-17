@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup, Col, Well, Row, FormGroup, InputGroup, FormControl } from 'react-bootstrap';
-import DefaultModal from './DefaultModal';
-import PorcentajeDescontadoModal from './PorcentajeDescontadoModal';
-import ComprobanteModal from './ComprobanteModal';
-import CobrarModal from './CobrarModal';
-import CobrarModalFooter from './CobrarModalFooter';
+import DefaultModal from '../../../utilities/components/DefaultModal';
+import PorcentajeDescontadoModal from './modals/porcentaje/PorcentajeDescontadoModal';
+import ComprobanteModal from './modals/comprobante/ComprobanteModal';
+import CobrarModal from './modals/cobrar/CobrarModal';
+import CobrarModalFooter from './modals/cobrar/CobrarModalFooter';
 import { DESCONTAR_A_ESTUDIOS } from '../actionTypes';
-import DiferenciaCobradaModal from './DiferenciaCobradaModal';
-import DiferenciaCobradaFooter from './DiferenciaCobradaFooter';
+import DiferenciaCobradaModal from './modals/diferencia-cobrada/DiferenciaCobradaModal';
+import DiferenciaCobradaFooter from './modals/diferencia-cobrada/DiferenciaCobradaFooter';
 import ImporteModal from '../../../comprobantes/components/ImporteComprobanteAsociado';
 
 function BotonesCobrar({
