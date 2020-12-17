@@ -35,8 +35,7 @@ function CobrarPresentacionPage({
                     <Row>
                         <Col md={ 10 }>
                             <h1>
-                                {'Cobrar presentacion: '}
-                                <strong>{obraSocial.nombre && obraSocial.nombre}</strong>
+                                Cobrar presentacion: <strong>{obraSocial.nombre}</strong>
                             </h1>
                         </Col>
                         <Col md={ 2 }>

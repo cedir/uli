@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes, { bool } from 'prop-types';
+import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import RestartIcon from 'mdi-react/RestartIcon';
@@ -166,7 +166,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     );
 }
 
-const { object, func, number, string } = PropTypes;
+const { object, func, number, string, bool } = PropTypes;
 
 EstudiosDeUnaPresentacionTableRow.propTypes = {
     estudio: object.isRequired,
