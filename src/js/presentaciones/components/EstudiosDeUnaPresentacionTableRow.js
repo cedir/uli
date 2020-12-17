@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import DeleteIcon from 'mdi-react/DeleteIcon';
+import RestartIcon from 'mdi-react/RestartIcon';
 
 function EstudiosDeUnaPresentacionTableRow(props) {
     const {
@@ -10,6 +11,8 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         eliminarEstudio,
         index,
         seccion,
+        importesActualizados,
+        resetImporte,
     } = props;
     const {
         fecha, nro_de_orden: orden,
@@ -18,6 +21,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         pension, diferencia_paciente,
         importe_medicacion: medicacion,
         arancel_anestesia,
+        actualizarImportes = false,
     } = estudio;
 
     const [nroOrden, setNroOrden] = useState(orden);
@@ -62,11 +66,14 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         descripcion.slice(0, 8).concat(descripcion.length > 8 ? '...' : '');
 
     useEffect(() => {
-        setImporte(parseFloat(importe_estudio, 10));
-        setPension(parseFloat(pension, 10));
-        setDifPaciente(parseFloat(diferencia_paciente, 10));
-        setAnestesista(parseFloat(arancel_anestesia, 10));
-    }, [estudio.importe_estudio === importe]);
+        if (actualizarImportes) {
+            setImporte(parseFloat(importe_estudio, 10));
+            setPension(parseFloat(pension, 10));
+            setDifPaciente(parseFloat(diferencia_paciente, 10));
+            setAnestesista(parseFloat(arancel_anestesia, 10));
+            importesActualizados(id);
+        }
+    }, [actualizarImportes]);
 
     /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     return (
@@ -148,11 +155,18 @@ function EstudiosDeUnaPresentacionTableRow(props) {
                     />
                 </td>
             )}
+            { resetImporte && (
+                <td>
+                    <RestartIcon
+                      onClick={ () => resetImporte(index) }
+                    />
+                </td>
+            )}
         </tr>
     );
 }
 
-const { object, func, number, string } = PropTypes;
+const { object, func, number, string, bool } = PropTypes;
 
 EstudiosDeUnaPresentacionTableRow.propTypes = {
     estudio: object.isRequired,
@@ -160,6 +174,9 @@ EstudiosDeUnaPresentacionTableRow.propTypes = {
     index: number.isRequired,
     actualizarInput: func.isRequired,
     seccion: string.isRequired,
+    actualizarImportes: bool,
+    importesActualizados: func,
+    resetImporte: func,
 };
 
 export default EstudiosDeUnaPresentacionTableRow;

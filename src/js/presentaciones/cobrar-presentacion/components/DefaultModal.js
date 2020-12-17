@@ -11,7 +11,7 @@ function DefaultModal({
     modalFooter,
     childProps = {},
 }) {
-    const modalFooterExp = modalFooter();
+    const modalFooterExp = modalFooter(childProps);
     return (
         <Modal
           show={ modalOpened }

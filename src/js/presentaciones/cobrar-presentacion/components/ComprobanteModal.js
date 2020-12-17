@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ListGroupItem, ListGroup } from 'react-bootstrap';
 
 function ComprobanteModal({ comprobante }) {
+    const porcentaje = comprobante.gravado ? comprobante.gravado.porcentaje : 0;
     return (
         <ListGroup>
             <ListGroupItem>Fecha: {comprobante.fecha_emision}</ListGroupItem>
@@ -12,7 +13,7 @@ function ComprobanteModal({ comprobante }) {
             <ListGroupItem>
                 Comprobante nro: {comprobante.numero}
             </ListGroupItem>
-            <ListGroupItem>Iva: {comprobante.gravado.porcentaje}%</ListGroupItem>
+            <ListGroupItem>Iva: {porcentaje}%</ListGroupItem>
         </ListGroup>
     );
 }

@@ -52,7 +52,7 @@ import {
     updatePresentacionEpic,
     finalizarModificarPresentacionEpic,
 } from '../presentaciones/modificar-presentacion/modificarPresentacionEpic';
-import { getDatosDeUnaPresentacionEpic } from '../presentaciones/cobrar-presentacion/cobrarPresentacionEpic';
+import { getDatosDeUnaPresentacionEpic, cobrarPresentacionEpic } from '../presentaciones/cobrar-presentacion/cobrarPresentacionEpic';
 import { loginEpic } from '../login/loginEpic';
 import { comprobantesEpic,
     obtenerComprobantesEpic,
@@ -105,6 +105,7 @@ export const rootEpic = combineEpics(
     crearComprobanteEpic,
     movimientosCajaEpic,
     getDatosDeUnaPresentacionEpic,
+    cobrarPresentacionEpic,
 );
 
 export const rootReducer = combineReducers({

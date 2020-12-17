@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { Button, ButtonGroup, Col, Well, Row, FormGroup, InputGroup, FormControl } from 'react-bootstrap';
 import DefaultModal from './DefaultModal';
@@ -8,14 +9,29 @@ import ComprobanteModal from './ComprobanteModal';
 import CobrarModal from './CobrarModal';
 import CobrarModalFooter from './CobrarModalFooter';
 import { DESCONTAR_A_ESTUDIOS } from '../actionTypes';
+import DiferenciaCobradaModal from './DiferenciaCobradaModal';
+import DiferenciaCobradaFooter from './DiferenciaCobradaFooter';
+import ImporteModal from '../../../comprobantes/components/ImporteComprobanteAsociado';
 
-function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
+function BotonesCobrar({
+    estudios,
+    comprobante,
+    retencionImpositiva,
+    descontarGeneral,
+    cargando,
+    cobrarPresentacion,
+    idPresentacion,
+    cobrada,
+    diferenciaCobrada,
+}) {
     const [showModal, setShowModal] = useState(false);
     const [tituloModal, setTituloModal] = useState('');
     const [modalBody, setModalBody] = useState(() => () => {});
     const [modalSize, setModalSize] = useState('small');
     const [modalFooter, setModalFooter] = useState(() => () => {});
     const [childProps, setChildProps] = useState({});
+    const [nroRecibo, setNroRecibo] = useState('');
+    const [showAsociadoModal, setShowAsociadoModal] = useState(false);
 
     const showPorcentajeModal = () => {
         setTituloModal('Porcentaje descontado');
@@ -39,6 +55,27 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
         setModalBody(() => CobrarModal);
         setModalFooter(() => CobrarModalFooter);
         setModalSize('large');
+        setChildProps({
+            estudios,
+            retencionImpositiva,
+            nroRecibo,
+            cobrarPresentacion,
+            idPresentacion,
+        });
+    };
+
+    const crearAsociado = () => {
+        handleModalClose();
+        setShowAsociadoModal(true);
+    };
+
+    const showDiferenciaCobradaModal = () => {
+        setTituloModal('Diferencia cobrada');
+        setShowModal(true);
+        setModalBody(() => DiferenciaCobradaModal);
+        setModalFooter(() => DiferenciaCobradaFooter);
+        setModalSize('large');
+        setChildProps({ diferenciaCobrada, crearAsociado });
     };
 
     const handleModalClose = () => {
@@ -57,21 +94,36 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
         well: { marginBottom: '0rem', marginTop: '1rem' },
     };
 
+    useEffect(() => {
+        if (Math.abs(diferenciaCobrada) > 1) {
+            showDiferenciaCobradaModal();
+        }
+    }, [diferenciaCobrada]);
+
     return (
         <React.Fragment>
-            <DefaultModal
-              modalOpened={ showModal }
-              titulo={ tituloModal }
-              modalBody={ modalBody }
-              handleClose={ handleModalClose }
-              modalSize={ modalSize }
-              modalFooter={ modalFooter }
-              childProps={ childProps }
+            <ImporteModal
+              modalOpened={ showAsociadoModal }
+              setShowImporteModal={ setShowAsociadoModal }
+              idComprobante={ comprobante.id || 0 }
+              importeDefault={ diferenciaCobrada }
             />
+            {!showAsociadoModal &&
+                <DefaultModal
+                  modalOpened={ showModal }
+                  titulo={ tituloModal }
+                  modalBody={ modalBody }
+                  handleClose={ handleModalClose }
+                  modalSize={ modalSize }
+                  modalFooter={ modalFooter }
+                  childProps={ childProps }
+                />
+            }
             <Row className='tab-navigator'>
                 <Col md={ 10 }>
                     <ButtonGroup className='tabs' style={ { marginTop: '2rem' } }>
                         <Button
+                          disabled={ cargando || cobrada }
                           role='button'
                           style={ styles.porcentajeButton }
                           bsStyle='primary'
@@ -81,6 +133,7 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
                             Porcentaje descontado
                         </Button>
                         <Button
+                          disabled={ cargando }
                           role='button'
                           style={ styles.comprobanteButton }
                           bsStyle='primary'
@@ -89,6 +142,7 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
                             Ver Comprobante
                         </Button>
                         <Button
+                          disabled={ cargando || cobrada }
                           role='button'
                           bsStyle='primary'
                           className='ultimo'
@@ -103,7 +157,11 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
                                 <InputGroup.Button>
                                     <Button>Nro. de recibo:</Button>
                                 </InputGroup.Button>
-                                <FormControl type='text' />
+                                <FormControl
+                                  type='text'
+                                  value={ nroRecibo }
+                                  onChange={ e => setNroRecibo(e.target.value) }
+                                />
                             </InputGroup>
                         </FormGroup>
                     </span>
@@ -118,12 +176,18 @@ function BotonesCobrar({ comprobante, retencionImpositiva, descontarGeneral }) {
     );
 }
 
-const { object, number, func } = PropTypes;
+const { object, number, func, bool, array } = PropTypes;
 
 BotonesCobrar.propTypes = {
     comprobante: object.isRequired,
     retencionImpositiva: number.isRequired,
     descontarGeneral: func.isRequired,
+    cargando: bool.isRequired,
+    estudios: array.isRequired,
+    cobrarPresentacion: func.isRequired,
+    idPresentacion: number.isRequired,
+    cobrada: bool.isRequired,
+    diferenciaCobrada: number.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -141,4 +205,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BotonesCobrar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(BotonesCobrar));
