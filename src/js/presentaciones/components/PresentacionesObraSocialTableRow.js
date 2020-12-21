@@ -38,12 +38,9 @@ function PresentacionesObraSocialTableRow(props) {
         if (estado === 'Abierto') {
             props.fetchEstudios(presentacion.id, obraSocial, fecha);
             history.push('/presentaciones-obras-sociales/modificar-presentacion-abierta');
-        } else if (estado === 'Pendiente') {
+        } else {
             props.fetchPresentacion(presentacion.id, obraSocial, fecha);
             history.push(`/presentaciones-obras-sociales/cobrar-presentacion/${presentacion.id}`);
-        } else {
-            props.fetchEstudios(presentacion.id, obraSocial, fecha);
-            history.push(`/presentaciones-obras-sociales/ver-presentacion/${presentacion.id}`);
         }
     };
 

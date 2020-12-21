@@ -5,6 +5,7 @@ import { sumarImportesEstudios, actualizarInputEstudioDeUnaPresentacionReducer }
 const actionsHandledByEpicReducer = state => ({
     ...state,
     estudiosApiLoading: true,
+    cobrada: false,
 });
 
 const refacturarEstudioSuccess = state => ({
@@ -33,11 +34,13 @@ const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstud
         arancel_anestesia: estudio.arancel_anestesia || 0,
         pension: estudio.pension || 0,
     })),
+    cobrada: action.presentacion.estado.toUpperCase() === 'COBRADO',
 });
 
 const fetchDatosDeUnaPresentacionFailed = state => ({
     ...state,
     estudiosApiLoading: false,
+    ...initialState,
 });
 
 const descontarAEstudios = (state, action) => {
