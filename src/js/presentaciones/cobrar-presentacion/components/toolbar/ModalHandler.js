@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ImporteModal from '../../../comprobantes/components/ImporteForm';
-import DefaultModal from '../../../utilities/components/DefaultModal';
-import CobrarModal from './modals/cobrar/CobrarModal';
-import CobrarModalFooter from './modals/cobrar/CobrarModalFooter';
-import ComprobanteModal from './modals/comprobante/ComprobanteModal';
-import DiferenciaCobradaModal from './modals/diferencia-cobrada/DiferenciaCobradaModal';
-import DiferenciaCobradaFooter from './modals/diferencia-cobrada/DiferenciaCobradaFooter';
-import PorcentajeDescontadoModal from './modals/porcentaje/PorcentajeDescontadoModal';
-import * as types from '../actionTypes';
+import ImporteModal from '../../../../comprobantes/components/ImporteComprobanteAsociado';
+import DefaultModal from '../../../../utilities/components/DefaultModal';
+import CobrarModal from '../modals/cobrar/CobrarModal';
+import CobrarModalFooter from '../modals/cobrar/CobrarModalFooter';
+import ComprobanteModal from '../modals/comprobante/ComprobanteModal';
+import DiferenciaCobradaModal from '../modals/diferencia-cobrada/DiferenciaCobradaModal';
+import DiferenciaCobradaFooter from '../modals/diferencia-cobrada/DiferenciaCobradaFooter';
+import PorcentajeDescontadoModal from '../modals/porcentaje/PorcentajeDescontadoModal';
+import {
+    DESCONTAR_A_ESTUDIOS,
+    COBRAR_PRESENTACION,
+    } from '../../actionTypes';
 
 function ModalHandler({
     modalName,
@@ -31,28 +34,28 @@ function ModalHandler({
     const [showAsociadoModal, setShowAsociadoModal] = useState(false);
 
     useEffect(() => {
-        switch (modalName) {
-            case 'porcentaje':
-                showPorcentajeModal();
-                break;
-            case 'comprobante':
-                showComprobanteModal();
-                break;
-            case 'cobrar':
-                showCobrarModal();
-                break;
-            case 'diferencia':
-                showDiferenciaCobradaModal();
-                break;
-            default:
-                return;
+        if (modalName) {
+            switch (modalName) {
+                case 'porcentaje':
+                    showPorcentajeModal();
+                    break;
+                case 'comprobante':
+                    showComprobanteModal();
+                    break;
+                case 'cobrar':
+                    showCobrarModal();
+                    break;
+                default:
+                    return;
+            }
+            setShowModal(true);
         }
-        setShowModal(true);
     }, [modalName]);
 
     useEffect(() => {
         if (Math.abs(diferenciaCobrada) > 1) {
             showDiferenciaCobradaModal();
+            setShowModal(true);
         }
     }, [diferenciaCobrada]);
 
@@ -144,6 +147,8 @@ ModalHandler.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        comprobante: state.cobrarPresentacionReducer.comprobante,
+        estudios: state.cobrarPresentacionReducer.estudios,
         idPresentacion: state.cobrarPresentacionReducer.id,
         diferenciaCobrada: state.cobrarPresentacionReducer.diferenciaCobrada,
     };
@@ -151,10 +156,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        descontarGeneral: porcentaje => dispatch({ type: types.DESCONTAR_A_ESTUDIOS, porcentaje }),
+        descontarGeneral: porcentaje => dispatch({ type: DESCONTAR_A_ESTUDIOS, porcentaje }),
         cobrarPresentacion: (idPresentacion, estudios, nroRecibo, retencionImpositiva) =>
             dispatch({
-                type: types.COBRAR_PRESENTACION,
+                type: COBRAR_PRESENTACION,
                 idPresentacion,
                 estudios,
                 nroRecibo,

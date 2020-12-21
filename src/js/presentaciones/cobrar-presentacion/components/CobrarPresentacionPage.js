@@ -5,17 +5,16 @@ import NotFoundPage from '../../../utilities/components/NotFoundPage';
 import CobrarPresentacionHeader from './CobrarPresentacionHeader';
 import CobrarPresentacionBody from './CobrarPresentacionBody';
 
-function CobrarPresentacionPage({ estudios, estudiosApiLoading, cobrada }) {
+function CobrarPresentacionPage({ estudios, estudiosApiLoading }) {
     const showPage = !estudios.length && !estudiosApiLoading;
     return (
         <React.Fragment>
             {!showPage && (
                 <React.Fragment>
-                    <CobrarPresentacionHeader cobrada={ cobrada } />
+                    <CobrarPresentacionHeader cargando={ estudiosApiLoading } />
                     <CobrarPresentacionBody
                       estudios={ estudios }
                       cargando={ estudiosApiLoading }
-                      cobrada={ cobrada }
                     />
                 </React.Fragment>
             )}
@@ -29,14 +28,12 @@ const { array, bool } = PropTypes;
 CobrarPresentacionPage.propTypes = {
     estudios: array.isRequired,
     estudiosApiLoading: bool.isRequired,
-    cobrada: bool.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         estudios: state.cobrarPresentacionReducer.estudios,
         estudiosApiLoading: state.cobrarPresentacionReducer.estudiosApiLoading,
-        cobrada: state.cobrarPresentacionReducer.cobrada,
     };
 }
 

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Col, Well, Row } from 'react-bootstrap';
 import ReciboInput from './ReciboInput';
 import BotonesCobrar from './BotonesCobrar';
@@ -7,11 +8,8 @@ import BotonesCobrar from './BotonesCobrar';
 function ToolbarCobrar({
     retencionImpositiva,
     cargando,
-    cobrada,
-    setModalName,
-    nroRecibo,
-    setNroRecibo,
 }) {
+    const [nroRecibo, setNroRecibo] = useState('');
     const styles = {
         well: { marginBottom: '0rem', marginTop: '1rem' },
     };
@@ -22,8 +20,8 @@ function ToolbarCobrar({
                 <Col md={ 10 }>
                     <BotonesCobrar
                       cargando={ cargando }
-                      cobrada={ cobrada }
-                      setModalName={ setModalName }
+                      nroRecibo={ nroRecibo }
+                      retencionImpositiva={ retencionImpositiva }
                     />
                     <ReciboInput
                       nroRecibo={ nroRecibo }
@@ -40,15 +38,19 @@ function ToolbarCobrar({
     );
 }
 
-const { number, bool, func, string } = PropTypes;
+const { number, bool } = PropTypes;
 
 ToolbarCobrar.propTypes = {
     retencionImpositiva: number.isRequired,
     cargando: bool.isRequired,
-    cobrada: bool.isRequired,
-    setModalName: func.isRequired,
-    nroRecibo: string.isRequired,
-    setNroRecibo: func.isRequired,
 };
 
-export default ToolbarCobrar;
+function mapStateToProps(state) {
+    const { se_presenta_por_AMR: AMR } = state.cobrarPresentacionReducer.obraSocial;
+    const retencionImpositiva = Number(AMR) ? 32 : 25;
+    return {
+        retencionImpositiva,
+    };
+}
+
+export default connect(mapStateToProps)(ToolbarCobrar);

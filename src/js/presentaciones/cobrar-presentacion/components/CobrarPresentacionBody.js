@@ -1,41 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ModalHandler from './ModalHandler';
 import EstudiosDeUnaPresentacionList from '../../components/EstudiosDeUnaPresentacionList';
-import ToolbarCobrar from './ToolbarCobrar';
-import * as types from '../actionTypes';
+import ToolbarCobrar from './toolbar/ToolbarCobrar';
+import {
+    ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION,
+    RESETEAR_IMPORTE_ESTUDIO,
+    IMPORTES_ACTUALIZADOS,
+    } from '../actionTypes';
 
 function CobrarPresentacionBody({
     estudios,
     cargando,
-    cobrada,
     importesTotales,
     actualizarInput,
     resetImporte,
     importesActualizados,
     comprobante,
-    retencionImpositiva,
 }) {
-    const [modalName, setModalName] = useState('');
-    const [nroRecibo, setNroRecibo] = useState('');
     return (
         <React.Fragment>
-            <ModalHandler
-              modalName={ modalName }
-              setModalName={ setModalName }
-              comprobante={ comprobante }
-              estudios={ estudios }
-              retencionImpositiva={ retencionImpositiva }
-              nroRecibo={ nroRecibo }
-            />
             <ToolbarCobrar
               cargando={ cargando }
-              cobrada={ cobrada }
-              nroRecibo={ nroRecibo }
-              setNroRecibo={ setNroRecibo }
-              setModalName={ setModalName }
-              retencionImpositiva={ retencionImpositiva }
             />
             <EstudiosDeUnaPresentacionList
               estudios={ estudios }
@@ -60,18 +46,14 @@ CobrarPresentacionBody.propTypes = {
     actualizarInput: func.isRequired,
     resetImporte: func.isRequired,
     importesActualizados: func.isRequired,
-    comprobante: object,
-    cobrada: bool.isRequired,
-    retencionImpositiva: number.isRequired,
+    comprobante: object.isRequired,
 };
 
 function mapStateToProps(state) {
-    const { se_presenta_por_AMR: AMR } = state.cobrarPresentacionReducer.obraSocial;
-    const retencionImpositiva = Number(AMR) ? 32 : 25;
     return {
         importesTotales: state.cobrarPresentacionReducer.importesTotales,
         comprobante: state.cobrarPresentacionReducer.comprobante,
-        retencionImpositiva,
+
     };
 }
 
@@ -79,13 +61,13 @@ function mapDispatchToProps(dispatch) {
     return {
         actualizarInput: (index, input, value) =>
             dispatch({
-                type: types.ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION,
+                type: ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION,
                 index, input, value,
             }),
         resetImporte: id =>
-            dispatch({ type: types.RESETEAR_IMPORTE_ESTUDIO, estudioId: id }),
+            dispatch({ type: RESETEAR_IMPORTE_ESTUDIO, estudioId: id }),
         importesActualizados: id =>
-            dispatch({ type: types.IMPORTES_ACTUALIZADOS, id }),
+            dispatch({ type: IMPORTES_ACTUALIZADOS, id }),
     };
 }
 

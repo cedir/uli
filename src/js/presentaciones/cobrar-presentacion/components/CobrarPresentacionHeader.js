@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-import BotonesTitulo from './BotonesTitulo';
+import BotonesTitulo from './header/BotonesTitulo';
+import { RESETEAR_TODOS_LOS_IMPORTES } from '../actionTypes';
 
-function CobrarPresentacionHeader({ obraSocial, cobrada }) {
+function CobrarPresentacionHeader({ obraSocial, cobrada, cargando, resetImportes }) {
     return (
         <Row>
             <Col md={ 8 }>
@@ -13,23 +14,32 @@ function CobrarPresentacionHeader({ obraSocial, cobrada }) {
                 </h1>
             </Col>
             <Col md={ 4 }>
-                <BotonesTitulo cobrada={ cobrada } />
+                <BotonesTitulo desactivar={ cargando || cobrada } resetImportes={ resetImportes } />
             </Col>
         </Row>
     );
 }
 
-const { object, bool } = PropTypes;
+const { object, bool, func } = PropTypes;
 
 CobrarPresentacionHeader.propTypes = {
     obraSocial: object.isRequired,
     cobrada: bool.isRequired,
+    cargando: bool.isRequired,
+    resetImportes: func.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         obraSocial: state.cobrarPresentacionReducer.obraSocial,
+        cobrada: state.cobrarPresentacionReducer.cobrada,
     };
 }
 
-export default connect(mapStateToProps)(CobrarPresentacionHeader);
+function mapDispatchToProps(dispatch) {
+    return {
+        resetImportes: () => dispatch({ type: RESETEAR_TODOS_LOS_IMPORTES }),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CobrarPresentacionHeader);
