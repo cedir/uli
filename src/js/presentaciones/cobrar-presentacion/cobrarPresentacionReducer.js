@@ -31,7 +31,6 @@ const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstud
     importesOriginales: action.presentacion.estudios.map(estudio => ({
         importe_estudio: estudio.importe_estudio || 0,
         diferencia_paciente: estudio.diferencia_paciente || 0,
-        importe_medicacion: estudio.importe_medicacion || 0,
         arancel_anestesia: estudio.arancel_anestesia || 0,
         pension: estudio.pension || 0,
     })),
@@ -40,7 +39,6 @@ const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstud
 
 const fetchDatosDeUnaPresentacionFailed = state => ({
     ...state,
-    estudiosApiLoading: false,
     ...initialState,
 });
 
@@ -53,7 +51,6 @@ const descontarAEstudios = (state, action) => {
             actualizarImportes: true,
             importe_estudio: Math.round(estudio.importe_estudio * porcentaje * 100) / 100,
             diferencia_paciente: Math.round(estudio.diferencia_paciente * porcentaje * 100) / 100,
-            importe_medicacion: Math.round(estudio.importe_medicacion * porcentaje * 100) / 100,
             arancel_anestesia: Math.round(estudio.arancel_anestesia * porcentaje * 100) / 100,
             pension: Math.round(estudio.pension * porcentaje * 100) / 100,
         })),
