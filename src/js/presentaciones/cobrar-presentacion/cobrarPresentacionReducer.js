@@ -1,6 +1,7 @@
 import * as types from './actionTypes';
 import initialState from './cobrarPresentacionInitialState';
 import { sumarImportesEstudios, actualizarInputEstudioDeUnaPresentacionReducer } from '../modificar-presentacion/modificarPresentacionReducer';
+import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
 
 const actionsHandledByEpicReducer = state => ({
     ...state,
@@ -101,6 +102,19 @@ const cobrarPresentacionFailed = state => ({
     estudiosApiLoading: false,
 });
 
+const updateMedicacionEstudioReducer = (state, action) => sumarImportesEstudios({
+    ...state,
+    estudios: state.estudios.map((estudio) => {
+        if (estudio.id !== action.estudioId) {
+            return estudio;
+        }
+        return {
+            ...estudio,
+            importe_medicacion: calculateImporteTotal(action.medicacion),
+        };
+    }),
+});
+
 export function cobrarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
         case types.REFACTURAR_ESTUDIO:
@@ -129,6 +143,8 @@ export function cobrarPresentacionReducer(state = initialState, action) {
             return cobrarPresentacionSuccess(state, action);
         case types.COBRAR_PRESENTACION_FAILED:
             return cobrarPresentacionFailed(state);
+        case types.UPDATE_MEDICACION_ESTUDIO_COBRAR:
+            return updateMedicacionEstudioReducer(state, action);
         default:
             return state;
     }
