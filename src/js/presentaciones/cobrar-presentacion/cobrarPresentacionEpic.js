@@ -65,16 +65,15 @@ export function refacturarEstudiosEpic(action$) {
                 action.idPresentacion,
                 action.estudios,
             )
-            .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Presentacion cobrada') },
+            .mergeMap(() => Rx.Observable.of(
+                { type: ADD_ALERT, alert: createAlert('Estudios refacturados correctamente') },
                 {
                     type: REFACTURAR_ESTUDIOS_SUCCESS,
-                    diferencia: data.response.diferencia_facturada,
                 },
             ))
             .catch(data => (Rx.Observable.of(
                 { type: REFACTURAR_ESTUDIOS_FAILED },
-                { type: ADD_ALERT, alert: createAlert(`Error al dar de cobro la presentacion. ${data.response.error}`, 'danger') },
+                { type: ADD_ALERT, alert: createAlert(`Error al refacturar los estudios. ${data.response.error}`, 'danger') },
             ))),
     );
 }

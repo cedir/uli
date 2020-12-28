@@ -1,4 +1,4 @@
-import { get, patch, post } from '../../utilities/rest';
+import { get, patch } from '../../utilities/rest';
 
 export function getDatosDeUnaPresentacion(id) {
     const url = `/api/presentacion/${id}/`;
@@ -39,5 +39,5 @@ export function refacturarEstudios(idPresentacion, estudios) {
         'Content-Type': 'application/json',
     };
 
-    return post(url, body, headers);
+    return patch(url, body, headers);
 }
