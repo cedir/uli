@@ -17,6 +17,8 @@ function BotonesCobrar({ cargando, cobrada, nroRecibo, retencionImpositiva }) {
               setModalName={ setModalName }
               retencionImpositiva={ retencionImpositiva }
               nroRecibo={ nroRecibo }
+              cargando={ cargando }
+              cobrada={ cobrada }
             />
             <ButtonGroup className='tabs' style={ { marginTop: '2rem' } }>
                 <Button

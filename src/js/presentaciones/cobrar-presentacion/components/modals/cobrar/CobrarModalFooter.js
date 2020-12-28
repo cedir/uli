@@ -8,10 +8,13 @@ function CobrarModalFooter({
     nroRecibo,
     retencionImpositiva,
     cobrarPresentacion,
+    cargando,
+    cobrada,
 }) {
     return (
         <Button
           bsStyle='primary'
+          disabled={ cargando || cobrada }
           onClick={ () =>
             cobrarPresentacion(idPresentacion, estudios, nroRecibo, retencionImpositiva) }
         >
@@ -20,7 +23,7 @@ function CobrarModalFooter({
     );
 }
 
-const { array, string, number, func } = PropTypes;
+const { array, string, number, func, bool } = PropTypes;
 
 CobrarModalFooter.propTypes = {
     estudios: array.isRequired,
@@ -28,6 +31,8 @@ CobrarModalFooter.propTypes = {
     retencionImpositiva: number.isRequired,
     cobrarPresentacion: func.isRequired,
     idPresentacion: number.isRequired,
+    cargando: bool.isRequired,
+    cobrada: bool.isRequired,
 };
 
 export default CobrarModalFooter;

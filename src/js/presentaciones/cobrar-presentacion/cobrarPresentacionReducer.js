@@ -9,6 +9,12 @@ const actionsHandledByEpicReducer = state => ({
     cobrada: false,
 });
 
+const fetchDatosDeUnaPresentacionReducer = state => ({
+    ...state,
+    ...initialState,
+    estudiosApiLoading: true,
+});
+
 const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstudios({
     ...state,
     estudiosApiLoading: false,
@@ -25,6 +31,7 @@ const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstud
         pension: estudio.pension || 0,
     })),
     cobrada: action.presentacion.estado.toUpperCase() === 'COBRADO',
+    diferenciaCobrada: 0,
 });
 
 const fetchDatosDeUnaPresentacionFailed = state => ({
@@ -131,9 +138,10 @@ const refacturarEstudiosFailed = state => ({
 export function cobrarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
         case types.REFACTURAR_ESTUDIOS:
-        case types.FETCH_DATOS_DE_UNA_PRESENTACION:
         case types.COBRAR_PRESENTACION:
             return actionsHandledByEpicReducer(state);
+        case types.FETCH_DATOS_DE_UNA_PRESENTACION:
+            return fetchDatosDeUnaPresentacionReducer(state);
         case types.REFACTURAR_ESTUDIO_SUCCESS:
             return refacturarEstudiosSuccess(state);
         case types.REFACTURAR_ESTUDIO_FAILED:

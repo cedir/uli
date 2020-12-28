@@ -25,6 +25,8 @@ function ModalHandler({
     idPresentacion,
     diferenciaCobrada,
     nroRecibo,
+    cargando,
+    cobrada,
 }) {
     const [showModal, setShowModal] = useState(false);
     const [tituloModal, setTituloModal] = useState('');
@@ -105,6 +107,8 @@ function ModalHandler({
         setModalName('');
     };
 
+    useEffect(() => handleModalClose, []);
+
     return (
         <React.Fragment>
             {showAsociadoModal && (
@@ -123,14 +127,14 @@ function ModalHandler({
                   handleClose={ handleModalClose }
                   modalSize={ 'large' }
                   modalFooter={ modalFooter }
-                  childProps={ childProps }
+                  childProps={ { cargando, cobrada, ...childProps } }
                 />
             )}
         </React.Fragment>
     );
 }
 
-const { string, func, object, array, number } = PropTypes;
+const { string, func, object, array, number, bool } = PropTypes;
 
 ModalHandler.propTypes = {
     modalName: string.isRequired,
@@ -143,6 +147,8 @@ ModalHandler.propTypes = {
     idPresentacion: number.isRequired,
     diferenciaCobrada: number.isRequired,
     nroRecibo: string.isRequired,
+    cargando: bool.isRequired,
+    cobrada: bool.isRequired,
 };
 
 function mapStateToProps(state) {
