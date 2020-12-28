@@ -9,4 +9,5 @@ export default {
     estudiosRefacturar: [],
     diferenciaCobrada: 0,
     cobrada: false,
+    estudiosSeleccionados: [],
 };

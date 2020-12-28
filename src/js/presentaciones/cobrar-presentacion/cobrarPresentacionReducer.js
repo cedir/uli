@@ -9,16 +9,6 @@ const actionsHandledByEpicReducer = state => ({
     cobrada: false,
 });
 
-const refacturarEstudioSuccess = state => ({
-    ...state,
-    estudiosApiLoading: false,
-});
-
-const refacturarEstudioFailed = state => ({
-    ...state,
-    estudiosApiLoading: false,
-});
-
 const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstudios({
     ...state,
     estudiosApiLoading: false,
@@ -112,16 +102,42 @@ const updateMedicacionEstudioReducer = (state, action) => sumarImportesEstudios(
     }),
 });
 
+const seleccionarEstudioReducer = (state, action) => {
+    if (action.selected) {
+        return {
+            ...state,
+            estudiosSeleccionados: [
+                ...state.estudiosSeleccionados, action.estudioId,
+            ],
+        };
+    }
+    return {
+        ...state,
+        estudiosSeleccionados:
+            state.estudiosSeleccionados.filter(estudioId => estudioId !== action.estudioId),
+    };
+};
+
+const refacturarEstudiosSuccess = state => ({
+    ...state,
+    estudiosApiLoading: false,
+});
+
+const refacturarEstudiosFailed = state => ({
+    ...state,
+    estudiosApiLoading: false,
+});
+
 export function cobrarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
-        case types.REFACTURAR_ESTUDIO:
+        case types.REFACTURAR_ESTUDIOS:
         case types.FETCH_DATOS_DE_UNA_PRESENTACION:
         case types.COBRAR_PRESENTACION:
             return actionsHandledByEpicReducer(state);
         case types.REFACTURAR_ESTUDIO_SUCCESS:
-            return refacturarEstudioSuccess(state);
+            return refacturarEstudiosSuccess(state);
         case types.REFACTURAR_ESTUDIO_FAILED:
-            return refacturarEstudioFailed(state);
+            return refacturarEstudiosFailed(state);
         case types.FETCH_DATOS_DE_UNA_PRESENTACION_SUCCESS:
             return fetchDatosDeUnaPresentacionSuccess(state, action);
         case types.FETCH_DATOS_DE_UNA_PRESENTACION_FAILED:
@@ -142,6 +158,8 @@ export function cobrarPresentacionReducer(state = initialState, action) {
             return cobrarPresentacionFailed(state);
         case types.UPDATE_MEDICACION_ESTUDIO_COBRAR:
             return updateMedicacionEstudioReducer(state, action);
+        case types.SELECCIONAR_ESTUDIO:
+            return seleccionarEstudioReducer(state, action);
         default:
             return state;
     }

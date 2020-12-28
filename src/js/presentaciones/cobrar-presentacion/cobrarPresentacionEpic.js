@@ -1,5 +1,5 @@
 import Rx from 'rxjs';
-import { getDatosDeUnaPresentacion, cobrarPresentacion } from './api';
+import { getDatosDeUnaPresentacion, cobrarPresentacion, refacturarEstudios } from './api';
 import {
     FETCH_DATOS_DE_UNA_PRESENTACION,
     FETCH_DATOS_DE_UNA_PRESENTACION_SUCCESS,
@@ -7,6 +7,9 @@ import {
     COBRAR_PRESENTACION,
     COBRAR_PRESENTACION_SUCCESS,
     COBRAR_PRESENTACION_FAILED,
+    REFACTURAR_ESTUDIOS,
+    REFACTURAR_ESTUDIOS_SUCCESS,
+    REFACTURAR_ESTUDIOS_FAILED,
 } from './actionTypes';
 import { ADD_ALERT } from '../../utilities/components/alert/actionTypes';
 import { createAlert } from '../../utilities/components/alert/alertUtility';
@@ -50,6 +53,27 @@ export function cobrarPresentacionEpic(action$) {
             ))
             .catch(data => (Rx.Observable.of(
                 { type: COBRAR_PRESENTACION_FAILED },
+                { type: ADD_ALERT, alert: createAlert(`Error al dar de cobro la presentacion. ${data.response.error}`, 'danger') },
+            ))),
+    );
+}
+
+export function refacturarEstudiosEpic(action$) {
+    return action$.ofType(REFACTURAR_ESTUDIOS)
+        .mergeMap(action =>
+            refacturarEstudios(
+                action.idPresentacion,
+                action.estudios,
+            )
+            .mergeMap(data => Rx.Observable.of(
+                { type: ADD_ALERT, alert: createAlert('Presentacion cobrada') },
+                {
+                    type: REFACTURAR_ESTUDIOS_SUCCESS,
+                    diferencia: data.response.diferencia_facturada,
+                },
+            ))
+            .catch(data => (Rx.Observable.of(
+                { type: REFACTURAR_ESTUDIOS_FAILED },
                 { type: ADD_ALERT, alert: createAlert(`Error al dar de cobro la presentacion. ${data.response.error}`, 'danger') },
             ))),
     );

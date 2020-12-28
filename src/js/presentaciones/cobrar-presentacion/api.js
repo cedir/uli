@@ -1,4 +1,4 @@
-import { get, patch } from '../../utilities/rest';
+import { get, patch, post } from '../../utilities/rest';
 
 export function getDatosDeUnaPresentacion(id) {
     const url = `/api/presentacion/${id}/`;
@@ -26,4 +26,18 @@ export function cobrarPresentacion(idPresentacion, estudios, nroRecibo, retencio
     };
 
     return patch(url, body, headers);
+}
+
+export function refacturarEstudios(idPresentacion, estudios) {
+    const url = `/api/presentacion/${idPresentacion}/refacturar_estudios/`;
+
+    const body = {
+        estudios,
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    return post(url, body, headers);
 }
