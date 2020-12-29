@@ -28,6 +28,10 @@ function ModalHandler({
     cargando,
     cobrada,
 }) {
+    const { gravado } = comprobante;
+    const porcentaje = 1 - (Number(gravado ? gravado.porcentaje : 0) / 100);
+    const diferenciaSinIva = Math.round(diferenciaCobrada * porcentaje * 100) / 100;
+
     const [showModal, setShowModal] = useState(false);
     const [tituloModal, setTituloModal] = useState('');
     const [modalBody, setModalBody] = useState(() => () => {});
@@ -95,7 +99,7 @@ function ModalHandler({
         setTituloModal('Diferencia cobrada');
         setModalBody(() => DiferenciaCobradaModal);
         setModalFooter(() => DiferenciaCobradaFooter);
-        setChildProps({ diferenciaCobrada, crearAsociado });
+        setChildProps({ diferenciaSinIva, diferenciaCobrada, crearAsociado, gravado });
     };
 
     const handleModalClose = () => {
@@ -116,7 +120,7 @@ function ModalHandler({
                   modalOpened={ showAsociadoModal }
                   setShowImporteModal={ setShowAsociadoModal }
                   idComprobante={ comprobante.id || 0 }
-                  importeDefault={ diferenciaCobrada }
+                  importeDefault={ diferenciaSinIva }
                 />
             )}
             {!showAsociadoModal && (
