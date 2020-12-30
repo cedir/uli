@@ -21,6 +21,7 @@ function PresentacionesObraSocialList(props) {
                         <th title='Descargar en Formato Digital'>Descargar</th>
                         <th />
                         <th />
+                        <th />
                     </tr>
                 </thead>
                 <tbody>

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, Fragment } from 'react';
+import { Button, Glyphicon } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,6 +13,7 @@ import { ABRIR_PRESENTACION } from '../actionTypes';
 import { FETCH_ESTUDIOS_DE_UNA_PRESENTACION } from '../modificar-presentacion/actionTypes';
 import { FETCH_DATOS_DE_UNA_PRESENTACION } from '../cobrar-presentacion/actionTypes';
 import AlertModal from '../../utilities/components/alert/AlertModal';
+import { config } from '../../app/config';
 
 function PresentacionesObraSocialTableRow(props) {
     const { presentacion, history, index } = props;
@@ -100,6 +102,16 @@ function PresentacionesObraSocialTableRow(props) {
                               onClick={ redirectPage }
                             />
                         )
+                    }
+                </td>
+                <td>
+                    {estado !== 'Abierto' &&
+                        <Button
+                          bsStyle='link'
+                          onClick={ () => window.open(`${config.baseUrl}/api/presentacion/${id}/imprimir_presentacion/`) }
+                        >
+                            <Glyphicon glyph='print' />
+                        </Button>
                     }
                 </td>
             </tr>
