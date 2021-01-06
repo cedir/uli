@@ -78,6 +78,7 @@ export function patchCerrarPresentacion(comprobante, id) {
     const headers = {
         'Content-Type': 'application/json',
     };
+    
     return patch(url, body, headers);
 }
 

@@ -84,7 +84,7 @@ export function finalizarNuevaPresentacionEpic(action$) {
                         showModal: action.setShowModal(true),
                     },
                 ))
-                .catch((e, data) => (Rx.Observable.of(
+                .catch(e => (Rx.Observable.of(
                     { type: ADD_ALERT, alert: createAlert('Presentación creada con éxito', 'success') },
                     { type: ADD_ALERT, alert: createAlert(e.response.error, 'danger') },
                 ))),
