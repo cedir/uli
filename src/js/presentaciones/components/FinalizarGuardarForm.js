@@ -3,6 +3,7 @@ import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { ImprimirPresentacionModal } from './Modals';
+
 /* eslint-disable no-unused-vars */
 function presentacionObject(props) {
     const {
@@ -112,7 +113,7 @@ function FinalizarGuardarForm(props) {
     const finalizarClickHandler = () => {
         if (updatePresentacion) {
             setIdPresentacion(id);
-            finalizarPresentacion(postObject, comprobante, setShowModal);
+            finalizarPresentacion(postObject, comprobante, id, setShowModal);
         }
         if (crearPresentacion) {
             finalizarPresentacion(postObject, comprobante, setShowModal, setIdPresentacion);
