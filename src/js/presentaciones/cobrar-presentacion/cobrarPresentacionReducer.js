@@ -30,7 +30,7 @@ const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstud
         arancel_anestesia: estudio.arancel_anestesia || 0,
         pension: estudio.pension || 0,
     })),
-    cobrada: action.presentacion.estado.toUpperCase() === 'COBRADO',
+    cobrada: action.presentacion.estado === 'Cobrado',
     diferenciaCobrada: 0,
 });
 
@@ -135,7 +135,6 @@ const refacturarEstudiosSuccess = state => sumarImportesEstudios({
         !state.estudiosSeleccionados.includes(state.estudios[i].id),
     ),
 });
-
 
 const refacturarEstudiosFailed = state => ({
     ...state,
