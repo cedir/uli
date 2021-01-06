@@ -25,7 +25,13 @@ function ModalHandler({
     idPresentacion,
     diferenciaCobrada,
     nroRecibo,
+    cargando,
+    cobrada,
 }) {
+    const { gravado } = comprobante;
+    const porcentaje = 1 - (Number(gravado ? gravado.porcentaje : 0) / 100);
+    const diferenciaSinIva = Math.round(diferenciaCobrada * porcentaje * 100) / 100;
+
     const [showModal, setShowModal] = useState(false);
     const [tituloModal, setTituloModal] = useState('');
     const [modalBody, setModalBody] = useState(() => () => {});
@@ -93,7 +99,7 @@ function ModalHandler({
         setTituloModal('Diferencia cobrada');
         setModalBody(() => DiferenciaCobradaModal);
         setModalFooter(() => DiferenciaCobradaFooter);
-        setChildProps({ diferenciaCobrada, crearAsociado });
+        setChildProps({ diferenciaSinIva, diferenciaCobrada, crearAsociado, gravado });
     };
 
     const handleModalClose = () => {
@@ -105,6 +111,8 @@ function ModalHandler({
         setModalName('');
     };
 
+    useEffect(() => handleModalClose, []);
+
     return (
         <React.Fragment>
             {showAsociadoModal && (
@@ -112,7 +120,7 @@ function ModalHandler({
                   modalOpened={ showAsociadoModal }
                   setShowImporteModal={ setShowAsociadoModal }
                   idComprobante={ comprobante.id || 0 }
-                  importeDefault={ diferenciaCobrada }
+                  importeDefault={ diferenciaSinIva }
                 />
             )}
             {!showAsociadoModal && (
@@ -123,14 +131,14 @@ function ModalHandler({
                   handleClose={ handleModalClose }
                   modalSize={ 'large' }
                   modalFooter={ modalFooter }
-                  childProps={ childProps }
+                  childProps={ { cargando, cobrada, ...childProps } }
                 />
             )}
         </React.Fragment>
     );
 }
 
-const { string, func, object, array, number } = PropTypes;
+const { string, func, object, array, number, bool } = PropTypes;
 
 ModalHandler.propTypes = {
     modalName: string.isRequired,
@@ -143,6 +151,8 @@ ModalHandler.propTypes = {
     idPresentacion: number.isRequired,
     diferenciaCobrada: number.isRequired,
     nroRecibo: string.isRequired,
+    cargando: bool.isRequired,
+    cobrada: bool.isRequired,
 };
 
 function mapStateToProps(state) {

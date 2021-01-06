@@ -1,20 +1,18 @@
 import * as types from './actionTypes';
 import initialState from './cobrarPresentacionInitialState';
 import { sumarImportesEstudios, actualizarInputEstudioDeUnaPresentacionReducer } from '../modificar-presentacion/modificarPresentacionReducer';
+import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
 
 const actionsHandledByEpicReducer = state => ({
     ...state,
     estudiosApiLoading: true,
+    cobrada: false,
 });
 
-const refacturarEstudioSuccess = state => ({
+const fetchDatosDeUnaPresentacionReducer = state => ({
     ...state,
-    estudiosApiLoading: false,
-});
-
-const refacturarEstudioFailed = state => ({
-    ...state,
-    estudiosApiLoading: false,
+    ...initialState,
+    estudiosApiLoading: true,
 });
 
 const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstudios({
@@ -29,15 +27,16 @@ const fetchDatosDeUnaPresentacionSuccess = (state, action) => sumarImportesEstud
     importesOriginales: action.presentacion.estudios.map(estudio => ({
         importe_estudio: estudio.importe_estudio || 0,
         diferencia_paciente: estudio.diferencia_paciente || 0,
-        importe_medicacion: estudio.importe_medicacion || 0,
         arancel_anestesia: estudio.arancel_anestesia || 0,
         pension: estudio.pension || 0,
     })),
+    cobrada: action.presentacion.estado === 'Cobrado',
+    diferenciaCobrada: 0,
 });
 
 const fetchDatosDeUnaPresentacionFailed = state => ({
     ...state,
-    estudiosApiLoading: false,
+    ...initialState,
 });
 
 const descontarAEstudios = (state, action) => {
@@ -49,7 +48,6 @@ const descontarAEstudios = (state, action) => {
             actualizarImportes: true,
             importe_estudio: Math.round(estudio.importe_estudio * porcentaje * 100) / 100,
             diferencia_paciente: Math.round(estudio.diferencia_paciente * porcentaje * 100) / 100,
-            importe_medicacion: Math.round(estudio.importe_medicacion * porcentaje * 100) / 100,
             arancel_anestesia: Math.round(estudio.arancel_anestesia * porcentaje * 100) / 100,
             pension: Math.round(estudio.pension * porcentaje * 100) / 100,
         })),
@@ -98,16 +96,62 @@ const cobrarPresentacionFailed = state => ({
     estudiosApiLoading: false,
 });
 
+const updateMedicacionEstudioReducer = (state, action) => sumarImportesEstudios({
+    ...state,
+    estudios: state.estudios.map((estudio) => {
+        if (estudio.id !== action.estudioId) {
+            return estudio;
+        }
+        return {
+            ...estudio,
+            importe_medicacion: calculateImporteTotal(action.medicacion),
+        };
+    }),
+});
+
+const seleccionarEstudioReducer = (state, action) => {
+    if (action.selected) {
+        return {
+            ...state,
+            estudiosSeleccionados: [
+                ...state.estudiosSeleccionados, action.estudioId,
+            ],
+        };
+    }
+    return {
+        ...state,
+        estudiosSeleccionados:
+            state.estudiosSeleccionados.filter(estudioId => estudioId !== action.estudioId),
+    };
+};
+
+const refacturarEstudiosSuccess = state => sumarImportesEstudios({
+    ...state,
+    estudiosApiLoading: false,
+    estudiosSeleccionados: [],
+    estudios:
+        state.estudios.filter(estudio => !state.estudiosSeleccionados.includes(estudio.id)),
+    importesOriginales: state.importesOriginales.filter((importe, i) =>
+        !state.estudiosSeleccionados.includes(state.estudios[i].id),
+    ),
+});
+
+const refacturarEstudiosFailed = state => ({
+    ...state,
+    estudiosApiLoading: false,
+});
+
 export function cobrarPresentacionReducer(state = initialState, action) {
     switch (action.type) {
-        case types.REFACTURAR_ESTUDIO:
-        case types.FETCH_DATOS_DE_UNA_PRESENTACION:
+        case types.REFACTURAR_ESTUDIOS:
         case types.COBRAR_PRESENTACION:
             return actionsHandledByEpicReducer(state);
-        case types.REFACTURAR_ESTUDIO_SUCCESS:
-            return refacturarEstudioSuccess(state);
-        case types.REFACTURAR_ESTUDIO_FAILED:
-            return refacturarEstudioFailed(state);
+        case types.FETCH_DATOS_DE_UNA_PRESENTACION:
+            return fetchDatosDeUnaPresentacionReducer(state);
+        case types.REFACTURAR_ESTUDIOS_SUCCESS:
+            return refacturarEstudiosSuccess(state);
+        case types.REFACTURAR_ESTUDIOS_FAILED:
+            return refacturarEstudiosFailed(state);
         case types.FETCH_DATOS_DE_UNA_PRESENTACION_SUCCESS:
             return fetchDatosDeUnaPresentacionSuccess(state, action);
         case types.FETCH_DATOS_DE_UNA_PRESENTACION_FAILED:
@@ -126,6 +170,10 @@ export function cobrarPresentacionReducer(state = initialState, action) {
             return cobrarPresentacionSuccess(state, action);
         case types.COBRAR_PRESENTACION_FAILED:
             return cobrarPresentacionFailed(state);
+        case types.UPDATE_MEDICACION_ESTUDIO_COBRAR:
+            return updateMedicacionEstudioReducer(state, action);
+        case types.SELECCIONAR_ESTUDIO:
+            return seleccionarEstudioReducer(state, action);
         default:
             return state;
     }

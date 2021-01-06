@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import DeleteIcon from 'mdi-react/DeleteIcon';
 import RestartIcon from 'mdi-react/RestartIcon';
+import { Checkbox } from 'react-bootstrap';
 
 function EstudiosDeUnaPresentacionTableRow(props) {
     const {
@@ -13,6 +14,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         seccion,
         importesActualizados,
         resetImporte,
+        estudioSeleccionado,
     } = props;
     const {
         fecha, nro_de_orden: orden,
@@ -30,6 +32,7 @@ function EstudiosDeUnaPresentacionTableRow(props) {
     const [difPaciente, setDifPaciente] = useState(parseFloat(diferencia_paciente, 10));
     const [anestesista, setAnestesista] = useState(parseFloat(arancel_anestesia, 10));
     const [renderRow, setRenderRow] = useState(true);
+    const [seleccionado, setSeleccionado] = useState(false);
     const history = useHistory();
 
     const deleteIconClickHandler = () => {
@@ -75,9 +78,20 @@ function EstudiosDeUnaPresentacionTableRow(props) {
         }
     }, [actualizarImportes]);
 
+    useEffect(() => {
+        if (estudioSeleccionado) {
+            estudioSeleccionado(estudio.id, seleccionado);
+        }
+    }, [seleccionado]);
+
     /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
     return (
         <tr className='estudios-table-row'>
+            {estudioSeleccionado && (
+                <td>
+                    <Checkbox onClick={ () => setSeleccionado(!seleccionado) } />
+                </td>
+            )}
             <td
               className='fecha'
               onClick={ seccion && (() => history.push(`/estudios/detail/${id}/${seccion}`)) }
@@ -177,6 +191,7 @@ EstudiosDeUnaPresentacionTableRow.propTypes = {
     actualizarImportes: bool,
     importesActualizados: func,
     resetImporte: func,
+    estudioSeleccionado: func,
 };
 
 export default EstudiosDeUnaPresentacionTableRow;

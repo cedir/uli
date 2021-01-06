@@ -17,6 +17,7 @@ function EstudiosDeUnaPresentacionList(props) {
         seccion,
         importesActualizados = undefined,
         resetImporte = undefined,
+        estudioSeleccionado = undefined,
     } = props;
 
     if (estudiosApiLoading) {
@@ -34,6 +35,7 @@ function EstudiosDeUnaPresentacionList(props) {
             >
                 <thead>
                     <tr>
+                        {estudioSeleccionado && <th />}
                         <th>Fecha</th>
                         <th>Orden</th>
                         <th>Afiliado</th>
@@ -60,6 +62,7 @@ function EstudiosDeUnaPresentacionList(props) {
                           resetImporte={ resetImporte }
                           seccion={ seccion }
                           importesActualizados={ importesActualizados }
+                          estudioSeleccionado={ estudioSeleccionado }
                         />))
                     }
                 </tbody>
@@ -87,6 +90,7 @@ EstudiosDeUnaPresentacionList.propTypes = {
     seccion: string.isRequired,
     importesActualizados: func,
     resetImporte: func,
+    estudioSeleccionado: func,
 };
 
 export default EstudiosDeUnaPresentacionList;

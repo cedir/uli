@@ -27,3 +27,17 @@ export function cobrarPresentacion(idPresentacion, estudios, nroRecibo, retencio
 
     return patch(url, body, headers);
 }
+
+export function refacturarEstudios(idPresentacion, estudios) {
+    const url = `/api/presentacion/${idPresentacion}/refacturar_estudios/`;
+
+    const body = {
+        estudios,
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    return patch(url, body, headers);
+}

@@ -16,7 +16,6 @@ import PagoAnestesistaPage from '../anestesista/PagoAnestesistaPage';
 import CreateEstudio from '../estudio/components/CreateEstudio';
 import PagoMedicos from '../estudio/components/PagoMedicos';
 import PresentacionesObraSocialPage from '../presentaciones/components/PresentacionesObraSocialPage';
-import VerPresentacionPage from '../presentaciones/ver-presentacion/components/VerPresentacionPage';
 import CobrarPresentacionPage from '../presentaciones/cobrar-presentacion/components/CobrarPresentacionPage';
 import NuevaPresentacionPage from '../presentaciones/nueva-presentacion/components/NuevaPresentacionPage';
 import ModificarPresentacionPage from '../presentaciones/modificar-presentacion/components/ModificarPresentacionPage';
@@ -121,12 +120,6 @@ function App(props) {
                       exact
                       path='/presentaciones-obras-sociales/modificar-presentacion-abierta'
                       component={ ModificarPresentacionPage }
-                      authenticated={ !!props.token }
-                    />
-                    <PrivateRoute
-                      exact
-                      path='/presentaciones-obras-sociales/ver-presentacion/:id'
-                      component={ VerPresentacionPage }
                       authenticated={ !!props.token }
                     />
                     <PrivateRoute

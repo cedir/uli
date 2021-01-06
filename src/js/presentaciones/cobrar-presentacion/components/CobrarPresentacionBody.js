@@ -7,6 +7,7 @@ import {
     ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION,
     RESETEAR_IMPORTE_ESTUDIO,
     IMPORTES_ACTUALIZADOS,
+    SELECCIONAR_ESTUDIO,
     } from '../actionTypes';
 
 function CobrarPresentacionBody({
@@ -17,6 +18,7 @@ function CobrarPresentacionBody({
     resetImporte,
     importesActualizados,
     comprobante,
+    estudioSeleccionado,
 }) {
     return (
         <React.Fragment>
@@ -32,6 +34,7 @@ function CobrarPresentacionBody({
               resetImporte={ resetImporte }
               seccion='cobrar-presentacion'
               importesActualizados={ importesActualizados }
+              estudioSeleccionado={ estudioSeleccionado }
             />
         </React.Fragment>
     );
@@ -47,6 +50,7 @@ CobrarPresentacionBody.propTypes = {
     resetImporte: func.isRequired,
     importesActualizados: func.isRequired,
     comprobante: object.isRequired,
+    estudioSeleccionado: func.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -68,6 +72,8 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: RESETEAR_IMPORTE_ESTUDIO, estudioId: id }),
         importesActualizados: id =>
             dispatch({ type: IMPORTES_ACTUALIZADOS, id }),
+        estudioSeleccionado: (estudioId, selected) =>
+            dispatch({ type: SELECCIONAR_ESTUDIO, estudioId, selected }),
     };
 }
 

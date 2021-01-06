@@ -10,6 +10,7 @@ import { FETCH_MEDICACION_ESTUDIO, LOAD_MEDICACION_ESTUDIO,
     from './actionTypes';
 import { UPDATE_MEDICACION_ESTUDIO_MODIFICAR } from '../presentaciones/modificar-presentacion/actionTypes';
 import { UPDATE_MEDICACION_ESTUDIO_NUEVA } from '../presentaciones/nueva-presentacion/actionTypes';
+import { UPDATE_MEDICACION_ESTUDIO_COBRAR } from '../presentaciones/cobrar-presentacion/actionTypes';
 
 export function medicacionEpic(action$) {
     return action$.ofType(FETCH_MEDICACION_ESTUDIO)
@@ -30,6 +31,11 @@ export function medicacionEpic(action$) {
                     estudioId: action.estudioId,
                 },
                 // si está en la seccion de estudio no dispatchea ninguna accion de las secciones.
+                {
+                    type: action.seccion === 'cobrar-presentacion' && UPDATE_MEDICACION_ESTUDIO_COBRAR,
+                    medicacion: data.response,
+                    estudioId: action.estudioId,
+                },
             ))
             .catch(() => (Rx.Observable.of({
                 type: LOAD_MEDICACION_ESTUDIO_ERROR,
