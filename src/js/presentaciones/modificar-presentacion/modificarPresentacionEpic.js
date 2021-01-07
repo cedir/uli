@@ -84,8 +84,7 @@ export function finalizarModificarPresentacionEpic(action$) {
                     { type: CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE },
                     { type: UPDATE_PRESENTACIONES_LIST, data },
                     { type: ADD_ALERT, alert: createAlert('Presentación actualizada y cerrada con éxito', 'success') },
-                    { type: LOAD_PRESENTACION_DETAIL, data },
-                    { showModal: action.setShowModal(true) },
+                    { type: LOAD_PRESENTACION_DETAIL, data, showModal: action.setShowModal(true) },
                 ))
                 .catch(e => (Rx.Observable.of(
                     { type: CLEAN_ESTUDIOS_DE_UNA_PRESENTACION_FROM_STORE },

@@ -78,8 +78,8 @@ export function finalizarNuevaPresentacionEpic(action$) {
                 .mergeMap(data => Rx.Observable.of(
                     { type: CLEAN_ESTUDIOS_FROM_STORE },
                     { type: UPDATE_PRESENTACIONES_LIST, data },
-                    { type: ADD_ALERT, alert: createAlert('Presentación creada y cerrada con éxito', 'success') },
-                    {
+                    { 
+                        type: ADD_ALERT, alert: createAlert('Presentación creada y cerrada con éxito', 'success'),
                         setIdModal: action.setId(data.response.id),
                         showModal: action.setShowModal(true),
                     },

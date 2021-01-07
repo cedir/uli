@@ -294,7 +294,7 @@ class EstudioDetailMain extends Component {
                 <EliminarEstudioModal
                   modalOpened={ showModal }
                   setShowEliminarEstudioModal={ this.setShowModal }
-                  estudioId={ this.props.estudioDetail.id }
+                  estudioId={ this.props.estudioDetail.id || -1 }
                 />
                 <form
                   onSubmit={ this.props.handleSubmit(editParams =>
