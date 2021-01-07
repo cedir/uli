@@ -121,8 +121,8 @@ function FinalizarGuardarForm(props) {
     };
 
     const closeImprimirModal = () => {
-        history.push('/presentaciones-obras-sociales');
         setShowModal(false);
+        history.push('/presentaciones-obras-sociales');
     };
 
     const guardarClickHandler = () => {
