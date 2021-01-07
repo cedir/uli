@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes, { bool } from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import { ImprimirPresentacionModal } from './Modals';
 
 /* eslint-disable no-unused-vars */
 function presentacionObject(props) {
@@ -106,16 +107,22 @@ function FinalizarGuardarForm(props) {
         comprobanteState,
     });
 
+    const [showModal, setShowModal] = useState(false);
+    const [idPresentacion, setIdPresentacion] = useState(-1);
+
     const finalizarClickHandler = () => {
         if (updatePresentacion) {
-            finalizarPresentacion(postObject, comprobante, id);
+            setIdPresentacion(id);
+            finalizarPresentacion(postObject, comprobante, id, setShowModal);
         }
         if (crearPresentacion) {
-            finalizarPresentacion(postObject, comprobante);
+            finalizarPresentacion(postObject, comprobante, setShowModal, setIdPresentacion);
         }
-        setTimeout(() => {
-            history.push('/presentaciones-obras-sociales');
-        }, 1500);
+    };
+
+    const closeImprimirModal = () => {
+        setShowModal(false);
+        history.push('/presentaciones-obras-sociales');
     };
 
     const guardarClickHandler = () => {
@@ -131,35 +138,42 @@ function FinalizarGuardarForm(props) {
     };
 
     return (
-        <form>
-            <Row>
-                <strong>Periodo de la presentacion:</strong>
-            </Row>
-            <Row>
-                <input
-                  type='text'
-                  name='periodo'
-                  value={ periodoValue }
-                  onChange={ onChangePeriodoValue }
-                />
-            </Row>
-            <Row>
-                <Button
-                  bsStyle='primary'
-                  disabled={ finalizarButtonDisabled }
-                  onClick={ finalizarClickHandler }
-                >
-                    Finalizar
-                </Button>
-                <Button
-                  bsStyle='primary'
-                  disabled={ guardarButtonDisabled }
-                  onClick={ guardarClickHandler }
-                >
-                    Guardar
-                </Button>
-            </Row>
-        </form>
+        <React.Fragment>
+            <form>
+                <Row>
+                    <strong>Periodo de la presentacion:</strong>
+                </Row>
+                <Row>
+                    <input
+                      type='text'
+                      name='periodo'
+                      value={ periodoValue }
+                      onChange={ onChangePeriodoValue }
+                    />
+                </Row>
+                <Row>
+                    <Button
+                      bsStyle='primary'
+                      disabled={ finalizarButtonDisabled }
+                      onClick={ finalizarClickHandler }
+                    >
+                        Finalizar
+                    </Button>
+                    <Button
+                      bsStyle='primary'
+                      disabled={ guardarButtonDisabled }
+                      onClick={ guardarClickHandler }
+                    >
+                        Guardar
+                    </Button>
+                </Row>
+            </form>
+            <ImprimirPresentacionModal
+              modalOpened={ showModal }
+              presentacionId={ idPresentacion }
+              closeModal={ closeImprimirModal }
+            />
+        </React.Fragment>
     );
 }
 
@@ -179,6 +193,5 @@ FinalizarGuardarForm.propTypes = {
     finalizarPresentacion: func.isRequired,
     history: object.isRequired,
 };
-
 
 export default withRouter(FinalizarGuardarForm);

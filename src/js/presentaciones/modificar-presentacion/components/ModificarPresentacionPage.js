@@ -162,9 +162,9 @@ function mapDispatchToProps(dispatch) {
             dispatch({
                 type: UPDATE_PRESENTACION, presentacion, id,
             }),
-        finalizarPresentacion: (presentacion, comprobante, id) =>
+        finalizarPresentacion: (presentacion, comprobante, id, setShowModal) =>
             dispatch({
-                type: FINALIZAR_MODIFICAR_PRESENTACION, presentacion, comprobante, id,
+                type: FINALIZAR_MODIFICAR_PRESENTACION, presentacion, comprobante, id, setShowModal,
             }),
         setImporteMedicacionEstudio: (total, index) =>
             dispatch({

@@ -81,4 +81,3 @@ export function patchCerrarPresentacion(comprobante, id) {
 
     return patch(url, body, headers);
 }
-

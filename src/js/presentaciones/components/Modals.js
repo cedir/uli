@@ -5,6 +5,7 @@ import FinalizarGuardarForm from './FinalizarGuardarForm';
 import Comprobante from './Comprobante';
 import AgregarEstudioList from './AgregarEstudioList';
 import AlertModal from '../../utilities/components/alert/AlertModal';
+import { config } from '../../app/config';
 
 export default function ModalAgregarEstudio(props) {
     /* eslint-disable no-unused-vars */
@@ -232,7 +233,51 @@ export function ModalFinalizarGuardar(props) {
     );
 }
 
+export function ImprimirPresentacionModal({
+    modalOpened,
+    closeModal,
+    presentacionId,
+}) {
+    return (
+        <Modal
+          show={ modalOpened }
+          bsSize='large'
+        >
+            <Modal.Header>
+                <Modal.Title>Imprimir presentacion</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                Desea imprimir la presentacion creada?
+            </Modal.Body>
+            <Modal.Footer>
+                <Button
+                  onClick={ () => closeModal() }
+                >
+                    Cancelar
+                </Button>
+
+                <Button
+                  bsStyle='primary'
+                  onClick={ () => {
+                      window.open(`${config.baseUrl}/api/presentacion/${presentacionId}/imprimir_presentacion/`);
+                      closeModal();
+                  } }
+                >
+                    Imprimir
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
+
+
 const { number, bool, func, object, string, array } = PropTypes;
+
+ImprimirPresentacionModal.propTypes = {
+    modalOpened: PropTypes.bool.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    presentacionId: PropTypes.number.isRequired,
+};
 
 ModalAgregarEstudio.propTypes = {
     show: bool.isRequired,
