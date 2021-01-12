@@ -1,7 +1,8 @@
 import { get } from '../utilities/rest';
+import { getSucursal } from '../app/storeHelper';
 
 export function getPagoAnestesista(id, año, mes) {
-    const url = `/api/anestesista/${id}/pago/${año}/${mes}/`;
+    const url = `/api/anestesista/${id}/pago/${año}/${mes}/?sucursal=${getSucursal()}`;
     return get(url);
 }
 
