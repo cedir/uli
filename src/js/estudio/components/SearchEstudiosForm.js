@@ -70,8 +70,8 @@ class SearchEstudiosForm extends React.Component {
     }
 
     searchEstudios(searchParams) {
-        if (this.props.closeModal) {
-            this.props.closeModal();
+        if (this.props.setModalOpened) {
+            this.props.setModalOpened(false);
         }
 
         this.props.fetchEstudios(searchParams);
@@ -272,7 +272,7 @@ SearchEstudiosForm.propTypes = {
     obrasSociales: array,
     medicosActuantes: array,
     medicosSolicitantes: array,
-    closeModal: func,
+    setModalOpened: func,
     obrasSocialesApiLoading: bool.isRequired,
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
@@ -12,100 +12,65 @@ import ConditionalComponents from '../../utilities/ConditionalComponent';
 import searchEstudiosFormInitialState from '../searchEstudiosFormInitialState';
 import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 
-const { array, object, func, number } = PropTypes;
+function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, history, estudios }) {
+    const [modalOpened, setModalOpened] = useState(false);
 
-const estudiosListPanel = props => (
-    <EstudiosList history={ props.history } />
-);
+    const estudiosListPanel = () => <EstudiosList history={ history } />;
 
-estudiosListPanel.propTypes = {
-    history: object,
-};
+    const noSearchResults = () => (
+        <div style={ { textAlign: 'center', marginTop: '10px' } }>
+            Su busqueda no ha arrojado resultados
+        </div>
+    );
 
-const noSearchResults = () => (
-    <div style={ { textAlign: 'center', marginTop: '10px' } }>
-        Su busqueda no ha arrojado resultados
-    </div>
-);
-
-class EstudiosDelDiaPres extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            modalOpened: false,
-        };
-        this.openSearchEstudiosModal = this.openSearchEstudiosModal.bind(this);
-        this.closeSearchEstudiosModal = this.closeSearchEstudiosModal.bind(this);
-    }
-
-    componentDidMount() {
-        const { fecha, dniPaciente } = queryString.parse(this.props.location.search);
-        let searchParams;
-        // this is the case when the user arrives to EstudiosDelDia searching for specific
-        // estudios, providing parameters in the url query string.
-        // So far, this is used just to made easy clonning estudios
+    useEffect(() => {
+        const { fecha, dniPaciente } = queryString.parse(location.search);
+        // if search is executed
         if (fecha && dniPaciente) {
-            searchParams = {
+            fetchEstudios({
                 fechaDesde: fecha,
                 fechaHasta: fecha,
                 dniPaciente,
-            };
-
-            this.props.fetchEstudios(searchParams);
-        } else {
-            // this is the normal app flow, returning to EstudioDelDia,
-            // checking if a filter were already applyied
-            // and applying the same filers again.
-            searchParams = this.props.searchParams;
-            if (!isEmpty(searchParams)) {
-                this.props.searchParams.actualPage = this.props.actualPage;
-                this.props.fetchEstudios(searchParams);
-            }
+            });
+        } else if (!isEmpty(searchParams)) {
+            // if a filter is applied
+            fetchEstudios({ ...searchParams, actualPage });
         }
-    }
+    }, []);
 
-    openSearchEstudiosModal() {
-        this.setState({ modalOpened: true });
-    }
-
-    closeSearchEstudiosModal() {
-        this.setState({ modalOpened: false });
-    }
-
-    render() {
-        return (
-            <div className='ibox-content'>
-                <div className='pull-right'>
-                    <EstudiosActionBar
-                      openSearchEstudiosModal={ this.openSearchEstudiosModal }
-                      history={ this.props.history }
-                    />
-                </div>
-                <div className='clearfix' />
-                <ConditionalComponents
-                  component={ estudiosListPanel }
-                  history={ this.props.history }
-                  display={ this.props.estudios.length > 0 }
-                />
-                <ConditionalComponents
-                  component={ noSearchResults }
-                  display={ this.props.estudios.length === 0 }
-                />
-                <SearchEstudiosModal
-                  modalOpened={ this.state.modalOpened }
-                  closeModal={ this.closeSearchEstudiosModal }
+    return (
+        <div className='ibox-content'>
+            <div className='pull-right'>
+                <EstudiosActionBar
+                  setModalOpened={ setModalOpened }
+                  history={ history }
                 />
             </div>
-        );
-    }
+            <div className='clearfix' />
+            <ConditionalComponents
+              component={ estudiosListPanel }
+              history={ history }
+              display={ estudios.length > 0 }
+            />
+            <ConditionalComponents
+              component={ noSearchResults }
+              display={ estudios.length === 0 }
+            />
+            <SearchEstudiosModal
+              modalOpened={ modalOpened }
+              setModalOpened={ setModalOpened }
+            />
+        </div>
+    );
 }
 
-EstudiosDelDiaPres.defaultProps = {
+const { array, object, func, number } = PropTypes;
+
+EstudiosDelDia.defaultProps = {
     estudios: [],
 };
 
-EstudiosDelDiaPres.propTypes = {
+EstudiosDelDia.propTypes = {
     estudios: array,
     actualPage: number,
     searchParams: object,
@@ -137,4 +102,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EstudiosDelDiaPres));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EstudiosDelDia));
