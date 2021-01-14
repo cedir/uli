@@ -7,43 +7,33 @@ import { Pagination }
 import EstudiosListTable from './EstudiosListTable';
 import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES } from '../actionTypes';
 import estudioReducerInitialState from '../estudioReducerInitialState';
-import ConditionalComponents from '../../utilities/ConditionalComponent';
 
-class EstudiosList extends React.Component {
-    constructor(props) {
-        super(props);
+function EstudiosList({ searchParams, actualPage, fetchEstudios, resultPages, history }) {
+    const searchEstudios = (actPage) => {
+        fetchEstudios({ ...searchParams, actualPage: actPage });
+    };
 
-        this.searchEstudios = this.searchEstudios.bind(this);
-    }
-
-    searchEstudios(actualPage) {
-        this.props.searchParams.actualPage = actualPage;
-        this.props.fetchEstudios(this.props.searchParams);
-    }
-
-    render() {
-        return (
-            <div>
-                <EstudiosListTable history={ this.props.history } />
-                <div style={ { textAlign: 'center' } }>
-                    <ConditionalComponents
-                      display={ this.props.resultPages > 1 }
-                      component={ Pagination }
+    return (
+        <div>
+            <EstudiosListTable history={ history } />
+            <div style={ { textAlign: 'center' } }>
+                {resultPages > 1 && (
+                    <Pagination
                       prev
                       next
                       first
                       last
                       ellipsis
                       boundaryLinks
-                      items={ this.props.resultPages }
+                      items={ resultPages }
                       maxButtons={ 5 }
-                      activePage={ this.props.actualPage }
-                      onSelect={ this.searchEstudios }
+                      activePage={ actualPage }
+                      onSelect={ searchEstudios }
                     />
-                </div>
+                )}
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 const { number, func, object } = PropTypes;
