@@ -8,20 +8,11 @@ import { isEmpty } from 'lodash';
 import EstudiosActionBar from './EstudiosActionBar';
 import SearchEstudiosModal from './SearchEstudiosModal';
 import EstudiosList from './EstudiosList';
-import ConditionalComponents from '../../utilities/ConditionalComponent';
 import searchEstudiosFormInitialState from '../searchEstudiosFormInitialState';
 import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 
 function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, history, estudios }) {
     const [modalOpened, setModalOpened] = useState(false);
-
-    const estudiosListPanel = () => <EstudiosList history={ history } />;
-
-    const noSearchResults = () => (
-        <div style={ { textAlign: 'center', marginTop: '10px' } }>
-            Su busqueda no ha arrojado resultados
-        </div>
-    );
 
     useEffect(() => {
         const { fecha, dniPaciente } = queryString.parse(location.search);
@@ -47,15 +38,12 @@ function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, his
                 />
             </div>
             <div className='clearfix' />
-            <ConditionalComponents
-              component={ estudiosListPanel }
-              history={ history }
-              display={ estudios.length > 0 }
-            />
-            <ConditionalComponents
-              component={ noSearchResults }
-              display={ estudios.length === 0 }
-            />
+            { estudios.length > 0 && <EstudiosList history={ history } />}
+            { estudios.length === 0 && (
+                <div style={ { textAlign: 'center', marginTop: '10px' } }>
+                    Su busqueda no ha arrojado resultados
+                </div>
+            ) }
             <SearchEstudiosModal
               modalOpened={ modalOpened }
               setModalOpened={ setModalOpened }
