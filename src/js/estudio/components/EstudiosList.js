@@ -22,7 +22,7 @@ function EstudiosList({
 
     return (
         <div>
-            <EstudiosListTable history={ history } ref={ estudiosRef } />
+            <EstudiosListTable history={ history } estudiosRef={ estudiosRef } />
             <div style={ { textAlign: 'center' } }>
                 {resultPages > 1 && (
                     <Pagination

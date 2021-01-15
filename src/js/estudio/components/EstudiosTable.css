@@ -1,0 +1,40 @@
+.estudios-table {
+    margin-top: 20px;
+}
+
+.estudios-table tr td {
+    text-align: left;
+}
+
+@media print {
+
+    .hide-on-print {
+        display: none;
+        visibility: hidden 
+    }
+
+    .estudios-table {
+        margin-top: 3rem;
+        margin-left: 2rem;
+        margin-right: 2rem;
+        padding: 0;
+    }
+
+    .estudios-table tr {
+        margin: 0;
+        padding: 0;
+        font-size: 13px;
+    }
+    
+    .estudios-table td {
+        padding: 0;
+        padding: 0.3em;
+        margin: 0.3em;
+        font-size: 13px;
+    }
+}
+
+@page {
+    margin: 0;
+    padding: 0;
+}
