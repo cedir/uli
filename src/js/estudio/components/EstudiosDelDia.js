@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
@@ -13,6 +13,7 @@ import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 
 function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, history, estudios }) {
     const [modalOpened, setModalOpened] = useState(false);
+    const estudiosRef = useRef(null);
 
     useEffect(() => {
         const { fecha, dniPaciente } = queryString.parse(location.search);
@@ -35,10 +36,13 @@ function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, his
                 <EstudiosActionBar
                   setModalOpened={ setModalOpened }
                   history={ history }
+                  estudiosRef={ estudiosRef }
                 />
             </div>
             <div className='clearfix' />
-            { estudios.length > 0 && <EstudiosList history={ history } />}
+            { estudios.length > 0 && (
+                <EstudiosList history={ history } estudiosRef={ estudiosRef } />
+            ) }
             { estudios.length === 0 && (
                 <div style={ { textAlign: 'center', marginTop: '10px' } }>
                     Su busqueda no ha arrojado resultados

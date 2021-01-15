@@ -8,14 +8,21 @@ import EstudiosListTable from './EstudiosListTable';
 import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES } from '../actionTypes';
 import estudioReducerInitialState from '../estudioReducerInitialState';
 
-function EstudiosList({ searchParams, actualPage, fetchEstudios, resultPages, history }) {
+function EstudiosList({
+    searchParams,
+    actualPage,
+    fetchEstudios,
+    resultPages,
+    history,
+    estudiosRef,
+}) {
     const searchEstudios = (actPage) => {
         fetchEstudios({ ...searchParams, actualPage: actPage });
     };
 
     return (
         <div>
-            <EstudiosListTable history={ history } />
+            <EstudiosListTable history={ history } ref={ estudiosRef } />
             <div style={ { textAlign: 'center' } }>
                 {resultPages > 1 && (
                     <Pagination
@@ -44,6 +51,7 @@ EstudiosList.propTypes = {
     fetchEstudios: func,
     resultPages: number,
     actualPage: number,
+    estudiosRef: object,
 };
 
 EstudiosList.defaultProps = {
