@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { Field, reduxForm, change, formValueSelector } from 'redux-form';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import { requiredOption } from '../../utilities/reduxFormValidators';
@@ -9,26 +9,22 @@ import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
+import { FiltrarPresentacionModal } from './Modals';
 
-class SearchPresentacionesObraSocial extends Component {
-    constructor(props) {
-        super(props);
+function SearchPresentacionesObraSocial(props) {
+    const [showModal, setShowModal] = useState(false);
 
-        this.setSelectedObraSocial = this.setSelectedObraSocial.bind(this);
-        this.searchObrasSociales = this.searchObrasSociales.bind(this);
-    }
-
-    setSelectedObraSocial(selection) {
+    const setSelectedObraSocial = (selection) => {
         if (selection[0] && selection[0].id) {
-            this.props.setSelectedObraSocial(selection[0]);
+            props.setSelectedObraSocial(selection[0]);
         }
-    }
+    };
 
-    searchObrasSociales(nombre) {
-        this.props.fetchObrasSociales(nombre);
-    }
+    const searchObrasSociales = (nombre) => {
+        props.fetchObrasSociales(nombre);
+    };
 
-    nuevaClickHandler(params) {
+    const nuevaClickHandler = (params) => {
         const {
             fetchEstudiosSinPresentarObraSocial,
             /* eslint-disable no-unused-vars */
@@ -36,7 +32,7 @@ class SearchPresentacionesObraSocial extends Component {
             history,
             selectedObraSocial,
             obraSocial,
-        } = this.props;
+        } = props;
         // Para que no se pierdan los cambios que no fueron guardados
         // En el listado de crear o modificar presentación.
         // obraSocial.id = previa obra social.id
@@ -45,71 +41,86 @@ class SearchPresentacionesObraSocial extends Component {
             fetchEstudiosSinPresentarObraSocial(params);
         }
         history.push('/presentaciones-obras-sociales/nueva-presentacion');
-    }
+    };
 
-    presentacionClickHandler(params) {
-        const { loadPresentacionObraSocialId } = this.props;
+    const presentacionClickHandler = (params) => {
+        const { loadPresentacionObraSocialId } = props;
         loadPresentacionObraSocialId(params);
-    }
+    };
 
-    renderObraSocialMenuItem(option) {
-        return (
-            <div key={ option.id }>
-                { option.nombre }
-            </div>
-        );
-    }
-
-    render() {
-        return (
-            <Form
-              inline
-            >
-                <Row className='search-grid search-grid-presentaciones'>
-                    <Col md={ 9 } style={ { border: 'none' } } >
-                        <Field
-                          name='obraSocial'
-                          label='Obra Social'
-                          placeholder='nombre'
-                          align='left'
-                          validate={ requiredOption }
-                          component={ AsyncTypeaheadRF }
-                          options={ this.props.obrasSociales }
-                          labelKey='nombre'
-                          onSearch={ this.searchObrasSociales }
-                          onChange={ this.setSelectedObraSocial }
-                          selected={ this.props.selectedObraSocial }
-                          renderMenuItemChildren={ this.renderObraSocialMenuItem }
-                          isLoading={ this.props.obrasSocialesApiLoading }
-                        />
-                    </Col>
-                    <Col md={ 3 } style={ { border: 'none' } }>
-                        <Button
-                          type='submit'
-                          bsStyle='primary'
-                          disabled={ !this.props.valid }
-                          onClick={ this.props.handleSubmit(params =>
-                            this.presentacionClickHandler(params))
-                          }
-                        >
-                            Buscar
-                        </Button>
-                        <Button
-                          type='submit'
-                          bsStyle='primary'
-                          disabled={ !this.props.valid }
-                          onClick={
-                            this.props.handleSubmit(params => this.nuevaClickHandler(params))
-                          }
-                        >
-                            Nueva
-                        </Button>
-                    </Col>
-                </Row>
-            </Form>
-        );
-    }
+    const renderObraSocialMenuItem = option => (
+        <div key={ option.id }>
+            { option.nombre }
+        </div>
+    );
+    return (
+        <React.Fragment>
+            <FiltrarPresentacionModal
+              modalOpened={ showModal }
+              setShowModal={ setShowModal }
+            />
+            <Row className='search-grid search-grid-presentaciones'>
+                <Col md={ 9 } style={ { border: 'none' } } >
+                    <Field
+                      name='obraSocial'
+                      label='Obra Social'
+                      placeholder='nombre'
+                      align='left'
+                      validate={ requiredOption }
+                      component={ AsyncTypeaheadRF }
+                      options={ props.obrasSociales }
+                      labelKey='nombre'
+                      onSearch={ searchObrasSociales }
+                      onChange={ setSelectedObraSocial }
+                      selected={ props.selectedObraSocial }
+                      renderMenuItemChildren={ renderObraSocialMenuItem }
+                      isLoading={ props.obrasSocialesApiLoading }
+                    />
+                </Col>
+                <Col md={ 3 } style={ { border: 'none' } }>
+                    <Button
+                      type='submit'
+                      bsStyle='primary'
+                      disabled={ !props.valid }
+                      onClick={
+                        props.handleSubmit(params => nuevaClickHandler(params))
+                      }
+                    >
+                        Nueva
+                    </Button>
+                </Col>
+            </Row>
+            <Row className='search-grid search-grid-presentaciones'>
+                <Col md={ 9 } style={ { border: 'none' } } >
+                    <Field
+                      name='obraSocial'
+                      label='Obra Social'
+                      placeholder='nombre'
+                      align='left'
+                      validate={ requiredOption }
+                      component={ AsyncTypeaheadRF }
+                      options={ props.obrasSociales }
+                      labelKey='nombre'
+                      onSearch={ searchObrasSociales }
+                      onChange={ setSelectedObraSocial }
+                      selected={ props.selectedObraSocial }
+                      renderMenuItemChildren={ renderObraSocialMenuItem }
+                      isLoading={ props.obrasSocialesApiLoading }
+                    />
+                </Col>
+                <Col md={ 3 } style={ { border: 'none' } }>
+                    <Button
+                      bsStyle='primary'
+                      onClick={ () => setShowModal(true) }
+                    >
+                        Buscar
+                    </Button>
+                </Col>
+            </Row>
+        </React.Fragment>
+    );
 }
+
 
 const SearchPresentacionesObraSocialReduxForm =
     reduxForm({
