@@ -13,6 +13,7 @@ import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 
 function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, history, estudios }) {
     const [modalOpened, setModalOpened] = useState(false);
+    const [showMedicoSolicitante, setShowMedicoSolicitante] = useState(true);
     const estudiosRef = useRef(null);
 
     useEffect(() => {
@@ -37,11 +38,17 @@ function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, his
                   setModalOpened={ setModalOpened }
                   history={ history }
                   estudiosRef={ estudiosRef }
+                  setShowMedicoSolicitante={ setShowMedicoSolicitante }
+                  showMedicoSolicitante={ showMedicoSolicitante }
                 />
             </div>
             <div className='clearfix' />
             { estudios.length > 0 && (
-                <EstudiosList history={ history } estudiosRef={ estudiosRef } />
+                <EstudiosList
+                  history={ history }
+                  estudiosRef={ estudiosRef }
+                  showMedicoSolicitante={ showMedicoSolicitante }
+                />
             ) }
             { estudios.length === 0 && (
                 <div style={ { textAlign: 'center', marginTop: '10px' } }>

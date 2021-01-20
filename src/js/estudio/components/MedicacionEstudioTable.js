@@ -28,7 +28,7 @@ class MedicacionEstudiosTable extends React.Component {
         const { paciente, practica, fechaEstudio } = this.props;
         const medicaciones = this.filtrarMedicacion(this.props.medicaciones);
         return (
-            <div>
+            <div className='print-div-medicacion'>
                 { medicaciones.length === 0 &&
                     <h5>No hay medicaciones cargadas para este estudio</h5>
                 }

@@ -5,12 +5,16 @@ import { Table } from 'react-bootstrap/dist/react-bootstrap';
 import EstudioListTableRow from './EstudioListTableRow';
 import './EstudiosTable.css';
 
-function EstudiosListTable({ estudios, history, estudiosRef }) {
+function EstudiosListTable({
+    estudios,
+    history,
+    estudiosRef,
+    showMedicoSolicitante,
+}) {
     const navigateToEstudioDetail = estudioId => history.push(`/estudios/detail/${estudioId}`);
-
     return (
-        <div>
-            <Table striped responsive className='estudios-table' ref={ estudiosRef }>
+        <div ref={ estudiosRef } className='div-estudios-table'>
+            <Table striped responsive className='estudios-table'>
                 <thead>
                     <tr>
                         <th>Fecha</th>
@@ -18,7 +22,7 @@ function EstudiosListTable({ estudios, history, estudiosRef }) {
                         <th>Obra Social</th>
                         <th>Tipo de estudio</th>
                         <th>Medico actuante</th>
-                        <th>Medico solicitante</th>
+                        { showMedicoSolicitante && <th>Medico solicitante</th> }
                     </tr>
                 </thead>
                 <tbody>
@@ -27,6 +31,7 @@ function EstudiosListTable({ estudios, history, estudiosRef }) {
                           key={ estudio.id }
                           estudio={ estudio }
                           onRowClick={ navigateToEstudioDetail }
+                          showMedicoSolicitante={ showMedicoSolicitante }
                         />
                     )) }
                 </tbody>
@@ -35,12 +40,13 @@ function EstudiosListTable({ estudios, history, estudiosRef }) {
     );
 }
 
-const { array, object } = PropTypes;
+const { array, object, bool } = PropTypes;
 
 EstudiosListTable.propTypes = {
     history: object.isRequired,
     estudios: array.isRequired,
     estudiosRef: object,
+    showMedicoSolicitante: bool.isRequired,
 };
 
 EstudiosListTable.defaultProps = {
