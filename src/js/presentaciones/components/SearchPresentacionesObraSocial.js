@@ -10,6 +10,7 @@ import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
 import { FiltrarPresentacionModal } from './Modals';
+import { SearchPresentacionForm } from './SearchPresentacionForm';
 
 function SearchPresentacionesObraSocial(props) {
     const [showModal, setShowModal] = useState(false);
@@ -91,31 +92,16 @@ function SearchPresentacionesObraSocial(props) {
                 </Col>
             </Row>
             <Row className='search-grid search-grid-presentaciones'>
-                <Col md={ 9 } style={ { border: 'none' } } >
-                    <Field
-                      name='obraSocial'
-                      label='Obra Social'
-                      placeholder='nombre'
-                      align='left'
-                      validate={ requiredOption }
-                      component={ AsyncTypeaheadRF }
-                      options={ props.obrasSociales }
-                      labelKey='nombre'
-                      onSearch={ searchObrasSociales }
-                      onChange={ setSelectedObraSocial }
-                      selected={ props.selectedObraSocial }
-                      renderMenuItemChildren={ renderObraSocialMenuItem }
-                      isLoading={ props.obrasSocialesApiLoading }
-                    />
-                </Col>
-                <Col md={ 3 } style={ { border: 'none' } }>
-                    <Button
-                      bsStyle='primary'
-                      onClick={ () => setShowModal(true) }
-                    >
-                        Buscar
-                    </Button>
-                </Col>
+                <SearchPresentacionForm
+                  opcionesObraSocial={ props.obrasSociales }
+                  onSearchObraSocial={ searchObrasSociales }
+                  onChangeObraSocial={ setSelectedObraSocial }
+                  selectedObraSocial={ props.selectedObraSocial }
+                  renderMenuItemChildren={ renderObraSocialMenuItem }
+                  isLoading={ props.obrasSocialesApiLoading }
+                  handleSubmit={ props.handleSubmit }
+                  presentacionClickHandler={ presentacionClickHandler }
+                />
             </Row>
         </React.Fragment>
     );
