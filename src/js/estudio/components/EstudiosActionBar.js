@@ -7,8 +7,8 @@ function EstudiosActionBar({
     history,
     setModalOpened,
     estudiosRef,
-    showMedicoSolicitante,
-    setShowMedicoSolicitante,
+    setPrintMode,
+    printMode,
 }) {
     const onBeforeGetContentResolve = useRef(Promise.resolve);
     const goToCreateEstudio = () => {
@@ -24,20 +24,20 @@ function EstudiosActionBar({
         content: estudiosContent,
         onBeforeGetContent: () => new Promise((resolve) => {
             onBeforeGetContentResolve.current = resolve;
-            setShowMedicoSolicitante(false);
+            setPrintMode(true);
             resolve();
         }),
         onAfterPrint: () => {
-            setShowMedicoSolicitante(true);
+            setPrintMode(false);
         },
         removeAfterPrint: true,
     });
 
     useEffect(() => {
-        if (!showMedicoSolicitante && typeof onBeforeGetContentResolve.current === 'function') {
+        if (printMode && typeof onBeforeGetContentResolve.current === 'function') {
             onBeforeGetContentResolve.current();
         }
-    }, [onBeforeGetContentResolve.current, showMedicoSolicitante]);
+    }, [onBeforeGetContentResolve.current, printMode]);
 
     return (
         <ButtonToolbar>
@@ -67,8 +67,8 @@ EstudiosActionBar.propTypes = {
     history: object.isRequired,
     setModalOpened: func.isRequired,
     estudiosRef: object,
-    showMedicoSolicitante: bool.isRequired,
-    setShowMedicoSolicitante: func.isRequired,
+    setPrintMode: func.isRequired,
+    printMode: bool.isRequired,
 };
 
 export default EstudiosActionBar;

@@ -6,7 +6,7 @@ function formatDate(dateString) {
     return `${d.getUTCDate()}/${d.getUTCMonth() + 1}/${d.getUTCFullYear()}`;
 }
 
-function EstudioListTableRow({ estudio, onRowClick, showMedicoSolicitante }) {
+function EstudioListTableRow({ estudio, onRowClick, printMode }) {
     const paciente = estudio.paciente || { nombre: '', apellido: '' };
     const obraSocial = estudio.obra_social || { nombre: '' };
     const practica = estudio.practica || { descripcion: '' };
@@ -23,7 +23,7 @@ function EstudioListTableRow({ estudio, onRowClick, showMedicoSolicitante }) {
             <td>{ obraSocial.nombre }</td>
             <td>{ practica.descripcion }</td>
             <td>{ `${medico.apellido}, ${medico.nombre}` }</td>
-            {showMedicoSolicitante && <td>{ `${medicoSolicitante.apellido}, ${medicoSolicitante.nombre}` }</td>}
+            {!printMode && <td>{ `${medicoSolicitante.apellido}, ${medicoSolicitante.nombre}` }</td>}
         </tr>
     );
 }
@@ -33,7 +33,7 @@ const { object, func, bool } = PropTypes;
 EstudioListTableRow.propTypes = {
     estudio: object.isRequired,
     onRowClick: func.isRequired,
-    showMedicoSolicitante: bool.isRequired,
+    printMode: bool.isRequired,
 };
 
 export default EstudioListTableRow;

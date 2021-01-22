@@ -15,8 +15,7 @@ function EstudiosList({
     resultPages,
     history,
     estudiosRef,
-    showMedicoSolicitante,
-    setShowMedicoSolicitante,
+    printMode,
 }) {
     const searchEstudios = (actPage) => {
         fetchEstudios({ ...searchParams, actualPage: actPage });
@@ -27,8 +26,7 @@ function EstudiosList({
             <EstudiosListTable
               history={ history }
               estudiosRef={ estudiosRef }
-              showMedicoSolicitante={ showMedicoSolicitante }
-              setShowMedicoSolicitante={ setShowMedicoSolicitante }
+              printMode={ printMode }
             />
             <div style={ { textAlign: 'center' } }>
                 {resultPages > 1 && (
@@ -59,8 +57,7 @@ EstudiosList.propTypes = {
     resultPages: number,
     actualPage: number,
     estudiosRef: object,
-    showMedicoSolicitante: bool.isRequired,
-    setShowMedicoSolicitante: func.isRequired,
+    printMode: bool.isRequired,
 };
 
 EstudiosList.defaultProps = {
