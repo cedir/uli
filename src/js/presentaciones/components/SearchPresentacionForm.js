@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
-import { Col, Button }
+import { Row, Col, Button }
     from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
@@ -14,22 +14,16 @@ const currentYear = today.getFullYear();
 const years = Array.from(Array(5).keys()).map(k => currentYear - k);
 
 export function SearchPresentacionForm(props) {
+    const [bandera, setBandera] = useState(false);
     return (
         <form
           onSubmit={
-            props.handleSubmit(searchParams => props.presentacionClickHandler(searchParams))
+            props.handleSubmit(searchParams => props.apretar(searchParams, bandera))
           }
           className='search-Presentacion-form'
         >
-            <Col md={ 9 }>
-                <Col>
-                    <Field
-                      name='EstadoPresentacion'
-                      label='Estado de la presentacion'
-                      type='checkbox'
-                      // componentClass='checkbox'
-                      component={ InputRF }
-                    />
+            <Row>
+                <Col md={ 5 }>
                     <Field
                       name='tipoComprobante'
                       label='Tipo de Comprobante'
@@ -38,12 +32,27 @@ export function SearchPresentacionForm(props) {
                       selectOptions={ props.tiposComprobante }
                       nullValue=''
                     />
+                </Col>
+                <Col md={ 4 }>
                     <Field
                       name='numero'
                       label='Numero'
                       validate={ [integerValue] }
                       component={ InputRF }
                     />
+                </Col>
+            </Row>
+            <Row>
+                <Col md={ 2 }>
+                    <Field
+                      name='EstadoPresentacion'
+                      label='Estado de la presentacion'
+                      type='checkbox'
+                      // componentClass='checkbox'
+                      component={ InputRF }
+                    />
+                </Col>
+                <Col md={ 4 }>
                     <Field
                       name='tipoPresentacion'
                       label='Tipo de Presentacion'
@@ -53,9 +62,9 @@ export function SearchPresentacionForm(props) {
                       nullValue=''
                     />
                 </Col>
-                <Col>
-                </Col>
-                <Col>
+            </Row>
+            <Row>
+                <Col md={ 7 }>
                     <Field
                       name='obraSocial'
                       label='Obra Social'
@@ -70,6 +79,8 @@ export function SearchPresentacionForm(props) {
                       renderMenuItemChildren={ props.renderMenuItemChildren }
                       isLoading={ props.isLoading }
                     />
+                </Col>
+                <Col md={ 2 }>
                     <Field
                       name='anio'
                       label='Año'
@@ -79,16 +90,24 @@ export function SearchPresentacionForm(props) {
                       selectOptions={ years }
                     />
                 </Col>
-            </Col>
-            <Col md={ 3 }>
-                <Button
-                  className='pull-right'
-                  bsStyle='primary'
-                  type='submit'
-                >
-                    Buscar
-                </Button>
-            </Col>
+                <Col md={ 3 }>
+                    <Button
+                      className='pull-right'
+                      bsStyle='primary'
+                      type='submit'
+                    >
+                        Buscar
+                    </Button>
+                    <Button
+                      className='pull-right'
+                      bsStyle='primary'
+                      type='submit'
+                      onClick={ () => setBandera(true) }
+                    >
+                        Nueva
+                    </Button>
+                </Col>
+            </Row>
         </form>
     );
 }
@@ -97,7 +116,7 @@ const { func, array, bool } = PropTypes;
 
 SearchPresentacionForm.propTypes = {
     handleSubmit: func.isRequired,
-    presentacionClickHandler: func.isRequired,
+    // presentacionClickHandler: func.isRequired,
     tiposPresentacion: array,
     tiposComprobante: array,
     opcionesObraSocial: array.isRequired,
@@ -106,6 +125,7 @@ SearchPresentacionForm.propTypes = {
     selectedObraSocial: array,
     renderMenuItemChildren: func.isRequired,
     isLoading: bool,
+    apretar: func.isRequired,
     // fetchMovimientosPresentacion: func.isRequired,
 };
 
