@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
-import { Row, Col, Button }
+// import { connect } from 'react-redux';
+import { Field } from 'redux-form';
+import { Row, Col, Button, Checkbox }
     from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
@@ -13,58 +13,20 @@ const today = new Date();
 const currentYear = today.getFullYear();
 const years = Array.from(Array(5).keys()).map(k => currentYear - k);
 
+const tiposPresentacion = ['Directa', 'AMR'];
+const tiposComprobante = ['Factura', 'Liquidacion', 'Factura electronica'];
+
 export function SearchPresentacionForm(props) {
-    const [bandera, setBandera] = useState(false);
+    // const [employed, setEmployed] = useState(true);
     return (
         <form
           onSubmit={
-            props.handleSubmit(searchParams => props.apretar(searchParams, bandera))
+            props.handleSubmit(searchParams => props.apretar(searchParams))
           }
           className='search-Presentacion-form'
         >
             <Row>
-                <Col md={ 5 }>
-                    <Field
-                      name='tipoComprobante'
-                      label='Tipo de Comprobante'
-                      componentClass='select'
-                      component={ InputRF }
-                      selectOptions={ props.tiposComprobante }
-                      nullValue=''
-                    />
-                </Col>
-                <Col md={ 4 }>
-                    <Field
-                      name='numero'
-                      label='Numero'
-                      validate={ [integerValue] }
-                      component={ InputRF }
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col md={ 2 }>
-                    <Field
-                      name='EstadoPresentacion'
-                      label='Estado de la presentacion'
-                      type='checkbox'
-                      // componentClass='checkbox'
-                      component={ InputRF }
-                    />
-                </Col>
-                <Col md={ 4 }>
-                    <Field
-                      name='tipoPresentacion'
-                      label='Tipo de Presentacion'
-                      componentClass='select'
-                      component={ InputRF }
-                      selectOptions={ props.tiposPresentacion }
-                      nullValue=''
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col md={ 7 }>
+                <Col md={ 6 }>
                     <Field
                       name='obraSocial'
                       label='Obra Social'
@@ -84,13 +46,34 @@ export function SearchPresentacionForm(props) {
                     <Field
                       name='anio'
                       label='Año'
-                      validate={ [integerValue] }
                       component={ InputRF }
                       componentClass='select'
                       selectOptions={ years }
                     />
                 </Col>
-                <Col md={ 3 }>
+            </Row>
+            <Row>
+                <Col md={ 2 }>
+                    <label htmlFor='employed'>Estado presentacion:</label>
+                    <Field
+                      name='employed'
+                      label='Estado de la presentacion'
+                      component={ Checkbox }
+                    >
+                        Pendientes/Abiertas
+                    </Field>
+                </Col>
+                <Col md={ 4 }>
+                    <Field
+                      name='tipoPresentacion'
+                      label='Tipo de Presentacion'
+                      componentClass='select'
+                      component={ InputRF }
+                      selectOptions={ tiposPresentacion }
+                      nullValue=''
+                    />
+                </Col>
+                <Col md={ 4 }>
                     <Button
                       className='pull-right'
                       bsStyle='primary'
@@ -98,14 +81,36 @@ export function SearchPresentacionForm(props) {
                     >
                         Buscar
                     </Button>
+                </Col>
+                <Col md={ 1 }>
                     <Button
                       className='pull-right'
                       bsStyle='primary'
                       type='submit'
-                      onClick={ () => setBandera(true) }
+                      // onClick={ () => setBandera(true) }
                     >
                         Nueva
                     </Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col md={ 4 }>
+                    <Field
+                      name='tipoComprobante'
+                      label='Tipo de Comprobante'
+                      componentClass='select'
+                      component={ InputRF }
+                      selectOptions={ tiposComprobante }
+                      nullValue=''
+                    />
+                </Col>
+                <Col md={ 4 }>
+                    <Field
+                      name='numero'
+                      label='Numero'
+                      validate={ [integerValue] }
+                      component={ InputRF }
+                    />
                 </Col>
             </Row>
         </form>
@@ -117,8 +122,6 @@ const { func, array, bool } = PropTypes;
 SearchPresentacionForm.propTypes = {
     handleSubmit: func.isRequired,
     // presentacionClickHandler: func.isRequired,
-    tiposPresentacion: array,
-    tiposComprobante: array,
     opcionesObraSocial: array.isRequired,
     onSearchObraSocial: func.isRequired,
     onChangeObraSocial: func.isRequired,
@@ -128,24 +131,3 @@ SearchPresentacionForm.propTypes = {
     apretar: func.isRequired,
     // fetchMovimientosPresentacion: func.isRequired,
 };
-
-const SearchPresentacionFormReduxForm = reduxForm({
-    form: 'searchPresentacion',
-    destroyOnUnmount: false,
-})(SearchPresentacionForm);
-
-function mapStateToProps() {
-    return {
-        tiposPresentacion: [
-            'Directa',
-            'AMR',
-        ],
-        tiposComprobante: [
-            'Factura',
-            'Liquidacion',
-            'Factura electronica',
-        ],
-    };
-}
-
-export default connect(mapStateToProps)(SearchPresentacionFormReduxForm);

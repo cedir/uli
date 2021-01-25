@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Button, Row, Col } from 'react-bootstrap/dist/react-bootstrap';
-import { Field, reduxForm, change, formValueSelector } from 'redux-form';
-import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
-import { requiredOption } from '../../utilities/reduxFormValidators';
+// import { Row } from 'react-bootstrap/dist/react-bootstrap';
+import { reduxForm, change, formValueSelector } from 'redux-form';
+// import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
+// import { requiredOption } from '../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
@@ -54,55 +54,32 @@ function SearchPresentacionesObraSocial(props) {
             { option.nombre }
         </div>
     );
+    const boton = (params, bandera) => {
+        if (bandera) {
+            nuevaClickHandler(params);
+        } else {
+            presentacionClickHandler(params);
+        }
+    };
+
     return (
         <React.Fragment>
             <FiltrarPresentacionModal
               modalOpened={ showModal }
               setShowModal={ setShowModal }
             />
-            <Row className='search-grid search-grid-presentaciones'>
-                <Col md={ 9 } style={ { border: 'none' } } >
-                    <Field
-                      name='obraSocial'
-                      label='Obra Social'
-                      placeholder='nombre'
-                      align='left'
-                      validate={ requiredOption }
-                      component={ AsyncTypeaheadRF }
-                      options={ props.obrasSociales }
-                      labelKey='nombre'
-                      onSearch={ searchObrasSociales }
-                      onChange={ setSelectedObraSocial }
-                      selected={ props.selectedObraSocial }
-                      renderMenuItemChildren={ renderObraSocialMenuItem }
-                      isLoading={ props.obrasSocialesApiLoading }
-                    />
-                </Col>
-                <Col md={ 3 } style={ { border: 'none' } }>
-                    <Button
-                      type='submit'
-                      bsStyle='primary'
-                      disabled={ !props.valid }
-                      onClick={
-                        props.handleSubmit(params => nuevaClickHandler(params))
-                      }
-                    >
-                        Nueva
-                    </Button>
-                </Col>
-            </Row>
-            <Row className='search-grid search-grid-presentaciones'>
-                <SearchPresentacionForm
-                  opcionesObraSocial={ props.obrasSociales }
-                  onSearchObraSocial={ searchObrasSociales }
-                  onChangeObraSocial={ setSelectedObraSocial }
-                  selectedObraSocial={ props.selectedObraSocial }
-                  renderMenuItemChildren={ renderObraSocialMenuItem }
-                  isLoading={ props.obrasSocialesApiLoading }
-                  handleSubmit={ props.handleSubmit }
-                  presentacionClickHandler={ presentacionClickHandler }
-                />
-            </Row>
+            <SearchPresentacionForm
+              opcionesObraSocial={ props.obrasSociales }
+              onSearchObraSocial={ searchObrasSociales }
+              onChangeObraSocial={ setSelectedObraSocial }
+              selectedObraSocial={ props.selectedObraSocial }
+              renderMenuItemChildren={ renderObraSocialMenuItem }
+              isLoading={ props.obrasSocialesApiLoading }
+              handleSubmit={ props.handleSubmit }
+              apretar={ boton }
+              // presentacionClickHandler={ presentacionClickHandler }
+              // nuevaClickHandler={ nuevaClickHandler }
+            />
         </React.Fragment>
     );
 }
@@ -119,7 +96,7 @@ const { func, array, bool, object } = PropTypes;
 
 SearchPresentacionesObraSocial.propTypes = {
     handleSubmit: func.isRequired,
-    valid: bool.isRequired,
+    // valid: bool.isRequired,
     fetchObrasSociales: func.isRequired,
     loadPresentacionObraSocialId: func.isRequired,
     fetchEstudiosSinPresentarObraSocial: func.isRequired,
