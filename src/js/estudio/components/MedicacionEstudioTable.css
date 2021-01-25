@@ -16,6 +16,10 @@
         overflow-y: visible!important;
     }
 
+    .print-div-medicacion {
+        margin-top: 13rem;
+    }
+
     .medicacion-table tr {
         padding: 0;
         font-size: 13px;
@@ -27,9 +31,4 @@
         margin: 0.3em;
     }
 
-}
-
-@page {
-    margin: 3em;
-    margin-top: 13em;
 }

@@ -1,38 +1,74 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useReactToPrint } from 'react-to-print';
 import { ButtonToolbar, Button } from 'react-bootstrap/dist/react-bootstrap';
 
-class EstudiosActionBar extends React.Component {
-    constructor(props) {
-        super(props);
-        this.goToCreateEstudio = this.goToCreateEstudio.bind(this);
-    }
-    goToCreateEstudio() {
-        this.props.history.push('/estudios/create');
-    }
-    render() {
-        return (
-            <ButtonToolbar>
-                <Button
-                  onClick={ this.props.openSearchEstudiosModal }
-                >
-                    Buscar estudio</Button>
-                <Button
-                  bsStyle='primary'
-                  onClick={ this.goToCreateEstudio }
-                >
-                    Agregar estudio
-                </Button>
-            </ButtonToolbar>
-        );
-    }
+function EstudiosActionBar({
+    history,
+    setModalOpened,
+    estudiosRef,
+    setPrintMode,
+    printMode,
+}) {
+    const onBeforeGetContentResolve = useRef(Promise.resolve);
+    const goToCreateEstudio = () => {
+        history.push('/estudios/create');
+    };
+
+    const estudiosContent = useCallback(
+        () => estudiosRef.current,
+        [estudiosRef.current],
+    );
+
+    const handlePrint = useReactToPrint({
+        content: estudiosContent,
+        onBeforeGetContent: () => new Promise((resolve) => {
+            onBeforeGetContentResolve.current = resolve;
+            setPrintMode(true);
+            resolve();
+        }),
+        onAfterPrint: () => {
+            setPrintMode(false);
+        },
+        removeAfterPrint: true,
+    });
+
+    useEffect(() => {
+        if (printMode && typeof onBeforeGetContentResolve.current === 'function') {
+            onBeforeGetContentResolve.current();
+        }
+    }, [onBeforeGetContentResolve.current, printMode]);
+
+    return (
+        <ButtonToolbar>
+            <Button
+              onClick={ () => setModalOpened(true) }
+            >
+                Buscar estudio
+            </Button>
+            <Button
+              onClick={ handlePrint }
+            >
+                Imprimir
+            </Button>
+            <Button
+              bsStyle='primary'
+              onClick={ goToCreateEstudio }
+            >
+                Agregar estudio
+            </Button>
+        </ButtonToolbar>
+    );
 }
 
-const { func, object } = PropTypes;
+const { func, object, bool } = PropTypes;
 
 EstudiosActionBar.propTypes = {
     history: object.isRequired,
-    openSearchEstudiosModal: func.isRequired,
+    setModalOpened: func.isRequired,
+    estudiosRef: object,
+    setPrintMode: func.isRequired,
+    printMode: bool.isRequired,
 };
 
 export default EstudiosActionBar;
