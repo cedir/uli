@@ -3,13 +3,21 @@
     max-height: 250px;
     margin-bottom: 25px;
     overflow-x: hidden;
-    overflow-y: auto;                    
+    overflow-y: auto;                 
 }
 
 @media print {
+    html, body {
+        border: 1px solid white;
+        height: 99%;
+        page-break-after: avoid;
+        page-break-before: avoid;
+    }
     .hide-on-print {
         display: none;
-        visibility: hidden 
+        visibility: hidden;
+        margin-bottom: 0;
+        padding-bottom: 0;
     }
     .medicacion-table {
         max-height: none;
