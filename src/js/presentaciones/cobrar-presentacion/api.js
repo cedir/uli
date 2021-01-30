@@ -14,7 +14,9 @@ export function cobrarPresentacion(idPresentacion, estudios, nroRecibo, retencio
             id: estudio.id,
             importe_cobrado_pension: estudio.pension,
             importe_cobrado_arancel_anestesia: estudio.arancel_anestesia,
-            importe_estudio_cobrado: estudio.importe_estudio,
+            importe_estudio_cobrado:
+                parseFloat(estudio.importe_estudio, 10) -
+                parseFloat(estudio.diferencia_paciente, 10),
             importe_medicacion_cobrado: estudio.importe_medicacion,
         })),
         retencion_impositiva: retencionImpositiva,
