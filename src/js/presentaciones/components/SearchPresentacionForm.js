@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 import { Field } from 'redux-form';
@@ -17,11 +17,20 @@ const tiposPresentacion = ['Directa', 'AMR'];
 const tiposComprobante = ['Factura', 'Liquidacion', 'Factura electronica'];
 
 export function SearchPresentacionForm(props) {
-    // const [employed, setEmployed] = useState(true);
+    const seleccionada = (selectedObraSocial) => {
+        if (selectedObraSocial.length !== 0) {
+            return false;
+        }
+        return true;
+    };
+    const [estado, setEstado] = useState(true);
     return (
         <form
           onSubmit={
-            props.handleSubmit(searchParams => props.apretar(searchParams))
+            props.handleSubmit(searchParams => props.presentacionClickHandler({
+                ...searchParams,
+                presentacionAbierta: estado,
+            }))
           }
           className='search-Presentacion-form'
         >
@@ -54,14 +63,14 @@ export function SearchPresentacionForm(props) {
             </Row>
             <Row>
                 <Col md={ 2 }>
-                    <label htmlFor='employed'>Estado presentacion:</label>
-                    <Field
-                      name='employed'
-                      label='Estado de la presentacion'
-                      component={ Checkbox }
+                    <label htmlFor='estadoPresentacion'>Estado presentacion:</label>
+                    <Checkbox
+                      title='estadoPresentacion'
+                      checked={ estado }
+                      onChange={ () => setEstado(!estado) }
                     >
-                        Pendientes/Abiertas
-                    </Field>
+                          Pendientes/Abiertas
+                    </Checkbox>
                 </Col>
                 <Col md={ 4 }>
                     <Field
@@ -86,8 +95,8 @@ export function SearchPresentacionForm(props) {
                     <Button
                       className='pull-right'
                       bsStyle='primary'
-                      type='submit'
-                      // onClick={ () => setBandera(true) }
+                      disabled={ seleccionada(props.selectedObraSocial) }
+                      onClick={ () => props.nuevaClickHandler(props.selectedObraSocial) }
                     >
                         Nueva
                     </Button>
@@ -128,6 +137,7 @@ SearchPresentacionForm.propTypes = {
     selectedObraSocial: array,
     renderMenuItemChildren: func.isRequired,
     isLoading: bool,
-    apretar: func.isRequired,
+    presentacionClickHandler: func.isRequired,
+    nuevaClickHandler: func.isRequired,
     // fetchMovimientosPresentacion: func.isRequired,
 };

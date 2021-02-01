@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // import { Row } from 'react-bootstrap/dist/react-bootstrap';
@@ -9,12 +9,9 @@ import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
-import { FiltrarPresentacionModal } from './Modals';
 import { SearchPresentacionForm } from './SearchPresentacionForm';
 
 function SearchPresentacionesObraSocial(props) {
-    const [showModal, setShowModal] = useState(false);
-
     const setSelectedObraSocial = (selection) => {
         if (selection[0] && selection[0].id) {
             props.setSelectedObraSocial(selection[0]);
@@ -54,20 +51,9 @@ function SearchPresentacionesObraSocial(props) {
             { option.nombre }
         </div>
     );
-    const boton = (params, bandera) => {
-        if (bandera) {
-            nuevaClickHandler(params);
-        } else {
-            presentacionClickHandler(params);
-        }
-    };
 
     return (
         <React.Fragment>
-            <FiltrarPresentacionModal
-              modalOpened={ showModal }
-              setShowModal={ setShowModal }
-            />
             <SearchPresentacionForm
               opcionesObraSocial={ props.obrasSociales }
               onSearchObraSocial={ searchObrasSociales }
@@ -76,9 +62,8 @@ function SearchPresentacionesObraSocial(props) {
               renderMenuItemChildren={ renderObraSocialMenuItem }
               isLoading={ props.obrasSocialesApiLoading }
               handleSubmit={ props.handleSubmit }
-              apretar={ boton }
-              // presentacionClickHandler={ presentacionClickHandler }
-              // nuevaClickHandler={ nuevaClickHandler }
+              presentacionClickHandler={ presentacionClickHandler }
+              nuevaClickHandler={ nuevaClickHandler }
             />
         </React.Fragment>
     );
@@ -134,11 +119,11 @@ function mapDispatchToProps(dispatch) {
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
         loadPresentacionObraSocialId: params => dispatch({
             type: FETCH_PRESENTACIONES_OBRA_SOCIAL,
-            id: params.obraSocial[0].id,
+            filtros: params,
         }),
-        fetchEstudiosSinPresentarObraSocial: params => dispatch({
+        fetchEstudiosSinPresentarObraSocial: obraSocial => dispatch({
             type: FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
-            obraSocial: params.obraSocial[0],
+            obraSocial: obraSocial[0],
         }),
         setSelectedObraSocial: obraSocial =>
             dispatch(change('searchPresentacionesObraSocial', 'obraSocial', obraSocial)),
