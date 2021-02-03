@@ -1,7 +1,7 @@
 import Rx from 'rxjs';
 import {
     getEstudiosDeUnaPresentacion,
-    getPresentacionesObraSocial,
+    getPresentaciones,
     patchAbrirPresentacion,
     patchCerrarPresentacion,
 } from './api';
@@ -22,7 +22,7 @@ import { createAlert } from '../utilities/components/alert/alertUtility';
 export function presentacionEpic(action$) {
     return action$.ofType(FETCH_PRESENTACIONES_OBRA_SOCIAL)
         .mergeMap(action =>
-            getPresentacionesObraSocial(action.filtros)
+            getPresentaciones(action.filtros)
             .map(data => ({ type: LOAD_PRESENTACIONES_OBRA_SOCIAL, data }))
             .catch(() => (Rx.Observable.of({
                 type: LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,

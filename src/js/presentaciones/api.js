@@ -5,28 +5,25 @@ import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
 import { getSucursal } from '../app/storeHelper';
 
-export function getPresentacionesObraSocial(filtros) {
+export function getPresentaciones(filtros) {
     const sucursal = getSucursal();
-    const obraSocial = (filtros.obraSocial || [{ id: 0 }])[0];
-    const body = {
-        obraSocial: obraSocial.id,
-        sucursalId: sucursal,
-        numero: filtros.numero,
-        anio: filtros.anio,
-        tipoComprobante: filtros.tipoComprobante,
-        presentacionAbierta: filtros.presentacionAbierta,
-        tipoPresentacion: filtros.tipoPresentacion,
+    const obraSocialId = () => {
+        if (filtros.obraSocial) {
+            if (filtros.obraSocial.length === 1) {
+                return filtros.obraSocial[0].id;
+            }
+        }
+        return 0;
     };
-    const queryString = `?obraSocial=${obraSocial.id}` +
+
+    const queryString = `?obraSocial=${obraSocialId()}` +
         `&sucursal=${sucursal}` +
-        `&numeroComprobante=${filtros.numero}` +
-        `&anio=${filtros.anio}` +
-        `&tipoComprobante=${filtros.tipoComprobante}` +
-        `&presentacionAbierta=${filtros.presentacionAbierta}` +
-        `&tipoPresentacion=${filtros.tipoPresentacion}`;
+        `&numeroComprobante=${filtros.numero || 0}` +
+        `&anio=${filtros.anio || 0}` +
+        `&tipoComprobante=${filtros.tipoComprobante || 0}` +
+        `&estadoPresentacion=${filtros.presentacionAbierta}` +
+        `&tipoPresentacion=${filtros.tipoPresentacion || ''}  `;
     const url = `/api/presentacion/${queryString}`;
-    console.log(body);
-    console.log(url);
     return get(url);
 }
 

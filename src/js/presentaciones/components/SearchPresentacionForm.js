@@ -14,7 +14,11 @@ const currentYear = today.getFullYear();
 const years = Array.from(Array(5).keys()).map(k => currentYear - k);
 
 const tiposPresentacion = ['Directa', 'AMR'];
-const tiposComprobante = ['Factura', 'Liquidacion', 'Factura electronica'];
+const tiposComprobante = [
+    { text: 'Factura', value: 1 },
+    { text: 'Liquidacion', value: 2 },
+    { text: 'Factura Electronica', value: 5 },
+];
 
 export function SearchPresentacionForm(props) {
     const seleccionada = (selectedObraSocial) => {
@@ -49,6 +53,7 @@ export function SearchPresentacionForm(props) {
                       selected={ props.selectedObraSocial }
                       renderMenuItemChildren={ props.renderMenuItemChildren }
                       isLoading={ props.isLoading }
+                      nullValue=''
                     />
                 </Col>
                 <Col md={ 2 }>
@@ -58,6 +63,7 @@ export function SearchPresentacionForm(props) {
                       component={ InputRF }
                       componentClass='select'
                       selectOptions={ years }
+                      nullValue=''
                     />
                 </Col>
             </Row>
@@ -111,6 +117,9 @@ export function SearchPresentacionForm(props) {
                       component={ InputRF }
                       selectOptions={ tiposComprobante }
                       nullValue=''
+                      selectionValue='value'
+                      renderOptionHandler={ opcion => opcion.text }
+                      optionKey='text'
                     />
                 </Col>
                 <Col md={ 4 }>
@@ -119,6 +128,7 @@ export function SearchPresentacionForm(props) {
                       label='Numero'
                       validate={ [integerValue] }
                       component={ InputRF }
+                      nullValue=''
                     />
                 </Col>
             </Row>
