@@ -1,39 +1,44 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 import { Field } from 'redux-form';
 import { Row, Col, Button, Checkbox }
     from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
-import { integerValue }
-from '../../utilities/reduxFormValidators';
+import { ComprobanteSearchForm } from './ComprobanteSearchForm';
 
 const today = new Date();
 const currentYear = today.getFullYear();
 const years = Array.from(Array(5).keys()).map(k => currentYear - k);
 
 const tiposPresentacion = ['Directa', 'AMR'];
-const tiposComprobante = [
-    { text: 'Factura', value: 1 },
-    { text: 'Liquidacion', value: 2 },
-    { text: 'Factura Electronica', value: 5 },
-];
 
-export function SearchPresentacionForm(props) {
-    const seleccionada = (selectedObraSocial) => {
-        if (selectedObraSocial.length !== 0) {
-            return false;
+export function SearchPresentacionForm({
+    handleSubmit,
+    opcionesObraSocial,
+    onSearchObraSocial,
+    onChangeObraSocial,
+    selectedObraSocial,
+    renderMenuItemChildren,
+    isLoading,
+    presentacionClickHandler,
+    nuevaClickHandler,
+}) {
+    const seleccionada = () => {
+        if (selectedObraSocial.lenght === 0) {
+            return true;
         }
-        return true;
+        return false;
     };
-    const [estado, setEstado] = useState(true);
+
+    const [presentacionesCobradas, setPresentacionesCobradas] = useState(false);
+
     return (
         <form
           onSubmit={
-            props.handleSubmit(searchParams => props.presentacionClickHandler({
+            handleSubmit(searchParams => presentacionClickHandler({
                 ...searchParams,
-                presentacionAbierta: estado,
+                presentacionesCobradas,
             }))
           }
           className='search-Presentacion-form'
@@ -46,13 +51,13 @@ export function SearchPresentacionForm(props) {
                       placeholder='nombre'
                       align='left'
                       component={ AsyncTypeaheadRF }
-                      options={ props.opcionesObraSocial }
+                      options={ opcionesObraSocial }
                       labelKey='nombre'
-                      onSearch={ props.onSearchObraSocial }
-                      onChange={ props.onChangeObraSocial }
-                      selected={ props.selectedObraSocial }
-                      renderMenuItemChildren={ props.renderMenuItemChildren }
-                      isLoading={ props.isLoading }
+                      onSearch={ onSearchObraSocial }
+                      onChange={ onChangeObraSocial }
+                      selected={ selectedObraSocial }
+                      renderMenuItemChildren={ renderMenuItemChildren }
+                      isLoading={ isLoading }
                       nullValue=''
                     />
                 </Col>
@@ -72,8 +77,8 @@ export function SearchPresentacionForm(props) {
                     <label htmlFor='estadoPresentacion'>Estado presentacion:</label>
                     <Checkbox
                       title='estadoPresentacion'
-                      checked={ estado }
-                      onChange={ () => setEstado(!estado) }
+                      checked={ !presentacionesCobradas }
+                      onChange={ () => setPresentacionesCobradas(!presentacionesCobradas) }
                     >
                           Pendientes/Abiertas
                     </Checkbox>
@@ -101,37 +106,14 @@ export function SearchPresentacionForm(props) {
                     <Button
                       className='pull-right'
                       bsStyle='primary'
-                      disabled={ seleccionada(props.selectedObraSocial) }
-                      onClick={ () => props.nuevaClickHandler(props.selectedObraSocial) }
+                      disabled={ seleccionada(selectedObraSocial) }
+                      onClick={ () => nuevaClickHandler(selectedObraSocial) }
                     >
                         Nueva
                     </Button>
                 </Col>
             </Row>
-            <Row>
-                <Col md={ 4 }>
-                    <Field
-                      name='tipoComprobante'
-                      label='Tipo de Comprobante'
-                      componentClass='select'
-                      component={ InputRF }
-                      selectOptions={ tiposComprobante }
-                      nullValue=''
-                      selectionValue='value'
-                      renderOptionHandler={ opcion => opcion.text }
-                      optionKey='text'
-                    />
-                </Col>
-                <Col md={ 4 }>
-                    <Field
-                      name='numero'
-                      label='Numero'
-                      validate={ [integerValue] }
-                      component={ InputRF }
-                      nullValue=''
-                    />
-                </Col>
-            </Row>
+            <ComprobanteSearchForm />
         </form>
     );
 }
@@ -140,7 +122,6 @@ const { func, array, bool } = PropTypes;
 
 SearchPresentacionForm.propTypes = {
     handleSubmit: func.isRequired,
-    // presentacionClickHandler: func.isRequired,
     opcionesObraSocial: array.isRequired,
     onSearchObraSocial: func.isRequired,
     onChangeObraSocial: func.isRequired,
@@ -149,5 +130,4 @@ SearchPresentacionForm.propTypes = {
     isLoading: bool,
     presentacionClickHandler: func.isRequired,
     nuevaClickHandler: func.isRequired,
-    // fetchMovimientosPresentacion: func.isRequired,
 };

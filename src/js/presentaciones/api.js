@@ -5,24 +5,30 @@ import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
 import { getSucursal } from '../app/storeHelper';
 
-export function getPresentaciones(filtros) {
+export function getPresentaciones({
+    obraSocial,
+    numero,
+    anio,
+    tipoComprobante,
+    tipoPresentacion,
+    presentacionesCobradas,
+}) {
     const sucursal = getSucursal();
     const obraSocialId = () => {
-        if (filtros.obraSocial) {
-            if (filtros.obraSocial.length === 1) {
-                return filtros.obraSocial[0].id;
+        if (obraSocial) {
+            if (obraSocial.length === 1) {
+                return obraSocial[0].id;
             }
         }
-        return 0;
+        return '';
     };
-
     const queryString = `?obraSocial=${obraSocialId()}` +
         `&sucursal=${sucursal}` +
-        `&numeroComprobante=${filtros.numero || 0}` +
-        `&anio=${filtros.anio || 0}` +
-        `&tipoComprobante=${filtros.tipoComprobante || 0}` +
-        `&estadoPresentacion=${filtros.presentacionAbierta}` +
-        `&tipoPresentacion=${filtros.tipoPresentacion || ''}  `;
+        `&numeroComprobante=${numero || ''}` +
+        `&anio=${anio || ''}` +
+        `&tipoComprobante=${tipoComprobante || ''}` +
+        `&presentacionesCobradas=${presentacionesCobradas}` +
+        `&tipoPresentacion=${tipoPresentacion || ''}  `;
     const url = `/api/presentacion/${queryString}`;
     return get(url);
 }

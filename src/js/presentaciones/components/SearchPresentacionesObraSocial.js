@@ -81,7 +81,6 @@ const { func, array, bool, object } = PropTypes;
 
 SearchPresentacionesObraSocial.propTypes = {
     handleSubmit: func.isRequired,
-    // valid: bool.isRequired,
     fetchObrasSociales: func.isRequired,
     loadPresentacionObraSocialId: func.isRequired,
     fetchEstudiosSinPresentarObraSocial: func.isRequired,
