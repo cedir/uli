@@ -1,17 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { Row } from 'react-bootstrap/dist/react-bootstrap';
 import { reduxForm, change, formValueSelector } from 'redux-form';
-// import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
-// import { requiredOption } from '../../utilities/reduxFormValidators';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
 import { SearchPresentacionForm } from './SearchPresentacionForm';
 
-function SearchPresentacionesObraSocial(props) {
+function SearchPresentaciones(props) {
     const setSelectedObraSocial = (selection) => {
         if (selection[0] && selection[0].id) {
             props.setSelectedObraSocial(selection[0]);
@@ -70,16 +67,16 @@ function SearchPresentacionesObraSocial(props) {
 }
 
 
-const SearchPresentacionesObraSocialReduxForm =
+const SearchPresentacionesReduxForm =
     reduxForm({
-        form: 'searchPresentacionesObraSocial',
+        form: 'SearchPresentaciones',
         destroyOnUnmount: false,
         enableReinitialize: true,
-    })(SearchPresentacionesObraSocial);
+    })(SearchPresentaciones);
 
 const { func, array, bool, object } = PropTypes;
 
-SearchPresentacionesObraSocial.propTypes = {
+SearchPresentaciones.propTypes = {
     handleSubmit: func.isRequired,
     fetchObrasSociales: func.isRequired,
     loadPresentacionObraSocialId: func.isRequired,
@@ -93,11 +90,11 @@ SearchPresentacionesObraSocial.propTypes = {
     obraSocial: object.isRequired,
 };
 
-SearchPresentacionesObraSocial.defaultProps = {
+SearchPresentaciones.defaultProps = {
     estudios: initialState.estudios,
 };
 
-const selector = formValueSelector('searchPresentacionesObraSocial');
+const selector = formValueSelector('SearchPresentaciones');
 
 function mapStateToProps(state) {
     let obraSocial = selector(state, 'obraSocial');
@@ -125,9 +122,9 @@ function mapDispatchToProps(dispatch) {
             obraSocial: obraSocial[0],
         }),
         setSelectedObraSocial: obraSocial =>
-            dispatch(change('searchPresentacionesObraSocial', 'obraSocial', obraSocial)),
+            dispatch(change('SearchPresentaciones', 'obraSocial', obraSocial)),
     };
 }
 
 export default
-    connect(mapStateToProps, mapDispatchToProps)(SearchPresentacionesObraSocialReduxForm);
+    connect(mapStateToProps, mapDispatchToProps)(SearchPresentacionesReduxForm);
