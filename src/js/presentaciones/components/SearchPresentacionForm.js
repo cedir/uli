@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col, Button, Checkbox }
-    from 'react-bootstrap/dist/react-bootstrap';
+    from 'react-bootstrap';
 import InputRF from '../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
-import { ComprobanteSearchForm } from './ComprobanteSearchForm';
+import ComprobanteSearchForm from './ComprobanteSearchForm';
 
 const today = new Date();
 const currentYear = today.getFullYear();
@@ -13,7 +13,7 @@ const years = Array.from(Array(5).keys()).map(k => currentYear - k);
 
 const tiposPresentacion = ['Directa', 'AMR'];
 
-export function SearchPresentacionForm({
+export default function SearchPresentacionForm({
     handleSubmit,
     opcionesObraSocial,
     onSearchObraSocial,
@@ -25,7 +25,7 @@ export function SearchPresentacionForm({
     nuevaClickHandler,
 }) {
     const seleccionada = () => {
-        if (selectedObraSocial.lenght === 0) {
+        if (selectedObraSocial.length === 0) {
             return true;
         }
         return false;

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SearchPresentaciones from './SearchPresentaciones';
+import SearchPresentacionesReduxForm from './SearchPresentaciones';
 import PresentacionesObraSocialList from './PresentacionesObraSocialList';
 
 const PresentacionesObraSocialPage = props => (
     <div>
         <h1>Presentaciones a obra social</h1>
-        <SearchPresentaciones
+        <SearchPresentacionesReduxForm
           history={ props.history }
         />
         <PresentacionesObraSocialList />

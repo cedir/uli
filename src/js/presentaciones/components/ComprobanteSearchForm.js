@@ -1,16 +1,17 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { Field } from 'redux-form';
 import InputRF from '../../utilities/InputRF';
 import { integerValue } from '../../utilities/reduxFormValidators';
 
-const tiposComprobante = [
-    { text: 'Factura', value: 1 },
-    { text: 'Liquidacion', value: 2 },
-    { text: 'Factura Electronica', value: 5 },
-];
 
-export function ComprobanteSearchForm() {
+export default function ComprobanteSearchForm() {
+    const tiposComprobante = [
+        { text: 'Factura', value: 1 },
+        { text: 'Liquidacion', value: 2 },
+        { text: 'Factura Electronica', value: 5 },
+    ];
+
     return (
         <Row>
             <Col md={ 4 }>

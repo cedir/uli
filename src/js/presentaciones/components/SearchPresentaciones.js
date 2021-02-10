@@ -6,7 +6,7 @@ import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_PRESENTACIONES_OBRA_SOCIAL } from '../actionTypes';
 import { FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL } from '../nueva-presentacion/actionTypes';
 import initialState from '../nueva-presentacion/estudiosSinPresentarReducerInitialState';
-import { SearchPresentacionForm } from './SearchPresentacionForm';
+import SearchPresentacionForm from './SearchPresentacionForm';
 
 function SearchPresentaciones(props) {
     const setSelectedObraSocial = (selection) => {

@@ -14,15 +14,8 @@ export function getPresentaciones({
     presentacionesCobradas,
 }) {
     const sucursal = getSucursal();
-    const obraSocialId = () => {
-        if (obraSocial) {
-            if (obraSocial.length === 1) {
-                return obraSocial[0].id;
-            }
-        }
-        return '';
-    };
-    const queryString = `?obraSocial=${obraSocialId()}` +
+    const obraSocialId = obraSocial && obraSocial.length === 1 ? obraSocial[0].id : '';
+    const queryString = `?obraSocial=${obraSocialId}` +
         `&sucursal=${sucursal}` +
         `&numeroComprobante=${numero || ''}` +
         `&anio=${anio || ''}` +
