@@ -1,17 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
-import { Row, Col, Button, Checkbox }
+import { Button, Panel, Row, Col }
     from 'react-bootstrap';
-import InputRF from '../../utilities/InputRF';
-import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
 import ComprobanteSearchForm from './ComprobanteSearchForm';
-
-const today = new Date();
-const currentYear = today.getFullYear();
-const years = Array.from(Array(5).keys()).map(k => currentYear - k);
-
-const tiposPresentacion = ['Directa', 'AMR'];
+import TipoPresentacionSearchForm from './TipoPresentacionSearchForm';
+import PresentacionSearchForm from './PresentacionSearchForm';
 
 export default function SearchPresentacionForm({
     handleSubmit,
@@ -44,76 +37,44 @@ export default function SearchPresentacionForm({
           className='search-Presentacion-form'
         >
             <Row>
-                <Col md={ 6 }>
-                    <Field
-                      name='obraSocial'
-                      label='Obra Social'
-                      placeholder='nombre'
-                      align='left'
-                      component={ AsyncTypeaheadRF }
-                      options={ opcionesObraSocial }
-                      labelKey='nombre'
-                      onSearch={ onSearchObraSocial }
-                      onChange={ onChangeObraSocial }
-                      selected={ selectedObraSocial }
-                      renderMenuItemChildren={ renderMenuItemChildren }
-                      isLoading={ isLoading }
-                      nullValue=''
-                    />
+                <Col md={ 4 }>
+                    <Panel header='Tipo de Presentación'>
+                        <TipoPresentacionSearchForm />
+                    </Panel>
                 </Col>
-                <Col md={ 2 }>
-                    <Field
-                      name='anio'
-                      label='Año'
-                      component={ InputRF }
-                      componentClass='select'
-                      selectOptions={ years }
-                      nullValue=''
-                    />
+                <Col md={ 8 }>
+                    <Panel header='Comprobante'>
+                        <ComprobanteSearchForm />
+                    </Panel>
                 </Col>
             </Row>
-            <Row>
-                <Col md={ 2 }>
-                    <label htmlFor='estadoPresentacion'>Estado presentacion:</label>
-                    <Checkbox
-                      title='estadoPresentacion'
-                      checked={ !presentacionesCobradas }
-                      onChange={ () => setPresentacionesCobradas(!presentacionesCobradas) }
-                    >
-                          Pendientes/Abiertas
-                    </Checkbox>
-                </Col>
-                <Col md={ 4 }>
-                    <Field
-                      name='tipoPresentacion'
-                      label='Tipo de Presentacion'
-                      componentClass='select'
-                      component={ InputRF }
-                      selectOptions={ tiposPresentacion }
-                      nullValue=''
-                    />
-                </Col>
-                <Col md={ 4 }>
-                    <Button
-                      className='pull-right'
-                      bsStyle='primary'
-                      type='submit'
-                    >
-                        Buscar
-                    </Button>
-                </Col>
-                <Col md={ 1 }>
-                    <Button
-                      className='pull-right'
-                      bsStyle='primary'
-                      disabled={ seleccionada(selectedObraSocial) }
-                      onClick={ () => nuevaClickHandler(selectedObraSocial) }
-                    >
-                        Nueva
-                    </Button>
-                </Col>
-            </Row>
-            <ComprobanteSearchForm />
+            <Panel header='Datos Presentación'>
+                <PresentacionSearchForm
+                  opcionesObraSocial={ opcionesObraSocial }
+                  onSearchObraSocial={ onSearchObraSocial }
+                  onChangeObraSocial={ onChangeObraSocial }
+                  selectedObraSocial={ selectedObraSocial }
+                  renderMenuItemChildren={ renderMenuItemChildren }
+                  isLoading={ isLoading }
+                  presentacionesCobradas={ presentacionesCobradas }
+                  setPresentacionesCobradas={ setPresentacionesCobradas }
+                />
+            </Panel>
+            <Button
+              className='pull-right'
+              bsStyle='primary'
+              disabled={ seleccionada(selectedObraSocial) }
+              onClick={ () => nuevaClickHandler(selectedObraSocial) }
+            >
+                Nueva
+            </Button>
+            <Button
+              className='pull-right'
+              bsStyle='primary'
+              type='submit'
+            >
+                Buscar
+            </Button>
         </form>
     );
 }

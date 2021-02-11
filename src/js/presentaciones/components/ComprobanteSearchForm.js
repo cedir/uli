@@ -4,7 +4,6 @@ import { Field } from 'redux-form';
 import InputRF from '../../utilities/InputRF';
 import { integerValue } from '../../utilities/reduxFormValidators';
 
-
 export default function ComprobanteSearchForm() {
     const tiposComprobante = [
         { text: 'Factura', value: 1 },
