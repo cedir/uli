@@ -13,7 +13,7 @@ export default function ComprobanteSearchForm() {
 
     return (
         <Row>
-            <Col md={ 4 }>
+            <Col md={ 3 }>
                 <Field
                   name='tipoComprobante'
                   label='Tipo de Comprobante'
@@ -26,7 +26,7 @@ export default function ComprobanteSearchForm() {
                   optionKey='text'
                 />
             </Col>
-            <Col md={ 4 }>
+            <Col md={ 3 } mdOffset={ 1 }>
                 <Field
                   name='numero'
                   label='Numero'

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Panel, Row, Col }
+import { Panel, Row, Col }
     from 'react-bootstrap';
 import ComprobanteSearchForm from './ComprobanteSearchForm';
-import TipoPresentacionSearchForm from './TipoPresentacionSearchForm';
 import PresentacionSearchForm from './PresentacionSearchForm';
+import BotonesForm from './BotonesForm';
 
 export default function SearchPresentacionForm({
     handleSubmit,
@@ -17,13 +17,6 @@ export default function SearchPresentacionForm({
     presentacionClickHandler,
     nuevaClickHandler,
 }) {
-    const seleccionada = () => {
-        if (selectedObraSocial.length === 0) {
-            return true;
-        }
-        return false;
-    };
-
     const [presentacionesCobradas, setPresentacionesCobradas] = useState(false);
 
     return (
@@ -37,44 +30,33 @@ export default function SearchPresentacionForm({
           className='search-Presentacion-form'
         >
             <Row>
-                <Col md={ 4 }>
-                    <Panel header='Tipo de Presentación'>
-                        <TipoPresentacionSearchForm />
-                    </Panel>
-                </Col>
-                <Col md={ 8 }>
-                    <Panel header='Comprobante'>
+                <Col md={ 12 }>
+                    <Panel header='Comprobante' collapsible defaultExpanded>
                         <ComprobanteSearchForm />
                     </Panel>
                 </Col>
             </Row>
-            <Panel header='Datos Presentación'>
-                <PresentacionSearchForm
-                  opcionesObraSocial={ opcionesObraSocial }
-                  onSearchObraSocial={ onSearchObraSocial }
-                  onChangeObraSocial={ onChangeObraSocial }
-                  selectedObraSocial={ selectedObraSocial }
-                  renderMenuItemChildren={ renderMenuItemChildren }
-                  isLoading={ isLoading }
-                  presentacionesCobradas={ presentacionesCobradas }
-                  setPresentacionesCobradas={ setPresentacionesCobradas }
-                />
-            </Panel>
-            <Button
-              className='pull-right'
-              bsStyle='primary'
-              disabled={ seleccionada(selectedObraSocial) }
-              onClick={ () => nuevaClickHandler(selectedObraSocial) }
-            >
-                Nueva
-            </Button>
-            <Button
-              className='pull-right'
-              bsStyle='primary'
-              type='submit'
-            >
-                Buscar
-            </Button>
+            <Row>
+                <Col md={ 12 }>
+                    <Panel header='Datos Presentación' collapsible defaultExpanded>
+                        <PresentacionSearchForm
+                          opcionesObraSocial={ opcionesObraSocial }
+                          onSearchObraSocial={ onSearchObraSocial }
+                          onChangeObraSocial={ onChangeObraSocial }
+                          selectedObraSocial={ selectedObraSocial }
+                          renderMenuItemChildren={ renderMenuItemChildren }
+                          isLoading={ isLoading }
+                          presentacionesCobradas={ presentacionesCobradas }
+                          setPresentacionesCobradas={ setPresentacionesCobradas }
+                        />
+                    </Panel>
+                </Col>
+            </Row>
+            <BotonesForm
+              selectedObraSocial={ selectedObraSocial }
+              nuevaClickHandler={ nuevaClickHandler }
+            />
+
         </form>
     );
 }
