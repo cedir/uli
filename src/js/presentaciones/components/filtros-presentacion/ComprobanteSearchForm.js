@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { Field } from 'redux-form';
-import InputRF from '../../utilities/InputRF';
-import { integerValue } from '../../utilities/reduxFormValidators';
+import InputRF from '../../../utilities/InputRF';
+import { integerValue } from '../../../utilities/reduxFormValidators';
 
 export default function ComprobanteSearchForm() {
     const tiposComprobante = [

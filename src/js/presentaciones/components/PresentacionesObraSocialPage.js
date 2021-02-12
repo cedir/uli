@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SearchPresentacionesReduxForm from './SearchPresentaciones';
+import SearchPresentacionesReduxForm from './filtros-presentacion/SearchPresentaciones';
 import PresentacionesObraSocialList from './PresentacionesObraSocialList';
 
 const PresentacionesObraSocialPage = props => (
