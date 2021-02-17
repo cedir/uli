@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, Row, Col } from 'react-bootstrap';
 import { Field } from 'redux-form';
-import InputRF from '../../utilities/InputRF';
-import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
+import InputRF from '../../../utilities/InputRF';
+import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
 
 export default function PresentacionSearchForm({
     opcionesObraSocial,
