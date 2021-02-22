@@ -6,7 +6,7 @@ import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { formValueSelector } from 'redux-form';
 import LineaForm from './LineaForm';
 
-function LineasForm({ fields, iva, lineas, opcionesIva }) {
+function LineasForm({ fields, iva, lineas, opcionesIva, lockComprobante }) {
     useEffect(() => {
         fields.push({});
     }, []);
@@ -31,6 +31,7 @@ function LineasForm({ fields, iva, lineas, opcionesIva }) {
                   prefijo={ linea }
                   iva={ getIva() }
                   removeField={ () => fields.remove(index) }
+                  lockComprobante={ lockComprobante }
                 />
             ))}
             <Row>
@@ -50,13 +51,14 @@ function LineasForm({ fields, iva, lineas, opcionesIva }) {
     );
 }
 
-const { number, object, array } = PropTypes;
+const { number, object, array, bool } = PropTypes;
 
 LineasForm.propTypes = {
     fields: object,
     iva: number,
     lineas: array,
     opcionesIva: array.isRequired,
+    lockComprobante: bool.isRequired,
 };
 
 LineasForm.defaultProps = {

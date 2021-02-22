@@ -59,16 +59,19 @@ const createdComprobanteAsociadoFailedReducer = state => ({
 const createComprobante = (state, action) => ({
     ...state,
     comprobante: action.comprobante,
+    comprobantesApiLoading: true,
 });
 
 const createComprobanteSuccess = (state, action) => ({
     ...state,
     cae: action.cae,
+    comprobantesApiLoading: false,
 });
 
 const createComprobanteFailed = state => ({
     ...state,
     comprobante: [],
+    comprobantesApiLoading: false,
 });
 
 const deleteCae = state => ({

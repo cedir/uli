@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, ButtonToolbar, FormGroup, Checkbox } from 'react-bootstrap';
 import { config } from '../../../app/config';
 
-function BotonesForm({ valid, cae }) {
+function BotonesForm({ valid, cae, apiLoading, lockComprobante }) {
     const [leyenda, setLeyenda] = useState(false);
     return (
         <FormGroup>
@@ -13,7 +13,11 @@ function BotonesForm({ valid, cae }) {
                 </Checkbox>
             )}
             <ButtonToolbar>
-                <Button type='submit' bsStyle='primary' disabled={ !valid }>
+                <Button
+                  type='submit'
+                  bsStyle='primary'
+                  disabled={ !valid || apiLoading || lockComprobante }
+                >
                     Crear comprobante
                 </Button>
                 <Button
@@ -33,6 +37,8 @@ const { bool, string } = PropTypes;
 BotonesForm.propTypes = {
     valid: bool.isRequired,
     cae: string.isRequired,
+    apiLoading: bool.isRequired,
+    lockComprobante: bool.isRequired,
 };
 
 export default BotonesForm;

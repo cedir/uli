@@ -16,6 +16,7 @@ function ClienteForm({
     fetchPacientes,
     updateForm,
     borrarOpciones,
+    lockComprobante,
 }) {
     const tiposCondicionFiscal = ['RESPONSABLE INSCRIPTO', 'EXENTO', 'CONSUMIDOR FINAL'];
     const [tipoCliente, setTipoCliente] = useState(0);
@@ -67,6 +68,7 @@ function ClienteForm({
               optionalProps={ asyncProps }
               selectedOption={ selectedOption }
               updateForm={ updateForm }
+              lockComprobante={ lockComprobante }
             />
         </Row>
     );
@@ -90,6 +92,7 @@ ClienteForm.propTypes = {
     fetchPacientes: func.isRequired,
     updateForm: func.isRequired,
     borrarOpciones: func.isRequired,
+    lockComprobante: bool.isRequired,
 };
 
 const selector = formValueSelector('CreateComprobanteForm');

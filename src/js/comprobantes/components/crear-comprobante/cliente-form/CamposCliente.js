@@ -8,7 +8,13 @@ import AsyncTypeaheadRF from '../../../../utilities/AsyncTypeaheadRF';
 import { required, dniOrCuit, alpha } from '../../../../utilities/reduxFormValidators';
 import { normalizeDniCuit } from '../../../../utilities/reduxFormNormalizers';
 
-function CamposCliente({ tiposCondicionFiscal, optionalProps, selectedOption, updateForm }) {
+function CamposCliente({
+    tiposCondicionFiscal,
+    optionalProps,
+    selectedOption,
+    updateForm,
+    lockComprobante,
+}) {
     const componente = Object.keys(optionalProps).length === 0 ? InputRF : AsyncTypeaheadRF;
 
     useEffect(() => {
@@ -33,6 +39,7 @@ function CamposCliente({ tiposCondicionFiscal, optionalProps, selectedOption, up
                   component={ componente }
                   validate={ required }
                   type='text'
+                  staticField={ lockComprobante }
                   { ...optionalProps }
                 />
                 <Field
@@ -41,6 +48,7 @@ function CamposCliente({ tiposCondicionFiscal, optionalProps, selectedOption, up
                   component={ InputRF }
                   validate={ required }
                   type='text'
+                  staticField={ lockComprobante }
                 />
             </Col>
             <Col md={ 3 }>
@@ -51,6 +59,7 @@ function CamposCliente({ tiposCondicionFiscal, optionalProps, selectedOption, up
                   validate={ [required, dniOrCuit] }
                   type='text'
                   normalize={ normalizeDniCuit }
+                  staticField={ lockComprobante }
                 />
             </Col>
             <Col md={ 3 }>
@@ -63,19 +72,21 @@ function CamposCliente({ tiposCondicionFiscal, optionalProps, selectedOption, up
                   validate={ alpha }
                   customErrorMsg='Debe seleccionar una opcion'
                   type='text'
+                  staticField={ lockComprobante }
                 />
             </Col>
         </React.Fragment>
     );
 }
 
-const { array, object, func } = PropTypes;
+const { array, object, func, bool } = PropTypes;
 
 CamposCliente.propTypes = {
     tiposCondicionFiscal: array.isRequired,
     optionalProps: object.isRequired,
     selectedOption: object.isRequired,
     updateForm: func.isRequired,
+    lockComprobante: bool.isRequired,
 };
 
 export default CamposCliente;

@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { bool } from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
 import { alpha, alphaNum, required } from '../../../utilities/reduxFormValidators';
 
-function CabeceraForm({ opcionesIva }) {
+function CabeceraForm({ opcionesIva, lockComprobante }) {
     const opcionesResponsable = ['Cedir', 'Brunetti'];
     const tiposComprobante = [
       { text: 'Factura', value: 1 },
@@ -28,6 +28,7 @@ function CabeceraForm({ opcionesIva }) {
                   validate={ alpha }
                   customErrorMsg='Debe seleccionar una opcion'
                   selectOptions={ opcionesResponsable }
+                  staticField={ lockComprobante }
                 />
                 <Field
                   name='iva'
@@ -42,6 +43,7 @@ function CabeceraForm({ opcionesIva }) {
                   renderOptionHandler={ opcion => opcion.text }
                   optionKey='text'
                   type='number'
+                  staticField={ lockComprobante }
                 />
             </Col>
             <Col md={ 4 } mdOffset={ 2 }>
@@ -56,6 +58,7 @@ function CabeceraForm({ opcionesIva }) {
                   selectionValue='value'
                   renderOptionHandler={ opcion => opcion.text }
                   optionKey='text'
+                  staticField={ lockComprobante }
                 />
                 <Field
                   name='subTipo'
@@ -64,6 +67,7 @@ function CabeceraForm({ opcionesIva }) {
                   componentClass='select'
                   selectOptions={ subTiposComprobante }
                   nullValue=''
+                  staticField={ lockComprobante }
                 />
             </Col>
         </Row>
@@ -74,6 +78,7 @@ const { array } = PropTypes;
 
 CabeceraForm.propTypes = {
     opcionesIva: array.isRequired,
+    lockComprobante: bool.isRequired,
 };
 
 export default CabeceraForm;
