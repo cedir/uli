@@ -25,6 +25,7 @@ class EstudioListTableRow extends React.Component {
         const practica = this.props.estudio.practica || { descripcion: '' };
         const medico = this.props.estudio.medico || { nombre: '', apellido: '' };
         const medicoSolicitante = this.props.estudio.medico_solicitante || { nombre: '', apellido: '' };
+
         return (
             <tr onClick={ this.onRowClick } style={ { cursor: 'pointer' } }>
                 <td>{ formatDate(this.props.estudio.fecha) }</td>
