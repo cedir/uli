@@ -53,6 +53,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes, history }) 
                           setComprobanteId={ setComprobanteId }
                           idComprobante={ comprobante.id }
                           cae={ comprobante.cae }
+                          history={ history }
                         />
                     ))}
                 </tbody>

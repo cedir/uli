@@ -14,6 +14,7 @@ function ComprobanteRow({
     setComprobanteId,
     idComprobante,
     cae,
+    history,
 }) {
     const setOnClick = () => {
         setShowImporteModal(true);
@@ -22,7 +23,16 @@ function ComprobanteRow({
 
     return (
         <tr>
-            <td>{NombreCliente}</td>
+            <td>
+                <div
+                  onClick={ () => history.push(`/comprobantes/${idComprobante}`) }
+                  role='button'
+                  tabIndex='0'
+                  style={ { paddingBottom: '1em' } }
+                >
+                    {NombreCliente}
+                </div>
+            </td>
             <td>{Numero}</td>
             <td>{TotalFacturado}</td>
             <td>{TotalCobrado}</td>
@@ -58,6 +68,7 @@ ComprobanteRow.propTypes = {
     setComprobanteId: PropTypes.func.isRequired,
     idComprobante: PropTypes.number.isRequired,
     cae: PropTypes.string,
+    history: PropTypes.object,
 };
 
 export default ComprobanteRow;

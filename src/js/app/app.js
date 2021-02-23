@@ -141,6 +141,12 @@ function App(props) {
                       authenticated={ !!props.token }
                     />
                     <PrivateRoute
+                      exact
+                      path='/comprobantes/:id'
+                      component={ CreateComprobante }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
                       path='/caja/main'
                       component={ CajaMain }
                       authenticated={ !!props.token }
