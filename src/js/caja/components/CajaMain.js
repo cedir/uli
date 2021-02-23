@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import propTypes from 'prop-types';
+import propTypes, { object } from 'prop-types';
 
 import CajaActionBar from './CajaActionBar';
 import SearchCajaModal from './search/SearchCajaModal';
@@ -8,53 +8,41 @@ import ListadoMovimientosTable from './ListadoMovimientosTable';
 
 import { FETCH_MOVIMIENTOS_CAJA } from '../actionTypes';
 
-class CajaMain extends Component {
-    constructor(props) {
-        super(props);
+function CajaMain({ fetchMovimientosCaja, movimientos, history }) {
+    const [modalOpened, setModalOpened] = useState(false);
 
-        this.state = {
-            modalOpened: false,
-        };
+    useEffect(() => {
+        fetchMovimientosCaja();
+    }, []);
 
-        this.openSearchCajaModal = this.openSearchCajaModal.bind(this);
-        this.closeSearchCajaModal = this.closeSearchCajaModal.bind(this);
-        this.getMontoAcumulado = this.getMontoAcumulado.bind(this);
-        this.props.fetchMovimientosCaja();
-    }
+    const getMontoAcumulado = movimientos.length > 0 ? movimientos[0].monto_acumulado : '0';
 
-    getMontoAcumulado() {
-        return this.props.movimientos.length > 0 ? this.props.movimientos[0].monto_acumulado : '0';
-    }
+    const openSearchCajaModal = () => {
+        setModalOpened(true);
+    };
 
-    openSearchCajaModal() {
-        this.setState({ modalOpened: true });
-    }
-
-    closeSearchCajaModal() {
-        this.setState({ modalOpened: false });
-    }
+    const closeSearchCajaModal = () => {
+        setModalOpened(false);
+    };
 
 
-    render() {
-        return (
-            <div className='ibox-content'>
-                <div className='pull-right'>
-                    <CajaActionBar
-                      montoAcumulado={
-                        this.getMontoAcumulado()
-                    }
-                      openSearchCajaModal={ this.openSearchCajaModal }
-                    />
-                </div>
-                <div className='clearfix' />
-                <ListadoMovimientosTable movimientos={ this.props.movimientos } />
-                <SearchCajaModal
-                  modalOpened={ this.state.modalOpened }
-                  closeModal={ this.closeSearchCajaModal }
+    return (
+        <div className='ibox-content'>
+            <div className='pull-right'>
+                <CajaActionBar
+                  montoAcumulado={ getMontoAcumulado }
+                  openSearchCajaModal={ openSearchCajaModal }
+                  history={ history }
                 />
             </div>
-        );
-    }
+            <div className='clearfix' />
+            <ListadoMovimientosTable movimientos={ movimientos } />
+            <SearchCajaModal
+              modalOpened={ modalOpened }
+              closeModal={ closeSearchCajaModal }
+            />
+        </div>
+    );
 }
 
 const { array, func } = propTypes;
@@ -62,6 +50,7 @@ const { array, func } = propTypes;
 CajaMain.propTypes = {
     movimientos: array.isRequired,
     fetchMovimientosCaja: func.isRequired,
+    history: object.isRequired,
 };
 
 function mapStateToProps(state) {
