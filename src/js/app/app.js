@@ -22,10 +22,10 @@ import ModificarPresentacionPage from '../presentaciones/modificar-presentacion/
 import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
 import CajaMain from '../caja/components/CajaMain';
 import Comprobantes from '../comprobantes/components/Comprobantes';
-import CreateComprobante from '../comprobantes/components/crear-comprobante/CreateComprobante';
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
 import ScriptCrearEstudios from '../utilities/components/ScriptCrearEstudios';
+import ComprobanteHandler from '../comprobantes/components/crear-comprobante/ComprobanteHandler';
 
 function App(props) {
     useEffect(() => {
@@ -137,13 +137,13 @@ function App(props) {
                     <PrivateRoute
                       exact
                       path='/comprobantes/create'
-                      component={ CreateComprobante }
+                      component={ ComprobanteHandler }
                       authenticated={ !!props.token }
                     />
                     <PrivateRoute
                       exact
-                      path='/comprobantes/:id'
-                      component={ CreateComprobante }
+                      path='/comprobantes/detail/:id'
+                      component={ ComprobanteHandler }
                       authenticated={ !!props.token }
                     />
                     <PrivateRoute
