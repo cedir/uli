@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row } from 'react-bootstrap/dist/react-bootstrap';
-import { formValueSelector, change } from 'redux-form';
+import { formValueSelector } from 'redux-form';
 import TipoClienteSelect from './TipoClienteSelect';
 import CamposCliente from './CamposCliente';
 import { FETCH_OBRAS_SOCIALES, DELETE_OBRAS_SOCIALES } from '../../../../obraSocial/actionTypes';
@@ -120,7 +120,6 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
         fetchPacientes: nombre => dispatch({ type: FETCH_PACIENTES, searchText: nombre }),
-        updateForm: (name, value) => dispatch(change('CreateComprobanteForm', name, value)),
         borrarOpciones: () => {
             dispatch({ type: DELETE_PACIENTES });
             dispatch({ type: DELETE_OBRAS_SOCIALES });

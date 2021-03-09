@@ -15,6 +15,7 @@ function CreateComprobante({
     cae,
     apiLoading,
     lockComprobante,
+    updateForm,
 }) {
     const opcionesIva = [
         { text: 'Exento', porcentaje: 0, gravado: 1 },
@@ -41,7 +42,7 @@ function CreateComprobante({
         >
             <h1> Crear comprobante </h1>
             <Panel header='Cliente' collapsible defaultExpanded>
-                <ClienteForm lockComprobante={ lockComprobante } />
+                <ClienteForm lockComprobante={ lockComprobante } updateForm={ updateForm } />
             </Panel>
             <Panel header='Cabecera' collapsible defaultExpanded>
                 <CabeceraForm opcionesIva={ opcionesIva } lockComprobante={ lockComprobante } />
@@ -74,6 +75,7 @@ CreateComprobante.propTypes = {
     cae: string.isRequired,
     apiLoading: bool.isRequired,
     lockComprobante: bool.isRequired,
+    updateForm: func.isRequired,
 };
 
 const CreateComprobanteForm = reduxForm({

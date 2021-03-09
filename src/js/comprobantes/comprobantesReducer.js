@@ -81,14 +81,13 @@ const deleteCae = state => ({
 
 const fetchComprobanteSuccess = (state, action) => ({
     ...state,
-    initialValues: {
+    comprobante: {
         nombreCliente: action.comprobante.nombre_cliente,
-        hola: console.log(action.comprobante),
         domicilioCliente: action.comprobante.domicilio_cliente,
         dni: action.comprobante.nro_cuit,
         condicionFiscal: action.comprobante.condicion_fiscal,
         responsable: action.comprobante.responsable,
-        iva: action.comprobante.gravado.porcentaje,
+        iva: action.comprobante.gravado.descripcion,
         tipoComprobante: action.comprobante.tipo_comprobante.nombre,
         subTipo: action.comprobante.sub_tipo,
         lineas: action.comprobante.lineas.map(linea => ({
@@ -98,9 +97,9 @@ const fetchComprobanteSuccess = (state, action) => ({
     },
 });
 
-const fetchComprobanteFailed = (state, action) => ({
+const borrarComprobante = state => ({
     ...state,
-    initialValues: state.comprobantes_lista.filter(c => c.id === action.id)[0],
+    comprobante: {},
 });
 
 export function comprobantesReducer(state = initialState, action) {
@@ -134,7 +133,8 @@ export function comprobantesReducer(state = initialState, action) {
         case types.FETCH_COMPROBANTE_SUCCESS:
             return fetchComprobanteSuccess(state, action);
         case types.FETCH_COMPROBANTE_FAILED:
-            return fetchComprobanteFailed(state, action);
+        case types.BORRAR_COMPROBANTE:
+            return borrarComprobante(state);
         default:
             return state;
     }
