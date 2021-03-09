@@ -10,11 +10,10 @@ export default function CreateMovimientoForm({
   index,
   movimiento,
   opcionesMedicos,
-  selectedMedico,
-  onChange,
   isLoading,
   onSearch,
-  render,
+  renderMenu,
+  labelKey,
   valid,
   setValid,
 }) {
@@ -32,12 +31,12 @@ export default function CreateMovimientoForm({
                   name={ 'medico' }
                   component={ AsyncTypeaheadRF }
                   placeholder='Nombre'
+                  type='text'
                   options={ opcionesMedicos }
                   onSearch={ onSearch }
-                  onChange={ onChange }
-                  selected={ selectedMedico }
-                  renderMenuItemChildren={ render }
+                  renderMenuItemChildren={ renderMenu }
                   isLoading={ isLoading }
+                  labelKey={ labelKey }
                   nullValue=''
                 />
             </td>
@@ -85,11 +84,10 @@ CreateMovimientoForm.propTypes = {
     index: number,
     movimiento: string,
     opcionesMedicos: array,
-    selectedMedico: array,
-    onChange: func,
     isLoading: bool,
-    render: func,
+    renderMenu: func,
     onSearch: func,
     valid: bool,
     setValid: func,
+    labelKey: func,
 };

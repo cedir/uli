@@ -2,16 +2,14 @@ import React from 'react';
 import PropTypes, { bool } from 'prop-types';
 import { Table } from 'react-bootstrap';
 import { formValueSelector } from 'redux-form';
-import { connect, change } from 'react-redux';
+import { connect } from 'react-redux';
 import { FETCH_MEDICOS } from '../../../medico/actionTypes';
 import CreateMovimientoForm from './CreateMovimientoForm';
 
 function CreateMovimientosForm({
     fetchMedicos,
     medicos,
-    selectedMedico,
     medicoApiLoading,
-    setSelectedMedico,
     valid,
     setValid,
 }) {
@@ -30,29 +28,23 @@ function CreateMovimientosForm({
         'Consultorio 2',
     ];
 
-    const setSelectedMedicoNew = (selection) => {
-        if (selection[0] && selection[0].id) {
-            setSelectedMedico(selection[0]);
-        }
-    };
-
     const renderMedicoMenuItem = option => (
-        <div style={ { width: '100%' } } key={ option.id }>
+        <div key={ option.id }>
             { `${option.apellido}, ${option.nombre}` }
         </div>
     );
 
+    const medicosTypeaheadRenderFunc = (option) => {
+        if (!option.nombre || !option.apellido) {
+            return '-';
+        }
+
+        return `${option.apellido}, ${option.nombre}`;
+    };
+
     const searchMedicos = (nombre) => {
         fetchMedicos({ searchText: nombre });
     };
-
-    // medicosTypeaheadRenderFunc(option) {
-    //     if (!option.nombre || !option.apellido) {
-    //         return '';
-    //     }
-
-    //     return `${option.apellido}, ${option.nombre}`;
-    // }
 
     return (
         <Table striped condensed hover responsive style={ { marginTop: '20px' } } >
@@ -69,13 +61,13 @@ function CreateMovimientosForm({
                     <CreateMovimientoForm
                       tiposMovimientos={ tiposMovimiento }
                       index={ index }
+                      key={ index }
                       movimiento={ movimiento }
                       opcionesMedicos={ medicos }
-                      selectedMedico={ selectedMedico }
-                      onChange={ setSelectedMedicoNew }
                       isLoading={ medicoApiLoading }
-                      render={ renderMedicoMenuItem }
+                      renderMenu={ renderMedicoMenuItem }
                       onSearch={ searchMedicos }
+                      labelKey={ medicosTypeaheadRenderFunc }
                       valid={ valid }
                       setValid={ setValid }
                     />
@@ -90,9 +82,7 @@ const { array, func } = PropTypes;
 CreateMovimientosForm.propTypes = {
     fetchMedicos: func.isRequired,
     medicos: array.isRequired,
-    selectedMedico: array.isRequired,
     medicoApiLoading: bool.isRequired,
-    setSelectedMedico: func.isRequired,
     valid: bool,
     setValid: func,
 };
@@ -115,8 +105,6 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchMedicos: searchParam =>
             dispatch({ type: FETCH_MEDICOS, searchParam }),
-        setSelectedMedico: medico =>
-            dispatch(change('CreateMovimientosForm', 'medico', medico)),
     };
 }
 
