@@ -6,11 +6,13 @@ import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { formValueSelector } from 'redux-form';
 import LineaForm from './LineaForm';
 
-function LineasForm({ fields, iva, lineas, opcionesIva, lockComprobante }) {
+function LineasForm({ fields, iva, lineas, opcionesIva, lockComprobante, porcentaje }) {
     useEffect(() => {
         fields.push({});
     }, []);
-    const getIva = () => Number(iva && opcionesIva.find(e => e.gravado === iva).porcentaje);
+
+    const getIva = () => porcentaje ||
+        Number(iva && opcionesIva.find(e => e.gravado === iva).porcentaje);
 
     const [total, setTotal] = useState(0);
 
@@ -59,6 +61,7 @@ LineasForm.propTypes = {
     lineas: array,
     opcionesIva: array.isRequired,
     lockComprobante: bool.isRequired,
+    porcentaje: number,
 };
 
 LineasForm.defaultProps = {
@@ -71,6 +74,7 @@ function mapStateToProps(state) {
     return {
         iva: Number(selector(state, 'iva')),
         lineas: selector(state, 'lineas'),
+        porcentaje: Number(selector(state, 'porcentaje')),
     };
 }
 

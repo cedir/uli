@@ -88,6 +88,7 @@ const fetchComprobanteSuccess = (state, action) => ({
         condicionFiscal: action.comprobante.condicion_fiscal,
         responsable: action.comprobante.responsable,
         iva: action.comprobante.gravado.descripcion,
+        porcentaje: action.comprobante.gravado.porcentaje,
         tipoComprobante: action.comprobante.tipo_comprobante.nombre,
         subTipo: action.comprobante.sub_tipo,
         lineas: action.comprobante.lineas.map(linea => ({
