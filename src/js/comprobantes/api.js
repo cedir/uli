@@ -55,3 +55,9 @@ export function crearComprobante(comprobante) {
 
     return post(url, body, headers);
 }
+
+export function getComprobante(id) {
+    const url = `/api/comprobante/${id}`;
+
+    return get(url);
+}

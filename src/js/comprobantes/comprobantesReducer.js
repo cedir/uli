@@ -79,10 +79,35 @@ const deleteCae = state => ({
     cae: initialState.cae,
 });
 
+const fetchComprobanteSuccess = (state, action) => ({
+    ...state,
+    initialValues: {
+        nombreCliente: action.comprobante.nombre_cliente,
+        hola: console.log(action.comprobante),
+        domicilioCliente: action.comprobante.domicilio_cliente,
+        dni: action.comprobante.nro_cuit,
+        condicionFiscal: action.comprobante.condicion_fiscal,
+        responsable: action.comprobante.responsable,
+        iva: action.comprobante.gravado.porcentaje,
+        tipoComprobante: action.comprobante.tipo_comprobante.nombre,
+        subTipo: action.comprobante.sub_tipo,
+        lineas: action.comprobante.lineas.map(linea => ({
+            concepto: linea.concepto,
+            importeNeto: linea.importe_neto,
+        })),
+    },
+});
+
+const fetchComprobanteFailed = (state, action) => ({
+    ...state,
+    initialValues: state.comprobantes_lista.filter(c => c.id === action.id)[0],
+});
+
 export function comprobantesReducer(state = initialState, action) {
     switch (action.type) {
         case types.FETCH_COMPROBANTES_PAGO:
         case types.FETCH_COMPROBANTES_LISTA:
+        case types.FETCH_COMPROBANTE:
             return actionsHandledByEpicReducer(state);
         case types.LOAD_COMPROBANTES_PAGO:
             return loadComprobantesReducer(state, action);
@@ -106,6 +131,10 @@ export function comprobantesReducer(state = initialState, action) {
             return createComprobanteFailed(state);
         case types.DELETE_CAE:
             return deleteCae(state);
+        case types.FETCH_COMPROBANTE_SUCCESS:
+            return fetchComprobanteSuccess(state, action);
+        case types.FETCH_COMPROBANTE_FAILED:
+            return fetchComprobanteFailed(state, action);
         default:
             return state;
     }

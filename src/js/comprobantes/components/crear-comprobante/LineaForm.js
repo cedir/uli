@@ -9,6 +9,7 @@ import { required } from '../../../utilities/reduxFormValidators';
 function LineaForm({ iva, importe, hideLabel, key, prefijo, removeField, lockComprobante }) {
     const importeIva = Math.round(iva * importe) / 100;
     const importeTotal = importeIva ? Math.round((importeIva + importe) * 100) / 100 : importe;
+    console.log(prefijo);
     return (
         <Row key={ key }>
             <Col md={ 7 }>
