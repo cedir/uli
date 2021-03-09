@@ -11,6 +11,8 @@ function CreateMovimientosForm({
     selectedMedico,
     medicoApiLoading,
     setSelectedMedico,
+    valid,
+    setValid,
 }) {
     const tiposMovimiento = [
         'General',
@@ -34,13 +36,13 @@ function CreateMovimientosForm({
     };
 
     const renderMedicoMenuItem = option => (
-        <div key={ option.id }>
-            { option.nombre }
+        <div style={ { width: '100%' } } key={ option.id }>
+            { `${option.apellido}, ${option.nombre}` }
         </div>
     );
 
     const searchMedicos = (nombre) => {
-        fetchMedicos({ nombre });
+        fetchMedicos({ searchText: nombre });
     };
 
     // medicosTypeaheadRenderFunc(option) {
@@ -64,6 +66,8 @@ function CreateMovimientosForm({
                   isLoading={ medicoApiLoading }
                   render={ renderMedicoMenuItem }
                   onSearch={ searchMedicos }
+                  valid={ valid }
+                  setValid={ setValid }
                 />
             ))}
         </React.Fragment>
@@ -78,9 +82,11 @@ CreateMovimientosForm.propTypes = {
     selectedMedico: array.isRequired,
     medicoApiLoading: bool.isRequired,
     setSelectedMedico: func.isRequired,
+    valid: bool,
+    setValid: func,
 };
 
-const selector = formValueSelector('CreateMovimientosForm');
+const selector = formValueSelector('CreateCajaFormRedux');
 
 function mapStateToProps(state) {
     let medico = selector(state, 'medico');
@@ -88,16 +94,16 @@ function mapStateToProps(state) {
         ? medico
         : [];
     return {
-        medicos: state.medicoReducer.medicosActuantes,
-        medicoApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
+        medicos: state.medicoReducer.medicos,
+        medicoApiLoading: state.medicoReducer.medicoApiLoading || false,
         selectedMedico: medico,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchMedicos: searchParams =>
-            dispatch({ type: FETCH_MEDICOS, searchParams }),
+        fetchMedicos: searchParam =>
+            dispatch({ type: FETCH_MEDICOS, searchParam }),
         setSelectedMedico: medico =>
             dispatch(change('CreateMovimientosForm', 'medico', medico)),
     };

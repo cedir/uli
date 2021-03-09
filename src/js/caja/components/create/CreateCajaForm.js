@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, reduxForm, FieldArray } from 'redux-form';
@@ -7,7 +7,14 @@ import { nonEmpty } from '../../../utilities/reduxFormValidators';
 import CreateMovimientosForm from './CreateMovimientosForm';
 import { CREATE_MOVIMIENTOS_CAJA } from '../../actionTypes';
 
-function CreateCajaForm({ createMovimiento, handleSubmit, valid }) {
+function CreateCajaForm({ createMovimiento, handleSubmit, history }) {
+    const [valid, setValid] = useState(false);
+    const location = {
+        pathname: '/estudios',
+        state: { fromCaja: true },
+    };
+    const selectEstudio = () => history.push(location);
+
     return (
         <Form
           onSubmit={ handleSubmit(movimientos =>
@@ -22,21 +29,29 @@ function CreateCajaForm({ createMovimiento, handleSubmit, valid }) {
                   name='movimientos'
                   component={ CreateMovimientosForm }
                   validate={ nonEmpty }
+                  valid={ valid }
+                  setValid={ setValid }
                 />
             </Panel>
             <Button type='submit' bsStyle='primary' disabled={ !valid }>
                     Crear Movimientos
             </Button>
+            <Button
+              bsStyle='primary'
+              onClick={ selectEstudio }
+            >
+                    Crear Movimientos Asociados
+            </Button>
         </Form>
     );
 }
 
-const { func, bool } = PropTypes;
+const { func, object } = PropTypes;
 
 CreateCajaForm.propTypes = {
     createMovimiento: func.isRequired,
-    valid: bool.isRequired,
     handleSubmit: func.isRequired,
+    history: object.isRequired,
 };
 
 const CreateCajaFormRedux = reduxForm({
