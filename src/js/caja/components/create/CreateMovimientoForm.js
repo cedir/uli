@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
-import { Col, Panel } from 'react-bootstrap';
 import { required, integerValue } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
@@ -25,62 +24,57 @@ export default function CreateMovimientoForm({
             setValid(validateArray[0] && validateArray[1] && validateArray[2]);
         }
     }, validateArray);
+    const style = { padding: '0 0.5rem', margin: 0 };
     return (
-        <Col md={ 6 }>
-            <Panel>
-                <Col md={ 6 }>
-                    <Field
-                      name={ `tipoMovimiento-${index}` }
-                      label='Tipo de movimiento'
-                      component={ InputRF }
-                      componentClass='select'
-                      selectOptions={ tiposMovimientos }
-                      validate={ [required] }
-                      input={ { defaultValue: movimiento } }
-                    />
-                </Col>
-                <Col md={ 6 }>
-                    <Field
-                      name={ 'medico' }
-                      label='Medico'
-                      component={ AsyncTypeaheadRF }
-                      placeholder='Nombre'
-                      options={ opcionesMedicos }
-                      onSearch={ onSearch }
-                      onChange={ onChange }
-                      selected={ selectedMedico }
-                      renderMenuItemChildren={ render }
-                      isLoading={ isLoading }
-                      nullValue=''
-                    />
-                </Col>
-                <Col md={ 6 }>
-                    <Field
-                      name={ `concepto-${index}` }
-                      label='Concepto'
-                      component={ InputRF }
-                      validate={ [required] }
-                      nullValue=''
-                      onChange={ () => {
-                          setValidateArray([validateArray[0], true, validateArray[2]]);
-                      } }
-                    />
-                </Col>
-                <Col md={ 6 }>
-                    <Field
-                      name={ `monto-${index}` }
-                      label='Monto'
-                      placeholder='0.00'
-                      component={ InputRF }
-                      validate={ [required, integerValue] }
-                      nullValue=''
-                      onChange={ () => {
-                          setValidateArray([validateArray[0], validateArray[1], true]);
-                      } }
-                    />
-                </Col>
-            </Panel>
-        </Col>
+        <tr>
+            <td style={ style }>
+                <Field
+                  name={ 'medico' }
+                  component={ AsyncTypeaheadRF }
+                  placeholder='Nombre'
+                  options={ opcionesMedicos }
+                  onSearch={ onSearch }
+                  onChange={ onChange }
+                  selected={ selectedMedico }
+                  renderMenuItemChildren={ render }
+                  isLoading={ isLoading }
+                  nullValue=''
+                />
+            </td>
+            <td style={ { padding: '0 0.5rem', margin: 0 } }>
+                <Field
+                  name={ `concepto-${index}` }
+                  component={ InputRF }
+                  validate={ [required] }
+                  nullValue=''
+                  onChange={ () => {
+                      setValidateArray([validateArray[0], true, validateArray[2]]);
+                  } }
+                />
+            </td>
+            <td style={ { padding: '0 0.5rem', margin: 0 } }>
+                <Field
+                  name={ `tipoMovimiento-${index}` }
+                  component={ InputRF }
+                  componentClass='select'
+                  selectOptions={ tiposMovimientos }
+                  validate={ [required] }
+                  input={ { defaultValue: movimiento } }
+                />
+            </td>
+            <td style={ { padding: '0 0.5rem', margin: 0 } }>
+                <Field
+                  name={ `monto-${index}` }
+                  placeholder='0.00'
+                  component={ InputRF }
+                  validate={ [required, integerValue] }
+                  nullValue=''
+                  onChange={ () => {
+                      setValidateArray([validateArray[0], validateArray[1], true]);
+                  } }
+                />
+            </td>
+        </tr>
     );
 }
 

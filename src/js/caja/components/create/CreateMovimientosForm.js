@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes, { bool } from 'prop-types';
+import { Table } from 'react-bootstrap';
 import { formValueSelector } from 'redux-form';
 import { connect, change } from 'react-redux';
 import { FETCH_MEDICOS } from '../../../medico/actionTypes';
@@ -54,23 +55,33 @@ function CreateMovimientosForm({
     // }
 
     return (
-        <React.Fragment>
-            {tiposMovimiento.map((movimiento, index) => (
-                <CreateMovimientoForm
-                  tiposMovimientos={ tiposMovimiento }
-                  index={ index }
-                  movimiento={ movimiento }
-                  opcionesMedicos={ medicos }
-                  selectedMedico={ selectedMedico }
-                  onChange={ setSelectedMedicoNew }
-                  isLoading={ medicoApiLoading }
-                  render={ renderMedicoMenuItem }
-                  onSearch={ searchMedicos }
-                  valid={ valid }
-                  setValid={ setValid }
-                />
-            ))}
-        </React.Fragment>
+        <Table striped condensed hover >
+            <thead>
+                <tr>
+                    <th>Médico</th>
+                    <th>Concepto</th>
+                    <th>Tipo de Mov.</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody>
+                {tiposMovimiento.map((movimiento, index) => (
+                    <CreateMovimientoForm
+                      tiposMovimientos={ tiposMovimiento }
+                      index={ index }
+                      movimiento={ movimiento }
+                      opcionesMedicos={ medicos }
+                      selectedMedico={ selectedMedico }
+                      onChange={ setSelectedMedicoNew }
+                      isLoading={ medicoApiLoading }
+                      render={ renderMedicoMenuItem }
+                      onSearch={ searchMedicos }
+                      valid={ valid }
+                      setValid={ setValid }
+                    />
+                ))}
+            </tbody>
+        </Table>
     );
 }
 
