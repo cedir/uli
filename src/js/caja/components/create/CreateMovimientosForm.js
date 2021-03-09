@@ -55,13 +55,13 @@ function CreateMovimientosForm({
     // }
 
     return (
-        <Table striped condensed hover >
+        <Table striped condensed hover responsive style={ { marginTop: '20px' } } >
             <thead>
                 <tr>
                     <th>Médico</th>
                     <th>Concepto</th>
                     <th>Tipo de Mov.</th>
-                    <th>Monto</th>
+                    <th style={ { width: '15%' } } >Monto</th>
                 </tr>
             </thead>
             <tbody>

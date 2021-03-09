@@ -62,7 +62,7 @@ export default function CreateMovimientoForm({
                   input={ { defaultValue: movimiento } }
                 />
             </td>
-            <td style={ { padding: '0 0.5rem', margin: 0 } }>
+            <td style={ { padding: '0 0.5rem', margin: 0, width: '15%' } }>
                 <Field
                   name={ `monto-${index}` }
                   placeholder='0.00'

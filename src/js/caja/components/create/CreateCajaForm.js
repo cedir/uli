@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, reduxForm, FieldArray } from 'redux-form';
-import { Button } from 'react-bootstrap';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 import { nonEmpty } from '../../../utilities/reduxFormValidators';
 import CreateMovimientosForm from './CreateMovimientosForm';
 import { CREATE_MOVIMIENTOS_CAJA } from '../../actionTypes';
@@ -24,6 +24,17 @@ function CreateCajaForm({ createMovimiento, handleSubmit, history }) {
           ) }
         >
             <h1> Crear Movimiento de Caja </h1>
+            <ButtonToolbar style={ { marginTop: '20px' } }>
+                <Button type='submit' bsStyle='primary' disabled={ !valid }>
+                        Crear Movimientos
+                </Button>
+                <Button
+                  bsStyle='primary'
+                  onClick={ selectEstudio }
+                >
+                        Crear Movimientos Asociados
+                </Button>
+            </ButtonToolbar>
             <FieldArray
               name='movimientos'
               component={ CreateMovimientosForm }
@@ -31,15 +42,6 @@ function CreateCajaForm({ createMovimiento, handleSubmit, history }) {
               valid={ valid }
               setValid={ setValid }
             />
-            <Button type='submit' bsStyle='primary' disabled={ !valid }>
-                    Crear Movimientos
-            </Button>
-            <Button
-              bsStyle='primary'
-              onClick={ selectEstudio }
-            >
-                    Crear Movimientos Asociados
-            </Button>
         </Form>
     );
 }
