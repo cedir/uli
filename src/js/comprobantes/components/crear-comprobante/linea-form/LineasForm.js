@@ -11,8 +11,7 @@ function LineasForm({ fields, iva, lineas, opcionesIva, lockComprobante, porcent
         fields.push({});
     }, []);
 
-    const getIva = () => porcentaje ||
-        Number(iva && opcionesIva.find(e => e.gravado === iva).porcentaje);
+    const getIva = porcentaje || Number(iva && opcionesIva.find(e => e.gravado === iva).porcentaje);
 
     const [total, setTotal] = useState(0);
 
@@ -21,7 +20,7 @@ function LineasForm({ fields, iva, lineas, opcionesIva, lockComprobante, porcent
             .map(linea => Number(linea.importeNeto || 0))
             .reduce((importeTotal, importe) => importeTotal + importe, 0);
 
-        setTotal(Math.round(neto * 100 + neto * (getIva() || 0)) / 100);
+        setTotal(Math.round(neto * 100 + neto * (getIva || 0)) / 100);
     });
 
     return (
@@ -31,7 +30,7 @@ function LineasForm({ fields, iva, lineas, opcionesIva, lockComprobante, porcent
                   hideLabel={ index !== 0 }
                   key={ index }
                   prefijo={ linea }
-                  iva={ getIva() }
+                  iva={ getIva }
                   removeField={ () => fields.remove(index) }
                   lockComprobante={ lockComprobante }
                 />

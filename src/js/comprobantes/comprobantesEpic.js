@@ -111,6 +111,6 @@ export function fetchComprobanteEpic(action$) {
                 {
                     type: FETCH_COMPROBANTE_FAILED,
                 },
-                { type: ADD_ALERT, alert: createAlert(data.response.error, 'danger') },
+                { type: ADD_ALERT, alert: createAlert(`Ocurrio un error al traer el comprobante. ${data.response.error}`, 'danger') },
             )));
 }
