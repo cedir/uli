@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, reduxForm, FieldArray } from 'redux-form';
 import Panel from 'react-bootstrap/lib/Panel';
-import CabeceraForm from './CabeceraForm';
+import CabeceraForm from './cabecera-form/CabeceraForm';
 import ClienteForm from './cliente-form/ClienteForm';
-import LineasForm from './LineasForm';
+import LineasForm from './linea-form/LineasForm';
 import { nonEmpty } from '../../../utilities/reduxFormValidators';
 import BotonesForm from './BotonesForm';
 
@@ -45,7 +45,11 @@ function CreateComprobante({
                 <ClienteForm lockComprobante={ lockComprobante } updateForm={ updateForm } />
             </Panel>
             <Panel header='Cabecera' collapsible defaultExpanded>
-                <CabeceraForm opcionesIva={ opcionesIva } lockComprobante={ lockComprobante } />
+                <CabeceraForm
+                  opcionesIva={ opcionesIva }
+                  lockComprobante={ lockComprobante }
+                  updateForm={ updateForm }
+                />
             </Panel>
             <Panel header='Lineas' collapsible defaultExpanded>
                 <FieldArray

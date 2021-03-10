@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { Field, formValueSelector } from 'redux-form';
-import InputRF from '../../../utilities/InputRF';
-import { required } from '../../../utilities/reduxFormValidators';
+import InputRF from '../../../../utilities/InputRF';
+import { required } from '../../../../utilities/reduxFormValidators';
 
 function LineaForm({ iva, importe, hideLabel, key, prefijo, removeField, lockComprobante }) {
     const importeIva = Math.round(iva * importe) / 100;

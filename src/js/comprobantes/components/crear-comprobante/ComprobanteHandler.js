@@ -20,23 +20,21 @@ function ComprobanteHandler({
     const [lockComprobante, setLockComprobante] = useState(Boolean(id));
 
     useEffect(() => {
-        borrarCae();
-        if (lockComprobante) {
+        if (id) {
             cargarComprobante(id);
-        } else {
-            borrarComprobante();
         }
+        return () => { borrarCae(); borrarComprobante(); };
     }, []);
 
     useEffect(() => {
-        if (!lockComprobante) {
-            setLockComprobante(Boolean(cae));
+        if (!lockComprobante && cae) {
+            setLockComprobante(true);
         }
     }, [cae]);
 
     useEffect(() => {
         const keys = comprobante ? Object.keys(comprobante) : [];
-        if (id && comprobante && keys.length > 0) {
+        if (id && keys.length > 0) {
             keys.forEach((key) => {
                 updateForm(key, comprobante[key]);
             });

@@ -3,6 +3,7 @@ const initialState = {
     comprobantesLista: [],
     comprobantesApiLoading: false,
     cae: '',
+    comprobante: {},
 };
 
 export default initialState;
