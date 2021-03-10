@@ -24,7 +24,7 @@ export function saveComprobanteAsociado(idComp, importe, concepto) {
 }
 
 export function searchComprobante(filtro) {
-    const url = `/api/comprobante?filtro=${filtro}`;
+    const url = `/api/comprobante?nombre_cliente=${filtro}`;
 
     return get(url);
 }
@@ -42,7 +42,7 @@ export function crearComprobante(comprobante) {
         sub_tipo: comprobante.subTipo,
         responsable: comprobante.responsable,
         gravado_id: comprobante.iva,
-        nombre_cliente: comprobante.nombreCliente,
+        nombre_cliente: comprobante.nombreCliente.toUpperCase(),
         domicilio_cliente: comprobante.domicilioCliente,
         nro_cuit: onlyNums(comprobante.dni),
         condicion_fiscal: comprobante.condicionFiscal,
