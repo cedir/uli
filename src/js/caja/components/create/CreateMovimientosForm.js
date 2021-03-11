@@ -10,8 +10,6 @@ function CreateMovimientosForm({
     fetchMedicos,
     medicos,
     medicoApiLoading,
-    valid,
-    setValid,
 }) {
     const tiposMovimiento = [
         'General',
@@ -68,8 +66,6 @@ function CreateMovimientosForm({
                       renderMenu={ renderMedicoMenuItem }
                       onSearch={ searchMedicos }
                       labelKey={ medicosTypeaheadRenderFunc }
-                      valid={ valid }
-                      setValid={ setValid }
                     />
                 ))}
             </tbody>
@@ -83,8 +79,6 @@ CreateMovimientosForm.propTypes = {
     fetchMedicos: func.isRequired,
     medicos: array.isRequired,
     medicoApiLoading: bool.isRequired,
-    valid: bool,
-    setValid: func,
 };
 
 const selector = formValueSelector('CreateCajaFormRedux');

@@ -1,34 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Field } from 'redux-form';
+import { Field, formValueSelector } from 'redux-form';
+import { connect } from 'react-redux';
 import { required, integerValue } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
 
-export default function CreateMovimientoForm({
+function CreateMovimientoForm({
   tiposMovimientos,
   index,
-  movimiento,
   opcionesMedicos,
   isLoading,
   onSearch,
   renderMenu,
   labelKey,
-  valid,
-  setValid,
+  validate,
 }) {
-    const [validateArray, setValidateArray] = useState([true, false, false]);
-    useEffect(() => {
-        if (!valid) {
-            setValid(validateArray[0] && validateArray[1] && validateArray[2]);
-        }
-    }, validateArray);
     const style = { padding: '0 0.5rem', margin: 0 };
     return (
         <tr>
             <td style={ style }>
                 <Field
-                  name={ 'medico' }
+                  name={ `medico-${index}` }
                   component={ AsyncTypeaheadRF }
                   placeholder='Nombre'
                   type='text'
@@ -44,11 +37,7 @@ export default function CreateMovimientoForm({
                 <Field
                   name={ `concepto-${index}` }
                   component={ InputRF }
-                  validate={ [required] }
                   nullValue=''
-                  onChange={ () => {
-                      setValidateArray([validateArray[0], true, validateArray[2]]);
-                  } }
                 />
             </td>
             <td style={ { padding: '0 0.5rem', margin: 0 } }>
@@ -57,8 +46,9 @@ export default function CreateMovimientoForm({
                   component={ InputRF }
                   componentClass='select'
                   selectOptions={ tiposMovimientos }
-                  validate={ [required] }
-                  input={ { defaultValue: movimiento } }
+                  validate={ [] } // falta poner requiered
+                  type='text'
+                  input={ { defaultValue: tiposMovimientos[index] } }
                 />
             </td>
             <td style={ { padding: '0 0.5rem', margin: 0, width: '15%' } }>
@@ -66,28 +56,48 @@ export default function CreateMovimientoForm({
                   name={ `monto-${index}` }
                   placeholder='0.00'
                   component={ InputRF }
-                  validate={ [required, integerValue] }
+                  validate={ validate ? [required, integerValue] : [] }
                   nullValue=''
-                  onChange={ () => {
-                      setValidateArray([validateArray[0], validateArray[1], true]);
-                  } }
                 />
             </td>
         </tr>
     );
 }
 
-const { array, number, bool, func, string } = PropTypes;
+const { array, number, bool, func } = PropTypes;
 
 CreateMovimientoForm.propTypes = {
     tiposMovimientos: array,
     index: number,
-    movimiento: string,
     opcionesMedicos: array,
     isLoading: bool,
     renderMenu: func,
     onSearch: func,
-    valid: bool,
-    setValid: func,
     labelKey: func,
+    validate: bool,
 };
+
+const selector = formValueSelector('CreateCajaFormRedux');
+
+function mapStateToProps(state, ownProps) {
+    const { index } = ownProps;
+    const concepto = selector(state, `concepto-${index}`);
+    let medico = selector(state, `medico-${index}`);
+    const monto = selector(state, `monto-${index}`);
+    medico = (medico && Array.isArray(medico))
+    ? medico
+    : [];
+    let validate;
+    if (concepto || monto || medico.length !== 0) {
+        validate = true;
+    } else {
+        validate = false;
+    }
+
+    return {
+        validate,
+    };
+}
+
+export default
+    connect(mapStateToProps)(CreateMovimientoForm);
