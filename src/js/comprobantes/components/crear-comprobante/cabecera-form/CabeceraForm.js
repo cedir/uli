@@ -33,6 +33,13 @@ function CabeceraForm({
         }
     }, [lockComprobante]);
 
+    useEffect(() => {
+        if (!lockComprobante) {
+            const opcionIva = opcionesIva.find(e => e.gravado === iva);
+            updateForm('porcentaje', opcionIva ? opcionIva.porcentaje : 0);
+        }
+    }, [iva]);
+
     return (
         <CabeceraFormView
           tiposComprobante={ tiposComprobante }
