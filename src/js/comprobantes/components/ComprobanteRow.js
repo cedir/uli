@@ -25,7 +25,7 @@ function ComprobanteRow({
         <tr>
             <td>
                 <div
-                  onClick={ () => history.push(`/comprobantes/detail/${idComprobante}`) }
+                  onClick={ () => cae && history.push(`/comprobantes/detail/${idComprobante}`) }
                   role='button'
                   tabIndex='0'
                   style={ { paddingBottom: '1em' } }

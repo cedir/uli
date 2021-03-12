@@ -45,7 +45,7 @@ function ComprobanteHandler({
         <ComprobanteView
           crearComprobante={ crearComprobante }
           lockComprobante={ lockComprobante }
-          cae={ cae }
+          cae={ cae || comprobante.cae }
           apiLoading={ apiLoading }
           updateForm={ updateForm }
         />
