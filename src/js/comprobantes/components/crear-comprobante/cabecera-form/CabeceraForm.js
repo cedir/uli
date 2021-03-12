@@ -21,6 +21,8 @@ function CabeceraForm({ opcionesIva, lockComprobante, updateForm, iva, tipoCompr
 
     useEffect(() => {
         if (!id && lockComprobante) {
+            // Este es el caso en que se creo un comprobante. Se hace esto para evitar
+            // que aparezcan numeros en vez de los textos cuando bloqueamos el comprobante
             updateForm('iva', opcionesIva.find(e => e.gravado === iva).text);
             updateForm('tipoComprobante', tiposComprobante.find(e => e.value === tipoComprobante).text);
         }

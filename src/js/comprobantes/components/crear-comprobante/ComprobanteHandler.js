@@ -7,7 +7,7 @@ import ComprobanteView from './CreateComprobante';
 import { CREATE_COMPROBANTE, DELETE_CAE, FETCH_COMPROBANTE, BORRAR_COMPROBANTE } from '../../actionTypes';
 
 function ComprobanteHandler({
-    cae,
+    caeCompCreado,
     comprobante,
     borrarCae,
     crearComprobante,
@@ -27,10 +27,10 @@ function ComprobanteHandler({
     }, []);
 
     useEffect(() => {
-        if (!lockComprobante && cae) {
+        if (!lockComprobante && caeCompCreado) {
             setLockComprobante(true);
         }
-    }, [cae]);
+    }, [caeCompCreado]);
 
     useEffect(() => {
         const keys = comprobante ? Object.keys(comprobante) : [];
@@ -45,7 +45,7 @@ function ComprobanteHandler({
         <ComprobanteView
           crearComprobante={ crearComprobante }
           lockComprobante={ lockComprobante }
-          cae={ cae || comprobante.cae }
+          cae={ caeCompCreado || comprobante.cae }
           apiLoading={ apiLoading }
           updateForm={ updateForm }
         />
@@ -55,7 +55,7 @@ function ComprobanteHandler({
 const { string, bool, func, object } = PropTypes;
 
 ComprobanteHandler.propTypes = {
-    cae: string,
+    caeCompCreado: string,
     apiLoading: bool.isRequired,
     borrarCae: func.isRequired,
     crearComprobante: func.isRequired,
@@ -67,7 +67,7 @@ ComprobanteHandler.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        cae: state.comprobantesReducer.cae || '',
+        caeCompCreado: state.comprobantesReducer.cae || '',
         apiLoading: state.comprobantesReducer.comprobantesApiLoading,
         comprobante: state.comprobantesReducer.comprobante,
     };
