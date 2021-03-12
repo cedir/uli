@@ -23,8 +23,8 @@ export function saveComprobanteAsociado(idComp, importe, concepto) {
     });
 }
 
-export function searchComprobante(filtro) {
-    const url = `/api/comprobante?nombre_cliente=${filtro}`;
+export function searchComprobante({ nombreCliente = '', numero = '', cuit = '' }) {
+    const url = `/api/comprobante?nombre_cliente=${nombreCliente}&numero=${numero}&cuit=${cuit}`;
 
     return get(url);
 }

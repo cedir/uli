@@ -68,7 +68,7 @@ export function guardarComprobanteAsociadoEpic(action$) {
 export function obtenerComprobantesConFiltroEpic(action$) {
     return action$.ofType(FETCH_COMPROBANTES_FILTRO)
         .mergeMap(action =>
-            searchComprobante(action.filtro)
+            searchComprobante(action.params)
             .mergeMap(data => Rx.Observable.of(
                 {
                     type: LOAD_COMPROBANTES_LISTA_SUCCESS,
