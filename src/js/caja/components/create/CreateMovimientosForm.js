@@ -90,7 +90,7 @@ function mapStateToProps(state) {
         : [];
     return {
         medicos: state.medicoReducer.medicos,
-        medicoApiLoading: state.medicoReducer.medicoApiLoading || false,
+        medicoApiLoading: state.medicoReducer.medicoApiLoading,
         selectedMedico: medico,
     };
 }

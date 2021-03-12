@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Field, formValueSelector } from 'redux-form';
+import { Field, formValueSelector, change } from 'redux-form';
 import { connect } from 'react-redux';
-import { required, integerValue } from '../../../utilities/reduxFormValidators';
+import { required, integerValue, alpha } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
 
@@ -15,8 +15,14 @@ function CreateMovimientoForm({
   renderMenu,
   labelKey,
   validate,
+  updateForm,
 }) {
     const style = { padding: '0 0.5rem', margin: 0 };
+
+    useEffect(() => {
+        updateForm(`tipoMovimiento-${index}`, tiposMovimientos[index]);
+    }, []);
+
     return (
         <tr>
             <td style={ style }>
@@ -33,25 +39,25 @@ function CreateMovimientoForm({
                   nullValue=''
                 />
             </td>
-            <td style={ { padding: '0 0.5rem', margin: 0 } }>
+            <td style={ style }>
                 <Field
                   name={ `concepto-${index}` }
                   component={ InputRF }
                   nullValue=''
                 />
             </td>
-            <td style={ { padding: '0 0.5rem', margin: 0 } }>
+            <td style={ style }>
                 <Field
                   name={ `tipoMovimiento-${index}` }
                   component={ InputRF }
                   componentClass='select'
                   selectOptions={ tiposMovimientos }
-                  validate={ [] } // falta poner requiered
+                  validate={ validate ? [alpha] : [] }
+                  customErrorMsg='Debe seleccionar una opcion'
                   type='text'
-                  input={ { defaultValue: tiposMovimientos[index] } }
                 />
             </td>
-            <td style={ { padding: '0 0.5rem', margin: 0, width: '15%' } }>
+            <td style={ { ...style, width: '15%' } }>
                 <Field
                   name={ `monto-${index}` }
                   placeholder='0.00'
@@ -67,14 +73,15 @@ function CreateMovimientoForm({
 const { array, number, bool, func } = PropTypes;
 
 CreateMovimientoForm.propTypes = {
-    tiposMovimientos: array,
-    index: number,
-    opcionesMedicos: array,
-    isLoading: bool,
-    renderMenu: func,
-    onSearch: func,
-    labelKey: func,
-    validate: bool,
+    tiposMovimientos: array.isRequired,
+    index: number.isRequired,
+    opcionesMedicos: array.isRequired,
+    isLoading: bool.isRequired,
+    renderMenu: func.isRequired,
+    onSearch: func.isRequired,
+    labelKey: func.isRequired,
+    validate: bool.isRequired,
+    updateForm: func.isRequired,
 };
 
 const selector = formValueSelector('CreateCajaFormRedux');
@@ -99,5 +106,11 @@ function mapStateToProps(state, ownProps) {
     };
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        updateForm: (name, value) => dispatch(change('CreateCajaFormRedux', name, value)),
+    };
+}
+
 export default
-    connect(mapStateToProps)(CreateMovimientoForm);
+    connect(mapStateToProps, mapDispatchToProps)(CreateMovimientoForm);

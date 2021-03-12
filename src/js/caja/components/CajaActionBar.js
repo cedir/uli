@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes, { object } from 'prop-types';
+import PropTypes from 'prop-types';
 import { Button, Well, Grid, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 
 export default function CajaActionBar({ openSearchCajaModal, montoAcumulado, history }) {
@@ -30,7 +30,7 @@ export default function CajaActionBar({ openSearchCajaModal, montoAcumulado, his
     );
 }
 
-const { func, string } = PropTypes;
+const { func, string, object } = PropTypes;
 
 CajaActionBar.propTypes = {
     openSearchCajaModal: func.isRequired,

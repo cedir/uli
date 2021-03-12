@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import propTypes, { object } from 'prop-types';
+import propTypes from 'prop-types';
 
 import CajaActionBar from './CajaActionBar';
 import SearchCajaModal from './search/SearchCajaModal';
@@ -45,7 +45,7 @@ function CajaMain({ fetchMovimientosCaja, movimientos, history }) {
     );
 }
 
-const { array, func } = propTypes;
+const { array, func, object } = propTypes;
 
 CajaMain.propTypes = {
     movimientos: array.isRequired,
