@@ -37,12 +37,14 @@ function LineasForm({ fields, iva, lineas, opcionesIva, lockComprobante, porcent
             ))}
             <Row>
                 <Col md={ 5 }>
-                    <Button
-                      bsStyle='link'
-                      onClick={ () => fields.push({}) }
-                    >
-                        <Glyphicon glyph='plus' />
-                    </Button>
+                    {!lockComprobante &&
+                        <Button
+                          bsStyle='link'
+                          onClick={ () => fields.push({}) }
+                        >
+                            <Glyphicon glyph='plus' />
+                        </Button>
+                    }
                 </Col>
                 <Col mdOffset={ 5 } md={ 2 }>
                     Total: ${ total || 0 }

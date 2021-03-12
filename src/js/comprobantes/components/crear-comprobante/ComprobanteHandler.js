@@ -17,24 +17,25 @@ function ComprobanteHandler({
     borrarComprobante,
 }) {
     const { id } = useParams();
-    const [lockComprobante, setLockComprobante] = useState(Boolean(id));
+    const viewMode = Boolean(id);
+    const [lockComprobante, setLockComprobante] = useState(viewMode);
 
     useEffect(() => {
-        if (id) {
+        if (viewMode) {
             cargarComprobante(id);
         }
         return () => { borrarCae(); borrarComprobante(); };
     }, []);
 
     useEffect(() => {
-        if (!lockComprobante && caeCompCreado) {
+        if (!viewMode && caeCompCreado) {
             setLockComprobante(true);
         }
     }, [caeCompCreado]);
 
     useEffect(() => {
         const keys = comprobante ? Object.keys(comprobante) : [];
-        if (id && keys.length > 0) {
+        if (viewMode && keys.length > 0) {
             keys.forEach((key) => {
                 updateForm(key, comprobante[key]);
             });
@@ -48,6 +49,7 @@ function ComprobanteHandler({
           cae={ caeCompCreado || comprobante.cae }
           apiLoading={ apiLoading }
           updateForm={ updateForm }
+          viewMode={ viewMode }
         />
     );
 }

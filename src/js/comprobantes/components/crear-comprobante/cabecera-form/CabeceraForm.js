@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
 import { formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import CabeceraFormView from './CabeceraFormView';
 
-function CabeceraForm({ opcionesIva, lockComprobante, updateForm, iva, tipoComprobante }) {
+function CabeceraForm({
+    opcionesIva,
+    lockComprobante,
+    updateForm,
+    iva,
+    tipoComprobante,
+    viewMode,
+}) {
     const opcionesResponsable = ['Cedir', 'Brunetti'];
     const tiposComprobante = [
         { text: 'Factura', value: 1 },
@@ -17,10 +23,9 @@ function CabeceraForm({ opcionesIva, lockComprobante, updateForm, iva, tipoCompr
         { text: 'Nota de Credito Electronica', value: 7 },
     ];
     const subTiposComprobante = ['A', 'B'];
-    const { id } = useParams();
 
     useEffect(() => {
-        if (!id && lockComprobante) {
+        if (!viewMode && lockComprobante) {
             // Este es el caso en que se creo un comprobante. Se hace esto para evitar
             // que aparezcan numeros en vez de los textos cuando bloqueamos el comprobante
             updateForm('iva', opcionesIva.find(e => e.gravado === iva).text);
@@ -47,6 +52,7 @@ CabeceraForm.propTypes = {
     updateForm: func.isRequired,
     iva: number.isRequired,
     tipoComprobante: number.isRequired,
+    viewMode: bool.isRequired,
 };
 
 const selector = formValueSelector('CreateComprobanteForm');
