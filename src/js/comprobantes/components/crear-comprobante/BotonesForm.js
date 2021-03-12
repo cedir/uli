@@ -36,7 +36,7 @@ const { bool, string } = PropTypes;
 
 BotonesForm.propTypes = {
     valid: bool.isRequired,
-    cae: string.isRequired,
+    cae: string,
     apiLoading: bool.isRequired,
     lockComprobante: bool.isRequired,
 };

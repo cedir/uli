@@ -76,7 +76,7 @@ CreateComprobante.propTypes = {
     crearComprobante: func.isRequired,
     valid: bool.isRequired,
     handleSubmit: func.isRequired,
-    cae: string.isRequired,
+    cae: string,
     apiLoading: bool.isRequired,
     lockComprobante: bool.isRequired,
     updateForm: func.isRequired,

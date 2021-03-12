@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Row, Col, Panel } from 'react-bootstrap';
@@ -7,14 +7,7 @@ import { FETCH_COMPROBANTES_FILTRO } from '../actionTypes';
 import ComprobanteFields from './ComprobanteFields';
 import BotonesForm from './BotonesForm';
 
-function FilterComprobantes({ buscarComprobante, handleSubmit, history }) {
-    const [searching, setSearching] = useState(false);
-
-    const handleSave = (comprobante) => {
-        setSearching(true);
-        buscarComprobante(comprobante, setSearching);
-    };
-
+function FilterComprobantes({ buscarComprobante, handleSubmit, history, apiLoading }) {
     const style = {
         panel: { margin: '1.5rem' },
         comprobanteFields: { paddingLeft: 0 },
@@ -22,7 +15,7 @@ function FilterComprobantes({ buscarComprobante, handleSubmit, history }) {
 
     return (
         <Form
-          onSubmit={ handleSubmit(handleSave) }
+          onSubmit={ handleSubmit(params => buscarComprobante(params)) }
         >
             <Row>
                 <Panel header='Filtros' style={ style.panel }>
@@ -32,7 +25,7 @@ function FilterComprobantes({ buscarComprobante, handleSubmit, history }) {
                 </Panel>
                 <Col md={ 2 }>
                     <BotonesForm
-                      searching={ searching }
+                      searching={ apiLoading }
                       history={ history }
                     />
                 </Col>
@@ -41,12 +34,13 @@ function FilterComprobantes({ buscarComprobante, handleSubmit, history }) {
     );
 }
 
-const { func, object } = PropTypes;
+const { func, object, bool } = PropTypes;
 
 FilterComprobantes.propTypes = {
     buscarComprobante: func.isRequired,
     handleSubmit: func.isRequired,
     history: object.isRequired,
+    apiLoading: bool.isRequired,
 };
 
 const FilterComprobantesForm =
@@ -56,9 +50,15 @@ const FilterComprobantesForm =
         enableReinitialize: true,
     })(FilterComprobantes);
 
+function mapStateToProps(state) {
+    return {
+        apiLoading: state.comprobantesReducer.comprobantesApiLoading,
+    };
+}
+
 const mapDispatchToProps = dispatch => ({
-    buscarComprobante: (params, setSearching) =>
-        dispatch({ type: FETCH_COMPROBANTES_FILTRO, params, setSearching }),
+    buscarComprobante: params =>
+        dispatch({ type: FETCH_COMPROBANTES_FILTRO, params }),
 });
 
-export default connect(null, mapDispatchToProps)(FilterComprobantesForm);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterComprobantesForm);

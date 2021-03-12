@@ -73,7 +73,6 @@ export function obtenerComprobantesConFiltroEpic(action$) {
                 {
                     type: LOAD_COMPROBANTES_LISTA_SUCCESS,
                     data,
-                    accion: action.setSearching(false),
                 },
             )));
 }
