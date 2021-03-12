@@ -6,11 +6,12 @@ import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { formValueSelector } from 'redux-form';
 import LineaForm from './LineaForm';
 
-function LineasForm({ fields, iva, lineas, opcionesIva }) {
+function LineasForm({ fields, iva, lineas, opcionesIva, lockComprobante, porcentaje }) {
     useEffect(() => {
         fields.push({});
     }, []);
-    const getIva = () => Number(iva && opcionesIva.find(e => e.gravado === iva).porcentaje);
+
+    const getIva = porcentaje || Number(iva && opcionesIva.find(e => e.gravado === iva).porcentaje);
 
     const [total, setTotal] = useState(0);
 
@@ -19,7 +20,7 @@ function LineasForm({ fields, iva, lineas, opcionesIva }) {
             .map(linea => Number(linea.importeNeto || 0))
             .reduce((importeTotal, importe) => importeTotal + importe, 0);
 
-        setTotal(Math.round(neto * 100 + neto * (getIva() || 0)) / 100);
+        setTotal(Math.round(neto * 100 + neto * (getIva || 0)) / 100);
     });
 
     return (
@@ -29,8 +30,9 @@ function LineasForm({ fields, iva, lineas, opcionesIva }) {
                   hideLabel={ index !== 0 }
                   key={ index }
                   prefijo={ linea }
-                  iva={ getIva() }
+                  iva={ getIva }
                   removeField={ () => fields.remove(index) }
+                  lockComprobante={ lockComprobante }
                 />
             ))}
             <Row>
@@ -50,13 +52,15 @@ function LineasForm({ fields, iva, lineas, opcionesIva }) {
     );
 }
 
-const { number, object, array } = PropTypes;
+const { number, object, array, bool } = PropTypes;
 
 LineasForm.propTypes = {
     fields: object,
     iva: number,
     lineas: array,
     opcionesIva: array.isRequired,
+    lockComprobante: bool.isRequired,
+    porcentaje: number,
 };
 
 LineasForm.defaultProps = {
@@ -69,6 +73,7 @@ function mapStateToProps(state) {
     return {
         iva: Number(selector(state, 'iva')),
         lineas: selector(state, 'lineas'),
+        porcentaje: Number(selector(state, 'porcentaje')),
     };
 }
 

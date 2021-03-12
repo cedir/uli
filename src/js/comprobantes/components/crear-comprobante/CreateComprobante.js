@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Form, reduxForm, FieldArray } from 'redux-form';
 import Panel from 'react-bootstrap/lib/Panel';
-import CabeceraForm from './CabeceraForm';
+import CabeceraForm from './cabecera-form/CabeceraForm';
 import ClienteForm from './cliente-form/ClienteForm';
-import LineasForm from './LineasForm';
-import { CREATE_COMPROBANTE, DELETE_CAE } from '../../actionTypes';
+import LineasForm from './linea-form/LineasForm';
 import { nonEmpty } from '../../../utilities/reduxFormValidators';
 import BotonesForm from './BotonesForm';
 
-function CreateComprobante({ crearComprobante, valid, handleSubmit, borrarCae, cae }) {
+function CreateComprobante({
+    crearComprobante,
+    valid,
+    handleSubmit,
+    cae,
+    apiLoading,
+    lockComprobante,
+    updateForm,
+}) {
     const opcionesIva = [
         { text: 'Exento', porcentaje: 0, gravado: 1 },
         { text: 'Iva inscripto 10.5', porcentaje: 10.5, gravado: 2 },
@@ -25,10 +31,6 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit, borrarCae, c
         return nombreCliente;
     };
 
-    useEffect(() => {
-        borrarCae();
-    }, []);
-
     return (
         <Form
           onSubmit={ handleSubmit(comprobante =>
@@ -40,10 +42,14 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit, borrarCae, c
         >
             <h1> Crear comprobante </h1>
             <Panel header='Cliente' collapsible defaultExpanded>
-                <ClienteForm />
+                <ClienteForm lockComprobante={ lockComprobante } updateForm={ updateForm } />
             </Panel>
             <Panel header='Cabecera' collapsible defaultExpanded>
-                <CabeceraForm opcionesIva={ opcionesIva } />
+                <CabeceraForm
+                  opcionesIva={ opcionesIva }
+                  lockComprobante={ lockComprobante }
+                  updateForm={ updateForm }
+                />
             </Panel>
             <Panel header='Lineas' collapsible defaultExpanded>
                 <FieldArray
@@ -51,9 +57,15 @@ function CreateComprobante({ crearComprobante, valid, handleSubmit, borrarCae, c
                   component={ LineasForm }
                   validate={ nonEmpty }
                   opcionesIva={ opcionesIva }
+                  lockComprobante={ lockComprobante }
                 />
             </Panel>
-            <BotonesForm valid={ valid } cae={ cae } />
+            <BotonesForm
+              valid={ valid }
+              cae={ cae }
+              apiLoading={ apiLoading }
+              lockComprobante={ lockComprobante }
+            />
         </Form>
     );
 }
@@ -64,25 +76,14 @@ CreateComprobante.propTypes = {
     crearComprobante: func.isRequired,
     valid: bool.isRequired,
     handleSubmit: func.isRequired,
-    borrarCae: func.isRequired,
-    cae: string.isRequired,
+    cae: string,
+    apiLoading: bool.isRequired,
+    lockComprobante: bool.isRequired,
+    updateForm: func.isRequired,
 };
 
 const CreateComprobanteForm = reduxForm({
     form: 'CreateComprobanteForm',
 })(CreateComprobante);
 
-function mapStateToProps(state) {
-    return {
-        cae: state.comprobantesReducer.cae || '',
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        crearComprobante: comprobante => dispatch({ type: CREATE_COMPROBANTE, comprobante }),
-        borrarCae: () => dispatch({ type: DELETE_CAE }),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CreateComprobanteForm);
+export default CreateComprobanteForm;
