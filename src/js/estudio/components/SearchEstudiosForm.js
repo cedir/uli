@@ -14,238 +14,216 @@ import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medic
 import { required, alpha, dni, dateBeforeThan, dateAfterThan }
     from '../../utilities/reduxFormValidators';
 
-class SearchEstudiosForm extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.setSelectedObraSocial = this.setSelectedObraSocial.bind(this);
-        this.setSelectedMedicoActuante = this.setSelectedMedicoActuante.bind(this);
-        this.setSelectedMedicoSolicitante = this.setSelectedMedicoSolicitante.bind(this);
-        this.searchObrasSociales = this.searchObrasSociales.bind(this);
-        this.searchMedicosActuantes = this.searchMedicosActuantes.bind(this);
-        this.searchMedicosSolicitantes = this.searchMedicosSolicitantes.bind(this);
-        this.renderObraSocialMenuItem = this.renderObraSocialMenuItem.bind(this);
-        this.renderMedicoMenuItem = this.renderMedicoMenuItem.bind(this);
-        this.searchEstudios = this.searchEstudios.bind(this);
-    }
-
-    setSelectedObraSocial(selection) {
+function SearchEstudiosForm(props) {
+    const setSelectedObraSocial = (selection) => {
         if (selection[0] && selection[0].id) {
-            this.props.setSelectedObraSocial(selection[0]);
+            props.setSelectedObraSocial(selection[0]);
         }
-    }
+    };
 
-    setSelectedMedicoActuante(selection) {
+    const setSelectedMedicoActuante = (selection) => {
         if (selection[0] && selection[0].id) {
-            this.props.setSelectedMedicoActuante(selection[0]);
+            props.setSelectedMedicoActuante(selection[0]);
         }
-    }
+    };
 
-    setSelectedMedicoSolicitante(selection) {
+    const setSelectedMedicoSolicitante = (selection) => {
         if (selection[0] && selection[0].id) {
-            this.props.setSelectedMedicoSolicitante(selection[0]);
+            props.setSelectedMedicoSolicitante(selection[0]);
         }
-    }
+    };
 
-    searchObrasSociales(nombre) {
-        this.props.fetchObrasSociales(nombre);
-    }
+    const searchObrasSociales = (nombre) => {
+        props.fetchObrasSociales(nombre);
+    };
 
-    searchMedicosActuantes(searchText) {
-        const selectedMedicoActuante = this.props.selectedMedicoActuante;
+    const searchMedicosActuantes = (searchText) => {
+        const selectedMedicoActuante = props.selectedMedicoActuante;
         if (selectedMedicoActuante.fullName === searchText && selectedMedicoActuante.id) {
-            this.props.fetchMedicosActuantes({ id: selectedMedicoActuante.id });
+            props.fetchMedicosActuantes({ id: selectedMedicoActuante.id });
         } else {
-            this.props.fetchMedicosActuantes({ searchText });
+            props.fetchMedicosActuantes({ searchText });
         }
-    }
+    };
 
-    searchMedicosSolicitantes(searchText) {
-        const selectedMedicoSolicitante = this.props.selectedMedicoSolicitante;
+    const searchMedicosSolicitantes = (searchText) => {
+        const selectedMedicoSolicitante = props.selectedMedicoSolicitante;
         if (selectedMedicoSolicitante.fullName === searchText && selectedMedicoSolicitante.id) {
-            this.props.fetchMedicosSolicitantes({ id: selectedMedicoSolicitante.id });
+            props.fetchMedicosSolicitantes({ id: selectedMedicoSolicitante.id });
         } else {
-            this.props.fetchMedicosSolicitantes({ searchText });
+            props.fetchMedicosSolicitantes({ searchText });
         }
-    }
+    };
 
-    searchEstudios(searchParams) {
-        if (this.props.setModalOpened) {
-            this.props.setModalOpened(false);
+    const searchEstudios = (searchParams) => {
+        if (props.setModalOpened) {
+            props.setModalOpened(false);
         }
 
-        this.props.fetchEstudios(searchParams);
-    }
+        props.fetchEstudios(searchParams);
+    };
 
-    filterByCallback(option, text) {
-        return (
+    const filterByCallback = (option, text) => (
           option.nombre.toLowerCase().indexOf(text.toLowerCase()) !== -1 ||
           option.apellido.toLowerCase().indexOf(text.toLowerCase()) !== -1
         );
-    }
 
-    medicosTypeaheadRenderFunc(option) {
+    const medicosTypeaheadRenderFunc = (option) => {
         if (!option.nombre || !option.apellido) {
             return '';
         }
 
         return `${option.apellido}, ${option.nombre}`;
-    }
+    };
 
-    renderObraSocialMenuItem(option) {
-        return (
-            <div key={ option.id }>
-                { option.nombre }
-            </div>
-        );
-    }
+    const renderObraSocialMenuItem = option => (
+        <div key={ option.id }>
+            { option.nombre }
+        </div>
+    );
 
-    renderMedicoMenuItem(option) {
-        return (
-            <div style={ { width: '100%' } } key={ option.id }>
-                { `${option.apellido}, ${option.nombre}` }
-            </div>
-        );
-    }
+    const renderMedicoMenuItem = option => (
+        <div style={ { width: '100%' } } key={ option.id }>
+            { `${option.apellido}, ${option.nombre}` }
+        </div>
+    );
 
-    render() {
-        return (
-            <form onSubmit={ this.props.handleSubmit(this.searchEstudios) }>
-                <Row>
-                    <Col md={ 9 }>
-                        <Row>
-                            <Col md={ 3 }>
-                                <fieldset>
-                                    <legend>Obra Social</legend>
-                                    <div style={ { position: 'realtive' } }>
+    return (
+        <form onSubmit={ props.handleSubmit(searchEstudios) }>
+            <Row>
+                <Col md={ 9 }>
+                    <Row>
+                        <Col md={ 3 }>
+                            <fieldset>
+                                <legend>Obra Social</legend>
+                                <div style={ { position: 'realtive' } }>
+                                    <Field
+                                      name='obraSocial'
+                                      label='Nombre'
+                                      align='left'
+                                      component={ AsyncTypeaheadRF }
+                                      options={ props.obrasSociales }
+                                      labelKey='nombre'
+                                      onSearch={ searchObrasSociales }
+                                      onChange={ setSelectedObraSocial }
+                                      selected={ props.selectedObraSocial }
+                                      renderMenuItemChildren={ renderObraSocialMenuItem }
+                                      isLoading={ props.obrasSocialesApiLoading }
+                                    />
+                                </div>
+                            </fieldset>
+                        </Col>
+                        <Col md={ 9 }>
+                            <fieldset>
+                                <legend>Paciente</legend>
+                                <Row>
+                                    <Col md={ 4 }>
                                         <Field
-                                          name='obraSocial'
-                                          label='Nombre'
-                                          align='left'
-                                          component={ AsyncTypeaheadRF }
-                                          options={ this.props.obrasSociales }
-                                          labelKey='nombre'
-                                          onSearch={ this.searchObrasSociales }
-                                          onChange={ this.setSelectedObraSocial }
-                                          selected={ this.props.selectedObraSocial }
-                                          renderMenuItemChildren={ this.renderObraSocialMenuItem }
-                                          isLoading={ this.props.obrasSocialesApiLoading }
+                                          name='dniPaciente'
+                                          type='text'
+                                          label='dni'
+                                          validate={ dni }
+                                          component={ InputRF }
                                         />
-                                    </div>
-                                </fieldset>
-                            </Col>
-                            <Col md={ 9 }>
-                                <fieldset>
-                                    <legend>Paciente</legend>
-                                    <Row>
-                                        <Col md={ 4 }>
-                                            <Field
-                                              name='dniPaciente'
-                                              type='text'
-                                              label='dni'
-                                              validate={ dni }
-                                              component={ InputRF }
-                                            />
-                                        </Col>
-                                        <Col md={ 4 }>
-                                            <Field
-                                              name='nombrePaciente'
-                                              type='text'
-                                              label='Nombre'
-                                              validate={ alpha }
-                                              component={ InputRF }
-                                            />
-                                        </Col>
-                                        <Col md={ 4 }>
-                                            <Field
-                                              name='apellidoPaciente'
-                                              type='text'
-                                              label='Apellido'
-                                              validate={ alpha }
-                                              component={ InputRF }
-                                            />
-                                        </Col>
-                                    </Row>
-                                </fieldset>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={ 6 }>
-                                <fieldset>
-                                    <legend>Medico Solicitante</legend>
-                                    <Field
-                                      name='medicoSolicitante'
-                                      label='Nombe/Apellido'
-                                      component={ AsyncTypeaheadRF }
-                                      options={ this.props.medicosSolicitantes }
-                                      filterBy={ this.filterByCallback }
-                                      labelKey={ this.medicosTypeaheadRenderFunc }
-                                      onSearch={ this.searchMedicosSolicitantes }
-                                      onChange={ this.setSelectedMedicoSolicitante }
-                                      selected={
-                                        this.props.selectedMedicoSolicitante
-                                      }
-                                      renderMenuItemChildren={ this.renderMedicoMenuItem }
-                                      isLoading={ false }
-                                    />
-                                </fieldset>
-                            </Col>
-                            <Col md={ 6 }>
-                                <fieldset>
-                                    <legend>Medico Actuante</legend>
-                                    <Field
-                                      name='medicoActuante'
-                                      label='Nombe/Apellido'
-                                      component={ AsyncTypeaheadRF }
-                                      options={ this.props.medicosActuantes }
-                                      filterBy={ this.filterByCallback }
-                                      labelKey={ this.medicosTypeaheadRenderFunc }
-                                      onSearch={ this.searchMedicosActuantes }
-                                      onChange={ this.setSelectedMedicoActuante }
-                                      selected={
-                                        this.props.selectedMedicoActuante
-                                      }
-                                      renderMenuItemChildren={ this.renderMedicoMenuItem }
-                                      isLoading={ false }
-                                    />
-                                </fieldset>
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col md={ 3 }>
-                        <fieldset>
-                            <legend>Periodo</legend>
-                            <Field
-                              name='fechaDesde'
-                              type='date'
-                              label='Desde'
-                              component={ InputRF }
-                              validate={ [required, dateBeforeThan('fechaHasta', 'Debe ser menor que la fecha hasta')] }
-                            />
-                            <Field
-                              name='fechaHasta'
-                              type='date'
-                              label='Hasta'
-                              component={ InputRF }
-                              validate={ dateAfterThan('fechaDesde', 'Debe ser mayo que la fecha desde') }
-                            />
-                        </fieldset>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={ 12 } style={ { textAlign: 'right' } }>
-                        <Button
-                          bsStyle='primary'
-                          type='submit'
-                          disabled={ this.props.submitting || !this.props.valid }
-                        >
-                            Buscar Estudios
-                        </Button>
-                    </Col>
-                </Row>
-            </form>
-        );
-    }
+                                    </Col>
+                                    <Col md={ 4 }>
+                                        <Field
+                                          name='nombrePaciente'
+                                          type='text'
+                                          label='Nombre'
+                                          validate={ alpha }
+                                          component={ InputRF }
+                                        />
+                                    </Col>
+                                    <Col md={ 4 }>
+                                        <Field
+                                          name='apellidoPaciente'
+                                          type='text'
+                                          label='Apellido'
+                                          validate={ alpha }
+                                          component={ InputRF }
+                                        />
+                                    </Col>
+                                </Row>
+                            </fieldset>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col md={ 6 }>
+                            <fieldset>
+                                <legend>Medico Solicitante</legend>
+                                <Field
+                                  name='medicoSolicitante'
+                                  label='Nombe/Apellido'
+                                  component={ AsyncTypeaheadRF }
+                                  options={ props.medicosSolicitantes }
+                                  filterBy={ filterByCallback }
+                                  labelKey={ medicosTypeaheadRenderFunc }
+                                  onSearch={ searchMedicosSolicitantes }
+                                  onChange={ setSelectedMedicoSolicitante }
+                                  selected={
+                                    props.selectedMedicoSolicitante
+                                  }
+                                  renderMenuItemChildren={ renderMedicoMenuItem }
+                                  isLoading={ false }
+                                />
+                            </fieldset>
+                        </Col>
+                        <Col md={ 6 }>
+                            <fieldset>
+                                <legend>Medico Actuante</legend>
+                                <Field
+                                  name='medicoActuante'
+                                  label='Nombe/Apellido'
+                                  component={ AsyncTypeaheadRF }
+                                  options={ props.medicosActuantes }
+                                  filterBy={ filterByCallback }
+                                  labelKey={ medicosTypeaheadRenderFunc }
+                                  onSearch={ searchMedicosActuantes }
+                                  onChange={ setSelectedMedicoActuante }
+                                  selected={
+                                    props.selectedMedicoActuante
+                                  }
+                                  renderMenuItemChildren={ renderMedicoMenuItem }
+                                  isLoading={ false }
+                                />
+                            </fieldset>
+                        </Col>
+                    </Row>
+                </Col>
+                <Col md={ 3 }>
+                    <fieldset>
+                        <legend>Periodo</legend>
+                        <Field
+                          name='fechaDesde'
+                          type='date'
+                          label='Desde'
+                          component={ InputRF }
+                          validate={ [required, dateBeforeThan('fechaHasta', 'Debe ser menor que la fecha hasta')] }
+                        />
+                        <Field
+                          name='fechaHasta'
+                          type='date'
+                          label='Hasta'
+                          component={ InputRF }
+                          validate={ dateAfterThan('fechaDesde', 'Debe ser mayo que la fecha desde') }
+                        />
+                    </fieldset>
+                </Col>
+            </Row>
+            <Row>
+                <Col md={ 12 } style={ { textAlign: 'right' } }>
+                    <Button
+                      bsStyle='primary'
+                      type='submit'
+                      disabled={ props.submitting || !props.valid }
+                    >
+                        Buscar Estudios
+                    </Button>
+                </Col>
+            </Row>
+        </form>
+    );
 }
 
 SearchEstudiosForm.defaultProps = {
