@@ -62,6 +62,7 @@ function ClienteForm({
             <TipoClienteSelect
               tipoCliente={ tipoCliente }
               setTipoCliente={ setTipoClienteHandler }
+              lockComprobante={ lockComprobante }
             />
             <CamposCliente
               tiposCondicionFiscal={ tiposCondicionFiscal }
