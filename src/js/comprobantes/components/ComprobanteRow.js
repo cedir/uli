@@ -20,18 +20,23 @@ function ComprobanteRow({
         setShowImporteModal(true);
         setComprobanteId(idComprobante);
     };
+    const propsNombreCliente = cae ? {
+        onClick: () => history.push(`/comprobantes/detail/${idComprobante}`),
+        role: 'button',
+        tabIndex: '0',
+    } : {};
 
     return (
         <tr>
             <td>
-                <div
-                  onClick={ () => cae && history.push(`/comprobantes/detail/${idComprobante}`) }
-                  role='button'
-                  tabIndex='0'
-                  style={ { paddingBottom: '1em' } }
-                >
-                    {NombreCliente}
-                </div>
+                {
+                    <div
+                      style={ { paddingBottom: '1em' } }
+                      { ...propsNombreCliente }
+                    >
+                        {NombreCliente}
+                    </div>
+                }
             </td>
             <td>{Numero}</td>
             <td>{TotalFacturado}</td>
