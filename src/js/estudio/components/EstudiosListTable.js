@@ -10,6 +10,7 @@ function EstudiosListTable({
     history,
     estudiosRef,
     printMode,
+    fromCaja,
 }) {
     const navigateToEstudioDetail = estudioId => history.push(`/estudios/detail/${estudioId}`);
 
@@ -26,6 +27,8 @@ function EstudiosListTable({
           estudio={ estudio }
           onRowClick={ navigateToEstudioDetail }
           printMode={ printMode }
+          fromCaja={ fromCaja }
+          history={ history }
         />
     );
 
@@ -40,6 +43,7 @@ function EstudiosListTable({
                         <th>Tipo de estudio</th>
                         <th>Medico actuante</th>
                         { !printMode && <th>Medico solicitante</th> }
+                        { fromCaja && <th> </th> }
                     </tr>
                 </thead>
                 <tbody>
@@ -58,6 +62,7 @@ EstudiosListTable.propTypes = {
     estudios: array.isRequired,
     estudiosRef: object,
     printMode: bool.isRequired,
+    fromCaja: bool.isRequired,
 };
 
 EstudiosListTable.defaultProps = {

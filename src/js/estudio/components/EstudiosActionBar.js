@@ -9,6 +9,7 @@ function EstudiosActionBar({
     estudiosRef,
     setPrintMode,
     printMode,
+    fromCaja,
 }) {
     const onBeforeGetContentResolve = useRef(Promise.resolve);
     const goToCreateEstudio = () => {
@@ -38,7 +39,6 @@ function EstudiosActionBar({
             onBeforeGetContentResolve.current();
         }
     }, [onBeforeGetContentResolve.current, printMode]);
-
     return (
         <ButtonToolbar>
             <Button
@@ -46,17 +46,18 @@ function EstudiosActionBar({
             >
                 Buscar estudio
             </Button>
-            <Button
+            { !fromCaja && <Button
               onClick={ handlePrint }
             >
                 Imprimir
-            </Button>
-            <Button
+            </Button>}
+            {/* imprimir tira error si no hay estudios */}
+            { !fromCaja && <Button
               bsStyle='primary'
               onClick={ goToCreateEstudio }
             >
                 Agregar estudio
-            </Button>
+            </Button>}
         </ButtonToolbar>
     );
 }
@@ -69,6 +70,7 @@ EstudiosActionBar.propTypes = {
     estudiosRef: object,
     setPrintMode: func.isRequired,
     printMode: bool.isRequired,
+    fromCaja: bool.isRequired,
 };
 
 export default EstudiosActionBar;

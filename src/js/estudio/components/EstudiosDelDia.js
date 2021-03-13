@@ -11,7 +11,15 @@ import EstudiosList from './EstudiosList';
 import searchEstudiosFormInitialState from '../searchEstudiosFormInitialState';
 import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 
-function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, history, estudios }) {
+function EstudiosDelDia({
+    location,
+    searchParams,
+    fetchEstudios,
+    actualPage,
+    history,
+    estudios,
+    fromCaja,
+}) {
     const [modalOpened, setModalOpened] = useState(false);
     const [printMode, setPrintMode] = useState(false);
     const estudiosRef = useRef(null);
@@ -40,6 +48,7 @@ function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, his
                   estudiosRef={ estudiosRef }
                   setPrintMode={ setPrintMode }
                   printMode={ printMode }
+                  fromCaja={ fromCaja }
                 />
             </div>
             <div className='clearfix' />
@@ -48,6 +57,7 @@ function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, his
                   history={ history }
                   estudiosRef={ estudiosRef }
                   printMode={ printMode }
+                  fromCaja={ fromCaja }
                 />
             ) }
             { estudios.length === 0 && (
@@ -63,7 +73,7 @@ function EstudiosDelDia({ location, searchParams, fetchEstudios, actualPage, his
     );
 }
 
-const { array, object, func, number } = PropTypes;
+const { array, object, func, number, bool } = PropTypes;
 
 EstudiosDelDia.defaultProps = {
     estudios: [],
@@ -76,6 +86,7 @@ EstudiosDelDia.propTypes = {
     fetchEstudios: func,
     history: object.isRequired,
     location: object.isRequired,
+    fromCaja: bool.isRequired,
 };
 
 const selector = formValueSelector('searchEstudios');
