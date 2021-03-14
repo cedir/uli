@@ -15,14 +15,11 @@ import { required, alpha, dni, dateBeforeThan, dateAfterThan }
     from '../../utilities/reduxFormValidators';
 
 function SearchEstudiosForm({
-    setSelectedObraSocial,
-    setSelectedMedicoActuante,
-    setSelectedMedicoSolicitante,
     fetchObrasSociales,
     fetchMedicosActuantes,
     fetchMedicosSolicitantes,
+    selectedMedicoActuante,
     selectedMedicoSolicitante,
-    selectedObraSocial,
     setModalOpened,
     fetchEstudios,
     handleSubmit,
@@ -33,28 +30,6 @@ function SearchEstudiosForm({
     submitting,
     valid,
 }) {
-    const setSelectedObraSocial = (selection) => {
-        if (selection[0] && selection[0].id) {
-            setSelectedObraSocial(selection[0]);
-        }
-    };
-
-    const setSelectedMedicoActuante = (selection) => {
-        if (selection[0] && selection[0].id) {
-            setSelectedMedicoActuante(selection[0]);
-        }
-    };
-
-    const setSelectedMedicoSolicitante = (selection) => {
-        if (selection[0] && selection[0].id) {
-            setSelectedMedicoSolicitante(selection[0]);
-        }
-    };
-
-    const searchObrasSociales = (nombre) => {
-        fetchObrasSociales(nombre);
-    };
-
     const searchMedicosActuantes = (searchText) => {
         if (selectedMedicoActuante.fullName === searchText && selectedMedicoActuante.id) {
             fetchMedicosActuantes({ id: selectedMedicoActuante.id });
@@ -78,11 +53,6 @@ function SearchEstudiosForm({
 
         fetchEstudios(searchParams);
     };
-
-    const filterByCallback = (option, text) => (
-          option.nombre.toLowerCase().indexOf(text.toLowerCase()) !== -1 ||
-          option.apellido.toLowerCase().indexOf(text.toLowerCase()) !== -1
-        );
 
     const medicosTypeaheadRenderFunc = (option) => {
         if (!option.nombre || !option.apellido) {
@@ -116,13 +86,10 @@ function SearchEstudiosForm({
                                     <Field
                                       name='obraSocial'
                                       label='Nombre'
-                                      align='left'
                                       component={ AsyncTypeaheadRF }
                                       options={ obrasSociales }
                                       labelKey='nombre'
-                                      onSearch={ searchObrasSociales }
-                                      onChange={ setSelectedObraSocial }
-                                      selected={ selectedObraSocial }
+                                      onSearch={ fetchObrasSociales }
                                       renderMenuItemChildren={ renderObraSocialMenuItem }
                                       isLoading={ obrasSocialesApiLoading }
                                     />
@@ -173,13 +140,8 @@ function SearchEstudiosForm({
                                   label='Nombe/Apellido'
                                   component={ AsyncTypeaheadRF }
                                   options={ medicosSolicitantes }
-                                  filterBy={ filterByCallback }
                                   labelKey={ medicosTypeaheadRenderFunc }
                                   onSearch={ searchMedicosSolicitantes }
-                                  onChange={ setSelectedMedicoSolicitante }
-                                  selected={
-                                    selectedMedicoSolicitante
-                                  }
                                   renderMenuItemChildren={ renderMedicoMenuItem }
                                   isLoading={ false }
                                 />
@@ -193,13 +155,8 @@ function SearchEstudiosForm({
                                   label='Nombe/Apellido'
                                   component={ AsyncTypeaheadRF }
                                   options={ medicosActuantes }
-                                  filterBy={ filterByCallback }
                                   labelKey={ medicosTypeaheadRenderFunc }
                                   onSearch={ searchMedicosActuantes }
-                                  onChange={ setSelectedMedicoActuante }
-                                  selected={
-                                    selectedMedicoActuante
-                                  }
                                   renderMenuItemChildren={ renderMedicoMenuItem }
                                   isLoading={ false }
                                 />
@@ -257,10 +214,6 @@ SearchEstudiosForm.propTypes = {
     fetchObrasSociales: func.isRequired,
     fetchMedicosActuantes: func.isRequired,
     fetchMedicosSolicitantes: func.isRequired,
-    setSelectedObraSocial: func.isRequired,
-    setSelectedMedicoActuante: func.isRequired,
-    setSelectedMedicoSolicitante: func.isRequired,
-    selectedObraSocial: array,
     selectedMedicoActuante: array,
     selectedMedicoSolicitante: array,
     obrasSociales: array,
