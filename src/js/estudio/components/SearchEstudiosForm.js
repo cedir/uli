@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector, change } from 'redux-form';
+import { Field, reduxForm, formValueSelector, change, Form } from 'redux-form';
 import { Row, Col, Button }
     from 'react-bootstrap/dist/react-bootstrap';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
@@ -17,9 +17,9 @@ import { required, alpha, dni, dateBeforeThan, dateAfterThan }
 function SearchEstudiosForm({
     fetchObrasSociales,
     fetchMedicosActuantes,
-    fetchMedicosSolicitantes,
-    selectedMedicoActuante,
-    selectedMedicoSolicitante,
+    fetchSolicitantes,
+    medicoActuante,
+    medicoSolicitante,
     setModalOpened,
     fetchEstudios,
     handleSubmit,
@@ -30,29 +30,7 @@ function SearchEstudiosForm({
     submitting,
     valid,
 }) {
-    const searchMedicosActuantes = (searchText) => {
-        if (selectedMedicoActuante.fullName === searchText && selectedMedicoActuante.id) {
-            fetchMedicosActuantes({ id: selectedMedicoActuante.id });
-        } else {
-            fetchMedicosActuantes({ searchText });
-        }
-    };
-
-    const searchMedicosSolicitantes = (searchText) => {
-        if (selectedMedicoSolicitante.fullName === searchText && selectedMedicoSolicitante.id) {
-            fetchMedicosSolicitantes({ id: selectedMedicoSolicitante.id });
-        } else {
-            fetchMedicosSolicitantes({ searchText });
-        }
-    };
-
-    const searchEstudios = (searchParams) => {
-        if (setModalOpened) {
-            setModalOpened(false);
-        }
-
-        fetchEstudios(searchParams);
-    };
+    const buscarMedicos = (id, searchText, searchMedics) => searchMedics({ id, searchText });
 
     const medicosTypeaheadRenderFunc = (option) => {
         if (!option.nombre || !option.apellido) {
@@ -75,7 +53,9 @@ function SearchEstudiosForm({
     );
 
     return (
-        <form onSubmit={ handleSubmit(searchEstudios) }>
+        <Form
+          onSubmit={ handleSubmit((params) => { setModalOpened(false); fetchEstudios(params); }) }
+        >
             <Row>
                 <Col md={ 9 }>
                     <Row>
@@ -141,7 +121,8 @@ function SearchEstudiosForm({
                                   component={ AsyncTypeaheadRF }
                                   options={ medicosSolicitantes }
                                   labelKey={ medicosTypeaheadRenderFunc }
-                                  onSearch={ searchMedicosSolicitantes }
+                                  onSearch={ text =>
+                                    buscarMedicos(medicoSolicitante.id, text, fetchSolicitantes) }
                                   renderMenuItemChildren={ renderMedicoMenuItem }
                                   isLoading={ false }
                                 />
@@ -156,7 +137,8 @@ function SearchEstudiosForm({
                                   component={ AsyncTypeaheadRF }
                                   options={ medicosActuantes }
                                   labelKey={ medicosTypeaheadRenderFunc }
-                                  onSearch={ searchMedicosActuantes }
+                                  onSearch={ text =>
+                                    buscarMedicos(medicoActuante.id, text, fetchMedicosActuantes) }
                                   renderMenuItemChildren={ renderMedicoMenuItem }
                                   isLoading={ false }
                                 />
@@ -195,7 +177,7 @@ function SearchEstudiosForm({
                     </Button>
                 </Col>
             </Row>
-        </form>
+        </Form>
     );
 }
 
@@ -213,9 +195,9 @@ SearchEstudiosForm.propTypes = {
     fetchEstudios: func.isRequired,
     fetchObrasSociales: func.isRequired,
     fetchMedicosActuantes: func.isRequired,
-    fetchMedicosSolicitantes: func.isRequired,
-    selectedMedicoActuante: array,
-    selectedMedicoSolicitante: array,
+    fetchSolicitantes: func.isRequired,
+    medicoActuante: array,
+    medicoSolicitante: array,
     obrasSociales: array,
     medicosActuantes: array,
     medicosSolicitantes: array,
@@ -251,8 +233,8 @@ function mapStateToProps(state) {
         medicosActuantes: state.medicoReducer.medicosActuantes,
         medicosSolicitantes: state.medicoReducer.medicosSolicitantes,
         selectedObraSocial: obraSocial,
-        selectedMedicoActuante: medicoActuante,
-        selectedMedicoSolicitante: medicoSolicitante,
+        medicoActuante,
+        medicoSolicitante,
         obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
         medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
         medicoSolicitanteApiLoading: state.medicoReducer.medicoSolicitanteApiLoading || false,
@@ -267,13 +249,13 @@ function mapDispatchToProps(dispatch) {
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
         fetchMedicosActuantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
-        fetchMedicosSolicitantes: searchParams =>
+        fetchSolicitantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_SOLICITANTES, searchParams }),
         setSelectedObraSocial: obraSocial =>
             dispatch(change('searchEstudios', 'obraSocial', obraSocial)),
-        setSelectedMedicoActuante: medicoActuante =>
+        medicoActuante: medicoActuante =>
             dispatch(change('searchEstudios', 'medicoActuante', medicoActuante)),
-        setSelectedMedicoSolicitante: medicoSolicitante =>
+        setmedicoSolicitante: medicoSolicitante =>
             dispatch(change('searchEstudios', 'medicoSolicitante', medicoSolicitante)),
     };
 }
