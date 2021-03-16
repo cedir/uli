@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector, change, Form } from 'redux-form';
+import { Field, reduxForm, formValueSelector, Form } from 'redux-form';
 import { Row, Col, Button }
     from 'react-bootstrap/dist/react-bootstrap';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
@@ -123,6 +123,7 @@ function SearchEstudiosForm({
                                   labelKey={ medicosTypeaheadRenderFunc }
                                   onSearch={ text =>
                                     buscarMedicos(medicoSolicitante.id, text, fetchSolicitantes) }
+                                  selected={ medicoSolicitante }
                                   renderMenuItemChildren={ renderMedicoMenuItem }
                                   isLoading={ false }
                                 />
@@ -139,6 +140,7 @@ function SearchEstudiosForm({
                                   labelKey={ medicosTypeaheadRenderFunc }
                                   onSearch={ text =>
                                     buscarMedicos(medicoActuante.id, text, fetchMedicosActuantes) }
+                                  selected={ medicoActuante }
                                   renderMenuItemChildren={ renderMedicoMenuItem }
                                   isLoading={ false }
                                 />
@@ -251,12 +253,6 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
         fetchSolicitantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_SOLICITANTES, searchParams }),
-        setSelectedObraSocial: obraSocial =>
-            dispatch(change('searchEstudios', 'obraSocial', obraSocial)),
-        medicoActuante: medicoActuante =>
-            dispatch(change('searchEstudios', 'medicoActuante', medicoActuante)),
-        setmedicoSolicitante: medicoSolicitante =>
-            dispatch(change('searchEstudios', 'medicoSolicitante', medicoSolicitante)),
     };
 }
 
