@@ -1,18 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector, Form } from 'redux-form';
+import { reduxForm, formValueSelector, Form } from 'redux-form';
 import { Row, Col, Button } from 'react-bootstrap/dist/react-bootstrap';
-import InputRF from '../../utilities/InputRF';
 import obrasSocialesInitialState from '../../obraSocial/obraSocialReducerInitialState';
 import medicosInitialState from '../../medico/medicoReducerInitialState';
 import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medico/actionTypes';
-import { required, dateBeforeThan, dateAfterThan } from '../../utilities/reduxFormValidators';
 import ObraSocialForm from './search-estudios/ObraSocialForm';
 import PacienteForm from './search-estudios/PacienteForm';
 import MedicoForm from './search-estudios/MedicoForm';
+import FechaForm from './search-estudios/FechaForm';
 
 function SearchEstudiosForm({
     fetchObrasSociales,
@@ -67,23 +66,7 @@ function SearchEstudiosForm({
                     </Row>
                 </Col>
                 <Col md={ 3 }>
-                    <fieldset>
-                        <legend>Periodo</legend>
-                        <Field
-                          name='fechaDesde'
-                          type='date'
-                          label='Desde'
-                          component={ InputRF }
-                          validate={ [required, dateBeforeThan('fechaHasta', 'Debe ser menor que la fecha hasta')] }
-                        />
-                        <Field
-                          name='fechaHasta'
-                          type='date'
-                          label='Hasta'
-                          component={ InputRF }
-                          validate={ dateAfterThan('fechaDesde', 'Debe ser mayo que la fecha desde') }
-                        />
-                    </fieldset>
+                    <FechaForm />
                 </Col>
             </Row>
             <Row>
