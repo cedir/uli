@@ -11,9 +11,10 @@ import medicosInitialState from '../../medico/medicoReducerInitialState';
 import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medico/actionTypes';
-import { required, alpha, dni, dateBeforeThan, dateAfterThan }
+import { required, dateBeforeThan, dateAfterThan }
     from '../../utilities/reduxFormValidators';
 import ObraSocialForm from './search-estudios/ObraSocialForm';
+import PacienteForm from './search-estudios/PacienteForm';
 
 function SearchEstudiosForm({
     fetchObrasSociales,
@@ -64,38 +65,7 @@ function SearchEstudiosForm({
                             />
                         </Col>
                         <Col md={ 9 }>
-                            <fieldset>
-                                <legend>Paciente</legend>
-                                <Row>
-                                    <Col md={ 4 }>
-                                        <Field
-                                          name='dniPaciente'
-                                          type='text'
-                                          label='dni'
-                                          validate={ dni }
-                                          component={ InputRF }
-                                        />
-                                    </Col>
-                                    <Col md={ 4 }>
-                                        <Field
-                                          name='nombrePaciente'
-                                          type='text'
-                                          label='Nombre'
-                                          validate={ alpha }
-                                          component={ InputRF }
-                                        />
-                                    </Col>
-                                    <Col md={ 4 }>
-                                        <Field
-                                          name='apellidoPaciente'
-                                          type='text'
-                                          label='Apellido'
-                                          validate={ alpha }
-                                          component={ InputRF }
-                                        />
-                                    </Col>
-                                </Row>
-                            </fieldset>
+                            <PacienteForm />
                         </Col>
                     </Row>
                     <Row>
