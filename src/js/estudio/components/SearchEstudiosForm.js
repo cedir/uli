@@ -13,6 +13,7 @@ import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medico/actionTypes';
 import { required, alpha, dni, dateBeforeThan, dateAfterThan }
     from '../../utilities/reduxFormValidators';
+import ObraSocialForm from './search-estudios/ObraSocialForm';
 
 function SearchEstudiosForm({
     fetchObrasSociales,
@@ -25,6 +26,7 @@ function SearchEstudiosForm({
     handleSubmit,
     obrasSocialesApiLoading,
     obrasSociales,
+    obraSocial,
     medicosSolicitantes,
     medicosActuantes,
     submitting,
@@ -40,12 +42,6 @@ function SearchEstudiosForm({
         return `${option.apellido}, ${option.nombre}`;
     };
 
-    const renderObraSocialMenuItem = option => (
-        <div key={ option.id }>
-            { option.nombre }
-        </div>
-    );
-
     const renderMedicoMenuItem = option => (
         <div style={ { width: '100%' } } key={ option.id }>
             { `${option.apellido}, ${option.nombre}` }
@@ -60,21 +56,12 @@ function SearchEstudiosForm({
                 <Col md={ 9 }>
                     <Row>
                         <Col md={ 3 }>
-                            <fieldset>
-                                <legend>Obra Social</legend>
-                                <div style={ { position: 'realtive' } }>
-                                    <Field
-                                      name='obraSocial'
-                                      label='Nombre'
-                                      component={ AsyncTypeaheadRF }
-                                      options={ obrasSociales }
-                                      labelKey='nombre'
-                                      onSearch={ fetchObrasSociales }
-                                      renderMenuItemChildren={ renderObraSocialMenuItem }
-                                      isLoading={ obrasSocialesApiLoading }
-                                    />
-                                </div>
-                            </fieldset>
+                            <ObraSocialForm
+                              obrasSociales={ obrasSociales }
+                              obraSocial={ obraSocial }
+                              fetchObrasSociales={ fetchObrasSociales }
+                              apiLoading={ obrasSocialesApiLoading }
+                            />
                         </Col>
                         <Col md={ 9 }>
                             <fieldset>
@@ -198,8 +185,9 @@ SearchEstudiosForm.propTypes = {
     fetchObrasSociales: func.isRequired,
     fetchMedicosActuantes: func.isRequired,
     fetchSolicitantes: func.isRequired,
-    medicoActuante: array,
-    medicoSolicitante: array,
+    obraSocial: array.isRequired,
+    medicoActuante: array.isRequired,
+    medicoSolicitante: array.isRequired,
     obrasSociales: array,
     medicosActuantes: array,
     medicosSolicitantes: array,
@@ -234,7 +222,7 @@ function mapStateToProps(state) {
         obrasSociales: state.obraSocialReducer.obrasSociales,
         medicosActuantes: state.medicoReducer.medicosActuantes,
         medicosSolicitantes: state.medicoReducer.medicosSolicitantes,
-        selectedObraSocial: obraSocial,
+        obraSocial,
         medicoActuante,
         medicoSolicitante,
         obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
