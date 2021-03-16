@@ -2,26 +2,26 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector, Form } from 'redux-form';
-import { Row, Col, Button }
-    from 'react-bootstrap/dist/react-bootstrap';
-import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
+import { Row, Col, Button } from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../utilities/InputRF';
 import obrasSocialesInitialState from '../../obraSocial/obraSocialReducerInitialState';
 import medicosInitialState from '../../medico/medicoReducerInitialState';
 import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medico/actionTypes';
-import { required, dateBeforeThan, dateAfterThan }
-    from '../../utilities/reduxFormValidators';
+import { required, dateBeforeThan, dateAfterThan } from '../../utilities/reduxFormValidators';
 import ObraSocialForm from './search-estudios/ObraSocialForm';
 import PacienteForm from './search-estudios/PacienteForm';
+import MedicoForm from './search-estudios/MedicoForm';
 
 function SearchEstudiosForm({
     fetchObrasSociales,
-    fetchMedicosActuantes,
+    fetchActuantes,
     fetchSolicitantes,
     medicoActuante,
     medicoSolicitante,
+    medicoSolicitanteApiLoading,
+    medicoActuanteApiLoading,
     setModalOpened,
     fetchEstudios,
     handleSubmit,
@@ -34,21 +34,6 @@ function SearchEstudiosForm({
     valid,
 }) {
     const buscarMedicos = (id, searchText, searchMedics) => searchMedics({ id, searchText });
-
-    const medicosTypeaheadRenderFunc = (option) => {
-        if (!option.nombre || !option.apellido) {
-            return '';
-        }
-
-        return `${option.apellido}, ${option.nombre}`;
-    };
-
-    const renderMedicoMenuItem = option => (
-        <div style={ { width: '100%' } } key={ option.id }>
-            { `${option.apellido}, ${option.nombre}` }
-        </div>
-    );
-
     return (
         <Form
           onSubmit={ handleSubmit((params) => { setModalOpened(false); fetchEstudios(params); }) }
@@ -69,40 +54,16 @@ function SearchEstudiosForm({
                         </Col>
                     </Row>
                     <Row>
-                        <Col md={ 6 }>
-                            <fieldset>
-                                <legend>Medico Solicitante</legend>
-                                <Field
-                                  name='medicoSolicitante'
-                                  label='Nombe/Apellido'
-                                  component={ AsyncTypeaheadRF }
-                                  options={ medicosSolicitantes }
-                                  labelKey={ medicosTypeaheadRenderFunc }
-                                  onSearch={ text =>
-                                    buscarMedicos(medicoSolicitante.id, text, fetchSolicitantes) }
-                                  selected={ medicoSolicitante }
-                                  renderMenuItemChildren={ renderMedicoMenuItem }
-                                  isLoading={ false }
-                                />
-                            </fieldset>
-                        </Col>
-                        <Col md={ 6 }>
-                            <fieldset>
-                                <legend>Medico Actuante</legend>
-                                <Field
-                                  name='medicoActuante'
-                                  label='Nombe/Apellido'
-                                  component={ AsyncTypeaheadRF }
-                                  options={ medicosActuantes }
-                                  labelKey={ medicosTypeaheadRenderFunc }
-                                  onSearch={ text =>
-                                    buscarMedicos(medicoActuante.id, text, fetchMedicosActuantes) }
-                                  selected={ medicoActuante }
-                                  renderMenuItemChildren={ renderMedicoMenuItem }
-                                  isLoading={ false }
-                                />
-                            </fieldset>
-                        </Col>
+                        <MedicoForm
+                          medicosSolicitantes={ medicosSolicitantes }
+                          medicosActuantes={ medicosActuantes }
+                          solicitante={ medicoSolicitante }
+                          actuante={ medicoActuante }
+                          buscarMedicos={ buscarMedicos }
+                          fetchSolicitantes={ fetchSolicitantes }
+                          fetchActuantes={ fetchActuantes }
+                          apiLoading={ medicoActuanteApiLoading || medicoSolicitanteApiLoading }
+                        />
                     </Row>
                 </Col>
                 <Col md={ 3 }>
@@ -153,7 +114,7 @@ SearchEstudiosForm.propTypes = {
     valid: bool.isRequired,
     fetchEstudios: func.isRequired,
     fetchObrasSociales: func.isRequired,
-    fetchMedicosActuantes: func.isRequired,
+    fetchActuantes: func.isRequired,
     fetchSolicitantes: func.isRequired,
     obraSocial: array.isRequired,
     medicoActuante: array.isRequired,
@@ -163,6 +124,8 @@ SearchEstudiosForm.propTypes = {
     medicosSolicitantes: array,
     setModalOpened: func,
     obrasSocialesApiLoading: bool.isRequired,
+    medicoSolicitanteApiLoading: bool.isRequired,
+    medicoActuanteApiLoading: bool.isRequired,
 };
 
 const SearchEstudiosFormReduxForm = reduxForm({
@@ -207,7 +170,7 @@ function mapDispatchToProps(dispatch) {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
-        fetchMedicosActuantes: searchParams =>
+        fetchActuantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
         fetchSolicitantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_SOLICITANTES, searchParams }),
