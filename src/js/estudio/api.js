@@ -4,8 +4,8 @@ import { getSucursal } from '../app/storeHelper';
 
 function createSearchQueryString(fetchEstudiosParams) {
     const { fechaDesde = '', fechaHasta = '', obraSocial = '', dniPaciente = '',
-        nombrePaciente = '', apellidoPaciente = '',
-        medicoActuante = '', medicoSolicitante = '' } = fetchEstudiosParams;
+        nombrePaciente = '', apellidoPaciente = '', medicoActuante = '',
+        medicoSolicitante = '', practica = '' } = fetchEstudiosParams;
 
     const { apellido: apellidoMedicoActuante, nombre: nombreMedicoActuante }
         = Array.isArray(medicoActuante) && medicoActuante[0] ? medicoActuante[0] : { nombre: '', apellido: '' };
@@ -20,7 +20,7 @@ function createSearchQueryString(fetchEstudiosParams) {
         `&medico_nombre=${nombreMedicoActuante}&medico_apellido=${apellidoMedicoActuante}` +
         `&medico_solicitante_nombre=${nombreMedicoSolicitante}` +
         `&medico_solicitante_apellido=${apellidoMedicoSolicitante}&page=${actualPage}&ordering=-fecha,-id` +
-        `&sucursal=${getSucursal()}`;
+        `&practica=${practica}&sucursal=${getSucursal()}`;
     return queryString;
 }
 
