@@ -35,7 +35,7 @@ function MedicoForm({
                     <legend>Medico Solicitante</legend>
                     <Field
                       name='medicoSolicitante'
-                      label='Nombe/Apellido'
+                      label='Nombre/Apellido'
                       component={ AsyncTypeaheadRF }
                       options={ medicosSolicitantes }
                       labelKey={ renderFunc }
@@ -51,7 +51,7 @@ function MedicoForm({
                     <legend>Medico Actuante</legend>
                     <Field
                       name='medicoActuante'
-                      label='Nombe/Apellido'
+                      label='Nombre/Apellido'
                       component={ AsyncTypeaheadRF }
                       options={ medicosActuantes }
                       labelKey={ renderFunc }
