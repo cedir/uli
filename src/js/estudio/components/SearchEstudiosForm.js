@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { reduxForm, formValueSelector, Form } from 'redux-form';
+import { reduxForm, formValueSelector, Form, change } from 'redux-form';
 import { Row, Col, Button } from 'react-bootstrap/dist/react-bootstrap';
 import obrasSocialesInitialState from '../../obraSocial/obraSocialReducerInitialState';
 import medicosInitialState from '../../medico/medicoReducerInitialState';
@@ -29,6 +29,7 @@ function SearchEstudiosForm({
     obraSocial,
     medicosSolicitantes,
     medicosActuantes,
+    removeDate,
     submitting,
     valid,
 }) {
@@ -66,7 +67,7 @@ function SearchEstudiosForm({
                     </Row>
                 </Col>
                 <Col md={ 3 }>
-                    <FechaForm />
+                    <FechaForm removeDate={ removeDate } />
                 </Col>
             </Row>
             <Row>
@@ -109,6 +110,7 @@ SearchEstudiosForm.propTypes = {
     obrasSocialesApiLoading: bool.isRequired,
     medicoSolicitanteApiLoading: bool.isRequired,
     medicoActuanteApiLoading: bool.isRequired,
+    removeDate: func.isRequired,
 };
 
 const SearchEstudiosFormReduxForm = reduxForm({
@@ -157,6 +159,7 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
         fetchSolicitantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_SOLICITANTES, searchParams }),
+        removeDate: name => dispatch(change('searchEstudios', name, '')),
     };
 }
 
