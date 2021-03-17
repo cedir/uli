@@ -12,6 +12,8 @@ import ObraSocialForm from './search-estudios/ObraSocialForm';
 import PacienteForm from './search-estudios/PacienteForm';
 import MedicoForm from './search-estudios/MedicoForm';
 import FechaForm from './search-estudios/FechaForm';
+import { FETCH_PRACTICAS } from '../../practica/actionTypes';
+import PracticaForm from './search-estudios/PracticaForm';
 
 function SearchEstudiosForm({
     fetchObrasSociales,
@@ -30,6 +32,10 @@ function SearchEstudiosForm({
     medicosSolicitantes,
     medicosActuantes,
     removeDate,
+    practicas,
+    practica,
+    fetchPracticas,
+    practicaApiLoading,
     submitting,
     valid,
 }) {
@@ -71,7 +77,15 @@ function SearchEstudiosForm({
                 </Col>
             </Row>
             <Row>
-                <Col md={ 12 } style={ { textAlign: 'right' } }>
+                <Col md={ 9 }>
+                    <PracticaForm
+                      practicas={ practicas }
+                      practica={ practica }
+                      apiLoading={ practicaApiLoading }
+                      fetchPracticas={ fetchPracticas }
+                    />
+                </Col>
+                <Col md={ 3 } style={ { textAlign: 'right', marginTop: '8rem' } }>
                     <Button
                       bsStyle='primary'
                       type='submit'
@@ -111,6 +125,10 @@ SearchEstudiosForm.propTypes = {
     medicoSolicitanteApiLoading: bool.isRequired,
     medicoActuanteApiLoading: bool.isRequired,
     removeDate: func.isRequired,
+    practicas: array.isRequired,
+    practica: array.isRequired,
+    fetchPracticas: func.isRequired,
+    practicaApiLoading: bool.isRequired,
 };
 
 const SearchEstudiosFormReduxForm = reduxForm({
@@ -135,6 +153,12 @@ function mapStateToProps(state) {
     medicoSolicitante = (medicoSolicitante && Array.isArray(medicoSolicitante))
             ? medicoSolicitante
             : [];
+
+    let practica = selector(state, 'practica');
+    practica = (practica && Array.isArray(practica))
+            ? practica
+            : [];
+
     return {
         resultPages: state.estudiosReducer.resultPages,
         obrasSociales: state.obraSocialReducer.obrasSociales,
@@ -143,10 +167,13 @@ function mapStateToProps(state) {
         obraSocial,
         medicoActuante,
         medicoSolicitante,
+        practica,
         obrasSocialesApiLoading: state.obraSocialReducer.isLoading || false,
         medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
         medicoSolicitanteApiLoading: state.medicoReducer.medicoSolicitanteApiLoading || false,
         initialValues: state.estudiosReducer.searchEstudiosParams,
+        practicas: state.practicaReducer.practicas,
+        practicaApiLoading: state.practicaReducer.practicaApiLoading || false,
     };
 }
 
@@ -160,6 +187,7 @@ function mapDispatchToProps(dispatch) {
         fetchSolicitantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_SOLICITANTES, searchParams }),
         removeDate: name => dispatch(change('searchEstudios', name, '')),
+        fetchPracticas: searchText => dispatch({ type: FETCH_PRACTICAS, searchText }),
     };
 }
 
