@@ -30,7 +30,6 @@ function PracticaForm({
               selected={ practica }
               renderMenuItemChildren={ renderItem }
               isLoading={ apiLoading }
-              placeholder='descripcion'
             />
         </fieldset>
     );
