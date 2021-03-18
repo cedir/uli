@@ -12,6 +12,7 @@ function createSearchQueryString(fetchEstudiosParams) {
     const { apellido: apellidoMedicoSolicitante, nombre: nombreMedicoSolicitante }
         = Array.isArray(medicoSolicitante) && medicoSolicitante[0] ? medicoSolicitante[0] : { nombre: '', apellido: '' };
     const { nombre: nombreObraSocial } = Array.isArray(obraSocial) && obraSocial[0] ? obraSocial[0] : { nombre: '' };
+    const { id: idPractica } = Array.isArray(practica) && practica[0] ? practica[0] : { id: '' };
 
     const actualPage = fetchEstudiosParams.actualPage || 1;
     const queryString = `?fecha_desde=${fechaDesde}&fecha_hasta=${fechaHasta}` +
@@ -20,7 +21,7 @@ function createSearchQueryString(fetchEstudiosParams) {
         `&medico_nombre=${nombreMedicoActuante}&medico_apellido=${apellidoMedicoActuante}` +
         `&medico_solicitante_nombre=${nombreMedicoSolicitante}` +
         `&medico_solicitante_apellido=${apellidoMedicoSolicitante}&page=${actualPage}&ordering=-fecha,-id` +
-        `&practica=${practica}&sucursal=${getSucursal()}`;
+        `&practica=${idPractica}&sucursal=${getSucursal()}`;
     return queryString;
 }
 
