@@ -33,10 +33,10 @@ function EstudioListTableRow({
             <td>{ obraSocial.nombre }</td>
             <td>{ practica.descripcion }</td>
             <td>{ `${medico.apellido}, ${medico.nombre}` }</td>
-            { !printMode && <td>{ `${medicoSolicitante.apellido}, ${medicoSolicitante.nombre}` }</td> }
+            { !printMode && !fromCaja && <td>{ `${medicoSolicitante.apellido}, ${medicoSolicitante.nombre}` }</td> }
             { fromCaja && <td>
                 <CheckCircle onClick={ () => { asociarEstudio(estudio); history.goBack(); } } />
-                </td>}
+            </td> }
         </tr>
     );
 }

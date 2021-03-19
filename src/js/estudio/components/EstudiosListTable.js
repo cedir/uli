@@ -41,7 +41,7 @@ function EstudiosListTable({
                         <th>Nombre Paciente</th>
                         <th>Obra Social</th>
                         <th>Tipo de estudio</th>
-                        <th>Medico actuante</th>
+                        { !fromCaja && <th>Medico actuante</th> }
                         { !printMode && <th>Medico solicitante</th> }
                         { fromCaja && <th> </th> }
                     </tr>
