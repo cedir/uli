@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, reduxForm, FieldArray } from 'redux-form';
-import { Button, ButtonToolbar, Col, Row } from 'react-bootstrap';
+import { Button, ButtonToolbar, Col, Panel, Row } from 'react-bootstrap';
 import CreateMovimientosForm from './CreateMovimientosForm';
 import { CREATE_MOVIMIENTOS_CAJA, ASOCIAR_ESTUDIO } from '../../actionTypes';
 import ViewAsociado from './ViewAsociado';
@@ -14,15 +14,21 @@ function CreateCajaForm({
     valid,
     estudioAsociado,
     asociarEstudio,
+    location,
 }) {
-    const location = {
+    const fromCajaLocation = {
         pathname: '/estudios',
         state: { fromCaja: true },
     };
-    const selectEstudio = () => history.push(location);
+
+    const montoAcumulado = location.state.montoAcumulado;
+
+    const [totalGrilla, setTotalGrilla] = useState(0.00);
+
+    const selectEstudio = () => history.push(fromCajaLocation);
+
     return (
         <React.Fragment>
-            <h1> Crear Movimiento de Caja </h1>
 
             <Row>
                 <Col md={ 6 }>
@@ -42,13 +48,27 @@ function CreateCajaForm({
                                 Eliminar Estudio
                         </Button>}
                     </ButtonToolbar>
+                    <Row>
+                        <Col md={ 5 }>
+                            <Panel>
+                                <p> Monto acumulado: ${ montoAcumulado } </p>
+                            </Panel>
+                        </Col>
+                        <Col md={ 5 }>
+                            <Panel>
+                                <p> Total Grilla: ${ totalGrilla || 0.00 } </p>
+                            </Panel>
+                        </Col>
+                    </Row>
                 </Col>
 
-                <Col md={ 6 } lg={ 5 } lgOffset={ 1 }>
-                    { Object.keys(estudioAsociado).length !== 0 && <ViewAsociado
-                      estudioAsociado={ estudioAsociado }
-                      asociarEstudio={ asociarEstudio }
-                    /> }
+                <Col md={ 5 } lg={ 5 } >
+                    <Row>
+                        { Object.keys(estudioAsociado).length !== 0 && <ViewAsociado
+                          estudioAsociado={ estudioAsociado }
+                          asociarEstudio={ asociarEstudio }
+                        /> }
+                    </Row>
                 </Col>
             </Row>
 
@@ -63,6 +83,7 @@ function CreateCajaForm({
                 <FieldArray
                   name='movimientos'
                   component={ CreateMovimientosForm }
+                  setTotalGrilla={ setTotalGrilla }
                 />
             </Form>
         </React.Fragment>
@@ -78,6 +99,7 @@ CreateCajaForm.propTypes = {
     valid: bool.isRequired,
     estudioAsociado: object.isRequired,
     asociarEstudio: func.isRequired,
+    location: object.isRequired,
 };
 
 const CreateCajaFormRedux = reduxForm({

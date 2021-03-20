@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Field, formValueSelector, change } from 'redux-form';
+import { Field, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { required, integerValue, alpha } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
@@ -15,19 +15,14 @@ function CreateMovimientoForm({
   renderMenu,
   labelKey,
   validate,
-  updateForm,
 }) {
     const style = { padding: '0 0.5rem', margin: 0 };
-
-    useEffect(() => {
-        updateForm(`tipoMovimiento-${index}`, tiposMovimientos[index]);
-    }, []);
 
     return (
         <tr>
             <td style={ style }>
                 <Field
-                  name={ `medico-${index}` }
+                  name={ `${index}.medico` }
                   component={ AsyncTypeaheadRF }
                   placeholder='Nombre'
                   type='text'
@@ -41,14 +36,14 @@ function CreateMovimientoForm({
             </td>
             <td style={ style }>
                 <Field
-                  name={ `concepto-${index}` }
+                  name={ `${index}.concepto` }
                   component={ InputRF }
                   nullValue=''
                 />
             </td>
             <td style={ style }>
                 <Field
-                  name={ `tipoMovimiento-${index}` }
+                  name={ `${index}.tipoMovimiento` }
                   component={ InputRF }
                   componentClass='select'
                   selectOptions={ tiposMovimientos }
@@ -59,7 +54,7 @@ function CreateMovimientoForm({
             </td>
             <td style={ { ...style, width: '15%' } }>
                 <Field
-                  name={ `monto-${index}` }
+                  name={ `${index}.monto` }
                   placeholder='0.00'
                   component={ InputRF }
                   validate={ validate ? [required, integerValue] : [] }
@@ -70,18 +65,17 @@ function CreateMovimientoForm({
     );
 }
 
-const { array, number, bool, func } = PropTypes;
+const { array, string, bool, func } = PropTypes;
 
 CreateMovimientoForm.propTypes = {
     tiposMovimientos: array.isRequired,
-    index: number.isRequired,
+    index: string.isRequired,
     opcionesMedicos: array.isRequired,
     isLoading: bool.isRequired,
     renderMenu: func.isRequired,
     onSearch: func.isRequired,
     labelKey: func.isRequired,
     validate: bool.isRequired,
-    updateForm: func.isRequired,
 };
 
 const selector = formValueSelector('CreateCajaFormRedux');
@@ -100,17 +94,10 @@ function mapStateToProps(state, ownProps) {
     } else {
         validate = false;
     }
-
     return {
         validate,
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        updateForm: (name, value) => dispatch(change('CreateCajaFormRedux', name, value)),
-    };
-}
-
 export default
-    connect(mapStateToProps, mapDispatchToProps)(CreateMovimientoForm);
+    connect(mapStateToProps)(CreateMovimientoForm);

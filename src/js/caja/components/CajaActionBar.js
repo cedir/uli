@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { Button, Well, Grid, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 
 export default function CajaActionBar({ openSearchCajaModal, montoAcumulado, history }) {
-    const createMovimientos = () => history.push('/caja/create');
+    const location = {
+        pathname: '/caja/create',
+        state: { montoAcumulado },
+    };
+    const createMovimientos = () => history.push(location);
 
     return (
         <Grid>
