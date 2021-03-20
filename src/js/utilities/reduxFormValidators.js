@@ -1,4 +1,4 @@
-import { isAlpha, isAlphanumeric, isEmpty, isInt, isLength } from 'validator';
+import { isAlpha, isAlphanumeric, isEmpty, isInt, isLength, isDecimal } from 'validator';
 import moment from 'moment';
 
 import constants from './constants';
@@ -57,6 +57,11 @@ export function dateAfterThan(fieldToCompareName, errorMessage) {
 export function integerValue(value) {
     const val = typeof value === 'undefined' ? '' : value;
     return isEmpty(val) || (isInt(val)) ? undefined : 'No es numero';
+}
+
+export function numberValue(value) {
+    const val = typeof value === 'undefined' ? '' : value;
+    return isEmpty(val) || (isDecimal(value)) ? undefined : 'No es numero';
 }
 
 export function nonEmpty(value) {

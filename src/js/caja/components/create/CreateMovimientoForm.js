@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
-import { required, integerValue, alpha } from '../../../utilities/reduxFormValidators';
+import { required, alpha, numberValue } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
 
@@ -17,7 +17,6 @@ function CreateMovimientoForm({
   validate,
 }) {
     const style = { padding: '0 0.5rem', margin: 0 };
-
     return (
         <tr>
             <td style={ style }>
@@ -47,7 +46,7 @@ function CreateMovimientoForm({
                   component={ InputRF }
                   componentClass='select'
                   selectOptions={ tiposMovimientos }
-                  validate={ validate ? [alpha] : [] }
+                  validate={ validate && [alpha, required] }
                   customErrorMsg='Debe seleccionar una opcion'
                   type='text'
                 />
@@ -57,7 +56,7 @@ function CreateMovimientoForm({
                   name={ `${index}.monto` }
                   placeholder='0.00'
                   component={ InputRF }
-                  validate={ validate ? [required, integerValue] : [] }
+                  validate={ validate && [required, numberValue] }
                   nullValue=''
                 />
             </td>
@@ -82,9 +81,9 @@ const selector = formValueSelector('CreateCajaFormRedux');
 
 function mapStateToProps(state, ownProps) {
     const { index } = ownProps;
-    const concepto = selector(state, `concepto-${index}`);
-    let medico = selector(state, `medico-${index}`);
-    const monto = selector(state, `monto-${index}`);
+    const concepto = selector(state, `${index}.concepto`);
+    let medico = selector(state, `${index}.medico`);
+    const monto = selector(state, `${index}.monto`);
     medico = (medico && Array.isArray(medico))
     ? medico
     : [];

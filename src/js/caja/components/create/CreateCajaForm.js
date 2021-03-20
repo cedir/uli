@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, reduxForm, FieldArray } from 'redux-form';
-import { Button, ButtonToolbar, Col, Panel, Row } from 'react-bootstrap';
+import { Col, Panel, Row } from 'react-bootstrap';
 import CreateMovimientosForm from './CreateMovimientosForm';
 import { CREATE_MOVIMIENTOS_CAJA, ASOCIAR_ESTUDIO } from '../../actionTypes';
 import ViewAsociado from './ViewAsociado';
+import BotonesForm from './BotonesForm';
 
 function CreateCajaForm({
     createMovimiento,
@@ -32,22 +33,12 @@ function CreateCajaForm({
 
             <Row>
                 <Col md={ 6 }>
-                    <ButtonToolbar style={ { marginTop: '20px', marginBottom: '20px' } }>
-                        <Button type='submit' bsStyle='primary' disabled={ !valid }>
-                            Crear Movimientos
-                        </Button>
-                        <Button
-                          bsStyle='primary'
-                          onClick={ selectEstudio }
-                        >
-                                Asociar con Estudio
-                        </Button>
-                        { Object.keys(estudioAsociado).length !== 0 && <Button
-                          onClick={ () => asociarEstudio({}) }
-                        >
-                                Eliminar Estudio
-                        </Button>}
-                    </ButtonToolbar>
+                    <BotonesForm
+                      selectEstudio={ selectEstudio }
+                      valid={ valid }
+                      estudioAsociado={ estudioAsociado }
+                      asociarEstudio={ asociarEstudio }
+                    />
                     <Row>
                         <Col md={ 5 }>
                             <Panel>
@@ -56,7 +47,9 @@ function CreateCajaForm({
                         </Col>
                         <Col md={ 5 }>
                             <Panel>
-                                <p> Total Grilla: ${ totalGrilla || 0.00 } </p>
+                                <p>
+                                    Total Grilla: ${ Math.round(totalGrilla * 100) / 100 || 0.00 }
+                                </p>
                             </Panel>
                         </Col>
                     </Row>
