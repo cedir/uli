@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { Button, Tooltip, OverlayTrigger } from 'react-bootstrap/dist/react-bootstrap';
+import { Button, Tooltip, OverlayTrigger, Col, Row, Glyphicon } from 'react-bootstrap/dist/react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, reduxForm, change, formValueSelector, destroy } from 'redux-form';
 import AsyncTypeaheadRF from '../../utilities/AsyncTypeaheadRF';
@@ -289,6 +289,8 @@ class EstudioDetailMain extends Component {
         const lockEstudioEdition =
             (estadoPresentacion && estadoPresentacion !== ESTADOS.ABIERTO) || false;
         const showModal = this.state.showModal;
+        const idPaciente = this.props.selectedPaciente && this.props.selectedPaciente[0] ?
+            this.props.selectedPaciente[0].id : '';
         return (
             <div className='estudio-detail-main' style={ { marginBottom: '20px' } }>
                 <EliminarEstudioModal
@@ -346,24 +348,37 @@ class EstudioDetailMain extends Component {
                               </Tooltip> }
                           placement='top'
                         >
-                            <div>
-                                <Field
-                                  name='paciente'
-                                  label='Nombre o dni'
-                                  staticField={ lockEstudioEdition }
-                                  placeholder='Nombre, apellido o documento'
-                                  align='left'
-                                  validate={ requiredOption }
-                                  component={ AsyncTypeaheadRF }
-                                  options={ this.props.pacientes }
-                                  labelKey={ this.pacientesTypeaheadRenderFunc }
-                                  onSearch={ this.searchPacientes }
-                                  onChange={ this.setSelectedPaciente }
-                                  selected={ this.props.selectedPaciente }
-                                  renderMenuItemChildren={ this.renderPacienteMenuItem }
-                                  isLoading={ this.props.pacienteApiLoading }
-                                />
-                            </div>
+                            <Row>
+                                <Col md={ 10 } style={ { border: 0 } }>
+                                    <Field
+                                      name='paciente'
+                                      label='Nombre o dni'
+                                      staticField={ lockEstudioEdition }
+                                      placeholder='Nombre, apellido o documento'
+                                      align='left'
+                                      validate={ requiredOption }
+                                      component={ AsyncTypeaheadRF }
+                                      options={ this.props.pacientes }
+                                      labelKey={ this.pacientesTypeaheadRenderFunc }
+                                      onSearch={ this.searchPacientes }
+                                      onChange={ this.setSelectedPaciente }
+                                      selected={ this.props.selectedPaciente }
+                                      renderMenuItemChildren={ this.renderPacienteMenuItem }
+                                      isLoading={ this.props.pacienteApiLoading }
+                                    />
+                                </Col>
+                                <Col md={ 2 } style={ { border: 0 } }>
+                                    {idPaciente &&
+                                        <Button
+                                          bsStyle='link'
+                                          style={ { marginTop: '1.7rem', padding: '1em', paddingLeft: 0 } }
+                                          onClick={ () => window.open(`${config.baseUrl}/admin/paciente/paciente/${idPaciente}/`) }
+                                        >
+                                            <Glyphicon glyph='pencil' />
+                                        </Button>
+                                    }
+                                </Col>
+                            </Row>
                         </OverlayTrigger>
                     </fieldset>
                     <fieldset>
