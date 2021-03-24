@@ -104,14 +104,9 @@ CreateMovimientosForm.defaultProps = {
 const selector = formValueSelector('CreateCajaFormRedux');
 
 function mapStateToProps(state) {
-    let medico = selector(state, 'medico');
-    medico = (medico && Array.isArray(medico))
-        ? medico
-        : [];
     return {
         medicos: state.medicoReducer.medicos,
         medicoApiLoading: state.medicoReducer.medicoApiLoading,
-        selectedMedico: medico,
         movimientos: selector(state, 'movimientos'),
     };
 }

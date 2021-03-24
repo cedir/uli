@@ -7,9 +7,10 @@ function BotonesForm({
     selectEstudio,
     estudioAsociado,
     asociarEstudio,
+    style,
 }) {
     return (
-        <ButtonToolbar style={ { marginTop: '20px', marginBottom: '20px' } }>
+        <ButtonToolbar style={ style }>
             <Button type='submit' bsStyle='primary' disabled={ !valid }>
                 Crear Movimientos
             </Button>
@@ -35,6 +36,7 @@ BotonesForm.propTypes = {
     selectEstudio: func.isRequired,
     estudioAsociado: object.isRequired,
     asociarEstudio: func.isRequired,
+    style: object.isRequired,
 };
 
 export default BotonesForm;

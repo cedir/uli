@@ -85,14 +85,9 @@ function mapStateToProps(state, ownProps) {
     let medico = selector(state, `${index}.medico`);
     const monto = selector(state, `${index}.monto`);
     medico = (medico && Array.isArray(medico))
-    ? medico
-    : [];
-    let validate;
-    if (concepto || monto || medico.length !== 0) {
-        validate = true;
-    } else {
-        validate = false;
-    }
+        ? medico
+        : [];
+    const validate = concepto || monto || medico.length !== 0;
     return {
         validate,
     };

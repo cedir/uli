@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import EstudiosDelDia from './components/EstudiosDelDia';
 
 function EstudiosPagePre({ history, location }) {
-    let state = location.state;
-    state = state || { fromCaja: false };
+    const { fromCaja = false } = location.state;
     return (
         <div>
             <EstudiosDelDia
               history={ history }
-              fromCaja={ state.fromCaja }
+              fromCaja={ fromCaja }
             />
         </div>
     );

@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Form, reduxForm, FieldArray } from 'redux-form';
-import { Col, Panel, Row } from 'react-bootstrap';
 import CreateMovimientosForm from './CreateMovimientosForm';
 import { CREATE_MOVIMIENTOS_CAJA, ASOCIAR_ESTUDIO } from '../../actionTypes';
-import ViewAsociado from './ViewAsociado';
-import BotonesForm from './BotonesForm';
+import HeaderCreateMovimientoCaja from './HeaderCreateMovimientoCaja';
 
 function CreateCajaForm({
     createMovimiento,
@@ -30,40 +28,14 @@ function CreateCajaForm({
 
     return (
         <React.Fragment>
-
-            <Row>
-                <Col md={ 6 }>
-                    <BotonesForm
-                      selectEstudio={ selectEstudio }
-                      valid={ valid }
-                      estudioAsociado={ estudioAsociado }
-                      asociarEstudio={ asociarEstudio }
-                    />
-                    <Row>
-                        <Col md={ 5 }>
-                            <Panel>
-                                <p> Monto acumulado: ${ montoAcumulado } </p>
-                            </Panel>
-                        </Col>
-                        <Col md={ 5 }>
-                            <Panel>
-                                <p>
-                                    Total Grilla: ${ Math.round(totalGrilla * 100) / 100 || 0.00 }
-                                </p>
-                            </Panel>
-                        </Col>
-                    </Row>
-                </Col>
-
-                <Col md={ 5 } lg={ 5 } >
-                    <Row>
-                        { Object.keys(estudioAsociado).length !== 0 && <ViewAsociado
-                          estudioAsociado={ estudioAsociado }
-                          asociarEstudio={ asociarEstudio }
-                        /> }
-                    </Row>
-                </Col>
-            </Row>
+            <HeaderCreateMovimientoCaja
+              selectEstudio={ selectEstudio }
+              valid={ valid }
+              asociarEstudio={ asociarEstudio }
+              estudioAsociado={ estudioAsociado }
+              montoAcumulado={ montoAcumulado }
+              totalGrilla={ totalGrilla }
+            />
 
             <Form
               onSubmit={ handleSubmit(movimientos =>
