@@ -23,8 +23,8 @@ export function saveComprobanteAsociado(idComp, importe, concepto) {
     });
 }
 
-export function searchComprobante(filtro) {
-    const url = `/api/comprobante?filtro=${filtro}`;
+export function searchComprobante({ nombreCliente = '', numero = '', cuit = '' }) {
+    const url = `/api/comprobante?nombre_cliente=${nombreCliente}&numero=${numero}&cuit=${cuit}`;
 
     return get(url);
 }
@@ -42,7 +42,7 @@ export function crearComprobante(comprobante) {
         sub_tipo: comprobante.subTipo,
         responsable: comprobante.responsable,
         gravado_id: comprobante.iva,
-        nombre_cliente: comprobante.nombreCliente,
+        nombre_cliente: comprobante.nombreCliente.toUpperCase(),
         domicilio_cliente: comprobante.domicilioCliente,
         nro_cuit: onlyNums(comprobante.dni),
         condicion_fiscal: comprobante.condicionFiscal,
@@ -54,4 +54,10 @@ export function crearComprobante(comprobante) {
     };
 
     return post(url, body, headers);
+}
+
+export function getComprobante(id) {
+    const url = `/api/comprobante/${id}`;
+
+    return get(url);
 }

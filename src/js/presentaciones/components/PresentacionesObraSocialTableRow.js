@@ -66,6 +66,7 @@ function PresentacionesObraSocialTableRow(props) {
                 <td>{ fecha }</td>
                 <td>{ estado }</td>
                 <td>{ obraSocial && obraSocial.nombre }</td>
+                <td>{ presentacion.comprobante && presentacion.comprobante.numero }</td>
                 <td>{ totalFacturado }</td>
                 <td>{ totalCobrado }</td>
                 <td>

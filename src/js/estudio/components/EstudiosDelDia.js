@@ -92,8 +92,8 @@ EstudiosDelDia.propTypes = {
 const selector = formValueSelector('searchEstudios');
 
 function mapStateToProps(state) {
-    let searchParams = selector(state, 'obraSocial', 'dniPaciente', 'nombrePaciente',
-        'apellidoPaciente', 'medicoSolicitante', 'medicoActuante', 'fechaDesde', 'fechaHasta');
+    let searchParams = selector(state, 'obraSocial', 'dniPaciente', 'nombrePaciente', 'apellidoPaciente',
+        'medicoSolicitante', 'medicoActuante', 'fechaDesde', 'fechaHasta', 'practica');
 
     if (isEmpty(searchParams)) {
         searchParams = searchEstudiosFormInitialState;

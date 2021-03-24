@@ -27,6 +27,7 @@ import CreateCajaForm from '../caja/components/create/CreateCajaForm';
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
 import ScriptCrearEstudios from '../utilities/components/ScriptCrearEstudios';
+import ComprobanteHandler from '../comprobantes/components/crear-comprobante/ComprobanteHandler';
 
 function App(props) {
     useEffect(() => {
@@ -138,7 +139,13 @@ function App(props) {
                     <PrivateRoute
                       exact
                       path='/comprobantes/create'
-                      component={ CreateComprobante }
+                      component={ ComprobanteHandler }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      exact
+                      path='/comprobantes/detail/:id'
+                      component={ ComprobanteHandler }
                       authenticated={ !!props.token }
                     />
                     <PrivateRoute

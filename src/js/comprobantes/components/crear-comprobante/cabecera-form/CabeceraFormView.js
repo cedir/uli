@@ -2,21 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field } from 'redux-form';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
-import InputRF from '../../../utilities/InputRF';
-import { alpha, alphaNum, required } from '../../../utilities/reduxFormValidators';
+import InputRF from '../../../../utilities/InputRF';
+import { alpha, alphaNum, required } from '../../../../utilities/reduxFormValidators';
 
-function CabeceraForm({ opcionesIva }) {
-    const opcionesResponsable = ['Cedir', 'Brunetti'];
-    const tiposComprobante = [
-      { text: 'Factura', value: 1 },
-      { text: 'Liquidacion', value: 2 },
-      { text: 'Nota De Debito', value: 3 },
-      { text: 'Nota De Credito', value: 4 },
-      { text: 'Factura Electronica', value: 5 },
-      { text: 'Nota de Debito Electronica', value: 6 },
-      { text: 'Nota de Credito Electronica', value: 7 },
-    ];
-    const subTiposComprobante = ['A', 'B'];
+function CabeceraForm({
+    opcionesIva,
+    lockComprobante,
+    opcionesResponsable,
+    tiposComprobante,
+    subTiposComprobante,
+}) {
     return (
         <Row>
             <Col md={ 4 }>
@@ -28,6 +23,7 @@ function CabeceraForm({ opcionesIva }) {
                   validate={ alpha }
                   customErrorMsg='Debe seleccionar una opcion'
                   selectOptions={ opcionesResponsable }
+                  staticField={ lockComprobante }
                 />
                 <Field
                   name='iva'
@@ -42,6 +38,7 @@ function CabeceraForm({ opcionesIva }) {
                   renderOptionHandler={ opcion => opcion.text }
                   optionKey='text'
                   type='number'
+                  staticField={ lockComprobante }
                 />
             </Col>
             <Col md={ 4 } mdOffset={ 2 }>
@@ -56,6 +53,7 @@ function CabeceraForm({ opcionesIva }) {
                   selectionValue='value'
                   renderOptionHandler={ opcion => opcion.text }
                   optionKey='text'
+                  staticField={ lockComprobante }
                 />
                 <Field
                   name='subTipo'
@@ -64,16 +62,21 @@ function CabeceraForm({ opcionesIva }) {
                   componentClass='select'
                   selectOptions={ subTiposComprobante }
                   nullValue=''
+                  staticField={ lockComprobante }
                 />
             </Col>
         </Row>
     );
 }
 
-const { array } = PropTypes;
+const { array, bool } = PropTypes;
 
 CabeceraForm.propTypes = {
     opcionesIva: array.isRequired,
+    lockComprobante: bool.isRequired,
+    opcionesResponsable: array.isRequired,
+    tiposComprobante: array.isRequired,
+    subTiposComprobante: array.isRequired,
 };
 
 export default CabeceraForm;

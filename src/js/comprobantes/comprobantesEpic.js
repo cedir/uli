@@ -1,6 +1,6 @@
 import Rx from 'rxjs';
 import { getComprobantesPago, getComprobantes, saveComprobanteAsociado,
-    searchComprobante, crearComprobante } from './api';
+    searchComprobante, crearComprobante, getComprobante } from './api';
 import {
     FETCH_COMPROBANTES_PAGO,
     LOAD_COMPROBANTES_PAGO,
@@ -14,7 +14,11 @@ import {
     FETCH_COMPROBANTES_FILTRO,
     CREATE_COMPROBANTE,
     CREATE_COMPROBANTE_SUCCESS,
-    CREATED_COMPROBANTE_FAILED } from './actionTypes';
+    CREATED_COMPROBANTE_FAILED,
+    FETCH_COMPROBANTE,
+    FETCH_COMPROBANTE_SUCCESS,
+    FETCH_COMPROBANTE_FAILED,
+ } from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
 
@@ -64,12 +68,11 @@ export function guardarComprobanteAsociadoEpic(action$) {
 export function obtenerComprobantesConFiltroEpic(action$) {
     return action$.ofType(FETCH_COMPROBANTES_FILTRO)
         .mergeMap(action =>
-            searchComprobante(action.filtro)
+            searchComprobante(action.params)
             .mergeMap(data => Rx.Observable.of(
                 {
                     type: LOAD_COMPROBANTES_LISTA_SUCCESS,
                     data,
-                    accion: action.setSearching(false),
                 },
             )));
 }
@@ -90,5 +93,23 @@ export function crearComprobanteEpic(action$) {
                     type: CREATED_COMPROBANTE_FAILED,
                 },
                 { type: ADD_ALERT, alert: createAlert(data.response.error, 'danger') },
+            )));
+}
+
+export function fetchComprobanteEpic(action$) {
+    return action$.ofType(FETCH_COMPROBANTE)
+        .mergeMap(action =>
+            getComprobante(action.id)
+            .mergeMap(data => Rx.Observable.of(
+                {
+                    type: FETCH_COMPROBANTE_SUCCESS,
+                    comprobante: data.response,
+                },
+            ))
+            .catch(data => Rx.Observable.of(
+                {
+                    type: FETCH_COMPROBANTE_FAILED,
+                },
+                { type: ADD_ALERT, alert: createAlert(`Ocurrio un error al traer el comprobante. ${data.response.error}`, 'danger') },
             )));
 }

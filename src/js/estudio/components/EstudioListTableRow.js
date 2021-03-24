@@ -22,6 +22,7 @@ function EstudioListTableRow({
     const practica = estudio.practica || { descripcion: '' };
     const medico = estudio.medico || { nombre: '', apellido: '' };
     const medicoSolicitante = estudio.medico_solicitante || { nombre: '', apellido: '' };
+    const { estado = '-' } = estudio;
 
     return (
         <tr
@@ -32,6 +33,7 @@ function EstudioListTableRow({
             <td>{ `${paciente.apellido}, ${paciente.nombre}` }</td>
             <td>{ obraSocial.nombre }</td>
             <td>{ practica.descripcion }</td>
+            <td>{ estado }</td>
             <td>{ `${medico.apellido}, ${medico.nombre}` }</td>
             { !printMode && !fromCaja && <td>{ `${medicoSolicitante.apellido}, ${medicoSolicitante.nombre}` }</td> }
             { fromCaja && <td>

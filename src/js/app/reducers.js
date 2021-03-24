@@ -58,7 +58,8 @@ import { comprobantesEpic,
     obtenerComprobantesEpic,
     guardarComprobanteAsociadoEpic,
     obtenerComprobantesConFiltroEpic,
-    crearComprobanteEpic } from '../comprobantes/comprobantesEpic';
+    crearComprobanteEpic,
+    fetchComprobanteEpic } from '../comprobantes/comprobantesEpic';
 import { movimientosCajaEpic } from '../caja/cajaEpic';
 
 export const rootEpic = combineEpics(
@@ -103,6 +104,7 @@ export const rootEpic = combineEpics(
     guardarComprobanteAsociadoEpic,
     obtenerComprobantesConFiltroEpic,
     crearComprobanteEpic,
+    fetchComprobanteEpic,
     movimientosCajaEpic,
     getDatosDeUnaPresentacionEpic,
     cobrarPresentacionEpic,

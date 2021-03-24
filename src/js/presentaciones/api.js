@@ -5,10 +5,24 @@ import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
 import { getSucursal } from '../app/storeHelper';
 
-export function getPresentacionesObraSocial(idObraSocial) {
+export function getPresentaciones({
+    obraSocial,
+    numero,
+    anio,
+    tipoComprobante,
+    tipoPresentacion,
+    presentacionesCobradas,
+}) {
     const sucursal = getSucursal();
-    const url = `/api/presentacion/?obra_social=${idObraSocial}&sucursal=${sucursal}`;
-
+    const obraSocialId = obraSocial && obraSocial.length === 1 ? obraSocial[0].id : '';
+    const queryString = `?obraSocial=${obraSocialId}` +
+        `&sucursal=${sucursal}` +
+        `&numeroComprobante=${numero || ''}` +
+        `&anio=${anio || ''}` +
+        `&tipoComprobante=${tipoComprobante || ''}` +
+        `&presentacionesCobradas=${presentacionesCobradas}` +
+        `&tipoPresentacion=${tipoPresentacion || ''}  `;
+    const url = `/api/presentacion/${queryString}`;
     return get(url);
 }
 

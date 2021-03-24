@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Row, Col, Button, Glyphicon } from 'react-bootstrap';
 import { Field, formValueSelector } from 'redux-form';
-import InputRF from '../../../utilities/InputRF';
-import { required } from '../../../utilities/reduxFormValidators';
+import InputRF from '../../../../utilities/InputRF';
+import { required } from '../../../../utilities/reduxFormValidators';
 
-function LineaForm({ iva, importe, hideLabel, key, prefijo, removeField }) {
+function LineaForm({ iva, importe, hideLabel, key, prefijo, removeField, lockComprobante }) {
     const importeIva = Math.round(iva * importe) / 100;
     const importeTotal = importeIva ? Math.round((importeIva + importe) * 100) / 100 : importe;
     return (
@@ -19,6 +19,7 @@ function LineaForm({ iva, importe, hideLabel, key, prefijo, removeField }) {
                   component={ InputRF }
                   validate={ required }
                   type='text'
+                  staticField={ lockComprobante }
                 />
             </Col>
             <Col md={ 2 }>
@@ -29,6 +30,7 @@ function LineaForm({ iva, importe, hideLabel, key, prefijo, removeField }) {
                   component={ InputRF }
                   validate={ required }
                   type='text'
+                  staticField={ lockComprobante }
                 />
             </Col>
 
@@ -61,6 +63,7 @@ function LineaForm({ iva, importe, hideLabel, key, prefijo, removeField }) {
                   bsStyle='link'
                   onClick={ removeField }
                   style={ !hideLabel ? { marginTop: '1.6em' } : {} }
+                  disabled={ lockComprobante }
                 >
                     <Glyphicon glyph='remove' />
                 </Button>
@@ -78,6 +81,7 @@ LineaForm.propTypes = {
     key: number,
     prefijo: string,
     removeField: func,
+    lockComprobante: bool,
 };
 
 const selector = formValueSelector('CreateComprobanteForm');
