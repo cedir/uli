@@ -16,6 +16,7 @@ function EstudiosList({
     history,
     estudiosRef,
     printMode,
+    fromCaja,
 }) {
     const searchEstudios = (actPage) => {
         fetchEstudios({ ...searchParams, actualPage: actPage });
@@ -27,6 +28,7 @@ function EstudiosList({
               history={ history }
               estudiosRef={ estudiosRef }
               printMode={ printMode }
+              fromCaja={ fromCaja }
             />
             <div style={ { textAlign: 'center' } }>
                 {resultPages > 1 && (
@@ -58,6 +60,7 @@ EstudiosList.propTypes = {
     actualPage: number,
     estudiosRef: object,
     printMode: bool.isRequired,
+    fromCaja: bool.isRequired,
 };
 
 EstudiosList.defaultProps = {

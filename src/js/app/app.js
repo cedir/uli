@@ -22,6 +22,8 @@ import ModificarPresentacionPage from '../presentaciones/modificar-presentacion/
 import ListadoInformeComprobantes from '../comprobantes/components/ListadoInformeComprobantes';
 import CajaMain from '../caja/components/CajaMain';
 import Comprobantes from '../comprobantes/components/Comprobantes';
+import CreateComprobante from '../comprobantes/components/crear-comprobante/CreateComprobante';
+import CreateCajaForm from '../caja/components/create/CreateCajaForm';
 import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
 import ScriptCrearEstudios from '../utilities/components/ScriptCrearEstudios';
@@ -149,6 +151,11 @@ function App(props) {
                     <PrivateRoute
                       path='/caja/main'
                       component={ CajaMain }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      path='/caja/create'
+                      component={ CreateCajaForm }
                       authenticated={ !!props.token }
                     />
                     <PrivateRoute
