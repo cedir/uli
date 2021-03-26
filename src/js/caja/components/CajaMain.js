@@ -17,21 +17,12 @@ function CajaMain({ fetchMovimientosCaja, movimientos, history }) {
 
     const getMontoAcumulado = movimientos.length > 0 ? movimientos[0].monto_acumulado : '0';
 
-    const openSearchCajaModal = () => {
-        setModalOpened(true);
-    };
-
-    const closeSearchCajaModal = () => {
-        setModalOpened(false);
-    };
-
-
     return (
         <div className='ibox-content'>
             <div className='pull-right'>
                 <CajaActionBar
                   montoAcumulado={ getMontoAcumulado }
-                  openSearchCajaModal={ openSearchCajaModal }
+                  openSearchCajaModal={ () => setModalOpened(true) }
                   history={ history }
                 />
             </div>
@@ -39,7 +30,7 @@ function CajaMain({ fetchMovimientosCaja, movimientos, history }) {
             <ListadoMovimientosTable movimientos={ movimientos } />
             <SearchCajaModal
               modalOpened={ modalOpened }
-              closeModal={ closeSearchCajaModal }
+              closeModal={ () => setModalOpened(false) }
             />
         </div>
     );
