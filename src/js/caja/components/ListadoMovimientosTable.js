@@ -5,9 +5,9 @@ import { Table }
 
 import ListadoMovimientosTableRow from './ListadoMovimientosTableRow';
 
-function ListadoMovimientosTable({ movimientos }) {
+function ListadoMovimientosTable({ movimientos, movimientosRef }) {
     return (
-        <div className='listado-movimientos'>
+        <div className='listado-movimientos' ref={ movimientosRef }>
             <Table striped responsive>
                 <thead>
                     <tr>
@@ -39,10 +39,11 @@ function ListadoMovimientosTable({ movimientos }) {
     );
 }
 
-const { array } = PropTypes;
+const { array, object } = PropTypes;
 
 ListadoMovimientosTable.propTypes = {
     movimientos: array.isRequired,
+    movimientosRef: object.isRequired,
 };
 
 export default ListadoMovimientosTable;

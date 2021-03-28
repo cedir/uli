@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 
@@ -16,18 +16,20 @@ function CajaMain({ fetchMovimientosCaja, movimientos, history }) {
     }, []);
 
     const getMontoAcumulado = movimientos.length > 0 ? movimientos[0].monto_acumulado : '0';
+    const movimientosRef = useRef(null);
 
     return (
         <div className='ibox-content'>
-            <div className='pull-right'>
-                <CajaActionBar
-                  montoAcumulado={ getMontoAcumulado }
-                  openSearchCajaModal={ () => setModalOpened(true) }
-                  history={ history }
-                />
-            </div>
-            <div className='clearfix' />
-            <ListadoMovimientosTable movimientos={ movimientos } />
+            <CajaActionBar
+              montoAcumulado={ getMontoAcumulado }
+              openSearchCajaModal={ () => setModalOpened(true) }
+              history={ history }
+              movimientosRef={ movimientosRef }
+            />
+            <ListadoMovimientosTable
+              movimientos={ movimientos }
+              movimientosRef={ movimientosRef }
+            />
             <SearchCajaModal
               modalOpened={ modalOpened }
               closeModal={ () => setModalOpened(false) }
