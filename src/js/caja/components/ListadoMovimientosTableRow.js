@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function ListadoMovimientosTableRow({ movimiento }) {
     const { fecha, monto, monto_acumulado: montoAcumulado, concepto,
-        tipo, estudio, medico } = movimiento;
+        tipo = {}, estudio, medico } = movimiento;
     const tipoDescripcion = tipo.descripcion || '-';
     const nombrePaciente = estudio ? `${estudio.paciente.apellido}, ${estudio.paciente.nombre}` : '-';
     const practica = estudio ? estudio.practica.descripcion : '-';
@@ -23,9 +23,9 @@ function ListadoMovimientosTableRow({ movimiento }) {
             <td>{concepto}</td>
             <td>{monto}</td>
             <td>{montoAcumulado}</td>
-            <td>{nombrePaciente}</td>
-            <td>{practica}</td>
             <td>{obraSocial}</td>
+            <td>{practica}</td>
+            <td>{nombrePaciente}</td>
             <td>{getNombreMedico()}</td>
         </tr>
     );

@@ -1,22 +1,13 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Well, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
-import { useReactToPrint } from 'react-to-print';
 
-function CajaActionBar({ openSearchCajaModal, montoAcumulado, history, movimientosRef }) {
+function CajaActionBar({ openSearchCajaModal, montoAcumulado, history }) {
     const location = {
         pathname: '/caja/create',
         state: { montoAcumulado },
     };
     const createMovimientos = () => history.push(location);
-    const movimientosContent = useCallback(
-        () => movimientosRef.current,
-        [movimientosRef.current],
-    );
-
-    const handlePrint = useReactToPrint({
-        content: movimientosContent,
-    });
 
     return (
         <Row>
@@ -31,9 +22,6 @@ function CajaActionBar({ openSearchCajaModal, montoAcumulado, history, movimient
                 <div className='pull-right'>
                     <Button onClick={ openSearchCajaModal }>
                         Buscar movimiento
-                    </Button>{' '}
-                    <Button onClick={ handlePrint }>
-                        Imprimir
                     </Button>{' '}
                     <Button onClick={ createMovimientos }>
                         Crear Movimientos
@@ -50,7 +38,6 @@ CajaActionBar.propTypes = {
     openSearchCajaModal: func.isRequired,
     montoAcumulado: string.isRequired,
     history: object.isRequired,
-    movimientosRef: object.isRequired,
 };
 
 export default CajaActionBar;
