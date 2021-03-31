@@ -1,8 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Well, Grid, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 
-function CajaActionBar({ openSearchCajaModal, montoAcumulado, history }) {
+function CajaActionBar({
+    openSearchCajaModal,
+    montoAcumulado,
+    history,
+    apiLoading,
+}) {
     const location = {
         pathname: '/caja/create',
         state: { montoAcumulado },
@@ -20,12 +26,18 @@ function CajaActionBar({ openSearchCajaModal, montoAcumulado, history }) {
                     </Row>
                 </Col>
                 <Col md={ 2 }>
-                    <Button onClick={ openSearchCajaModal }>
+                    <Button
+                      onClick={ openSearchCajaModal }
+                      disabled={ apiLoading }
+                    >
                         Buscar movimiento
                     </Button>
                 </Col>
                 <Col md={ 2 }>
-                    <Button onClick={ createMovimientos }>
+                    <Button
+                      onClick={ createMovimientos }
+                      disabled={ apiLoading }
+                    >
                         Crear Movimientos
                     </Button>
                 </Col>
@@ -34,12 +46,19 @@ function CajaActionBar({ openSearchCajaModal, montoAcumulado, history }) {
     );
 }
 
-const { func, string, object } = PropTypes;
+const { func, string, object, bool } = PropTypes;
 
 CajaActionBar.propTypes = {
     openSearchCajaModal: func.isRequired,
     montoAcumulado: string.isRequired,
     history: object.isRequired,
+    apiLoading: bool.isRequired,
 };
 
-export default CajaActionBar;
+function mapStateToProps(state) {
+    return {
+        apiLoading: state.cajaReducer.apiLoading,
+    };
+}
+
+export default connect(mapStateToProps)(CajaActionBar);
