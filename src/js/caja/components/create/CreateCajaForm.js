@@ -27,7 +27,14 @@ function CreateCajaForm({
     const selectEstudio = () => history.push(fromCajaLocation);
 
     return (
-        <React.Fragment>
+        <Form
+          onSubmit={ handleSubmit(movimientos =>
+            createMovimiento({
+                movimientos,
+                estudioAsociado,
+            }),
+            ) }
+        >
             <HeaderCreateMovimientoCaja
               selectEstudio={ selectEstudio }
               valid={ valid }
@@ -36,22 +43,12 @@ function CreateCajaForm({
               montoAcumulado={ montoAcumulado }
               totalGrilla={ totalGrilla }
             />
-
-            <Form
-              onSubmit={ handleSubmit(movimientos =>
-                createMovimiento({
-                    movimientos,
-                    estudioAsociado,
-                }),
-              ) }
-            >
-                <FieldArray
-                  name='movimientos'
-                  component={ CreateMovimientosForm }
-                  setTotalGrilla={ setTotalGrilla }
-                />
-            </Form>
-        </React.Fragment>
+            <FieldArray
+              name='movimientos'
+              component={ CreateMovimientosForm }
+              setTotalGrilla={ setTotalGrilla }
+            />
+        </Form>
     );
 }
 

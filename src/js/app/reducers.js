@@ -60,7 +60,7 @@ import { comprobantesEpic,
     obtenerComprobantesConFiltroEpic,
     crearComprobanteEpic,
     fetchComprobanteEpic } from '../comprobantes/comprobantesEpic';
-import { movimientosCajaEpic } from '../caja/cajaEpic';
+import { movimientosCajaEpic, crearMovimientosCajaEpic } from '../caja/cajaEpic';
 
 export const rootEpic = combineEpics(
     estudioEpic,
@@ -106,6 +106,7 @@ export const rootEpic = combineEpics(
     crearComprobanteEpic,
     fetchComprobanteEpic,
     movimientosCajaEpic,
+    crearMovimientosCajaEpic,
     getDatosDeUnaPresentacionEpic,
     cobrarPresentacionEpic,
     refacturarEstudiosEpic,

@@ -87,7 +87,7 @@ function mapStateToProps(state, ownProps) {
     medico = (medico && Array.isArray(medico))
         ? medico
         : [];
-    const validate = concepto || monto || medico.length !== 0;
+    const validate = concepto !== undefined || monto !== undefined || medico.length !== 0;
     return {
         validate,
     };

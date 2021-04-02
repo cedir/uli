@@ -1,4 +1,4 @@
-import { get } from '../utilities/rest';
+import { get, post } from '../utilities/rest';
 
 export function getMovimientos(searchParams) {
     let url = '/api/caja/';
@@ -10,4 +10,30 @@ export function getMovimientos(searchParams) {
         `&tipo_movimiento=${tipoMovimiento}&incluir_estudio=${incluirEstudio}`;
     }
     return get(url);
+}
+
+export function crearMovimientos(data) {
+    const url = '/api/caja/';
+    const datosMovimientos = [];
+
+    data.movimientos.movimientos.forEach((movimiento) => {
+        if (movimiento.monto) {
+            datosMovimientos.push({
+                monto: movimiento.monto,
+                concepto: movimiento.concepto,
+                medico_id: movimiento.medico ? movimiento.medico[0].id : '',
+                tipo_id: 1,
+            });
+        }
+    });
+    const body = {
+        estudio_id: data.estudioAsociado.id || '',
+        movimientos: datosMovimientos,
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    return post(url, body, headers);
 }
