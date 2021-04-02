@@ -42,6 +42,7 @@ function CreateCajaForm({
               estudioAsociado={ estudioAsociado }
               montoAcumulado={ montoAcumulado }
               totalGrilla={ totalGrilla }
+              goBack={ history.goBack }
             />
             <FieldArray
               name='movimientos'

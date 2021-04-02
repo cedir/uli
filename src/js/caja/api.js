@@ -22,7 +22,7 @@ export function crearMovimientos(data) {
                 monto: movimiento.monto,
                 concepto: movimiento.concepto,
                 medico_id: movimiento.medico ? movimiento.medico[0].id : '',
-                tipo_id: 1,
+                tipo_id: movimiento.tipoMovimiento,
             });
         }
     });
