@@ -9,10 +9,13 @@ export function movimientosCajaEpic(action$) {
     return action$.ofType(FETCH_MOVIMIENTOS_CAJA)
         .mergeMap(action =>
             getMovimientos(action.searchParams)
-            .map(data => ({ type: LOAD_MOVIMIENTOS_CAJA_SUCCESS, data }))
-            .catch(() => (Rx.Observable.of({
-                type: LOAD_MOVIMIENTOS_CAJA_ERROR,
-            }))),
+            .mergeMap(data => Rx.Observable.of(
+                { type: LOAD_MOVIMIENTOS_CAJA_SUCCESS, data },
+            ))
+            .catch(data => (Rx.Observable.of(
+                { type: LOAD_MOVIMIENTOS_CAJA_ERROR },
+                { type: ADD_ALERT, alert: createAlert(`Error al cargar movimientos - ${data.message}`, 'danger') },
+            ))),
     );
 }
 
