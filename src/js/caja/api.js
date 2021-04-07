@@ -16,7 +16,7 @@ export function crearMovimientos(data) {
     const url = '/api/caja/';
     const datosMovimientos = [];
 
-    data.movimientos.movimientos.forEach((movimiento) => {
+    data.movs.forEach((movimiento) => {
         if (movimiento.monto) {
             datosMovimientos.push({
                 monto: movimiento.monto,
@@ -26,6 +26,7 @@ export function crearMovimientos(data) {
             });
         }
     });
+
     const body = {
         estudio_id: data.estudioAsociado.id || '',
         movimientos: datosMovimientos,

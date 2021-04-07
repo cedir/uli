@@ -26,14 +26,40 @@ function CreateCajaForm({
 
     const selectEstudio = () => history.push(fromCajaLocation);
 
+    const tiposMovimiento = [
+        { text: 'General', value: 1 },
+        { text: 'Honorario Médico', value: 2 },
+        { text: 'Honorario Anestesista', value: 3 },
+        { text: 'Medicación', value: 4 },
+        { text: 'Práctica', value: 5 },
+        { text: 'Descartable', value: 6 },
+        { text: 'Material Específico', value: 7 },
+        { text: 'Pago a Médico', value: 8 },
+        { text: 'Consultorio 1', value: 9 },
+        { text: 'Coseguro', value: 10 },
+        { text: 'Egreso', value: 11 },
+        { text: 'Consultorio 2', value: 12 },
+    ];
+
     return (
         <Form
-          onSubmit={ handleSubmit(movimientos =>
-            createMovimiento({
-                movimientos,
-                estudioAsociado,
-            }),
-            ) }
+          onSubmit={ handleSubmit((movimientos) => {
+              let movs = movimientos.movimientos;
+              tiposMovimiento.forEach((movimiento) => {
+                  movs = movs.map(mov => ({
+                      ...mov,
+                      tipoMovimiento:
+                        movimiento.text === mov.tipoMovimiento ?
+                        movimiento.value :
+                        mov.tipoMovimiento,
+                  }),
+                  );
+              });
+              createMovimiento({
+                  movs,
+                  estudioAsociado,
+              });
+          }) }
         >
             <HeaderCreateMovimientoCaja
               selectEstudio={ selectEstudio }
@@ -48,6 +74,7 @@ function CreateCajaForm({
               name='movimientos'
               component={ CreateMovimientosForm }
               setTotalGrilla={ setTotalGrilla }
+              tiposMovimiento={ tiposMovimiento }
             />
         </Form>
     );
