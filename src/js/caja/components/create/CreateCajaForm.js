@@ -41,24 +41,20 @@ function CreateCajaForm({
         { text: 'Consultorio 2', value: 12 },
     ];
 
+    const enviarFormulario = movimientos => createMovimiento({
+        estudioAsociado,
+        movimientos: movimientos.filter(movimiento => (movimiento.monto)).map(movimiento => ({
+            ...movimiento,
+            tipoMovimiento: tiposMovimiento.find(tipo =>
+                tipo.text === movimiento.tipoMovimiento),
+            medico: movimiento.medico ? movimiento.medico[0] : '',
+        })),
+    });
+
     return (
         <Form
           onSubmit={ handleSubmit((movimientos) => {
-              let movs = movimientos.movimientos;
-              tiposMovimiento.forEach((movimiento) => {
-                  movs = movs.map(mov => ({
-                      ...mov,
-                      tipoMovimiento:
-                        movimiento.text === mov.tipoMovimiento ?
-                        movimiento.value :
-                        mov.tipoMovimiento,
-                  }),
-                  );
-              });
-              createMovimiento({
-                  movs,
-                  estudioAsociado,
-              });
+              enviarFormulario(movimientos.movimientos);
           }) }
         >
             <HeaderCreateMovimientoCaja

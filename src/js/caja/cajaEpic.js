@@ -12,9 +12,9 @@ export function movimientosCajaEpic(action$) {
             .mergeMap(data => Rx.Observable.of(
                 { type: LOAD_MOVIMIENTOS_CAJA_SUCCESS, data },
             ))
-            .catch(data => (Rx.Observable.of(
+            .catch(() => (Rx.Observable.of(
                 { type: LOAD_MOVIMIENTOS_CAJA_ERROR },
-                { type: ADD_ALERT, alert: createAlert(`Error al cargar movimientos - ${data.message}`, 'danger') },
+                { type: ADD_ALERT, alert: createAlert('Error al cargar movimientos', 'danger') },
             ))),
     );
 }

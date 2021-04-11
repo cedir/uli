@@ -12,23 +12,18 @@ export function getMovimientos(searchParams) {
     return get(url);
 }
 
-export function crearMovimientos(data) {
+export function crearMovimientos({ movimientos, estudioAsociado }) {
     const url = '/api/caja/';
-    const datosMovimientos = [];
 
-    data.movs.forEach((movimiento) => {
-        if (movimiento.monto) {
-            datosMovimientos.push({
-                monto: movimiento.monto,
-                concepto: movimiento.concepto,
-                medico_id: movimiento.medico ? movimiento.medico[0].id : '',
-                tipo_id: movimiento.tipoMovimiento,
-            });
-        }
-    });
+    const datosMovimientos = movimientos.map(movimiento => ({
+        monto: movimiento.monto,
+        concepto: movimiento.concepto,
+        medico_id: movimiento.medico ? movimiento.medico.id : '',
+        tipo_id: movimiento.tipoMovimiento.value,
+    }));
 
     const body = {
-        estudio_id: data.estudioAsociado.id || '',
+        estudio_id: estudioAsociado.id || '',
         movimientos: datosMovimientos,
     };
 
