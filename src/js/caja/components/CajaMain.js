@@ -19,15 +19,14 @@ function CajaMain({ fetchMovimientosCaja, movimientos, history }) {
 
     return (
         <div className='ibox-content'>
-            <div className='pull-right'>
-                <CajaActionBar
-                  montoAcumulado={ getMontoAcumulado }
-                  openSearchCajaModal={ () => setModalOpened(true) }
-                  history={ history }
-                />
-            </div>
-            <div className='clearfix' />
-            <ListadoMovimientosTable movimientos={ movimientos } />
+            <CajaActionBar
+              montoAcumulado={ getMontoAcumulado }
+              openSearchCajaModal={ () => setModalOpened(true) }
+              history={ history }
+            />
+            <ListadoMovimientosTable
+              movimientos={ movimientos }
+            />
             <SearchCajaModal
               modalOpened={ modalOpened }
               closeModal={ () => setModalOpened(false) }
