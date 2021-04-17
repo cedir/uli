@@ -27,6 +27,7 @@ import AlertComponent from '../utilities/components/alert/AlertComponent';
 import './app.css';
 import ScriptCrearEstudios from '../utilities/components/ScriptCrearEstudios';
 import ComprobanteHandler from '../comprobantes/components/crear-comprobante/ComprobanteHandler';
+import ContadorTurnos from '../turnos/components/contador/ContadorTurnos';
 
 function App(props) {
     useEffect(() => {
@@ -165,6 +166,11 @@ function App(props) {
                     <PrivateRoute
                       path='/medicos/pago'
                       component={ PagoMedicos }
+                      authenticated={ !!props.token }
+                    />
+                    <PrivateRoute
+                      path='/turnos/contador'
+                      component={ ContadorTurnos }
                       authenticated={ !!props.token }
                     />
                     {/* para crear estudios rapidamente */}
