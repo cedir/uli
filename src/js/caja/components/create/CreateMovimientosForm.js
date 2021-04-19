@@ -13,22 +13,8 @@ function CreateMovimientosForm({
     setTotalGrilla,
     movimientos,
     fields,
+    tiposMovimiento,
 }) {
-    const tiposMovimiento = [
-        'General',
-        'Honorario Médico',
-        'Honorario Anestesista',
-        'Medicación',
-        'Práctica',
-        'Descartable',
-        'Material Específico',
-        'Pago a Médico',
-        'Consultorio 1',
-        'Coseguro',
-        'Egreso',
-        'Consultorio 2',
-    ];
-
     const renderMedicoMenuItem = option => (
         <div key={ option.id }>
             { `${option.apellido}, ${option.nombre}` }
@@ -47,8 +33,10 @@ function CreateMovimientosForm({
         fetchMedicos({ searchText: nombre });
     };
 
+    const descripcionMovimientos = tiposMovimiento.map(movimiento => movimiento.text);
+
     useEffect(() => {
-        tiposMovimiento.map(movimiento =>
+        descripcionMovimientos.map(movimiento =>
             fields.push({ tipoMovimiento: movimiento }));
     }, []);
 
@@ -71,7 +59,7 @@ function CreateMovimientosForm({
             <tbody>
                 {fields.map((movimiento, key) => (
                     <CreateMovimientoForm
-                      tiposMovimientos={ tiposMovimiento }
+                      tiposMovimientos={ descripcionMovimientos }
                       index={ movimiento }
                       key={ key }
                       opcionesMedicos={ medicos }
@@ -95,6 +83,7 @@ CreateMovimientosForm.propTypes = {
     setTotalGrilla: func.isRequired,
     movimientos: array.isRequired,
     fields: object,
+    tiposMovimiento: array.isRequired,
 };
 
 CreateMovimientosForm.defaultProps = {

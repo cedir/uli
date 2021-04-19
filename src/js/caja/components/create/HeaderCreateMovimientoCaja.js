@@ -11,6 +11,7 @@ function HeaderCreateMovimientoCaja({
     estudioAsociado,
     montoAcumulado,
     totalGrilla,
+    goBack,
 }) {
     const totalGrillaView = Math.round(totalGrilla * 100) / 100 || 0.00;
     const style = { marginTop: '20px', marginBottom: '20px' };
@@ -23,6 +24,7 @@ function HeaderCreateMovimientoCaja({
                   estudioAsociado={ estudioAsociado }
                   asociarEstudio={ asociarEstudio }
                   style={ style }
+                  goBack={ goBack }
                 />
                 <Row>
                     <Col md={ 5 }>
@@ -62,6 +64,7 @@ HeaderCreateMovimientoCaja.propTypes = {
     estudioAsociado: object.isRequired,
     montoAcumulado: number.isRequired,
     totalGrilla: number.isRequired,
+    goBack: func.isRequired,
 };
 
 export default HeaderCreateMovimientoCaja;
