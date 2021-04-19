@@ -16,7 +16,6 @@ function ListadoMovimientosTable({ movimientos }) {
                         <th>Descripcion Movimiento</th>
                         <th>Monto</th>
                         <th>Monto acumulado</th>
-                        <th>Fecha estudio</th>
                         <th>Obra social</th>
                         <th>Practica</th>
                         <th>Paciente</th>

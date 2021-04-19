@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Well, Grid, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
+import { Button, Well, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 
 function CajaActionBar({
     openSearchCajaModal,
@@ -16,33 +16,31 @@ function CajaActionBar({
     const createMovimientos = () => history.push(location);
 
     return (
-        <Grid>
-            <Row>
-                <Col md={ 8 }>
-                    <Row>
-                        <Col mdOffset={ 2 } md={ 3 } xs={ 5 } xsOffset={ 2 }>
-                            <Well>Monto acumulado: { montoAcumulado }</Well>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col md={ 2 }>
+        <Row>
+            <Col md={ 6 }>
+                <Row>
+                    <Col md={ 5 }>
+                        <Well>Monto acumulado: { montoAcumulado }</Well>
+                    </Col>
+                </Row>
+            </Col>
+            <Col md={ 6 } >
+                <div className='pull-right'>
                     <Button
                       onClick={ openSearchCajaModal }
                       disabled={ apiLoading }
                     >
                         Buscar movimiento
-                    </Button>
-                </Col>
-                <Col md={ 2 }>
+                    </Button>{' '}
                     <Button
                       onClick={ createMovimientos }
                       disabled={ apiLoading }
                     >
                         Crear Movimientos
                     </Button>
-                </Col>
-            </Row>
-        </Grid>
+                </div>
+            </Col>
+        </Row>
     );
 }
 

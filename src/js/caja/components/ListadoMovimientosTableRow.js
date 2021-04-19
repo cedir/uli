@@ -1,45 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class ListadoMovimientosTableRow extends Component {
-    render() {
-        const movimiento = this.props.movimiento;
-        const monto = movimiento.monto;
-        const montoAcumulado = movimiento.monto_acumulado;
-        const descripcionMovimiento = movimiento.concepto;
-        const fechaMovimiento = movimiento.fecha;
-        const horaMovimiento = movimiento.hora;
-        const tipoMovimiento = movimiento.tipo
-            ? movimiento.tipo.descripcion
-            : '--';
-        const fechaEstudio = movimiento.estudio && movimiento.estudio.fecha;
-        const practica = movimiento.estudio && movimiento.estudio.practica
-            ? movimiento.estudio.practica.descripcion
-            : '--';
-        const paciente = movimiento.estudio && movimiento.estudio.paciente
-            ? `${movimiento.estudio.paciente.apellido}, ${movimiento.estudio.paciente.nombre}`
-            : '--';
-        const obraSocial = movimiento.estudio && movimiento.estudio.obra_social
-            ? movimiento.estudio.obra_social.nombre
-            : '--';
-        const medico = movimiento.estudio && movimiento.estudio.medico
-            ? `${movimiento.estudio.medico.apellido}, ${movimiento.estudio.medico.nombre}`
-            : '--';
-        return (
-            <tr>
-                <td>{ fechaMovimiento } {horaMovimiento}</td>
-                <td>{ tipoMovimiento }</td>
-                <td className='col-md-3'>{ descripcionMovimiento }</td>
-                <td>{ monto }</td>
-                <td>{ montoAcumulado }</td>
-                <td>{ fechaEstudio }</td>
-                <td>{ obraSocial }</td>
-                <td>{ practica }</td>
-                <td>{ paciente }</td>
-                <td>{ medico }</td>
-            </tr>
-        );
-    }
+function ListadoMovimientosTableRow({ movimiento }) {
+    const { fecha, monto, monto_acumulado: montoAcumulado, concepto,
+        tipo = {}, estudio, medico } = movimiento;
+    const tipoDescripcion = tipo.descripcion || '-';
+    const nombrePaciente = estudio ? `${estudio.paciente.apellido}, ${estudio.paciente.nombre}` : '-';
+    const practica = estudio ? estudio.practica.descripcion : '-';
+    const obraSocial = estudio ? estudio.obra_social.nombre : '-';
+
+    const getNombreMedico = () => {
+        if (medico && medico.nombre) {
+            return `${medico.apellido}, ${medico.nombre}`;
+        }
+        return estudio ? `${estudio.medico.apellido}, ${estudio.medico.nombre}` : '-';
+    };
+
+    return (
+        <tr>
+            <td>{fecha}</td>
+            <td>{tipoDescripcion}</td>
+            <td>{concepto}</td>
+            <td>{monto}</td>
+            <td>{montoAcumulado}</td>
+            <td>{obraSocial}</td>
+            <td>{practica}</td>
+            <td>{nombrePaciente}</td>
+            <td>{getNombreMedico()}</td>
+        </tr>
+    );
 }
 
 ListadoMovimientosTableRow.propTypes = {
