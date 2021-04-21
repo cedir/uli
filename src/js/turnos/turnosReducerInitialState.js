@@ -1,6 +1,6 @@
 const initialState = {
     usuarios: [],
-    cantTurnos: {},
+    cantidadTurnos: {},
 };
 
 export default initialState;

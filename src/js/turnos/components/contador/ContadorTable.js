@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap';
 import ContadorTableHeader from './ContadorTableHeader';
 import ContadorTableRow from './ContadorTableRow';
 
-function ContadorTable({ tiempos, cantTurnos }) {
+function ContadorTable({ tiempos, usuarios, cantidadTurnos }) {
     return (
         <Table>
             <thead>
@@ -13,19 +13,23 @@ function ContadorTable({ tiempos, cantTurnos }) {
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <ContadorTableRow nombre='dani' cantTurnos={ cantTurnos } />
-                </tr>
+                { usuarios.map(usuario => (
+                    <ContadorTableRow
+                      usuario={ usuario }
+                      cantidadTurnos={ cantidadTurnos[usuario] }
+                    />
+                    ))}
             </tbody>
         </Table>
     );
 }
 
-const { array } = PropTypes;
+const { array, object } = PropTypes;
 
 ContadorTable.propTypes = {
     tiempos: array.isRequired,
-    cantTurnos: array.isRequired,
+    usuarios: array.isRequired,
+    cantidadTurnos: object.isRequired,
 };
 
 export default ContadorTable;

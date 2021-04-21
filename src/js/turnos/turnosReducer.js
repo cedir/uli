@@ -1,7 +1,21 @@
 import initialState from './turnosReducerInitialState';
-import { FETCH_CANTIDAD_TURNOS } from './actionTypes';
+import {
+    FETCH_CANTIDAD_TURNOS, FETCH_CANTIDAD_TURNOS_FAILED,
+    FETCH_CANTIDAD_TURNOS_SUCCESS,
+} from './actionTypes';
+
 
 const actionsHandledByEpicReducer = state => ({
+    ...state,
+    turnosApiLoading: false,
+});
+
+const fetchCantidadTurnosSuccess = (state, action) => ({
+    ...state,
+    mostrar: print(action),
+});
+
+const fetchCantidadTurnosFailed = state => ({
     ...state,
     turnosApiLoading: false,
 });
@@ -9,8 +23,11 @@ const actionsHandledByEpicReducer = state => ({
 export function turnosReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_CANTIDAD_TURNOS:
-            return actionsHandledByEpicReducer(state);
-
+            return actionsHandledByEpicReducer(state, action);
+        case FETCH_CANTIDAD_TURNOS_SUCCESS:
+            return fetchCantidadTurnosSuccess(state, action);
+        case FETCH_CANTIDAD_TURNOS_FAILED:
+            return fetchCantidadTurnosFailed(state);
         default:
             return state;
     }
