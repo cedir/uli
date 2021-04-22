@@ -6,12 +6,12 @@ export function getCantidadTurnos(usuarios) {
     const fechaDesde = new Date();
     const fechaHasta = new Date();
 
-    fechaDesde.setDate(fechaDesde.getDate() - 2);
+    fechaDesde.setDate(fechaDesde.getDate() - 31);
 
     const body = {
         usuarios,
-        fecha_hasta: `${fechaHasta.getFullYear()}-${fechaHasta.getMonth()}-${fechaHasta.getDate()}`,
-        fecha_desde: `${fechaDesde.getFullYear()}-${fechaDesde.getMonth()}-${fechaDesde.getDate()}`,
+        fecha_hasta: `${fechaHasta.getFullYear()}-${fechaHasta.getMonth() + 1}-${fechaHasta.getDate()}`,
+        fecha_desde: `${fechaDesde.getFullYear()}-${fechaDesde.getMonth() + 1}-${fechaDesde.getDate()}`,
     };
 
     const headers = {
