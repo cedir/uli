@@ -7,12 +7,13 @@ import {
 
 const actionsHandledByEpicReducer = state => ({
     ...state,
-    turnosApiLoading: false,
+    turnosApiLoading: true,
 });
 
 const fetchCantidadTurnosSuccess = (state, action) => ({
     ...state,
-    mostrar: print(action),
+    cantidadTurnos: action.cantidadTurnos,
+    turnosApiLoading: false,
 });
 
 const fetchCantidadTurnosFailed = state => ({

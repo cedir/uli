@@ -4,10 +4,12 @@ import PropTypes from 'prop-types';
 function ContadorTableRow({ usuarios, cantidadTurnos }) {
     return (
         <React.Fragment>
-            { usuarios.map(usuario => (
-                <tr>
+            {usuarios.map(usuario => (
+                <tr key={ usuario }>
                     <td>{usuario}</td>
-                    {cantidadTurnos[usuario].map(tiempo => <td>{tiempo}</td>)}
+                    {cantidadTurnos[usuario].map((cantidad, key) => (
+                        <td key={ key }>{cantidad} turnos</td>
+                    ))}
                 </tr>
             ))}
         </React.Fragment>
