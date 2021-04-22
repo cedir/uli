@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function ContadorTableRow({ usuario, cantidadTurnos }) {
+function ContadorTableRow({ usuarios, cantidadTurnos }) {
     return (
         <React.Fragment>
-            <tr>
-                <td>{usuario}</td>
-                {cantidadTurnos.map(tiempo => <td>{tiempo}</td>)}
-            </tr>
+            { usuarios.map(usuario => (
+                <tr>
+                    <td>{usuario}</td>
+                    {cantidadTurnos[usuario].map(tiempo => <td>{tiempo}</td>)}
+                </tr>
+            ))}
         </React.Fragment>
     );
 }
@@ -15,7 +17,7 @@ function ContadorTableRow({ usuario, cantidadTurnos }) {
 const { array, object } = PropTypes;
 
 ContadorTableRow.propTypes = {
-    usuario: array.isRequired,
+    usuarios: array.isRequired,
     cantidadTurnos: object.isRequired,
 };
 

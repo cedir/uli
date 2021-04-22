@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 
 function ContadorTableHeader({ tiempos }) {
     return (
-        <React.Fragment>
+        <tr>
             <th>Nombre</th>
-            {tiempos.map(tiempo => <th>{tiempo} mes</th>)}
-        </React.Fragment>
+            {tiempos.map((tiempo, key) => <th key={ key }>{tiempo} mes</th>)}
+        </tr>
     );
 }
 
