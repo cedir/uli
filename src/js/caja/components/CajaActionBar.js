@@ -8,7 +8,7 @@ function CajaActionBar({ openSearchCajaModal, montoAcumulado, history }) {
         state: { montoAcumulado },
     };
     const createMovimientos = () => history.push(location);
-
+    console.log(createMovimientos);
     return (
         <Row>
             <Col md={ 6 }>
@@ -23,9 +23,9 @@ function CajaActionBar({ openSearchCajaModal, montoAcumulado, history }) {
                     <Button onClick={ openSearchCajaModal }>
                         Buscar movimiento
                     </Button>{' '}
-                    <Button onClick={ createMovimientos }>
+                    {/* <Button onClick={ createMovimientos }>
                         Crear Movimientos
-                    </Button>
+                    </Button> */}
                 </div>
             </Col>
         </Row>

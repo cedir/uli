@@ -1,9 +1,13 @@
 const initialState = {
-    usuarios: ['lynda', 'daniel', 'belen'],
+    usuarios: ['lynda', 'daiana', 'SABRINA', 'carolina', 'lorena', 'PRISCILA', 'PAULA'],
     cantidadTurnos: {
         lynda: [0, 0, 0],
-        daniel: [0, 0, 0],
-        belen: [0, 0, 0],
+        daiana: [0, 0, 0],
+        SABRINA: [0, 0, 0],
+        carolina: [0, 0, 0],
+        lorena: [0, 0, 0],
+        PRISCILA: [0, 0, 0],
+        PAULA: [0, 0, 0],
     },
 };
 

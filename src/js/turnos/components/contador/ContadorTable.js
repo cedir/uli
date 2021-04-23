@@ -20,13 +20,13 @@ function ContadorTable({ tiempos, usuarios, cantidadTurnos, setModalOpened }) {
     );
 }
 
-const { array, object, func } = PropTypes;
+const { array, object } = PropTypes;
 
 ContadorTable.propTypes = {
     tiempos: array.isRequired,
     usuarios: array.isRequired,
     cantidadTurnos: object.isRequired,
-    setModalOpened: func.isRequired,
+    setModalOpened: array.isRequired,
 };
 
 export default ContadorTable;

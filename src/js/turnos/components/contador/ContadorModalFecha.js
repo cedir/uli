@@ -1,8 +1,10 @@
-import React from 'react';
-import { Modal, FormControl } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Modal, FormControl, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 function ModalFecha({ modalOpened, setModalOpened, date, setDate }) {
+    const [temporal, setTemporal] = useState(date);
+
     return (
         <Modal
           show={ modalOpened }
@@ -14,11 +16,16 @@ function ModalFecha({ modalOpened, setModalOpened, date, setDate }) {
             </Modal.Header>
             <Modal.Body>
                 <FormControl
-                  value={ date }
+                  value={ temporal }
                   type='date'
-                  onChange={ e => setDate(e.target.value) }
+                  onChange={ e => setTemporal(e.target.value) }
                 />
             </Modal.Body>
+            <Modal.Footer>
+                <Button onClick={ () => { setDate(temporal); setModalOpened(false); } }>
+                    Actualizar
+                </Button>
+            </Modal.Footer>
         </Modal>
     );
 }

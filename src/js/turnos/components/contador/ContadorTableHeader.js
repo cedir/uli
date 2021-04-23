@@ -12,7 +12,7 @@ function ContadorTableHeader({ tiempos, setModalOpened }) {
                     <Row>
                         <Col lg={ 5 }>{tiempo} dias</Col>
                         <Col lg={ 5 } style={ { textAlign: 'right' } }>
-                            <PencilOutlineIcon onClick={ () => setModalOpened(true) } />
+                            <PencilOutlineIcon onClick={ () => setModalOpened[key](true) } />
                         </Col>
                     </Row>
                 </th>
@@ -21,11 +21,11 @@ function ContadorTableHeader({ tiempos, setModalOpened }) {
     );
 }
 
-const { array, func } = PropTypes;
+const { array } = PropTypes;
 
 ContadorTableHeader.propTypes = {
     tiempos: array.isRequired,
-    setModalOpened: func.isRequired,
+    setModalOpened: array.isRequired,
 };
 
 export default ContadorTableHeader;

@@ -12,7 +12,11 @@ function ContadorTurnos({ fetchCantidadTurnos, usuarios, cantidadTurnos }) {
 
     const dateToStr = date => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
-    const [modalOpened, setModalOpened] = useState(false);
+    const [modalOpened1, setModalOpened1] = useState(false);
+    const [modalOpened2, setModalOpened2] = useState(false);
+    const [modalOpened3, setModalOpened3] = useState(false);
+    const modalOpened = [modalOpened1, modalOpened2, modalOpened3];
+    const setModalOpened = [setModalOpened1, setModalOpened2, setModalOpened3];
 
     const fecha = new Date();
     const [date1, setDate1] = useState(dateToStr(fecha));
@@ -29,7 +33,10 @@ function ContadorTurnos({ fetchCantidadTurnos, usuarios, cantidadTurnos }) {
     const today = new Date();
 
     const getDays = date => Math.ceil((today - (new Date(date))) / (1000 * 60 * 60 * 24));
-    // const getDays = date => console.log(date, today);
+
+    useEffect(() => {
+        fetchCantidadTurnos(usuarios, fechas);
+    }, [date1, date2, date3]);
 
 
     return (
@@ -38,8 +45,8 @@ function ContadorTurnos({ fetchCantidadTurnos, usuarios, cantidadTurnos }) {
             {
                 fechas.map((date, i) => (
                     <ContadorModalFecha
-                      modalOpened={ modalOpened }
-                      setModalOpened={ setModalOpened }
+                      modalOpened={ modalOpened[i] }
+                      setModalOpened={ setModalOpened[i] }
                       date={ date }
                       setDate={ setFechas[i] }
                     />),
