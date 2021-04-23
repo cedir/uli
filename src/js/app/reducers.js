@@ -19,6 +19,7 @@ import { loginReducer } from '../login/loginReducer';
 import { alertReducer } from '../utilities/components/alert/alertReducer';
 import { comprobantesReducer } from '../comprobantes/comprobantesReducer';
 import { cajaReducer } from '../caja/cajaReducer';
+import { turnosReducer } from '../turnos/turnosReducer';
 
 // API calls configurations
 import { estudioEpic, updateEstudioEpic, createEstudioEpic,
@@ -60,6 +61,7 @@ import { comprobantesEpic,
     obtenerComprobantesConFiltroEpic,
     crearComprobanteEpic,
     fetchComprobanteEpic } from '../comprobantes/comprobantesEpic';
+import { contadorTurnosEpic } from '../turnos/turnosEpic';
 import { movimientosCajaEpic, crearMovimientosCajaEpic } from '../caja/cajaEpic';
 
 export const rootEpic = combineEpics(
@@ -110,6 +112,7 @@ export const rootEpic = combineEpics(
     getDatosDeUnaPresentacionEpic,
     cobrarPresentacionEpic,
     refacturarEstudiosEpic,
+    contadorTurnosEpic,
 );
 
 export const rootReducer = combineReducers({
@@ -130,6 +133,7 @@ export const rootReducer = combineReducers({
     alertReducer,
     comprobantesReducer,
     cajaReducer,
+    turnosReducer,
     // redux-form reducer
     form: formReducer,
 });
