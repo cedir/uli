@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import CalendarIcon from 'mdi-react/CalendarIcon';
+import PencilOutlineIcon from 'mdi-react/PencilOutlineIcon';
 import { Col, Row } from 'react-bootstrap';
 
-function ContadorTableHeader({ tiempos }) {
+function ContadorTableHeader({ tiempos, setModalOpened }) {
     return (
         <tr>
             <th>Nombre</th>
@@ -12,7 +12,7 @@ function ContadorTableHeader({ tiempos }) {
                     <Row>
                         <Col lg={ 5 }>{tiempo} dias</Col>
                         <Col lg={ 5 } style={ { textAlign: 'right' } }>
-                            picker
+                            <PencilOutlineIcon onClick={ () => setModalOpened(true) } />
                         </Col>
                     </Row>
                 </th>
@@ -21,10 +21,11 @@ function ContadorTableHeader({ tiempos }) {
     );
 }
 
-const { array } = PropTypes;
+const { array, func } = PropTypes;
 
 ContadorTableHeader.propTypes = {
     tiempos: array.isRequired,
+    setModalOpened: func.isRequired,
 };
 
 export default ContadorTableHeader;

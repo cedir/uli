@@ -4,11 +4,11 @@ import { Table } from 'react-bootstrap';
 import ContadorTableHeader from './ContadorTableHeader';
 import ContadorTableRow from './ContadorTableRow';
 
-function ContadorTable({ tiempos, usuarios, cantidadTurnos }) {
+function ContadorTable({ tiempos, usuarios, cantidadTurnos, setModalOpened }) {
     return (
         <Table>
             <thead>
-                <ContadorTableHeader tiempos={ tiempos } />
+                <ContadorTableHeader tiempos={ tiempos } setModalOpened={ setModalOpened } />
             </thead>
             <tbody>
                 <ContadorTableRow
@@ -20,12 +20,13 @@ function ContadorTable({ tiempos, usuarios, cantidadTurnos }) {
     );
 }
 
-const { array, object } = PropTypes;
+const { array, object, func } = PropTypes;
 
 ContadorTable.propTypes = {
     tiempos: array.isRequired,
     usuarios: array.isRequired,
     cantidadTurnos: object.isRequired,
+    setModalOpened: func.isRequired,
 };
 
 export default ContadorTable;

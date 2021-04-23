@@ -10,7 +10,7 @@ import { createAlert } from '../utilities/components/alert/alertUtility';
 
 export function contadorTurnosEpic(action$) {
     return action$.ofType(FETCH_CANTIDAD_TURNOS)
-        .mergeMap(action => getCantidadTurnos(action.usuarios, action.tiempos)
+        .mergeMap(action => getCantidadTurnos(action.usuarios, action.fechas)
             .mergeMap(data => Rx.Observable.of({
                 type: FETCH_CANTIDAD_TURNOS_SUCCESS,
                 cantidadTurnos: data.response,

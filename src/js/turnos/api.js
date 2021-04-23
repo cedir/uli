@@ -1,20 +1,13 @@
 import { post } from '../utilities/rest';
 
-export function getCantidadTurnos(usuarios, tiemposDiff) {
+export function getCantidadTurnos(usuarios, fechas) {
     const url = '/api/turnos/contador_turnos/';
 
-    const fechaHasta = new Date();
+    const dateToStr = date => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
-    const tiempos = tiemposDiff.map((tiempo) => {
-        const fechaDesde = new Date();
-        fechaDesde.setDate(fechaDesde.getDate() - tiempo);
-        return [
-            `${fechaDesde.getFullYear()}-${fechaDesde.getMonth() + 1}-${fechaDesde.getDate()}`,
-            `${fechaHasta.getFullYear()}-${fechaHasta.getMonth() + 1}-${fechaHasta.getDate()}`,
-        ];
-    });
+    const today = dateToStr(new Date());
 
-    const body = { usuarios, tiempos };
+    const body = { usuarios, fechas: fechas.map(fecha => [fecha, today]) };
 
     const headers = { 'Content-Type': 'application/json' };
 
