@@ -26,8 +26,37 @@ function CreateCajaForm({
 
     const selectEstudio = () => history.push(fromCajaLocation);
 
+    const tiposMovimiento = [
+        { text: 'General', value: 1 },
+        { text: 'Honorario Médico', value: 2 },
+        { text: 'Honorario Anestesista', value: 3 },
+        { text: 'Medicación', value: 4 },
+        { text: 'Práctica', value: 5 },
+        { text: 'Descartable', value: 6 },
+        { text: 'Material Específico', value: 7 },
+        { text: 'Pago a Médico', value: 8 },
+        { text: 'Consultorio 1', value: 9 },
+        { text: 'Coseguro', value: 10 },
+        { text: 'Egreso', value: 11 },
+        { text: 'Consultorio 2', value: 12 },
+    ];
+
+    const enviarFormulario = movimientos => createMovimiento({
+        estudioAsociado,
+        movimientos: movimientos.filter(movimiento => (movimiento.monto)).map(movimiento => ({
+            ...movimiento,
+            tipoMovimiento: tiposMovimiento.find(tipo =>
+                tipo.text === movimiento.tipoMovimiento),
+            medico: movimiento.medico ? movimiento.medico[0] : '',
+        })),
+    });
+
     return (
-        <React.Fragment>
+        <Form
+          onSubmit={ handleSubmit((movimientos) => {
+              enviarFormulario(movimientos.movimientos);
+          }) }
+        >
             <HeaderCreateMovimientoCaja
               selectEstudio={ selectEstudio }
               valid={ valid }
@@ -35,23 +64,15 @@ function CreateCajaForm({
               estudioAsociado={ estudioAsociado }
               montoAcumulado={ montoAcumulado }
               totalGrilla={ totalGrilla }
+              goBack={ history.goBack }
             />
-
-            <Form
-              onSubmit={ handleSubmit(movimientos =>
-                createMovimiento({
-                    movimientos,
-                    estudioAsociado,
-                }),
-              ) }
-            >
-                <FieldArray
-                  name='movimientos'
-                  component={ CreateMovimientosForm }
-                  setTotalGrilla={ setTotalGrilla }
-                />
-            </Form>
-        </React.Fragment>
+            <FieldArray
+              name='movimientos'
+              component={ CreateMovimientosForm }
+              setTotalGrilla={ setTotalGrilla }
+              tiposMovimiento={ tiposMovimiento }
+            />
+        </Form>
     );
 }
 
