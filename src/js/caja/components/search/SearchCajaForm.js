@@ -36,7 +36,7 @@ function SearchCajaForm({
 
     const searchMovimientos = (searchParams) => {
         closeModal();
-        fetchMovimientosCaja(searchParams);
+        fetchMovimientosCaja({ ...searchParams, pageNumber: 1 });
     };
 
     const renderMedicoItem = option => (
