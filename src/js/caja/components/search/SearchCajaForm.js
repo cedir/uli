@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector, change } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Row, Col, Button }
     from 'react-bootstrap/dist/react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
@@ -14,32 +14,19 @@ import './SearchCajaForm.css';
 import { FETCH_MOVIMIENTOS_CAJA } from '../../actionTypes';
 
 function SearchCajaForm({
-    setSelectedMedicoActuante,
-    selectedMedicoActuante,
-    fetchMedicosActuantes,
+    actuante,
+    fetchActuantes,
     closeModal,
     fetchMovimientosCaja,
     handleSubmit,
     tiposMovimiento,
     medicosActuantes,
-    medicoActuanteApiLoading,
+    medicoApiLoading,
     valid,
 }) {
-    const setSelectedMedicoActuanteFunc = (selection) => {
-        if (selection[0] && selection[0].id) {
-            setSelectedMedicoActuante(selection[0]);
-        }
-    };
+    const buscarMedico = (id, text) => fetchActuantes({ id, text });
 
-    const searchMedicosActuantes = (searchText) => {
-        if (selectedMedicoActuante.fullName === searchText && selectedMedicoActuante.id) {
-            fetchMedicosActuantes({ id: selectedMedicoActuante.id });
-        } else {
-            fetchMedicosActuantes({ searchText });
-        }
-    };
-
-    const medicosTypeaheadRenderFunc = (option) => {
+    const renderMedicoText = (option) => {
         if (!option.nombre || !option.apellido) {
             return '';
         }
@@ -47,14 +34,14 @@ function SearchCajaForm({
         return `${option.apellido}, ${option.nombre}`;
     };
 
-    const searchMovimientosCajaFunc = (searchParams) => {
+    const searchMovimientos = (searchParams) => {
         closeModal();
         fetchMovimientosCaja(searchParams);
     };
 
-    const renderMedicoMenuItem = option => (
+    const renderMedicoItem = option => (
         <div style={ { width: '100%' } } key={ option.id }>
-            { `${option.apellido}, ${option.nombre}` }
+            { renderMedicoText(option) }
         </div>
     );
 
@@ -62,7 +49,7 @@ function SearchCajaForm({
     return (
         <form
           onSubmit={
-            handleSubmit(searchParams => searchMovimientosCajaFunc(searchParams))
+            handleSubmit(searchParams => searchMovimientos(searchParams))
           }
           className='search-caja-form'
         >
@@ -92,18 +79,13 @@ function SearchCajaForm({
                             <Field
                               name='medicoActuante'
                               label='Medico'
-                              placeholder='Nombre'
-                              align='left'
                               component={ AsyncTypeaheadRF }
                               options={ medicosActuantes }
-                              labelKey={ medicosTypeaheadRenderFunc }
-                              onSearch={ searchMedicosActuantes }
-                              onChange={ setSelectedMedicoActuanteFunc }
-                              selected={
-                                  selectedMedicoActuante
-                              }
-                              renderMenuItemChildren={ renderMedicoMenuItem }
-                              isLoading={ medicoActuanteApiLoading }
+                              labelKey={ renderMedicoText }
+                              onSearch={ text => buscarMedico(actuante.id, text) }
+                              selected={ actuante }
+                              renderMenuItemChildren={ renderMedicoItem }
+                              isLoading={ medicoApiLoading }
                             />
                         </Col>
                         <Col md={ 3 }>
@@ -165,12 +147,11 @@ SearchCajaForm.propTypes = {
     handleSubmit: func.isRequired,
     valid: bool.isRequired,
     closeModal: func.isRequired,
-    fetchMedicosActuantes: func.isRequired,
-    setSelectedMedicoActuante: func.isRequired,
-    selectedMedicoActuante: array,
+    fetchActuantes: func.isRequired,
+    actuante: array,
     medicosActuantes: array,
     tiposMovimiento: array,
-    medicoActuanteApiLoading: bool.isRequired,
+    medicoApiLoading: bool.isRequired,
     fetchMovimientosCaja: func.isRequired,
 };
 
@@ -203,17 +184,15 @@ function mapStateToProps(state) {
             'Consultorio 2',
         ],
         medicosActuantes: state.medicoReducer.medicosActuantes,
-        selectedMedicoActuante: medicoActuante,
-        medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
+        actuante: medicoActuante,
+        medicoApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchMedicosActuantes: searchParams =>
+        fetchActuantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
-        setSelectedMedicoActuante: medicoActuante =>
-            dispatch(change('searchCaja', 'medicoActuante', medicoActuante)),
         fetchMovimientosCaja: searchParams =>
             dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams }),
     };
