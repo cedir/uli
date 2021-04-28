@@ -2,13 +2,14 @@ import Rx from 'rxjs';
 import { destroy } from 'redux-form';
 import {
     getEstudios, updateEstudio, createEstudio, getEstudiosImpagos, createPagoAMedico,
-    actualizaImportesEstudio, realizarPagoContraFactura, anularPagoContraFactura }
+    actualizaImportesEstudio, realizarPagoContraFactura, anularPagoContraFactura,
+    getEstudiosConAsociados }
     from './api';
 import { FETCH_ESTUDIOS_DIARIOS, LOAD_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     UPDATE_ESTUDIO, ERROR_UPDATING_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
     FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS, SEND_PAGO_MEDICO, PAGO_MEDICO_SUCCESS,
     PAGO_MEDICO_ERROR, ACTULIZA_IMPORTES_ESTUDIO, REALIZAR_PAGO_CONTRA_FACTURA,
-    ANULAR_PAGO_CONTRA_FACTURA }
+    ANULAR_PAGO_CONTRA_FACTURA, FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS }
     from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
@@ -20,6 +21,21 @@ export function estudioEpic(action$) {
             .map(data => ({ type: LOAD_ESTUDIOS_DIARIOS, data }))
             .takeUntil(action$.ofType(CANCEL_ESTUDIOS_DIARIOS)),
     );
+}
+
+export function estudioEpicConAsociados(action$) {
+    return action$.ofType(FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS)
+        .mergeMap(action =>
+            getEstudiosConAsociados(action.fetchEstudiosParams)
+            .mergeMap(data => Rx.Observable.of(
+                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
+                { type: LOAD_ESTUDIOS_DIARIOS, data },
+            ))
+            .catch(() => (Rx.Observable.of(
+                { type: ADD_ALERT, alert: createAlert('Error al intentar cargar estudios', 'danger') },
+                { type: CANCEL_ESTUDIOS_DIARIOS },
+                ))),
+        );
 }
 
 export function updateEstudioEpic(action$) {

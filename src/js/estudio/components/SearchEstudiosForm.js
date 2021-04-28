@@ -5,7 +5,7 @@ import { reduxForm, formValueSelector, Form, change } from 'redux-form';
 import { Row, Col, Button } from 'react-bootstrap/dist/react-bootstrap';
 import obrasSocialesInitialState from '../../obraSocial/obraSocialReducerInitialState';
 import medicosInitialState from '../../medico/medicoReducerInitialState';
-import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS } from '../actionTypes';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medico/actionTypes';
 import ObraSocialForm from './search-estudios/ObraSocialForm';
@@ -25,6 +25,7 @@ function SearchEstudiosForm({
     medicoActuanteApiLoading,
     setModalOpened,
     fetchEstudios,
+    fetchEstudiosConAsociados,
     handleSubmit,
     obrasSocialesApiLoading,
     obrasSociales,
@@ -38,11 +39,19 @@ function SearchEstudiosForm({
     practicaApiLoading,
     submitting,
     valid,
+    fromCaja,
 }) {
     const buscarMedicos = (id, searchText, searchMedics) => searchMedics({ id, searchText });
     return (
         <Form
-          onSubmit={ handleSubmit((params) => { setModalOpened(false); fetchEstudios(params); }) }
+          onSubmit={ handleSubmit((params) => {
+              setModalOpened(false);
+              if (fromCaja) {
+                  fetchEstudiosConAsociados(params);
+              } else {
+                  fetchEstudios(params);
+              }
+          }) }
         >
             <Row>
                 <Col md={ 9 }>
@@ -111,6 +120,7 @@ SearchEstudiosForm.propTypes = {
     submitting: bool.isRequired,
     valid: bool.isRequired,
     fetchEstudios: func.isRequired,
+    fetchEstudiosConAsociados: func.isRequired,
     fetchObrasSociales: func.isRequired,
     fetchActuantes: func.isRequired,
     fetchSolicitantes: func.isRequired,
@@ -129,6 +139,7 @@ SearchEstudiosForm.propTypes = {
     practica: array.isRequired,
     fetchPracticas: func.isRequired,
     practicaApiLoading: bool.isRequired,
+    fromCaja: bool,
 };
 
 const SearchEstudiosFormReduxForm = reduxForm({
@@ -181,6 +192,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
+        fetchEstudiosConAsociados: fetchEstudiosParams =>
+            dispatch({ type: FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS, fetchEstudiosParams }),
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
         fetchActuantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),

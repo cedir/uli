@@ -66,6 +66,7 @@ function EstudiosDelDia({
                 </div>
             ) }
             <SearchEstudiosModal
+              fromCaja={ fromCaja }
               modalOpened={ modalOpened }
               setModalOpened={ setModalOpened }
             />
