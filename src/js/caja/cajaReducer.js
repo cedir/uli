@@ -2,12 +2,15 @@ import initialState from './cajaReducerInitialState';
 import { FETCH_MOVIMIENTOS_CAJA, LOAD_MOVIMIENTOS_CAJA_SUCCESS,
     LOAD_MOVIMIENTOS_CAJA_ERROR, CREATE_MOVIMIENTOS_CAJA,
     CREATE_MOVIMIENTOS_CAJA_SUCCESS, CREATE_MOVIMIENTOS_CAJA_FAILED,
-    ASOCIAR_ESTUDIO } from './actionTypes';
+    ASOCIAR_ESTUDIO, UPDATE_PAGE_NUMBER } from './actionTypes';
+
+const PAGE_SIZE = 100;
 
 const loadMovimientosCajaSuccess = (state, action) => ({
     ...state,
     movimientos: action.data.response.results,
     apiLoading: false,
+    cantPages: action.data.response.count / PAGE_SIZE,
 });
 
 const loadMovimientosCajaError = state => ({
@@ -31,6 +34,11 @@ const asociarEstudio = (state, action) => ({
     estudioAsociado: action.estudio,
 });
 
+const updatePageSearch = (state, action) => ({
+    ...state,
+    pageNumber: action.pageNumber,
+});
+
 export function cajaReducer(state = initialState, action) {
     switch (action.type) {
         case LOAD_MOVIMIENTOS_CAJA_SUCCESS:
@@ -45,6 +53,8 @@ export function cajaReducer(state = initialState, action) {
             return createMovimientosCajaFinish(state);
         case ASOCIAR_ESTUDIO:
             return asociarEstudio(state, action);
+        case UPDATE_PAGE_NUMBER:
+            return updatePageSearch(state, action);
         default:
             return state;
     }
