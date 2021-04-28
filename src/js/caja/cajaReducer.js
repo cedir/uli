@@ -10,7 +10,7 @@ const loadMovimientosCajaSuccess = (state, action) => ({
     ...state,
     movimientos: action.data.response.results,
     apiLoading: false,
-    cantPages: action.data.response.count / PAGE_SIZE,
+    cantPages: Math.ceil(action.data.response.count / PAGE_SIZE),
 });
 
 const loadMovimientosCajaError = state => ({

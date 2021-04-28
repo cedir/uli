@@ -1,26 +1,26 @@
 import React from 'react';
-import { Pagination, Row, Col } from 'react-bootstrap';
+import { Pagination } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { UPDATE_PAGE_NUMBER } from '../actionTypes';
 
 function CajaPaginacion({ pageNumber, cantPages, updatePageNumber }) {
     return (
-        <Row>
-            <Col md={ 12 }>
-                <Pagination
-                  prev
-                  next
-                  first
-                  last
-                  ellipsis
-                  items={ cantPages }
-                  maxButtons={ 5 }
-                  activePage={ pageNumber }
-                  onSelect={ updatePageNumber }
-                />
-            </Col>
-        </Row>
+        <div style={ { textAlign: 'center' } }>
+            <Pagination
+              prev
+              next
+              ellipsis
+              first
+              last
+              boundaryLinks
+              items={ cantPages }
+              maxButtons={ 5 }
+              activePage={ pageNumber }
+              onSelect={ updatePageNumber }
+              style={ { textAlign: 'center' } }
+            />
+        </div>
     );
 }
 

@@ -11,7 +11,7 @@ import { required, dateBeforeThan, dateAfterThan }
     from '../../../utilities/reduxFormValidators';
 import './SearchCajaForm.css';
 
-import { FETCH_MOVIMIENTOS_CAJA } from '../../actionTypes';
+import { FETCH_MOVIMIENTOS_CAJA, UPDATE_PAGE_NUMBER } from '../../actionTypes';
 
 function SearchCajaForm({
     actuante,
@@ -22,6 +22,7 @@ function SearchCajaForm({
     tiposMovimiento,
     medicosActuantes,
     medicoApiLoading,
+    resetPageNumber,
     valid,
 }) {
     const buscarMedico = (id, text) => fetchActuantes({ id, text });
@@ -36,6 +37,7 @@ function SearchCajaForm({
 
     const searchMovimientos = (searchParams) => {
         closeModal();
+        resetPageNumber();
         fetchMovimientosCaja({ ...searchParams, pageNumber: 1 });
     };
 
@@ -153,6 +155,7 @@ SearchCajaForm.propTypes = {
     tiposMovimiento: array,
     medicoApiLoading: bool.isRequired,
     fetchMovimientosCaja: func.isRequired,
+    resetPageNumber: func.isRequired,
 };
 
 const SearchCajaFormReduxForm = reduxForm({
@@ -195,6 +198,7 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
         fetchMovimientosCaja: searchParams =>
             dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams }),
+        resetPageNumber: () => dispatch({ type: UPDATE_PAGE_NUMBER, pageNumber: 1 }),
     };
 }
 
