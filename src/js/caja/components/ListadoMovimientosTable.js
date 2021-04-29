@@ -4,7 +4,7 @@ import { Table } from 'react-bootstrap/dist/react-bootstrap';
 import CajaPaginacion from './CajaPaginacion';
 import ListadoMovimientosTableRow from './ListadoMovimientosTableRow';
 
-function ListadoMovimientosTable({ movimientos }) {
+function ListadoMovimientosTable({ movimientos, pageNumber, updatePageNumber }) {
     return (
         <React.Fragment>
             <div className='listado-movimientos'>
@@ -32,15 +32,17 @@ function ListadoMovimientosTable({ movimientos }) {
                     </tbody>
                 </Table>
             </div>
-            <CajaPaginacion />
+            <CajaPaginacion pageNumber={ pageNumber } updatePageNumber={ updatePageNumber } />
         </React.Fragment>
     );
 }
 
-const { array } = PropTypes;
+const { array, number, func } = PropTypes;
 
 ListadoMovimientosTable.propTypes = {
     movimientos: array.isRequired,
+    pageNumber: number.isRequired,
+    updatePageNumber: func.isRequired,
 };
 
 export default ListadoMovimientosTable;

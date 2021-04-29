@@ -7,9 +7,16 @@ import CajaActionBar from './CajaActionBar';
 import SearchCajaModal from './search/SearchCajaModal';
 import ListadoMovimientosTable from './ListadoMovimientosTable';
 
-import { FETCH_MOVIMIENTOS_CAJA } from '../actionTypes';
+import { FETCH_MOVIMIENTOS_CAJA, UPDATE_PAGE_NUMBER } from '../actionTypes';
 
-function CajaMain({ fetchMovimientosCaja, movimientos, history, searchParams, pageNumber }) {
+function CajaMain({
+    fetchMovimientosCaja,
+    movimientos,
+    history,
+    searchParams,
+    pageNumber,
+    updatePageNumber,
+}) {
     const [modalOpened, setModalOpened] = useState(false);
 
     useEffect(() => {
@@ -27,10 +34,14 @@ function CajaMain({ fetchMovimientosCaja, movimientos, history, searchParams, pa
             />
             <ListadoMovimientosTable
               movimientos={ movimientos }
+              pageNumber={ pageNumber }
+              updatePageNumber={ updatePageNumber }
             />
             <SearchCajaModal
               modalOpened={ modalOpened }
               closeModal={ () => setModalOpened(false) }
+              fetchMovimientosCaja={ fetchMovimientosCaja }
+              resetPageNumber={ () => updatePageNumber(1) }
             />
         </div>
     );
@@ -44,6 +55,7 @@ CajaMain.propTypes = {
     history: object.isRequired,
     searchParams: object.isRequired,
     pageNumber: number.isRequired,
+    updatePageNumber: func.isRequired,
 };
 
 const selector = formValueSelector('searchCaja');
@@ -63,6 +75,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchMovimientosCaja: searchParams =>
             dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams }),
+        updatePageNumber: pageNumber =>
+            dispatch({ type: UPDATE_PAGE_NUMBER, pageNumber }),
     };
 }
 

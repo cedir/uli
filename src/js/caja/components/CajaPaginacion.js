@@ -2,7 +2,6 @@ import React from 'react';
 import { Pagination } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { UPDATE_PAGE_NUMBER } from '../actionTypes';
 
 function CajaPaginacion({ pageNumber, cantPages, updatePageNumber }) {
     return (
@@ -35,16 +34,8 @@ CajaPaginacion.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        pageNumber: state.cajaReducer.pageNumber,
         cantPages: state.cajaReducer.cantPages,
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        updatePageNumber: pageNumber =>
-            dispatch({ type: UPDATE_PAGE_NUMBER, pageNumber }),
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CajaPaginacion);
+export default connect(mapStateToProps)(CajaPaginacion);
