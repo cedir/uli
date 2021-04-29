@@ -7,11 +7,7 @@ import { Row, Col, Button }
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
 import { FETCH_MEDICOS_ACTUANTES } from '../../../medico/actionTypes';
-import { required, dateBeforeThan, dateAfterThan }
-    from '../../../utilities/reduxFormValidators';
 import './SearchCajaForm.css';
-
-import { FETCH_MOVIMIENTOS_CAJA, UPDATE_PAGE_NUMBER } from '../../actionTypes';
 
 function SearchCajaForm({
     actuante,
@@ -38,7 +34,7 @@ function SearchCajaForm({
     const searchMovimientos = (searchParams) => {
         closeModal();
         resetPageNumber();
-        fetchMovimientosCaja({ ...searchParams, pageNumber: 1 });
+        fetchMovimientosCaja({ ...searchParams });
     };
 
     const renderMedicoItem = option => (
@@ -96,7 +92,6 @@ function SearchCajaForm({
                               type='date'
                               label='Fecha desde'
                               component={ InputRF }
-                              validate={ [required, dateBeforeThan('fechaHasta', 'Debe ser menor que la fecha hasta')] }
                             />
                         </Col>
                         <Col md={ 3 }>
@@ -105,7 +100,6 @@ function SearchCajaForm({
                               type='date'
                               label='Fecha hasta'
                               component={ InputRF }
-                              validate={ dateAfterThan('fechaDesde', 'Debe ser mayor que la fecha desde') }
                             />
                         </Col>
                     </Row>
@@ -196,9 +190,6 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchActuantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
-        fetchMovimientosCaja: searchParams =>
-            dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams }),
-        resetPageNumber: () => dispatch({ type: UPDATE_PAGE_NUMBER, pageNumber: 1 }),
     };
 }
 

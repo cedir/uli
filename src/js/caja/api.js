@@ -4,7 +4,7 @@ export function getMovimientos(searchParams) {
     const {
         fechaDesde = '', fechaHasta = '', medicoActuante = '',
         concepto = '', pagado = '', tipoMovimiento = '',
-        incluirEstudio = '', pageNumber = '',
+        incluirEstudio = '', pageNumber = 1,
     } = searchParams;
     const idMedico = medicoActuante.length > 0 ? medicoActuante[0].id : '';
 
