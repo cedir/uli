@@ -1,13 +1,16 @@
+import { getSucursal } from '../../app/storeHelper';
 import { get, patch } from '../../utilities/rest';
 
 export function getDatosDeUnaPresentacion(id) {
-    const url = `/api/presentacion/${id}/`;
+    const sucursal = getSucursal();
+    const url = `/api/presentacion/${id}/?sucursal=${sucursal}`;
 
     return get(url);
 }
 
 export function cobrarPresentacion(idPresentacion, estudios, nroRecibo, retencionImpositiva) {
-    const url = `/api/presentacion/${idPresentacion}/cobrar/`;
+    const sucursal = getSucursal();
+    const url = `/api/presentacion/${idPresentacion}/cobrar/?sucursal=${sucursal}`;
 
     const body = {
         estudios: estudios.map(estudio => ({
@@ -21,6 +24,7 @@ export function cobrarPresentacion(idPresentacion, estudios, nroRecibo, retencio
         })),
         retencion_impositiva: retencionImpositiva,
         nro_recibo: nroRecibo,
+        sucursal,
     };
 
     const headers = {
@@ -31,7 +35,8 @@ export function cobrarPresentacion(idPresentacion, estudios, nroRecibo, retencio
 }
 
 export function refacturarEstudios(idPresentacion, estudios) {
-    const url = `/api/presentacion/${idPresentacion}/refacturar_estudios/`;
+    const sucursal = getSucursal();
+    const url = `/api/presentacion/${idPresentacion}/refacturar_estudios/?sucursal=${sucursal}`;
 
     const body = {
         estudios,
