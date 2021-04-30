@@ -7,7 +7,6 @@ import { Row, Col, Button }
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
 import { FETCH_MEDICOS_ACTUANTES } from '../../../medico/actionTypes';
-import './SearchCajaForm.css';
 
 function SearchCajaForm({
     actuante,
@@ -45,92 +44,82 @@ function SearchCajaForm({
 
     const booleanOptions = [{ text: 'Si', value: 'True' }, { text: 'No', value: 'False' }];
     return (
-        <form
-          onSubmit={
-            handleSubmit(searchParams => searchMovimientos(searchParams))
-          }
-          className='search-caja-form'
-        >
+        <form onSubmit={ handleSubmit(searchMovimientos) }>
+            <Row>
+                <Col md={ 6 }>
+                    <Field
+                      name='tipoMovimiento'
+                      label='Tipo de movimiento'
+                      componentClass='select'
+                      component={ InputRF }
+                      selectOptions={ tiposMovimiento }
+                      nullValue=''
+                    />
+                </Col>
+                <Col md={ 6 }>
+                    <Field
+                      name='medicoActuante'
+                      label='Medico'
+                      component={ AsyncTypeaheadRF }
+                      options={ medicosActuantes }
+                      labelKey={ renderMedicoText }
+                      onSearch={ text => buscarMedico(actuante.id, text) }
+                      selected={ actuante }
+                      renderMenuItemChildren={ renderMedicoItem }
+                      isLoading={ medicoApiLoading }
+                    />
+                </Col>
+            </Row>
             <Row>
                 <Col md={ 12 }>
-                    <Row>
-                        <Col md={ 6 }>
-                            <Field
-                              name='tipoMovimiento'
-                              label='Tipo de movimiento'
-                              componentClass='select'
-                              component={ InputRF }
-                              selectOptions={ tiposMovimiento }
-                              nullValue=''
-                            />
-                        </Col>
-                        <Col md={ 6 }>
-                            <Field
-                              name='concepto'
-                              label='Concepto'
-                              component={ InputRF }
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={ 6 }>
-                            <Field
-                              name='medicoActuante'
-                              label='Medico'
-                              component={ AsyncTypeaheadRF }
-                              options={ medicosActuantes }
-                              labelKey={ renderMedicoText }
-                              onSearch={ text => buscarMedico(actuante.id, text) }
-                              selected={ actuante }
-                              renderMenuItemChildren={ renderMedicoItem }
-                              isLoading={ medicoApiLoading }
-                            />
-                        </Col>
-                        <Col md={ 3 }>
-                            <Field
-                              name='fechaDesde'
-                              type='date'
-                              label='Fecha desde'
-                              component={ InputRF }
-                            />
-                        </Col>
-                        <Col md={ 3 }>
-                            <Field
-                              name='fechaHasta'
-                              type='date'
-                              label='Fecha hasta'
-                              component={ InputRF }
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={ 6 }>
-                            <Field
-                              className='padding-left-15'
-                              name='incluirEstudio'
-                              label='Incluir estudio'
-                              componentClass='select'
-                              component={ InputRF }
-                              selectOptions={ booleanOptions }
-                              renderOptionHandler={ opcion => opcion.text }
-                              selectionValue='value'
-                              optionKey='text'
-                              nullValue=''
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col md={ 12 }>
-                            <Button
-                              className='pull-right'
-                              bsStyle='primary'
-                              type='submit'
-                              disabled={ !valid }
-                            >
-                                Buscar Movimientos
-                            </Button>
-                        </Col>
-                    </Row>
+                    <Field
+                      name='concepto'
+                      label='Concepto'
+                      component={ InputRF }
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col md={ 4 }>
+                    <Field
+                      name='fechaDesde'
+                      type='date'
+                      label='Fecha desde'
+                      component={ InputRF }
+                    />
+                </Col>
+                <Col md={ 4 }>
+                    <Field
+                      name='fechaHasta'
+                      type='date'
+                      label='Fecha hasta'
+                      component={ InputRF }
+                    />
+                </Col>
+                <Col md={ 4 }>
+                    <Field
+                      name='incluirEstudio'
+                      label='Incluir estudio'
+                      componentClass='select'
+                      component={ InputRF }
+                      selectOptions={ booleanOptions }
+                      renderOptionHandler={ opcion => opcion.text }
+                      selectionValue='value'
+                      optionKey='text'
+                      nullValue=''
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col md={ 12 }>
+                    <Button
+                      className='pull-right'
+                      bsStyle='primary'
+                      type='submit'
+                      disabled={ !valid }
+                    >
+                        Buscar Movimientos
+                    </Button>
                 </Col>
             </Row>
         </form>
