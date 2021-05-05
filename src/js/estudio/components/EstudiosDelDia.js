@@ -9,12 +9,13 @@ import EstudiosActionBar from './EstudiosActionBar';
 import SearchEstudiosModal from './SearchEstudiosModal';
 import EstudiosList from './EstudiosList';
 import searchEstudiosFormInitialState from '../searchEstudiosFormInitialState';
-import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS } from '../actionTypes';
 
 function EstudiosDelDia({
     location,
     searchParams,
     fetchEstudios,
+    fetchEstudiosConAsociados,
     actualPage,
     history,
     estudios,
@@ -26,16 +27,17 @@ function EstudiosDelDia({
 
     useEffect(() => {
         const { fecha, dniPaciente } = queryString.parse(location.search);
+        const fetchEstudiosNew = fromCaja ? fetchEstudiosConAsociados : fetchEstudios;
         // if search is executed
         if (fecha && dniPaciente) {
-            fetchEstudios({
+            fetchEstudiosNew({
                 fechaDesde: fecha,
                 fechaHasta: fecha,
                 dniPaciente,
             });
         } else if (!isEmpty(searchParams)) {
             // if a filter is applied
-            fetchEstudios({ ...searchParams, actualPage });
+            fetchEstudiosNew({ ...searchParams, actualPage });
         }
     }, []);
 
@@ -85,6 +87,7 @@ EstudiosDelDia.propTypes = {
     actualPage: number,
     searchParams: object,
     fetchEstudios: func,
+    fetchEstudiosConAsociados: func,
     history: object.isRequired,
     location: object.isRequired,
     fromCaja: bool.isRequired,
@@ -110,6 +113,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
+        fetchEstudiosConAsociados: fetchEstudiosParams =>
+            dispatch({ type: FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS, fetchEstudiosParams }),
     };
 }
 

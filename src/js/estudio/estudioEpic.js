@@ -23,7 +23,7 @@ export function estudioEpic(action$) {
     );
 }
 
-export function estudioEpicConAsociados(action$) {
+export function estudioConAsociadosEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS)
         .mergeMap(action =>
             getEstudiosConAsociados(action.fetchEstudiosParams)
