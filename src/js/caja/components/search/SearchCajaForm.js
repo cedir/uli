@@ -1,167 +1,115 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector, change } from 'redux-form';
-import { Row, Col, Button }
-    from 'react-bootstrap/dist/react-bootstrap';
+import { Row, Col, Button, Glyphicon, Form } from 'react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
-import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
-import { FETCH_MEDICOS_ACTUANTES } from '../../../medico/actionTypes';
-import { required, dateBeforeThan, dateAfterThan }
-    from '../../../utilities/reduxFormValidators';
-import './SearchCajaForm.css';
+import MedicoField from '../../../utilities/components/forms/MedicoField';
 
-import { FETCH_MOVIMIENTOS_CAJA } from '../../actionTypes';
-
-class SearchCajaForm extends Component {
-    constructor(props) {
-        super(props);
-
-        this.setSelectedMedicoActuante =
-            this.setSelectedMedicoActuante.bind(this);
-        this.searchMedicosActuantes =
-            this.searchMedicosActuantes.bind(this);
-        this.searchMovimientosCaja =
-            this.searchMovimientosCaja.bind(this);
-    }
-
-    setSelectedMedicoActuante(selection) {
-        if (selection[0] && selection[0].id) {
-            this.props.setSelectedMedicoActuante(selection[0]);
-        }
-    }
-
-    searchMedicosActuantes(searchText) {
-        const selectedMedicoActuante = this.props.selectedMedicoActuante;
-        if (selectedMedicoActuante.fullName === searchText && selectedMedicoActuante.id) {
-            this.props.fetchMedicosActuantes({ id: selectedMedicoActuante.id });
-        } else {
-            this.props.fetchMedicosActuantes({ searchText });
-        }
-    }
-
-    medicosTypeaheadRenderFunc(option) {
-        if (!option.nombre || !option.apellido) {
-            return '';
-        }
-
-        return `${option.apellido}, ${option.nombre}`;
-    }
-
-    searchMovimientosCaja(searchParams) {
-        this.props.closeModal();
-        this.props.fetchMovimientosCaja(searchParams);
-    }
-
-    renderMedicoMenuItem(option) {
-        return (
-            <div style={ { width: '100%' } } key={ option.id }>
-                { `${option.apellido}, ${option.nombre}` }
-            </div>
-        );
-    }
-
-    render() {
-        const booleanOptions = [{ text: 'Si', value: 'True' }, { text: 'No', value: 'False' }];
-        return (
-            <form
-              onSubmit={
-                this.props.handleSubmit(searchParams => this.searchMovimientosCaja(searchParams))
-              }
-              className='search-caja-form'
-            >
-                <Row>
-                    <Col md={ 12 }>
-                        <Row>
-                            <Col md={ 6 }>
-                                <Field
-                                  name='tipoMovimiento'
-                                  label='Tipo de movimiento'
-                                  componentClass='select'
-                                  component={ InputRF }
-                                  selectOptions={ this.props.tiposMovimiento }
-                                  nullValue=''
-                                />
-                            </Col>
-                            <Col md={ 6 }>
-                                <Field
-                                  name='concepto'
-                                  label='Concepto'
-                                  component={ InputRF }
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={ 6 }>
-                                <Field
-                                  name='medicoActuante'
-                                  label='Medico'
-                                  placeholder='Nombre'
-                                  align='left'
-                                  component={ AsyncTypeaheadRF }
-                                  options={ this.props.medicosActuantes }
-                                  labelKey={ this.medicosTypeaheadRenderFunc }
-                                  onSearch={ this.searchMedicosActuantes }
-                                  onChange={ this.setSelectedMedicoActuante }
-                                  selected={
-                                      this.props.selectedMedicoActuante
-                                  }
-                                  renderMenuItemChildren={ this.renderMedicoMenuItem }
-                                  isLoading={ this.props.medicoActuanteApiLoading }
-                                />
-                            </Col>
-                            <Col md={ 3 }>
-                                <Field
-                                  name='fechaDesde'
-                                  type='date'
-                                  label='Fecha desde'
-                                  component={ InputRF }
-                                  validate={ [required, dateBeforeThan('fechaHasta', 'Debe ser menor que la fecha hasta')] }
-                                />
-                            </Col>
-                            <Col md={ 3 }>
-                                <Field
-                                  name='fechaHasta'
-                                  type='date'
-                                  label='Fecha hasta'
-                                  component={ InputRF }
-                                  validate={ dateAfterThan('fechaDesde', 'Debe ser mayor que la fecha desde') }
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={ 6 }>
-                                <Field
-                                  className='padding-left-15'
-                                  name='incluirEstudio'
-                                  label='Incluir estudio'
-                                  componentClass='select'
-                                  component={ InputRF }
-                                  selectOptions={ booleanOptions }
-                                  renderOptionHandler={ opcion => opcion.text }
-                                  selectionValue='value'
-                                  optionKey='text'
-                                  nullValue=''
-                                />
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col md={ 12 }>
-                                <Button
-                                  className='pull-right'
-                                  bsStyle='primary'
-                                  type='submit'
-                                  disabled={ !this.props.valid }
-                                >
-                                    Buscar Movimientos
-                                </Button>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-            </form>
-        );
-    }
+function SearchCajaForm({
+    actuante,
+    closeModal,
+    fetchMovimientosCaja,
+    handleSubmit,
+    tiposMovimiento,
+    removeDate,
+    valid,
+}) {
+    const style = { marginTop: '2rem', cursor: 'pointer', padding: '1rem' };
+    const booleanOptions = [{ text: 'Si', value: 'True' }, { text: 'No', value: 'False' }];
+    return (
+        <Form
+          onSubmit={ handleSubmit((params) => { closeModal(); fetchMovimientosCaja(params); }) }
+          style={ { width: '750px' } }
+        >
+            <Row>
+                <Col md={ 6 }>
+                    <Field
+                      name='tipoMovimiento'
+                      label='Tipo de movimiento'
+                      componentClass='select'
+                      component={ InputRF }
+                      selectOptions={ tiposMovimiento }
+                      nullValue=''
+                    />
+                </Col>
+                <Col md={ 6 }>
+                    <MedicoField
+                      nameField='medicoActuante'
+                      label='Medico'
+                      type='actuante'
+                      medico={ actuante }
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col md={ 12 }>
+                    <Field
+                      name='concepto'
+                      label='Concepto'
+                      component={ InputRF }
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col md={ 3 }>
+                    <Field
+                      name='fechaDesde'
+                      type='date'
+                      label='Fecha desde'
+                      component={ InputRF }
+                    />
+                </Col>
+                <Col md={ 1 }>
+                    <Glyphicon
+                      glyph='remove'
+                      onClick={ () => removeDate('fechaDesde') }
+                      style={ style }
+                    />
+                </Col>
+                <Col md={ 3 }>
+                    <Field
+                      name='fechaHasta'
+                      type='date'
+                      label='Fecha hasta'
+                      component={ InputRF }
+                    />
+                </Col>
+                <Col md={ 1 }>
+                    <Glyphicon
+                      glyph='remove'
+                      onClick={ () => removeDate('fechaHasta') }
+                      style={ style }
+                    />
+                </Col>
+                <Col md={ 4 }>
+                    <Field
+                      name='incluirEstudio'
+                      label='Incluir estudio'
+                      componentClass='select'
+                      component={ InputRF }
+                      selectOptions={ booleanOptions }
+                      renderOptionHandler={ opcion => opcion.text }
+                      selectionValue='value'
+                      optionKey='text'
+                      nullValue=''
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col md={ 12 }>
+                    <Button
+                      className='pull-right'
+                      bsStyle='primary'
+                      type='submit'
+                      disabled={ !valid }
+                    >
+                        Buscar Movimientos
+                    </Button>
+                </Col>
+            </Row>
+        </Form>
+    );
 }
 
 const { func, array, bool } = PropTypes;
@@ -170,13 +118,10 @@ SearchCajaForm.propTypes = {
     handleSubmit: func.isRequired,
     valid: bool.isRequired,
     closeModal: func.isRequired,
-    fetchMedicosActuantes: func.isRequired,
-    setSelectedMedicoActuante: func.isRequired,
-    selectedMedicoActuante: array,
-    medicosActuantes: array,
+    actuante: array,
     tiposMovimiento: array,
-    medicoActuanteApiLoading: bool.isRequired,
     fetchMovimientosCaja: func.isRequired,
+    removeDate: func.isRequired,
 };
 
 const SearchCajaFormReduxForm = reduxForm({
@@ -207,20 +152,13 @@ function mapStateToProps(state) {
             'Egreso',
             'Consultorio 2',
         ],
-        medicosActuantes: state.medicoReducer.medicosActuantes,
-        selectedMedicoActuante: medicoActuante,
-        medicoActuanteApiLoading: state.medicoReducer.medicoActuanteApiLoading || false,
+        actuante: medicoActuante,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchMedicosActuantes: searchParams =>
-            dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
-        setSelectedMedicoActuante: medicoActuante =>
-            dispatch(change('searchCaja', 'medicoActuante', medicoActuante)),
-        fetchMovimientosCaja: searchParams =>
-            dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams }),
+        removeDate: name => dispatch(change('searchCaja', name, '')),
     };
 }
 

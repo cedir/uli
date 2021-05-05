@@ -4,10 +4,14 @@ import { FETCH_MOVIMIENTOS_CAJA, LOAD_MOVIMIENTOS_CAJA_SUCCESS,
     CREATE_MOVIMIENTOS_CAJA_SUCCESS, CREATE_MOVIMIENTOS_CAJA_FAILED,
     ASOCIAR_ESTUDIO } from './actionTypes';
 
+const PAGE_SIZE = 100;
+
 const loadMovimientosCajaSuccess = (state, action) => ({
     ...state,
     movimientos: action.data.response.results,
     apiLoading: false,
+    cantPages: Math.ceil(action.data.response.count / PAGE_SIZE),
+    pageNumber: action.pageNumber,
 });
 
 const loadMovimientosCajaError = state => ({

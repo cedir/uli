@@ -8,9 +8,9 @@ import { createAlert } from '../utilities/components/alert/alertUtility';
 export function movimientosCajaEpic(action$) {
     return action$.ofType(FETCH_MOVIMIENTOS_CAJA)
         .mergeMap(action =>
-            getMovimientos(action.searchParams)
+            getMovimientos(action.searchParams, action.pageNumber)
             .mergeMap(data => Rx.Observable.of(
-                { type: LOAD_MOVIMIENTOS_CAJA_SUCCESS, data },
+                { type: LOAD_MOVIMIENTOS_CAJA_SUCCESS, data, pageNumber: action.pageNumber },
             ))
             .catch(() => (Rx.Observable.of(
                 { type: LOAD_MOVIMIENTOS_CAJA_ERROR },
