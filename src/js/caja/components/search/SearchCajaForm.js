@@ -16,7 +16,6 @@ function SearchCajaForm({
     tiposMovimiento,
     medicosActuantes,
     medicoApiLoading,
-    resetPageNumber,
     removeDate,
     valid,
 }) {
@@ -30,12 +29,6 @@ function SearchCajaForm({
         return `${option.apellido}, ${option.nombre}`;
     };
 
-    const searchMovimientos = (searchParams) => {
-        closeModal();
-        resetPageNumber();
-        fetchMovimientosCaja({ ...searchParams });
-    };
-
     const renderMedicoItem = option => (
         <div style={ { width: '100%' } } key={ option.id }>
             { renderMedicoText(option) }
@@ -46,7 +39,7 @@ function SearchCajaForm({
     const booleanOptions = [{ text: 'Si', value: 'True' }, { text: 'No', value: 'False' }];
     return (
         <Form
-          onSubmit={ handleSubmit(searchMovimientos) }
+          onSubmit={ handleSubmit((params) => { closeModal(); fetchMovimientosCaja(params); }) }
           style={ { width: '750px' } }
         >
             <Row>
@@ -156,7 +149,6 @@ SearchCajaForm.propTypes = {
     tiposMovimiento: array,
     medicoApiLoading: bool.isRequired,
     fetchMovimientosCaja: func.isRequired,
-    resetPageNumber: func.isRequired,
     removeDate: func.isRequired,
 };
 

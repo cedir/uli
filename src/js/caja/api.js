@@ -1,11 +1,10 @@
 import { get, post } from '../utilities/rest';
 
-export function getMovimientos(searchParams) {
+export function getMovimientos(searchParams, pageNumber) {
     const {
         fechaDesde = '', fechaHasta = '', medicoActuante = '',
         concepto = '', pagado = '', tipoMovimiento = '',
-        incluirEstudio = '', pageNumber = 1,
-    } = searchParams;
+        incluirEstudio = '' } = searchParams;
     const idMedico = medicoActuante.length > 0 ? medicoActuante[0].id : '';
 
     const url = `/api/caja/?fecha_desde=${fechaDesde}&fecha_hasta=${fechaHasta}` +

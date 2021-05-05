@@ -7,7 +7,7 @@ import CajaActionBar from './CajaActionBar';
 import SearchCajaModal from './search/SearchCajaModal';
 import ListadoMovimientosTable from './ListadoMovimientosTable';
 
-import { FETCH_MOVIMIENTOS_CAJA, UPDATE_PAGE_NUMBER } from '../actionTypes';
+import { FETCH_MOVIMIENTOS_CAJA } from '../actionTypes';
 
 function CajaMain({
     fetchMovimientosCaja,
@@ -15,13 +15,12 @@ function CajaMain({
     history,
     searchParams,
     pageNumber,
-    updatePageNumber,
 }) {
     const [modalOpened, setModalOpened] = useState(false);
 
     useEffect(() => {
-        fetchMovimientosCaja({ ...searchParams, pageNumber });
-    }, [pageNumber]);
+        fetchMovimientosCaja(searchParams);
+    }, []);
 
     const getMontoAcumulado = movimientos.length > 0 ? movimientos[0].monto_acumulado : '0';
 
@@ -35,13 +34,12 @@ function CajaMain({
             <ListadoMovimientosTable
               movimientos={ movimientos }
               pageNumber={ pageNumber }
-              updatePageNumber={ updatePageNumber }
+              updatePageNumber={ pageNum => fetchMovimientosCaja(searchParams, pageNum) }
             />
             <SearchCajaModal
               modalOpened={ modalOpened }
               closeModal={ () => setModalOpened(false) }
               fetchMovimientosCaja={ fetchMovimientosCaja }
-              resetPageNumber={ () => updatePageNumber(1) }
             />
         </div>
     );
@@ -55,7 +53,6 @@ CajaMain.propTypes = {
     history: object.isRequired,
     searchParams: object.isRequired,
     pageNumber: number.isRequired,
-    updatePageNumber: func.isRequired,
 };
 
 const selector = formValueSelector('searchCaja');
@@ -73,10 +70,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchMovimientosCaja: searchParams =>
-            dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams }),
-        updatePageNumber: pageNumber =>
-            dispatch({ type: UPDATE_PAGE_NUMBER, pageNumber }),
+        fetchMovimientosCaja: (searchParams, pageNumber = 1) =>
+            dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams, pageNumber }),
     };
 }
 

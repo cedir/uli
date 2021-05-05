@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap/dist/react-bootstrap';
 import SearchCajaForm from './SearchCajaForm';
 
-function SearchCajaModal({ modalOpened, closeModal, fetchMovimientosCaja, resetPageNumber }) {
+function SearchCajaModal({ modalOpened, closeModal, fetchMovimientosCaja }) {
     return (
         <Modal
           show={ modalOpened }
@@ -17,7 +17,6 @@ function SearchCajaModal({ modalOpened, closeModal, fetchMovimientosCaja, resetP
                 <SearchCajaForm
                   closeModal={ closeModal }
                   fetchMovimientosCaja={ fetchMovimientosCaja }
-                  resetPageNumber={ resetPageNumber }
                 />
             </Modal.Body>
         </Modal>
@@ -30,7 +29,6 @@ SearchCajaModal.propTypes = {
     modalOpened: bool.isRequired,
     closeModal: func.isRequired,
     fetchMovimientosCaja: func.isRequired,
-    resetPageNumber: func.isRequired,
 };
 
 export default SearchCajaModal;
