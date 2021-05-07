@@ -5,13 +5,14 @@ import { formValueSelector } from 'redux-form';
 import { Pagination }
     from 'react-bootstrap/dist/react-bootstrap';
 import EstudiosListTable from './EstudiosListTable';
-import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES, FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS } from '../actionTypes';
 import estudioReducerInitialState from '../estudioReducerInitialState';
 
 function EstudiosList({
     searchParams,
     actualPage,
     fetchEstudios,
+    fetchEstudiosConAsociados,
     resultPages,
     history,
     estudiosRef,
@@ -19,7 +20,8 @@ function EstudiosList({
     fromCaja,
 }) {
     const searchEstudios = (actPage) => {
-        fetchEstudios({ ...searchParams, actualPage: actPage });
+        const fetchEstudiosN = fromCaja ? fetchEstudiosConAsociados : fetchEstudios;
+        fetchEstudiosN({ ...searchParams, actualPage: actPage });
     };
 
     return (
@@ -56,6 +58,7 @@ EstudiosList.propTypes = {
     history: object,
     searchParams: object,
     fetchEstudios: func,
+    fetchEstudiosConAsociados: func,
     resultPages: number,
     actualPage: number,
     estudiosRef: object,
@@ -84,6 +87,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
+        fetchEstudiosConAsociados: fetchEstudiosParams =>
+            dispatch({ type: FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS, fetchEstudiosParams }),
         fetchObrasSociales: () => dispatch({ type: FETCH_OBRAS_SOCIALES }),
     };
 }

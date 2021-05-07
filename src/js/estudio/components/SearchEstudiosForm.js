@@ -46,11 +46,8 @@ function SearchEstudiosForm({
         <Form
           onSubmit={ handleSubmit((params) => {
               setModalOpened(false);
-              if (fromCaja) {
-                  fetchEstudiosConAsociados(params);
-              } else {
-                  fetchEstudios(params);
-              }
+              const fetchEstudiosN = fromCaja ? fetchEstudiosConAsociados : fetchEstudios;
+              fetchEstudiosN(params);
           }) }
         >
             <Row>

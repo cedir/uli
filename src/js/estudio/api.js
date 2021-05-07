@@ -33,7 +33,7 @@ export function getEstudios(fetchEstudiosParams) {
 
 export function getEstudiosConAsociados(fetchEstudiosParams) {
     const queryString = createSearchQueryString(fetchEstudiosParams);
-    const url = `/api/estudio/asociados/${queryString}`;
+    const url = `/api/estudio/get_estudios_con_asociados/${queryString}`;
     return get(url);
 }
 
