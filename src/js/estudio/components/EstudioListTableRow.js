@@ -22,6 +22,7 @@ function EstudioListTableRow({
     const practica = estudio.practica || { descripcion: '' };
     const medico = estudio.medico || { nombre: '', apellido: '' };
     const medicoSolicitante = estudio.medico_solicitante || { nombre: '', apellido: '' };
+    const estaAsociado = estudio.movimientos_asociados;
     const { estado = '-' } = estudio;
 
     return (
@@ -36,7 +37,7 @@ function EstudioListTableRow({
             <td>{ estado }</td>
             <td>{ `${medico.apellido}, ${medico.nombre}` }</td>
             { !printMode && !fromCaja && <td>{ `${medicoSolicitante.apellido}, ${medicoSolicitante.nombre}` }</td> }
-            { fromCaja && <td>
+            { fromCaja && !estaAsociado && <td>
                 <CheckCircle onClick={ () => { asociarEstudio(estudio); history.goBack(); } } />
             </td> }
         </tr>
