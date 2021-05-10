@@ -9,12 +9,13 @@ import EstudiosActionBar from './EstudiosActionBar';
 import SearchEstudiosModal from './SearchEstudiosModal';
 import EstudiosList from './EstudiosList';
 import searchEstudiosFormInitialState from '../searchEstudiosFormInitialState';
-import { FETCH_ESTUDIOS_DIARIOS } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, FETCH_ESTUDIOS_CON_MOVIMIENTOS } from '../actionTypes';
 
 function EstudiosDelDia({
     location,
     searchParams,
     fetchEstudios,
+    fetchEstudiosConMovimientos,
     actualPage,
     history,
     estudios,
@@ -26,16 +27,18 @@ function EstudiosDelDia({
 
     useEffect(() => {
         const { fecha, dniPaciente } = queryString.parse(location.search);
+        const fetchEstudiosCorrespondientes = fromCaja ?
+          fetchEstudiosConMovimientos : fetchEstudios;
         // if search is executed
         if (fecha && dniPaciente) {
-            fetchEstudios({
+            fetchEstudiosCorrespondientes({
                 fechaDesde: fecha,
                 fechaHasta: fecha,
                 dniPaciente,
             });
         } else if (!isEmpty(searchParams)) {
             // if a filter is applied
-            fetchEstudios({ ...searchParams, actualPage });
+            fetchEstudiosCorrespondientes({ ...searchParams, actualPage });
         }
     }, []);
 
@@ -66,6 +69,7 @@ function EstudiosDelDia({
                 </div>
             ) }
             <SearchEstudiosModal
+              fromCaja={ fromCaja }
               modalOpened={ modalOpened }
               setModalOpened={ setModalOpened }
             />
@@ -84,6 +88,7 @@ EstudiosDelDia.propTypes = {
     actualPage: number,
     searchParams: object,
     fetchEstudios: func,
+    fetchEstudiosConMovimientos: func,
     history: object.isRequired,
     location: object.isRequired,
     fromCaja: bool.isRequired,
@@ -109,6 +114,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
+        fetchEstudiosConMovimientos: fetchEstudiosParams =>
+            dispatch({ type: FETCH_ESTUDIOS_CON_MOVIMIENTOS, fetchEstudiosParams }),
     };
 }
 

@@ -5,13 +5,14 @@ import { formValueSelector } from 'redux-form';
 import { Pagination }
     from 'react-bootstrap/dist/react-bootstrap';
 import EstudiosListTable from './EstudiosListTable';
-import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES, FETCH_ESTUDIOS_CON_MOVIMIENTOS } from '../actionTypes';
 import estudioReducerInitialState from '../estudioReducerInitialState';
 
 function EstudiosList({
     searchParams,
     actualPage,
     fetchEstudios,
+    fetchEstudiosConMovimientos,
     resultPages,
     history,
     estudiosRef,
@@ -19,7 +20,9 @@ function EstudiosList({
     fromCaja,
 }) {
     const searchEstudios = (actPage) => {
-        fetchEstudios({ ...searchParams, actualPage: actPage });
+        const fetchEstudiosCorrespondientes = fromCaja ?
+          fetchEstudiosConMovimientos : fetchEstudios;
+        fetchEstudiosCorrespondientes({ ...searchParams, actualPage: actPage });
     };
 
     return (
@@ -56,6 +59,7 @@ EstudiosList.propTypes = {
     history: object,
     searchParams: object,
     fetchEstudios: func,
+    fetchEstudiosConMovimientos: func,
     resultPages: number,
     actualPage: number,
     estudiosRef: object,
@@ -84,6 +88,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
+        fetchEstudiosConMovimientos: fetchEstudiosParams =>
+            dispatch({ type: FETCH_ESTUDIOS_CON_MOVIMIENTOS, fetchEstudiosParams }),
         fetchObrasSociales: () => dispatch({ type: FETCH_OBRAS_SOCIALES }),
     };
 }

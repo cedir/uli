@@ -31,6 +31,12 @@ export function getEstudios(fetchEstudiosParams) {
     return get(url);
 }
 
+export function getEstudiosConAsociados(fetchEstudiosParams) {
+    const queryString = createSearchQueryString(fetchEstudiosParams);
+    const url = `/api/estudio/get_estudios_con_asociados/${queryString}`;
+    return get(url);
+}
+
 export function getEstudiosImpagos(medico) {
     const url = `/api/medico/${medico.id}/get_estudios_pendientes_de_pago/?sucursal=${getSucursal()}`;
     return get(url);

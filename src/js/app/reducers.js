@@ -22,7 +22,7 @@ import { cajaReducer } from '../caja/cajaReducer';
 import { turnosReducer } from '../turnos/turnosReducer';
 
 // API calls configurations
-import { estudioEpic, updateEstudioEpic, createEstudioEpic,
+import { estudioEpic, estudioConAsociadosEpic, updateEstudioEpic, createEstudioEpic,
     estudioImpagosEpic, pagoAMedicoEpic, actualizaImportesEstudioEpic,
     realizarPagoContraFacturaEpic, anularPagoContraFacturaEpic } from '../estudio/estudioEpic';
 import { estudioDetailEpic, estudioDetailToCloneEpic, estudioEliminarEpic } from '../estudio/estudioDetailEpic';
@@ -66,6 +66,7 @@ import { movimientosCajaEpic, crearMovimientosCajaEpic } from '../caja/cajaEpic'
 
 export const rootEpic = combineEpics(
     estudioEpic,
+    estudioConAsociadosEpic,
     updateEstudioEpic,
     actualizaImportesEstudioEpic,
     realizarPagoContraFacturaEpic,
