@@ -4,11 +4,12 @@ export function getMovimientos(searchParams, pageNumber) {
     const {
         fechaDesde = '', fechaHasta = '', medicoActuante = '',
         concepto = '', pagado = '', tipoMovimiento = '',
-        incluirEstudio = '' } = searchParams;
+        incluirEstudio = '', paciente = '' } = searchParams;
     const idMedico = medicoActuante.length > 0 ? medicoActuante[0].id : '';
+    const idPaciente = paciente.length > 0 ? paciente[0].id : '';
 
     const url = `/api/caja/?fecha_desde=${fechaDesde}&fecha_hasta=${fechaHasta}` +
-    `&medico=${idMedico}&concepto=${concepto}&estado=${pagado}` +
+    `&medico=${idMedico}&concepto=${concepto}&estado=${pagado}&paciente=${idPaciente}` +
     `&tipo_movimiento=${tipoMovimiento}&incluir_estudio=${incluirEstudio}&page=${pageNumber}`;
 
     return get(url);
