@@ -22,13 +22,13 @@ function EstudioListTableRow({
     const practica = estudio.practica || { descripcion: '' };
     const medico = estudio.medico || { nombre: '', apellido: '' };
     const medicoSolicitante = estudio.medico_solicitante || { nombre: '', apellido: '' };
-    const { estaAsociado = false } = estudio.movimientos_asociados;
+    const conMovimiento = estudio.movimientos_asociados || false;
     const { estado = '-' } = estudio;
-    console.log(estaAsociado);
+    const fromCajaStyle = fromCaja && conMovimiento ? { backgroundColor: '#d2e8ff' } : {};
     return (
         <tr
           onClick={ !fromCaja ? () => onRowClick(estudio.id) : () => {} }
-          style={ !fromCaja ? { cursor: 'pointer' } : {} }
+          style={ !fromCaja ? { cursor: 'pointer' } : fromCajaStyle }
         >
             <td>{ formatDate(estudio.fecha) }</td>
             <td>{ `${paciente.apellido}, ${paciente.nombre}` }</td>
