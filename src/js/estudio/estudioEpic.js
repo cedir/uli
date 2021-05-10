@@ -9,7 +9,7 @@ import { FETCH_ESTUDIOS_DIARIOS, LOAD_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
     UPDATE_ESTUDIO, ERROR_UPDATING_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
     FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS, SEND_PAGO_MEDICO, PAGO_MEDICO_SUCCESS,
     PAGO_MEDICO_ERROR, ACTULIZA_IMPORTES_ESTUDIO, REALIZAR_PAGO_CONTRA_FACTURA,
-    ANULAR_PAGO_CONTRA_FACTURA, FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS }
+    ANULAR_PAGO_CONTRA_FACTURA, FETCH_ESTUDIOS_CON_MOVIMIENTOS }
     from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
@@ -24,7 +24,7 @@ export function estudioEpic(action$) {
 }
 
 export function estudioConAsociadosEpic(action$) {
-    return action$.ofType(FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS)
+    return action$.ofType(FETCH_ESTUDIOS_CON_MOVIMIENTOS)
         .mergeMap(action =>
             getEstudiosConAsociados(action.fetchEstudiosParams)
             .mergeMap(data => Rx.Observable.of(

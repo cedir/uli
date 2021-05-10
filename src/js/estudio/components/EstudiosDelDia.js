@@ -9,13 +9,13 @@ import EstudiosActionBar from './EstudiosActionBar';
 import SearchEstudiosModal from './SearchEstudiosModal';
 import EstudiosList from './EstudiosList';
 import searchEstudiosFormInitialState from '../searchEstudiosFormInitialState';
-import { FETCH_ESTUDIOS_DIARIOS, FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, FETCH_ESTUDIOS_CON_MOVIMIENTOS } from '../actionTypes';
 
 function EstudiosDelDia({
     location,
     searchParams,
     fetchEstudios,
-    fetchEstudiosConAsociados,
+    fetchEstudiosConMovimientos,
     actualPage,
     history,
     estudios,
@@ -27,17 +27,18 @@ function EstudiosDelDia({
 
     useEffect(() => {
         const { fecha, dniPaciente } = queryString.parse(location.search);
-        const fetchEstudiosNew = fromCaja ? fetchEstudiosConAsociados : fetchEstudios;
+        const fetchEstudiosCorrespondientes = fromCaja ?
+          fetchEstudiosConMovimientos : fetchEstudios;
         // if search is executed
         if (fecha && dniPaciente) {
-            fetchEstudiosNew({
+            fetchEstudiosCorrespondientes({
                 fechaDesde: fecha,
                 fechaHasta: fecha,
                 dniPaciente,
             });
         } else if (!isEmpty(searchParams)) {
             // if a filter is applied
-            fetchEstudiosNew({ ...searchParams, actualPage });
+            fetchEstudiosCorrespondientes({ ...searchParams, actualPage });
         }
     }, []);
 
@@ -87,7 +88,7 @@ EstudiosDelDia.propTypes = {
     actualPage: number,
     searchParams: object,
     fetchEstudios: func,
-    fetchEstudiosConAsociados: func,
+    fetchEstudiosConMovimientos: func,
     history: object.isRequired,
     location: object.isRequired,
     fromCaja: bool.isRequired,
@@ -113,8 +114,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
-        fetchEstudiosConAsociados: fetchEstudiosParams =>
-            dispatch({ type: FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS, fetchEstudiosParams }),
+        fetchEstudiosConMovimientos: fetchEstudiosParams =>
+            dispatch({ type: FETCH_ESTUDIOS_CON_MOVIMIENTOS, fetchEstudiosParams }),
     };
 }
 

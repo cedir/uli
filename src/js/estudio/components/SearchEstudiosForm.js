@@ -5,7 +5,7 @@ import { reduxForm, formValueSelector, Form, change } from 'redux-form';
 import { Row, Col, Button } from 'react-bootstrap/dist/react-bootstrap';
 import obrasSocialesInitialState from '../../obraSocial/obraSocialReducerInitialState';
 import medicosInitialState from '../../medico/medicoReducerInitialState';
-import { FETCH_ESTUDIOS_DIARIOS, FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, FETCH_ESTUDIOS_CON_MOVIMIENTOS } from '../actionTypes';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medico/actionTypes';
 import ObraSocialForm from './search-estudios/ObraSocialForm';
@@ -25,7 +25,7 @@ function SearchEstudiosForm({
     medicoActuanteApiLoading,
     setModalOpened,
     fetchEstudios,
-    fetchEstudiosConAsociados,
+    fetchEstudiosConMovimientos,
     handleSubmit,
     obrasSocialesApiLoading,
     obrasSociales,
@@ -46,8 +46,9 @@ function SearchEstudiosForm({
         <Form
           onSubmit={ handleSubmit((params) => {
               setModalOpened(false);
-              const fetchEstudiosN = fromCaja ? fetchEstudiosConAsociados : fetchEstudios;
-              fetchEstudiosN(params);
+              const fetchEstudiosCorrespondientes = fromCaja ?
+                fetchEstudiosConMovimientos : fetchEstudios;
+              fetchEstudiosCorrespondientes(params);
           }) }
         >
             <Row>
@@ -117,7 +118,7 @@ SearchEstudiosForm.propTypes = {
     submitting: bool.isRequired,
     valid: bool.isRequired,
     fetchEstudios: func.isRequired,
-    fetchEstudiosConAsociados: func.isRequired,
+    fetchEstudiosConMovimientos: func.isRequired,
     fetchObrasSociales: func.isRequired,
     fetchActuantes: func.isRequired,
     fetchSolicitantes: func.isRequired,
@@ -189,8 +190,8 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchEstudios: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
-        fetchEstudiosConAsociados: fetchEstudiosParams =>
-            dispatch({ type: FETCH_ESTUDIOS_DIARIOS_CON_ASOCIADOS, fetchEstudiosParams }),
+        fetchEstudiosConMovimientos: fetchEstudiosParams =>
+            dispatch({ type: FETCH_ESTUDIOS_CON_MOVIMIENTOS, fetchEstudiosParams }),
         fetchObrasSociales: nombre => dispatch({ type: FETCH_OBRAS_SOCIALES, nombre }),
         fetchActuantes: searchParams =>
             dispatch({ type: FETCH_MEDICOS_ACTUANTES, searchParams }),
