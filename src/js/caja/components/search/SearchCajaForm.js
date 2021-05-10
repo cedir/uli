@@ -5,9 +5,11 @@ import { Field, reduxForm, formValueSelector, change } from 'redux-form';
 import { Row, Col, Button, Glyphicon, Form } from 'react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
 import MedicoField from '../../../utilities/components/forms/MedicoField';
+import PacienteField from '../../../utilities/components/forms/PacienteField';
 
 function SearchCajaForm({
     actuante,
+    paciente,
     closeModal,
     fetchMovimientosCaja,
     handleSubmit,
@@ -34,11 +36,16 @@ function SearchCajaForm({
                     />
                 </Col>
                 <Col md={ 6 }>
-                    <MedicoField
-                      nameField='medicoActuante'
-                      label='Medico'
-                      type='actuante'
-                      medico={ actuante }
+                    <Field
+                      name='incluirEstudio'
+                      label='Incluir estudio'
+                      componentClass='select'
+                      component={ InputRF }
+                      selectOptions={ booleanOptions }
+                      renderOptionHandler={ opcion => opcion.text }
+                      selectionValue='value'
+                      optionKey='text'
+                      nullValue=''
                     />
                 </Col>
             </Row>
@@ -48,6 +55,23 @@ function SearchCajaForm({
                       name='concepto'
                       label='Concepto'
                       component={ InputRF }
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col md={ 6 }>
+                    <MedicoField
+                      nameField='medicoActuante'
+                      label='Medico'
+                      type='actuante'
+                      medico={ actuante }
+                    />
+                </Col>
+                <Col md={ 6 }>
+                    <PacienteField
+                      name='paciente'
+                      label='Paciente'
+                      paciente={ paciente }
                     />
                 </Col>
             </Row>
@@ -82,22 +106,7 @@ function SearchCajaForm({
                       style={ style }
                     />
                 </Col>
-                <Col md={ 4 }>
-                    <Field
-                      name='incluirEstudio'
-                      label='Incluir estudio'
-                      componentClass='select'
-                      component={ InputRF }
-                      selectOptions={ booleanOptions }
-                      renderOptionHandler={ opcion => opcion.text }
-                      selectionValue='value'
-                      optionKey='text'
-                      nullValue=''
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col md={ 12 }>
+                <Col md={ 4 } style={ { marginTop: '2.5rem' } }>
                     <Button
                       className='pull-right'
                       bsStyle='primary'
@@ -119,6 +128,7 @@ SearchCajaForm.propTypes = {
     valid: bool.isRequired,
     closeModal: func.isRequired,
     actuante: array,
+    paciente: array,
     tiposMovimiento: array,
     fetchMovimientosCaja: func.isRequired,
     removeDate: func.isRequired,
@@ -137,6 +147,11 @@ function mapStateToProps(state) {
             ? medicoActuante
             : [];
 
+    let paciente = selector(state, 'paciente');
+    paciente = (paciente && Array.isArray(paciente))
+            ? paciente
+            : [];
+
     return {
         tiposMovimiento: [
             'General',
@@ -153,6 +168,7 @@ function mapStateToProps(state) {
             'Consultorio 2',
         ],
         actuante: medicoActuante,
+        paciente,
     };
 }
 
