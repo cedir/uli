@@ -20,7 +20,7 @@ export function crearMovimientos({ movimientos, estudioAsociado }) {
 
     const datosMovimientos = movimientos.map(movimiento => ({
         monto: movimiento.monto,
-        concepto: movimiento.concepto,
+        concepto: movimiento.concepto || '',
         medico_id: movimiento.medico ? movimiento.medico.id : '',
         tipo_id: movimiento.tipoMovimiento.value,
     }));

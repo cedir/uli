@@ -8,7 +8,6 @@ function BotonesForm({
     estudioAsociado,
     asociarEstudio,
     style,
-    goBack,
 }) {
     return (
         <ButtonToolbar style={ style }>
@@ -16,7 +15,6 @@ function BotonesForm({
               type='submit'
               bsStyle='primary'
               disabled={ !valid }
-              onClick={ () => goBack() }
             >
                 Crear Movimientos
             </Button>
@@ -43,7 +41,6 @@ BotonesForm.propTypes = {
     estudioAsociado: object.isRequired,
     asociarEstudio: func.isRequired,
     style: object.isRequired,
-    goBack: func.isRequired,
 };
 
 export default BotonesForm;

@@ -49,7 +49,7 @@ function CreateCajaForm({
                 tipo.text === movimiento.tipoMovimiento),
             medico: movimiento.medico ? movimiento.medico[0] : '',
         })),
-    });
+    }, history.goBack);
 
     return (
         <Form
@@ -64,7 +64,6 @@ function CreateCajaForm({
               estudioAsociado={ estudioAsociado }
               montoAcumulado={ montoAcumulado }
               totalGrilla={ totalGrilla }
-              goBack={ history.goBack }
             />
             <FieldArray
               name='movimientos'
@@ -90,7 +89,7 @@ CreateCajaForm.propTypes = {
 
 const CreateCajaFormRedux = reduxForm({
     form: 'CreateCajaFormRedux',
-    destroyOnUnmount: false,
+    destroyOnUnmount: true,
     enableReinitialize: true,
 })(CreateCajaForm);
 
@@ -102,7 +101,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        createMovimiento: movimientos => dispatch({ type: CREATE_MOVIMIENTOS_CAJA, movimientos }),
+        createMovimiento: (movimientos, goBack) =>
+            dispatch({ type: CREATE_MOVIMIENTOS_CAJA, movimientos, goBack }),
         asociarEstudio: estudio => dispatch({ type: ASOCIAR_ESTUDIO, estudio }),
     };
 }
