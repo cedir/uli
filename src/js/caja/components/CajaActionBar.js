@@ -1,30 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Well, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
+import { Button, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
+import MontosAcumulados from './MontosAcumulados';
 
 function CajaActionBar({
     openSearchCajaModal,
-    montoAcumulado,
     history,
     apiLoading,
+    consultorio1,
+    consultorio2,
+    general,
 }) {
     const location = {
         pathname: '/caja/create',
-        state: { montoAcumulado },
+        state: { montoAcumulado: consultorio1 + consultorio2 + general },
     };
     const createMovimientos = () => history.push(location);
-    // console.log(createMovimientos);
     return (
         <Row>
-            <Col md={ 6 }>
-                <Row>
-                    <Col md={ 5 }>
-                        <Well>Monto acumulado: { montoAcumulado }</Well>
-                    </Col>
-                </Row>
+            <Col md={ 8 }>
+                <MontosAcumulados
+                  general={ general }
+                  consultorio1={ consultorio1 }
+                  consultorio2={ consultorio2 }
+                />
             </Col>
-            <Col md={ 6 } >
+            <Col md={ 4 } >
                 <div className='pull-right'>
                     <Button
                       onClick={ openSearchCajaModal }
@@ -44,18 +46,23 @@ function CajaActionBar({
     );
 }
 
-const { func, string, object, bool } = PropTypes;
+const { func, object, bool, number } = PropTypes;
 
 CajaActionBar.propTypes = {
     openSearchCajaModal: func.isRequired,
-    montoAcumulado: string.isRequired,
     history: object.isRequired,
     apiLoading: bool.isRequired,
+    consultorio1: number.isRequired,
+    consultorio2: number.isRequired,
+    general: number.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         apiLoading: state.cajaReducer.apiLoading,
+        consultorio1: state.cajaReducer.montoConsultorio1,
+        consultorio2: state.cajaReducer.montoConsultorio2,
+        general: state.cajaReducer.montoGeneral,
     };
 }
 
