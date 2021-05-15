@@ -29,6 +29,7 @@ function CajaMain({
             <CajaActionBar
               montoAcumulado={ getMontoAcumulado }
               openSearchCajaModal={ () => setModalOpened(true) }
+              searchParams={ searchParams }
               history={ history }
             />
             <ListadoMovimientosTable

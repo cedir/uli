@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Button, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 import MontosAcumulados from './MontosAcumulados';
+import { querystring } from '../api';
+import { config } from '../../app/config';
 
 function CajaActionBar({
     openSearchCajaModal,
@@ -11,6 +13,7 @@ function CajaActionBar({
     consultorio1,
     consultorio2,
     general,
+    searchParams,
 }) {
     const location = {
         pathname: '/caja/create',
@@ -19,20 +22,26 @@ function CajaActionBar({
     const createMovimientos = () => history.push(location);
     return (
         <Row>
-            <Col md={ 8 }>
+            <Col md={ 7 }>
                 <MontosAcumulados
                   general={ general }
                   consultorio1={ consultorio1 }
                   consultorio2={ consultorio2 }
                 />
             </Col>
-            <Col md={ 4 } >
+            <Col md={ 5 } >
                 <div className='pull-right'>
                     <Button
                       onClick={ openSearchCajaModal }
                       disabled={ apiLoading }
                     >
                         Buscar movimiento
+                    </Button>{' '}
+                    <Button
+                      onClick={ () => window.open(`${config.baseUrl}/api/caja/imprimir/${querystring(searchParams, '')}`) }
+                      disabled={ apiLoading }
+                    >
+                        Imprimir
                     </Button>{' '}
                     <Button
                       onClick={ createMovimientos }
@@ -55,14 +64,15 @@ CajaActionBar.propTypes = {
     consultorio1: number.isRequired,
     consultorio2: number.isRequired,
     general: number.isRequired,
+    searchParams: object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         apiLoading: state.cajaReducer.apiLoading,
-        consultorio1: state.cajaReducer.montoConsultorio1,
-        consultorio2: state.cajaReducer.montoConsultorio2,
-        general: state.cajaReducer.montoGeneral,
+        consultorio1: Number(state.cajaReducer.montoConsultorio1),
+        consultorio2: Number(state.cajaReducer.montoConsultorio2),
+        general: Number(state.cajaReducer.montoGeneral),
     };
 }
 
