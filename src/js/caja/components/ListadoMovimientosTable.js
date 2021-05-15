@@ -11,6 +11,7 @@ function ListadoMovimientosTable({ movimientos, pageNumber, updatePageNumber }) 
                 <thead>
                     <tr>
                         <th>Fecha Movimiento</th>
+                        <th>Usuario</th>
                         <th>Tipo Movimiento</th>
                         <th>Descripcion Movimiento</th>
                         <th>Monto</th>
