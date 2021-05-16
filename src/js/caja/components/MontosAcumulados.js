@@ -1,26 +1,36 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
-import { Row, Col, Well } from 'react-bootstrap';
+import { Row, Col, ListGroupItem, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { FETCH_MONTOS_ACUMULADOS } from '../actionTypes';
 
 function MontosAcumulados({ fetchMontosAcumulados, consultorio1, consultorio2, general }) {
+    const style = {
+        listGroup: { flexDirection: 'row' },
+        listGroupItem: { float: 'left' },
+    };
+
     useEffect(() => {
         fetchMontosAcumulados();
     }, []);
+
     return (
         <Row>
-            <Col md={ 3 }>
-                <Well>Total: { consultorio1 + consultorio2 + general }</Well>
-            </Col>
-            <Col md={ 3 }>
-                <Well>Consultorio 1: { consultorio1 }</Well>
-            </Col>
-            <Col md={ 3 }>
-                <Well>Consultorio 2: { consultorio2 }</Well>
-            </Col>
-            <Col md={ 3 }>
-                <Well>General: { general }</Well>
+            <Col md={ 12 }>
+                <ListGroup style={ style.listGroup }>
+                    <ListGroupItem style={ style.listGroupItem } >
+                        Total: { consultorio1 + consultorio2 + general }
+                    </ListGroupItem>
+                    <ListGroupItem style={ style.listGroupItem } >
+                        Consultorio 1: { consultorio1 }
+                    </ListGroupItem>
+                    <ListGroupItem style={ style.listGroupItem } >
+                        Consultorio 2: { consultorio2 }
+                    </ListGroupItem>
+                    <ListGroupItem style={ style.listGroupItem } >
+                        General: { general }
+                    </ListGroupItem>
+                </ListGroup>
             </Col>
         </Row>
     );
