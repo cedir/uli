@@ -29,8 +29,8 @@ export function crearMovimientosCajaEpic(action$) {
                 { type: ADD_ALERT, alert: createAlert('Movimientos creados correctamente') },
             ))
             .catch(data => Rx.Observable.of(
-                { type: CREATE_MOVIMIENTOS_CAJA_FAILED, volver: action.goBack() },
-                { type: ADD_ALERT, alert: createAlert(data.response.error, 'danger') },
+                { type: CREATE_MOVIMIENTOS_CAJA_FAILED },
+                { type: ADD_ALERT, alert: createAlert(`Ocurrio un error al crear los montos: ${data.response.error}`, 'danger') },
             )));
 }
 

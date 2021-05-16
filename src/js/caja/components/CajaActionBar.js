@@ -10,23 +10,25 @@ function CajaActionBar({
     openSearchCajaModal,
     history,
     apiLoading,
-    consultorio1,
-    consultorio2,
-    general,
+    montoConsultorio1,
+    montoConsultorio2,
+    montoGeneral,
     searchParams,
 }) {
+    const montoTotal = montoConsultorio1 + montoConsultorio2 + montoGeneral;
     const location = {
         pathname: '/caja/create',
-        state: { montoAcumulado: consultorio1 + consultorio2 + general },
+        state: { montoAcumulado: montoTotal },
     };
     const createMovimientos = () => history.push(location);
     return (
         <Row>
             <Col md={ 7 }>
                 <MontosAcumulados
-                  general={ general }
-                  consultorio1={ consultorio1 }
-                  consultorio2={ consultorio2 }
+                  general={ montoGeneral }
+                  consultorio1={ montoConsultorio1 }
+                  consultorio2={ montoConsultorio2 }
+                  total={ montoTotal }
                 />
             </Col>
             <Col md={ 5 } >
@@ -61,18 +63,18 @@ CajaActionBar.propTypes = {
     openSearchCajaModal: func.isRequired,
     history: object.isRequired,
     apiLoading: bool.isRequired,
-    consultorio1: number.isRequired,
-    consultorio2: number.isRequired,
-    general: number.isRequired,
+    montoConsultorio1: number.isRequired,
+    montoConsultorio2: number.isRequired,
+    montoGeneral: number.isRequired,
     searchParams: object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         apiLoading: state.cajaReducer.apiLoading,
-        consultorio1: Number(state.cajaReducer.montoConsultorio1),
-        consultorio2: Number(state.cajaReducer.montoConsultorio2),
-        general: Number(state.cajaReducer.montoGeneral),
+        montoConsultorio1: Number(state.cajaReducer.montoConsultorio1),
+        montoConsultorio2: Number(state.cajaReducer.montoConsultorio2),
+        montoGeneral: Number(state.cajaReducer.montoGeneral),
     };
 }
 
