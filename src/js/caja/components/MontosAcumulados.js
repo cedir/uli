@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Row, Col, ListGroupItem, ListGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { FETCH_MONTOS_ACUMULADOS } from '../actionTypes';
+import './MontosAcumulados.css';
 
 function MontosAcumulados({ fetchMontosAcumulados, consultorio1, consultorio2, general }) {
     const style = {
@@ -17,18 +18,18 @@ function MontosAcumulados({ fetchMontosAcumulados, consultorio1, consultorio2, g
     return (
         <Row>
             <Col md={ 12 }>
-                <ListGroup style={ style.listGroup }>
-                    <ListGroupItem style={ style.listGroupItem } >
-                        Total: { consultorio1 + consultorio2 + general }
+                <ListGroup style={ style.listGroup } >
+                    <ListGroupItem style={ style.listGroupItem } id='list-group-primero' >
+                        Total: ${ consultorio1 + consultorio2 + general }
                     </ListGroupItem>
-                    <ListGroupItem style={ style.listGroupItem } >
-                        Consultorio 1: { consultorio1 }
+                    <ListGroupItem style={ style.listGroupItem } id='list-group-medio' >
+                        Consultorio 1: ${ consultorio1 }
                     </ListGroupItem>
-                    <ListGroupItem style={ style.listGroupItem } >
-                        Consultorio 2: { consultorio2 }
+                    <ListGroupItem style={ style.listGroupItem } id='list-group-medio' >
+                        Consultorio 2: ${ consultorio2 }
                     </ListGroupItem>
-                    <ListGroupItem style={ style.listGroupItem } >
-                        General: { general }
+                    <ListGroupItem style={ style.listGroupItem } id='list-group-ultimo' >
+                        General: ${ general }
                     </ListGroupItem>
                 </ListGroup>
             </Col>
