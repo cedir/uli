@@ -7,10 +7,11 @@ import ListadoMovimientosTableRow from './ListadoMovimientosTableRow';
 function ListadoMovimientosTable({ movimientos, pageNumber, updatePageNumber }) {
     return (
         <React.Fragment>
-            <Table striped responsive>
+            <Table striped responsive style={ { marginTop: '3rem' } }>
                 <thead>
                     <tr>
                         <th>Fecha Movimiento</th>
+                        <th>Usuario</th>
                         <th>Tipo Movimiento</th>
                         <th>Descripcion Movimiento</th>
                         <th>Monto</th>
