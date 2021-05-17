@@ -44,6 +44,6 @@ export function updateMovimientosCajaEpic(action$) {
             ))
             .catch(data => Rx.Observable.of(
                 { type: UPDATE_MOVIMIENTO_CAJA_FAILED, closeModal: action.setModal(false) },
-                { type: ADD_ALERT, alert: createAlert(`Error modificar el movimiento: ${data.response}`, 'danger') },
+                { type: ADD_ALERT, alert: createAlert(`Error al modificar el movimiento: ${data.response}`, 'danger') },
             )));
 }

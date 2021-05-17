@@ -14,7 +14,6 @@ function CajaActionBar({
         state: { montoAcumulado },
     };
     const createMovimientos = () => history.push(location);
-    console.log(createMovimientos);
     return (
         <Row>
             <Col md={ 6 }>

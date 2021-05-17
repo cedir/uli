@@ -40,7 +40,7 @@ export function crearMovimientos({ movimientos, estudioAsociado }) {
 export function updateMovimiento(datos) {
     const url = `/api/caja/${datos.id}/update_movimientos/`;
 
-    const medico = datos.medico ? datos.medico : [];
+    const medico = datos.medico || [];
 
     const body = {
         concepto: datos.concepto ? datos.concepto : '',
