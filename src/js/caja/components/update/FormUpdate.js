@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Field, formValueSelector, change } from 'redux-form';
@@ -10,20 +10,11 @@ import MedicoField from '../../../utilities/components/forms/MedicoField';
 import { tiposMovimiento } from '../../../utilities/generalUtilities';
 
 function FormUpdate({ medico, updateForm, movimiento }) {
-    const [medicoField, setMedicoField] = useState(null);
-
     useEffect(() => {
         updateForm('concepto', movimiento.concepto);
         updateForm('tipo', movimiento.tipo.id);
+        updateForm('medico', movimiento.medico ? [movimiento.medico] : []);
     }, []);
-
-    useEffect(() => {
-        if (!medicoField) {
-            setMedicoField(movimiento.medico ? [movimiento.medico] : []);
-        } else {
-            setMedicoField(medico);
-        }
-    }, [medico]);
 
     return (
         <Row>
@@ -54,7 +45,7 @@ function FormUpdate({ medico, updateForm, movimiento }) {
                   nameField='medico'
                   label='Medico'
                   type='actuante'
-                  medico={ medicoField }
+                  medico={ medico }
                 />
             </Col>
         </Row>
