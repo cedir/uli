@@ -5,6 +5,7 @@ import { Button, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 import MontosAcumulados from './MontosAcumulados';
 import { querystring } from '../api';
 import { config } from '../../app/config';
+import { round } from '../../utilities/utilFunctions';
 
 function CajaActionBar({
     openSearchCajaModal,
@@ -15,7 +16,7 @@ function CajaActionBar({
     montoGeneral,
     searchParams,
 }) {
-    const montoTotal = montoConsultorio1 + montoConsultorio2 + montoGeneral;
+    const montoTotal = round(montoConsultorio1 + montoConsultorio2 + montoGeneral);
     const location = {
         pathname: '/caja/create',
         state: { montoAcumulado: montoTotal },
