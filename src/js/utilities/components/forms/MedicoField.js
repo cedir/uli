@@ -53,7 +53,7 @@ const { string, func, bool, array } = PropTypes;
 MedicoField.propTypes = {
     nameField: string.isRequired,
     label: string,
-    medico: array.isRequired,
+    medico: array,
     type: string.isRequired,
     fetchActuantes: func.isRequired,
     fetchSolicitantes: func.isRequired,

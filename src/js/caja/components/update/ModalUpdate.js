@@ -18,7 +18,11 @@ function ModalUpdate({
     updateMovimiento,
     // handleClose,
 }) {
-    console.log(setModal);
+    const enviarDatos = (data) => {
+        const datos = { ...data, id: movimiento.id };
+        updateMovimiento(datos, setModal);
+    };
+
     return (
         <Modal
           show={ modalOpened }
@@ -32,10 +36,10 @@ function ModalUpdate({
                     <ViewMovimiento movimiento={ movimiento } />
                     <Form
                       onSubmit={ handleSubmit((data) => {
-                          updateMovimiento(data, setModal);
+                          enviarDatos(data);
                       }) }
                     >
-                        <FormUpdate />
+                        <FormUpdate movimiento={ movimiento } />
                         <Botones setModal={ setModal } />
                     </Form>
                 </Col>
@@ -62,8 +66,8 @@ const UpdateCajaFormRedux = reduxForm({ // ver
 
 function mapDispatchToProps(dispatch) {
     return {
-        updateMovimiento: (data, setModal) =>
-            dispatch({ type: UPDATE_MOVIMIENTO_CAJA, data, setModal }),
+        updateMovimiento: (datos, setModal) =>
+            dispatch({ type: UPDATE_MOVIMIENTO_CAJA, datos, setModal }),
     };
 }
 

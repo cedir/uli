@@ -1,7 +1,8 @@
 import Rx from 'rxjs';
-import { getMovimientos, crearMovimientos } from './api';
+import { getMovimientos, crearMovimientos, updateMovimiento } from './api';
 import { FETCH_MOVIMIENTOS_CAJA, LOAD_MOVIMIENTOS_CAJA_SUCCESS, LOAD_MOVIMIENTOS_CAJA_ERROR,
-CREATE_MOVIMIENTOS_CAJA, CREATE_MOVIMIENTOS_CAJA_FAILED, CREATE_MOVIMIENTOS_CAJA_SUCCESS } from './actionTypes';
+CREATE_MOVIMIENTOS_CAJA, CREATE_MOVIMIENTOS_CAJA_FAILED, CREATE_MOVIMIENTOS_CAJA_SUCCESS,
+UPDATE_MOVIMIENTO_CAJA, UPDATE_MOVIMIENTO_CAJA_FAILED, UPDATE_MOVIMIENTO_CAJA_SUCCESS } from './actionTypes';
 import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
 import { createAlert } from '../utilities/components/alert/alertUtility';
 
@@ -30,5 +31,19 @@ export function crearMovimientosCajaEpic(action$) {
             .catch(data => Rx.Observable.of(
                 { type: CREATE_MOVIMIENTOS_CAJA_FAILED },
                 { type: ADD_ALERT, alert: createAlert(data.response.error, 'danger') },
+            )));
+}
+
+export function updateMovimientosCajaEpic(action$) {
+    return action$.ofType(UPDATE_MOVIMIENTO_CAJA)
+        .mergeMap(action =>
+            updateMovimiento(action.datos)
+            .mergeMap(data => Rx.Observable.of(
+                { type: UPDATE_MOVIMIENTO_CAJA_SUCCESS, data, closeModal: action.setModal(false) },
+                { type: ADD_ALERT, alert: createAlert('Movimiento modificado correctamente') },
+            ))
+            .catch(data => Rx.Observable.of(
+                { type: UPDATE_MOVIMIENTO_CAJA_FAILED, closeModal: action.setModal(false) },
+                { type: ADD_ALERT, alert: createAlert(`Error modificar el movimiento: ${data.response}`, 'danger') },
             )));
 }

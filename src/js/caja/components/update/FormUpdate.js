@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Field, formValueSelector } from 'redux-form';
+import { Field, formValueSelector, change } from 'redux-form';
 import { Row, Col } from 'react-bootstrap';
 
 import { required } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
 import MedicoField from '../../../utilities/components/forms/MedicoField';
 
-function FormUpdate({ medico }) {
+function FormUpdate({ medico, updateForm, movimiento }) {
     const tiposMovimiento = [ // ver de importarlo general asi no se repite
         { text: 'General', value: 1 },
         { text: 'Honorario Médico', value: 2 },
@@ -23,12 +23,27 @@ function FormUpdate({ medico }) {
         { text: 'Egreso', value: 11 },
         { text: 'Consultorio 2', value: 12 },
     ];
+    const [medicoField, setMedicoField] = useState(null);
+
+    useEffect(() => {
+        updateForm('concepto', movimiento.concepto);
+        updateForm('tipo', movimiento.tipo.id);
+    }, []);
+
+    useEffect(() => {
+        if (!medicoField) {
+            setMedicoField(movimiento.medico ? [movimiento.medico] : []);
+        } else {
+            setMedicoField(medico);
+        }
+    }, [medico]);
+
     return (
         <Row>
             <Col md={ 4 }>
                 <Field
-                  name={ 'tipoMovimiento' }
-                  label={ 'Descripcion Movimiento' }
+                  name='tipo'
+                  label='Descripcion Movimiento'
                   component={ InputRF }
                   componentClass='select'
                   selectOptions={ tiposMovimiento }
@@ -41,18 +56,18 @@ function FormUpdate({ medico }) {
             </Col>
             <Col md={ 4 }>
                 <Field
-                  name={ 'concepto' }
-                  label={ 'Concepto' }
+                  name='concepto'
+                  label='Concepto'
                   component={ InputRF }
                   nullValue=''
                 />
             </Col>
             <Col md={ 4 }>
                 <MedicoField
-                  nameField={ 'medico' }
-                  label={ 'Medico' }
-                  type={ 'actuante' }
-                  medico={ medico }
+                  nameField='medico'
+                  label='Medico'
+                  type='actuante'
+                  medico={ medicoField }
                 />
             </Col>
         </Row>
@@ -60,6 +75,14 @@ function FormUpdate({ medico }) {
 }
 
 const selector = formValueSelector('UpdateCajaFormRedux');
+
+const { array, func, object } = PropTypes;
+
+FormUpdate.propTypes = {
+    medico: array.isRequired,
+    updateForm: func.isRequired,
+    movimiento: object.isRequired,
+};
 
 function mapStateToProps(state) {
     let medico = selector(state, 'medico');
@@ -70,11 +93,10 @@ function mapStateToProps(state) {
     return { medico };
 }
 
-const { array } = PropTypes;
+function mapDispatchToProps(dispatch) {
+    return {
+        updateForm: (name, value) => dispatch(change('UpdateCajaFormRedux', name, value)),
+    };
+}
 
-FormUpdate.propTypes = {
-    medico: array.isRequired,
-};
-
-
-export default connect(mapStateToProps)(FormUpdate);
+export default connect(mapStateToProps, mapDispatchToProps)(FormUpdate);
