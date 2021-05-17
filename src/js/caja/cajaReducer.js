@@ -26,7 +26,7 @@ const actionsHandledByEpicReducer = state => ({
     apiLoading: true,
 });
 
-const createMovimientosCajaFinish = state => ({
+const actionsHandledByEpicReducerFinish = state => ({
     ...state,
     apiLoading: false,
 });
@@ -34,17 +34,6 @@ const createMovimientosCajaFinish = state => ({
 const asociarEstudio = (state, action) => ({
     ...state,
     estudioAsociado: action.estudio,
-});
-
-const updateMovimientoCajaSucces = (state, action) => ({
-    log: console.log(action),
-    ...state,
-    apiLoading: false,
-});
-
-const updateMovimientoCajaFailed = state => ({
-    ...state,
-    apiLoading: false,
 });
 
 export function cajaReducer(state = initialState, action) {
@@ -57,15 +46,13 @@ export function cajaReducer(state = initialState, action) {
         case FETCH_MOVIMIENTOS_CAJA:
         case UPDATE_MOVIMIENTO_CAJA:
             return actionsHandledByEpicReducer(state);
-        case CREATE_MOVIMIENTOS_CAJA_FAILED:
-        case CREATE_MOVIMIENTOS_CAJA_SUCCESS:
-            return createMovimientosCajaFinish(state);
         case ASOCIAR_ESTUDIO:
             return asociarEstudio(state, action);
+        case CREATE_MOVIMIENTOS_CAJA_SUCCESS:
         case UPDATE_MOVIMIENTO_CAJA_SUCCESS:
-            return updateMovimientoCajaSucces(state, action);
         case UPDATE_MOVIMIENTO_CAJA_FAILED:
-            return updateMovimientoCajaFailed(state);
+        case CREATE_MOVIMIENTOS_CAJA_FAILED:
+            return actionsHandledByEpicReducerFinish(state, action);
         default:
             return state;
     }
