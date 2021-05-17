@@ -28,7 +28,6 @@ export function estudioConAsociadosEpic(action$) {
         .mergeMap(action =>
             getEstudiosConAsociados(action.fetchEstudiosParams)
             .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
                 { type: LOAD_ESTUDIOS_DIARIOS, data },
             ))
             .catch(() => (Rx.Observable.of(

@@ -6,6 +6,7 @@ import { Row, Col, Button, Glyphicon, Form } from 'react-bootstrap';
 import InputRF from '../../../utilities/InputRF';
 import MedicoField from '../../../utilities/components/forms/MedicoField';
 import PacienteField from '../../../utilities/components/forms/PacienteField';
+import initialValues from '../../cajaSearchFormInitialState';
 
 function SearchCajaForm({
     actuante,
@@ -137,6 +138,7 @@ SearchCajaForm.propTypes = {
 const SearchCajaFormReduxForm = reduxForm({
     form: 'searchCaja',
     destroyOnUnmount: false,
+    initialValues,
 })(SearchCajaForm);
 
 const selector = formValueSelector('searchCaja');

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { formValueSelector } from 'redux-form';
+import { isEmpty } from 'lodash';
 
 import CajaActionBar from './CajaActionBar';
 import SearchCajaModal from './search/SearchCajaModal';
 import ListadoMovimientosTable from './ListadoMovimientosTable';
 
 import { FETCH_MOVIMIENTOS_CAJA } from '../actionTypes';
+import initialValues from '../cajaSearchFormInitialState';
 
 function CajaMain({
     fetchMovimientosCaja,
@@ -19,15 +21,16 @@ function CajaMain({
     const [modalOpened, setModalOpened] = useState(false);
 
     useEffect(() => {
-        fetchMovimientosCaja(searchParams);
+        if (!isEmpty(searchParams)) {
+            fetchMovimientosCaja(searchParams);
+        } else {
+            fetchMovimientosCaja(initialValues);
+        }
     }, []);
-
-    const getMontoAcumulado = movimientos.length > 0 ? movimientos[0].monto_acumulado : '0';
 
     return (
         <div className='ibox-content'>
             <CajaActionBar
-              montoAcumulado={ getMontoAcumulado }
               openSearchCajaModal={ () => setModalOpened(true) }
               searchParams={ searchParams }
               history={ history }
