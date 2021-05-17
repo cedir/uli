@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 
 import { UPDATE_MOVIMIENTO_CAJA } from '../../actionTypes';
 
-import Botones from './Botones';
+import BotonesUpdate from './BotonesUpdate';
 import CajaTableView from '../CajaTableView';
 import FormUpdate from './FormUpdate';
 
@@ -30,7 +30,7 @@ function ModalUpdate({
                         updateMovimiento({ ...data, id: movimiento.id }, setModal)) }
                     >
                         <FormUpdate movimiento={ movimiento } />
-                        <Botones setModal={ setModal } />
+                        <BotonesUpdate setModal={ setModal } />
                     </Form>
                 </Col>
             </Modal.Body>

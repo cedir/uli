@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-function Botones({ setModal, apiLoading }) {
+function BotonesUpdate({ setModal, apiLoading }) {
     return (
         <Row>
             <Button
@@ -28,7 +28,7 @@ function Botones({ setModal, apiLoading }) {
 
 const { bool, func } = PropTypes;
 
-Botones.propTypes = {
+BotonesUpdate.propTypes = {
     setModal: func.isRequired,
     apiLoading: bool.isRequired,
 };
@@ -38,4 +38,4 @@ function mapStateToProps(state) {
         apiLoading: state.cajaReducer.apiLoading,
     };
 }
-export default connect(mapStateToProps)(Botones);
+export default connect(mapStateToProps)(BotonesUpdate);
