@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 
 import { UPDATE_MOVIMIENTO_CAJA } from '../../actionTypes';
 
-import ViewMovimiento from './ViewMovimiento';
-import FormUpdate from './FormUpdate';
 import Botones from './Botones';
+import CajaTableView from '../CajaTableView';
+import FormUpdate from './FormUpdate';
 
 function ModalUpdate({
     modalOpened,
@@ -16,28 +16,18 @@ function ModalUpdate({
     movimiento,
     handleSubmit,
     updateMovimiento,
-    // handleClose,
 }) {
-    const enviarDatos = (data) => {
-        const datos = { ...data, id: movimiento.id };
-        updateMovimiento(datos, setModal);
-    };
-
     return (
-        <Modal
-          show={ modalOpened }
-        //   onHide={ () => handleClose() }style="border-top: 1px solid #e5e5e5; padding-top: 2rem"
-        >
+        <Modal show={ modalOpened } >
             <Modal.Header >
-                <Modal.Title>{ 'Modificar Movimiento' }</Modal.Title>
+                <Modal.Title>Modificar Movimiento</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Col>
-                    <ViewMovimiento movimiento={ movimiento } />
+                    <CajaTableView movimientos={ [movimiento] } fromUpdate />
                     <Form
-                      onSubmit={ handleSubmit((data) => {
-                          enviarDatos(data);
-                      }) }
+                      onSubmit={ handleSubmit(data =>
+                        updateMovimiento({ ...data, id: movimiento.id }, setModal)) }
                     >
                         <FormUpdate movimiento={ movimiento } />
                         <Botones setModal={ setModal } />

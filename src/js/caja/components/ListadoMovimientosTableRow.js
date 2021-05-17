@@ -6,7 +6,7 @@ function ListadoMovimientosTableRow({
     movimiento,
     setMovimiento,
     setModal,
-    fromModalUpdate,
+    fromUpdate,
 }) {
     const { fecha, monto, monto_acumulado: montoAcumulado, concepto,
         tipo = {}, estudio, medico } = movimiento;
@@ -33,14 +33,11 @@ function ListadoMovimientosTableRow({
             <td>{practica}</td>
             <td>{nombrePaciente}</td>
             <td>{getNombreMedico()}</td>
-            { !fromModalUpdate &&
+            { !fromUpdate &&
                 <td>
                     <Button
                       bsStyle='link'
-                      onClick={ () => {
-                          setMovimiento(movimiento);
-                          setModal(true);
-                      } }
+                      onClick={ () => { setMovimiento(movimiento); setModal(true); } }
                     >
                         <Glyphicon glyph='pencil' />
                     </Button>
@@ -50,11 +47,13 @@ function ListadoMovimientosTableRow({
     );
 }
 
+const { object, func, bool } = PropTypes;
+
 ListadoMovimientosTableRow.propTypes = {
-    movimiento: PropTypes.object.isRequired,
-    setMovimiento: PropTypes.func,
-    setModal: PropTypes.func,
-    fromModalUpdate: PropTypes.bool,
+    movimiento: object.isRequired,
+    setMovimiento: func,
+    setModal: func,
+    fromUpdate: bool,
 };
 
 export default ListadoMovimientosTableRow;
