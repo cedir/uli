@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap/dist/react-bootstrap';
 import CajaPaginacion from './CajaPaginacion';
 import ListadoMovimientosTableRow from './ListadoMovimientosTableRow';
+import ModalUpdate from './update/ModalUpdate';
 
 function ListadoMovimientosTable({ movimientos, pageNumber, updatePageNumber }) {
+    const [movimientoUpdate, setMovimientoUpdate] = useState({});
+    const [modal, setModal] = useState(false);
+    const fromModalUpdate = false;
     return (
         <React.Fragment>
             <Table striped responsive>
@@ -19,6 +23,7 @@ function ListadoMovimientosTable({ movimientos, pageNumber, updatePageNumber }) 
                         <th>Practica</th>
                         <th>Paciente</th>
                         <th>Medico</th>
+                        <th> </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,11 +31,19 @@ function ListadoMovimientosTable({ movimientos, pageNumber, updatePageNumber }) 
                         <ListadoMovimientosTableRow
                           key={ movimiento.id }
                           movimiento={ movimiento }
+                          setMovimiento={ setMovimientoUpdate }
+                          setModal={ setModal }
+                          fromModalUpdate={ fromModalUpdate }
                         />
                     )) }
                 </tbody>
             </Table>
             <CajaPaginacion pageNumber={ pageNumber } updatePageNumber={ updatePageNumber } />
+            <ModalUpdate
+              movimiento={ movimientoUpdate }
+              setModal={ setModal }
+              modalOpened={ modal }
+            />
         </React.Fragment>
     );
 }

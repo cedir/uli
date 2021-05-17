@@ -32,12 +32,12 @@ function CajaActionBar({
                     >
                         Buscar movimiento
                     </Button>{' '}
-                    {/* <Button
+                    <Button
                       onClick={ createMovimientos }
                       disabled={ apiLoading }
                     >
                         Crear Movimientos
-                    </Button> */}
+                    </Button>
                 </div>
             </Col>
         </Row>
