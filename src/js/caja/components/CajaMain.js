@@ -63,7 +63,7 @@ const selector = formValueSelector('searchCaja');
 
 function mapStateToProps(state) {
     const searchParams = selector(state, 'tipoMovimiento', 'concepto', 'medicoActuante',
-        'fechaDesde', 'fechaHasta', 'incluirEstudio');
+        'fechaDesde', 'fechaHasta', 'incluirEstudio', 'paciente');
 
     return {
         movimientos: state.cajaReducer.movimientos,
