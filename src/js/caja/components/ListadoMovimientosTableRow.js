@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Glyphicon, Button } from 'react-bootstrap';
 
-function ListadoMovimientosTableRow({ movimiento }) {
+function ListadoMovimientosTableRow({
+    movimiento,
+    setMovimiento,
+    setModal,
+    fromUpdate,
+}) {
     const { fecha, monto, monto_acumulado: montoAcumulado, concepto,
         tipo = {}, estudio, medico, user, hora } = movimiento;
     const tipoDescripcion = tipo.descripcion || '-';
@@ -29,12 +35,27 @@ function ListadoMovimientosTableRow({ movimiento }) {
             <td>{practica}</td>
             <td>{nombrePaciente}</td>
             <td>{getNombreMedico()}</td>
+            { !fromUpdate &&
+                <td>
+                    <Button
+                      bsStyle='link'
+                      onClick={ () => { setMovimiento(movimiento); setModal(true); } }
+                    >
+                        <Glyphicon glyph='pencil' />
+                    </Button>
+                </td>
+            }
         </tr>
     );
 }
 
+const { object, func, bool } = PropTypes;
+
 ListadoMovimientosTableRow.propTypes = {
-    movimiento: PropTypes.object,
+    movimiento: object.isRequired,
+    setMovimiento: func,
+    setModal: func,
+    fromUpdate: bool,
 };
 
 export default ListadoMovimientosTableRow;

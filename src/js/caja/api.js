@@ -1,4 +1,4 @@
-import { get, post } from '../utilities/rest';
+import { get, patch, post } from '../utilities/rest';
 
 export function querystring(searchParams, pageNumber) {
     const {
@@ -38,6 +38,24 @@ export function crearMovimientos({ movimientos, estudioAsociado }) {
     };
 
     return post(url, body, headers);
+}
+
+export function updateMovimiento(datos) {
+    const url = `/api/caja/${datos.id}/update_movimientos/`;
+
+    const medico = datos.medico || [];
+
+    const body = {
+        concepto: datos.concepto ? datos.concepto : '',
+        medico: medico.length > 0 ? medico[0].id : '',
+        tipo: datos.tipo,
+    };
+
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+
+    return patch(url, body, headers);
 }
 
 export function fetchMontosAcumulados() {

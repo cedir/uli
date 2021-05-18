@@ -1,37 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Table } from 'react-bootstrap/dist/react-bootstrap';
 import CajaPaginacion from './CajaPaginacion';
-import ListadoMovimientosTableRow from './ListadoMovimientosTableRow';
+import ModalUpdate from './update/ModalUpdate';
+import CajaTableView from './CajaTableView';
 
 function ListadoMovimientosTable({ movimientos, pageNumber, updatePageNumber }) {
+    const [movimientoUpdate, setMovimientoUpdate] = useState({});
+    const [modal, setModal] = useState(false);
     return (
         <React.Fragment>
-            <Table striped responsive style={ { marginTop: '3rem' } }>
-                <thead>
-                    <tr>
-                        <th>Fecha Movimiento</th>
-                        <th>Usuario</th>
-                        <th>Tipo Movimiento</th>
-                        <th>Descripcion Movimiento</th>
-                        <th>Monto</th>
-                        <th>Monto acumulado</th>
-                        <th>Obra social</th>
-                        <th>Practica</th>
-                        <th>Paciente</th>
-                        <th>Medico</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    { movimientos.map(movimiento => (
-                        <ListadoMovimientosTableRow
-                          key={ movimiento.id }
-                          movimiento={ movimiento }
-                        />
-                    )) }
-                </tbody>
-            </Table>
+            <CajaTableView
+              movimientos={ movimientos }
+              setMovimiento={ setMovimientoUpdate }
+              setModal={ setModal }
+            />
             <CajaPaginacion pageNumber={ pageNumber } updatePageNumber={ updatePageNumber } />
+            <ModalUpdate
+              movimiento={ movimientoUpdate }
+              setModal={ setModal }
+              modalOpened={ modal }
+            />
         </React.Fragment>
     );
 }
