@@ -75,6 +75,12 @@ const fetchMontosAcumuladosFailed = state => ({
     apiLoading: false,
 });
 
+const createMovimientosCajaSuccess = state => ({
+    ...state,
+    apiLoading: false,
+    estudioAsociado: {},
+});
+
 export function cajaReducer(state = initialState, action) {
     switch (action.type) {
         case LOAD_MOVIMIENTOS_CAJA_SUCCESS:
@@ -88,10 +94,11 @@ export function cajaReducer(state = initialState, action) {
             return actionsHandledByEpicReducer(state);
         case ASOCIAR_ESTUDIO:
             return asociarEstudio(state, action);
-        case CREATE_MOVIMIENTOS_CAJA_SUCCESS:
         case UPDATE_MOVIMIENTO_CAJA_FAILED:
         case CREATE_MOVIMIENTOS_CAJA_FAILED:
             return actionsHandledByEpicReducerFinish(state, action);
+        case CREATE_MOVIMIENTOS_CAJA_SUCCESS:
+            return createMovimientosCajaSuccess(state);
         case UPDATE_MOVIMIENTO_CAJA_SUCCESS:
             return updateMovimientoCajaSuccess(state, action);
         case FETCH_MONTOS_ACUMULADOS_SUCCESS:
