@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Form, reduxForm, FieldArray } from 'redux-form';
+import { Form, reduxForm, FieldArray, destroy } from 'redux-form';
 import CreateMovimientosForm from './CreateMovimientosForm';
 import { CREATE_MOVIMIENTOS_CAJA, ASOCIAR_ESTUDIO } from '../../actionTypes';
 import HeaderCreateMovimientoCaja from './HeaderCreateMovimientoCaja';
@@ -13,6 +13,7 @@ function CreateCajaForm({
     valid,
     estudioAsociado,
     asociarEstudio,
+    destruirForm,
     location,
 }) {
     const fromCajaLocation = {
@@ -49,12 +50,13 @@ function CreateCajaForm({
                 tipo.text === movimiento.tipoMovimiento),
             medico: movimiento.medico ? movimiento.medico[0] : '',
         })),
-    });
+    }, history.goBack);
 
     return (
         <Form
           onSubmit={ handleSubmit((movimientos) => {
               enviarFormulario(movimientos.movimientos);
+              destruirForm();
           }) }
         >
             <HeaderCreateMovimientoCaja
@@ -64,7 +66,6 @@ function CreateCajaForm({
               estudioAsociado={ estudioAsociado }
               montoAcumulado={ montoAcumulado }
               totalGrilla={ totalGrilla }
-              goBack={ history.goBack }
             />
             <FieldArray
               name='movimientos'
@@ -86,12 +87,13 @@ CreateCajaForm.propTypes = {
     estudioAsociado: object.isRequired,
     asociarEstudio: func.isRequired,
     location: object.isRequired,
+    destruirForm: func.isRequired,
 };
 
 const CreateCajaFormRedux = reduxForm({
     form: 'CreateCajaFormRedux',
     destroyOnUnmount: false,
-    enableReinitialize: true,
+    enableReinitialize: false,
 })(CreateCajaForm);
 
 function mapStateToProps(state) {
@@ -102,8 +104,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        createMovimiento: movimientos => dispatch({ type: CREATE_MOVIMIENTOS_CAJA, movimientos }),
+        createMovimiento: (movimientos, goBack) =>
+            dispatch({ type: CREATE_MOVIMIENTOS_CAJA, movimientos, goBack }),
         asociarEstudio: estudio => dispatch({ type: ASOCIAR_ESTUDIO, estudio }),
+        destruirForm: () => dispatch(destroy('CreateCajaFormRedux')),
     };
 }
 

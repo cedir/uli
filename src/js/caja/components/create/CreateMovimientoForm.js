@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
-import { required, alpha, numberValue } from '../../../utilities/reduxFormValidators';
+import { required, numberValue } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
 import AsyncTypeaheadRF from '../../../utilities/AsyncTypeaheadRF';
 
@@ -46,7 +46,7 @@ function CreateMovimientoForm({
                   component={ InputRF }
                   componentClass='select'
                   selectOptions={ tiposMovimientos }
-                  validate={ validate && [alpha, required] }
+                  validate={ validate && [required] }
                   customErrorMsg='Debe seleccionar una opcion'
                   type='text'
                 />
@@ -56,6 +56,7 @@ function CreateMovimientoForm({
                   name={ `${index}.monto` }
                   placeholder='0.00'
                   component={ InputRF }
+                  autoComplete='off'
                   validate={ validate && [required, numberValue] }
                   nullValue=''
                 />

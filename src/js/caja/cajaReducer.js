@@ -2,7 +2,8 @@ import initialState from './cajaReducerInitialState';
 import { FETCH_MOVIMIENTOS_CAJA, LOAD_MOVIMIENTOS_CAJA_SUCCESS,
     LOAD_MOVIMIENTOS_CAJA_ERROR, CREATE_MOVIMIENTOS_CAJA,
     CREATE_MOVIMIENTOS_CAJA_SUCCESS, CREATE_MOVIMIENTOS_CAJA_FAILED,
-    ASOCIAR_ESTUDIO, UPDATE_MOVIMIENTO_CAJA, UPDATE_MOVIMIENTO_CAJA_FAILED,
+    ASOCIAR_ESTUDIO, FETCH_MONTOS_ACUMULADOS, FETCH_MONTOS_ACUMULADOS_FAILED,
+    FETCH_MONTOS_ACUMULADOS_SUCCESS, UPDATE_MOVIMIENTO_CAJA, UPDATE_MOVIMIENTO_CAJA_FAILED,
     UPDATE_MOVIMIENTO_CAJA_SUCCESS } from './actionTypes';
 import { tiposMovimiento } from '../utilities/generalUtilities';
 
@@ -58,6 +59,22 @@ const updateMovimientoCajaSuccess = (state, action) => ({
     apiLoading: false,
 });
 
+const fetchMontosAcumuladosSuccess = (state, action) => ({
+    ...state,
+    montoConsultorio1: action.montos.consultorio_1,
+    montoConsultorio2: action.montos.consultorio_2,
+    montoGeneral: action.montos.general,
+    apiLoading: false,
+});
+
+const fetchMontosAcumuladosFailed = state => ({
+    ...state,
+    montoConsultorio1: '0',
+    montoConsultorio2: '0',
+    montoGeneral: '0',
+    apiLoading: false,
+});
+
 export function cajaReducer(state = initialState, action) {
     switch (action.type) {
         case LOAD_MOVIMIENTOS_CAJA_SUCCESS:
@@ -67,6 +84,7 @@ export function cajaReducer(state = initialState, action) {
         case CREATE_MOVIMIENTOS_CAJA:
         case FETCH_MOVIMIENTOS_CAJA:
         case UPDATE_MOVIMIENTO_CAJA:
+        case FETCH_MONTOS_ACUMULADOS:
             return actionsHandledByEpicReducer(state);
         case ASOCIAR_ESTUDIO:
             return asociarEstudio(state, action);
@@ -76,6 +94,10 @@ export function cajaReducer(state = initialState, action) {
             return actionsHandledByEpicReducerFinish(state, action);
         case UPDATE_MOVIMIENTO_CAJA_SUCCESS:
             return updateMovimientoCajaSuccess(state, action);
+        case FETCH_MONTOS_ACUMULADOS_SUCCESS:
+            return fetchMontosAcumuladosSuccess(state, action);
+        case FETCH_MONTOS_ACUMULADOS_FAILED:
+            return fetchMontosAcumuladosFailed(state);
         default:
             return state;
     }

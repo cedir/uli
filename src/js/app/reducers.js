@@ -62,7 +62,7 @@ import { comprobantesEpic,
     crearComprobanteEpic,
     fetchComprobanteEpic } from '../comprobantes/comprobantesEpic';
 import { contadorTurnosEpic } from '../turnos/turnosEpic';
-import { movimientosCajaEpic, crearMovimientosCajaEpic, updateMovimientosCajaEpic } from '../caja/cajaEpic';
+import { movimientosCajaEpic, crearMovimientosCajaEpic, fetchMontosAcumuladosEpic, updateMovimientosCajaEpic } from '../caja/cajaEpic';
 
 export const rootEpic = combineEpics(
     estudioEpic,
@@ -111,6 +111,7 @@ export const rootEpic = combineEpics(
     movimientosCajaEpic,
     crearMovimientosCajaEpic,
     updateMovimientosCajaEpic,
+    fetchMontosAcumuladosEpic,
     getDatosDeUnaPresentacionEpic,
     cobrarPresentacionEpic,
     refacturarEstudiosEpic,

@@ -1,0 +1,14 @@
+#list-group-primero {
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#list-group-ultimo {
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0.5rem;
+    border-left: 0;
+}
+
+#list-group-medio {
+    border-left: 0;
+}

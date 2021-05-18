@@ -9,11 +9,12 @@ function ListadoMovimientosTableRow({
     fromUpdate,
 }) {
     const { fecha, monto, monto_acumulado: montoAcumulado, concepto,
-        tipo = {}, estudio, medico } = movimiento;
+        tipo = {}, estudio, medico, user, hora } = movimiento;
     const tipoDescripcion = tipo.descripcion || '-';
     const nombrePaciente = estudio ? `${estudio.paciente.apellido}, ${estudio.paciente.nombre}` : '-';
     const practica = estudio ? estudio.practica.descripcion : '-';
     const obraSocial = estudio ? estudio.obra_social.nombre : '-';
+    const username = user || '-';
 
     const getNombreMedico = () => {
         if (medico && medico.nombre) {
@@ -24,7 +25,8 @@ function ListadoMovimientosTableRow({
 
     return (
         <tr>
-            <td>{fecha}</td>
+            <td>{fecha} - {hora}</td>
+            <td>{username}</td>
             <td>{tipoDescripcion}</td>
             <td>{concepto}</td>
             <td>{monto}</td>

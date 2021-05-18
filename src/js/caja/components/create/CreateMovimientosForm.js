@@ -36,8 +36,10 @@ function CreateMovimientosForm({
     const descripcionMovimientos = tiposMovimiento.map(movimiento => movimiento.text);
 
     useEffect(() => {
-        descripcionMovimientos.map(movimiento =>
-            fields.push({ tipoMovimiento: movimiento }));
+        if (fields.length === 0) {
+            descripcionMovimientos.map(movimiento =>
+                fields.push({ tipoMovimiento: movimiento }));
+        }
     }, []);
 
     useEffect(() => {
