@@ -38,8 +38,12 @@ export function updateMovimientosCajaEpic(action$) {
     return action$.ofType(UPDATE_MOVIMIENTO_CAJA)
         .mergeMap(action =>
             updateMovimiento(action.datos)
-            .mergeMap(data => Rx.Observable.of(
-                { type: UPDATE_MOVIMIENTO_CAJA_SUCCESS, data, closeModal: action.setModal(false) },
+            .mergeMap(() => Rx.Observable.of(
+                {
+                    type: UPDATE_MOVIMIENTO_CAJA_SUCCESS,
+                    datos: action.datos,
+                    closeModal: action.setModal(false),
+                },
                 { type: ADD_ALERT, alert: createAlert('Movimiento modificado correctamente') },
             ))
             .catch(data => Rx.Observable.of(
