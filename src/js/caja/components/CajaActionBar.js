@@ -23,7 +23,7 @@ function CajaActionBar({
     };
     const createMovimientos = () => history.push(location);
     return (
-        <Row>
+        <Row style={ { marginBottom: '3rem' } }>
             <Col md={ 7 }>
                 <MontosAcumulados
                   general={ montoGeneral }
