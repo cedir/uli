@@ -65,6 +65,11 @@ function CreateMovimientosForm({
                       index={ movimiento }
                       key={ key }
                       idMovimiento={ key }
+                      medico={
+                        (movimiento.medico && Array.isArray(movimiento.medico))
+                        ? movimiento.medico
+                        : []
+                      }
                       opcionesMedicos={ medicos }
                       isLoading={ medicoApiLoading }
                       renderMenu={ renderMedicoMenuItem }
