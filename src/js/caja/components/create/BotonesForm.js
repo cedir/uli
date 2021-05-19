@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Button, ButtonToolbar } from 'react-bootstrap';
 
 function BotonesForm({
-    valid,
     selectEstudio,
     estudioAsociado,
     asociarEstudio,
@@ -14,7 +13,6 @@ function BotonesForm({
             <Button
               type='submit'
               bsStyle='primary'
-              disabled={ !valid }
             >
                 Crear Movimientos
             </Button>
@@ -33,10 +31,9 @@ function BotonesForm({
     );
 }
 
-const { func, object, bool } = PropTypes;
+const { func, object } = PropTypes;
 
 BotonesForm.propTypes = {
-    valid: bool.isRequired,
     selectEstudio: func.isRequired,
     estudioAsociado: object.isRequired,
     asociarEstudio: func.isRequired,

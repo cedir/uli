@@ -6,7 +6,6 @@ import ViewAsociado from './ViewAsociado';
 
 function HeaderCreateMovimientoCaja({
     selectEstudio,
-    valid,
     asociarEstudio,
     estudioAsociado,
     montoAcumulado,
@@ -19,7 +18,6 @@ function HeaderCreateMovimientoCaja({
             <Col md={ 6 }>
                 <BotonesForm
                   selectEstudio={ selectEstudio }
-                  valid={ valid }
                   estudioAsociado={ estudioAsociado }
                   asociarEstudio={ asociarEstudio }
                   style={ style }
@@ -53,11 +51,10 @@ function HeaderCreateMovimientoCaja({
     );
 }
 
-const { func, object, bool, number } = PropTypes;
+const { func, object, number } = PropTypes;
 
 HeaderCreateMovimientoCaja.propTypes = {
     selectEstudio: func.isRequired,
-    valid: bool.isRequired,
     asociarEstudio: func.isRequired,
     estudioAsociado: object.isRequired,
     montoAcumulado: number.isRequired,

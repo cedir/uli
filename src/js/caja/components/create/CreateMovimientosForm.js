@@ -64,6 +64,7 @@ function CreateMovimientosForm({
                       tiposMovimientos={ descripcionMovimientos }
                       index={ movimiento }
                       key={ key }
+                      idMovimiento={ key }
                       opcionesMedicos={ medicos }
                       isLoading={ medicoApiLoading }
                       renderMenu={ renderMedicoMenuItem }

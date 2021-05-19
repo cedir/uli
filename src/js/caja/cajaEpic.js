@@ -26,7 +26,11 @@ export function crearMovimientosCajaEpic(action$) {
         .mergeMap(action =>
             crearMovimientos(action.movimientos)
             .mergeMap(data => Rx.Observable.of(
-                { type: CREATE_MOVIMIENTOS_CAJA_SUCCESS, data, volver: action.goBack() },
+                {
+                    type: CREATE_MOVIMIENTOS_CAJA_SUCCESS,
+                    data, volver: action.goBack(),
+                    destruirForm: action.destruirForm(),
+                },
                 { type: ADD_ALERT, alert: createAlert('Movimientos creados correctamente') },
             ))
             .catch(data => Rx.Observable.of(

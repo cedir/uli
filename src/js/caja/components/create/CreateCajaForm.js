@@ -5,12 +5,12 @@ import { Form, reduxForm, FieldArray, destroy } from 'redux-form';
 import CreateMovimientosForm from './CreateMovimientosForm';
 import { CREATE_MOVIMIENTOS_CAJA, ASOCIAR_ESTUDIO } from '../../actionTypes';
 import HeaderCreateMovimientoCaja from './HeaderCreateMovimientoCaja';
+import { tiposMovimiento } from '../../../utilities/generalUtilities';
 
 function CreateCajaForm({
     createMovimiento,
     handleSubmit,
     history,
-    valid,
     estudioAsociado,
     asociarEstudio,
     destruirForm,
@@ -27,21 +27,6 @@ function CreateCajaForm({
 
     const selectEstudio = () => history.push(fromCajaLocation);
 
-    const tiposMovimiento = [
-        { text: 'General', value: 1 },
-        { text: 'Honorario Médico', value: 2 },
-        { text: 'Honorario Anestesista', value: 3 },
-        { text: 'Medicación', value: 4 },
-        { text: 'Práctica', value: 5 },
-        { text: 'Descartable', value: 6 },
-        { text: 'Material Específico', value: 7 },
-        { text: 'Pago a Médico', value: 8 },
-        { text: 'Consultorio 1', value: 9 },
-        { text: 'Coseguro', value: 10 },
-        { text: 'Egreso', value: 11 },
-        { text: 'Consultorio 2', value: 12 },
-    ];
-
     const enviarFormulario = movimientos => createMovimiento({
         estudioAsociado,
         movimientos: movimientos.filter(movimiento => (movimiento.monto)).map(movimiento => ({
@@ -50,18 +35,16 @@ function CreateCajaForm({
                 tipo.text === movimiento.tipoMovimiento),
             medico: movimiento.medico ? movimiento.medico[0] : '',
         })),
-    }, history.goBack);
+    }, history.goBack, destruirForm);
 
     return (
         <Form
           onSubmit={ handleSubmit((movimientos) => {
               enviarFormulario(movimientos.movimientos);
-              destruirForm();
           }) }
         >
             <HeaderCreateMovimientoCaja
               selectEstudio={ selectEstudio }
-              valid={ valid }
               asociarEstudio={ asociarEstudio }
               estudioAsociado={ estudioAsociado }
               montoAcumulado={ montoAcumulado }
@@ -77,13 +60,12 @@ function CreateCajaForm({
     );
 }
 
-const { func, object, bool } = PropTypes;
+const { func, object } = PropTypes;
 
 CreateCajaForm.propTypes = {
     createMovimiento: func.isRequired,
     handleSubmit: func.isRequired,
     history: object.isRequired,
-    valid: bool.isRequired,
     estudioAsociado: object.isRequired,
     asociarEstudio: func.isRequired,
     location: object.isRequired,
@@ -104,8 +86,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        createMovimiento: (movimientos, goBack) =>
-            dispatch({ type: CREATE_MOVIMIENTOS_CAJA, movimientos, goBack }),
+        createMovimiento: (movimientos, goBack, destruirForm) =>
+            dispatch({ type: CREATE_MOVIMIENTOS_CAJA, movimientos, goBack, destruirForm }),
         asociarEstudio: estudio => dispatch({ type: ASOCIAR_ESTUDIO, estudio }),
         destruirForm: () => dispatch(destroy('CreateCajaFormRedux')),
     };
