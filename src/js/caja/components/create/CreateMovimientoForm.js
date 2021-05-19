@@ -20,7 +20,7 @@ function CreateMovimientoForm({
 
         // const medico = fieldsMovimiento.medico ? fieldsMovimiento.medico : [];
 
-        if (value === undefined &&
+        if ((value === undefined || Number(value) === 0) &&
             (fieldsMovimiento.concepto !== undefined || medico.length !== 0)) {
             return 'El monto no puede ser nulo';
         }
