@@ -30,6 +30,7 @@ function FormUpdate({ medico, updateForm, movimiento }) {
                   selectionValue='value'
                   renderOptionHandler={ opcion => opcion.text }
                   optionKey='text'
+                  showNullValue={ false }
                 />
             </Col>
             <Col md={ 4 }>
