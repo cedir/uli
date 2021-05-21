@@ -8,6 +8,7 @@ import { required } from '../../../utilities/reduxFormValidators';
 import InputRF from '../../../utilities/InputRF';
 import MedicoField from '../../../utilities/components/forms/MedicoField';
 import { tiposMovimiento } from '../../../utilities/generalUtilities';
+import { getArray } from '../../../utilities/utilFunctions';
 
 function FormUpdate({ medico, updateForm, movimiento }) {
     useEffect(() => {
@@ -65,9 +66,7 @@ FormUpdate.propTypes = {
 
 function mapStateToProps(state) {
     let medico = selector(state, 'medico');
-    medico = (medico && Array.isArray(medico))
-            ? medico
-            : [];
+    medico = getArray(medico);
 
     return { medico };
 }

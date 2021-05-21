@@ -7,6 +7,7 @@ import InputRF from '../../../utilities/InputRF';
 import MedicoField from '../../../utilities/components/forms/MedicoField';
 import PacienteField from '../../../utilities/components/forms/PacienteField';
 import initialValues from '../../cajaSearchFormInitialState';
+import { getArray } from '../../../utilities/utilFunctions';
 
 function SearchCajaForm({
     actuante,
@@ -145,14 +146,10 @@ const selector = formValueSelector('searchCaja');
 
 function mapStateToProps(state) {
     let medicoActuante = selector(state, 'medicoActuante');
-    medicoActuante = (medicoActuante && Array.isArray(medicoActuante))
-            ? medicoActuante
-            : [];
+    medicoActuante = getArray(paciente);
 
     let paciente = selector(state, 'paciente');
-    paciente = (paciente && Array.isArray(paciente))
-            ? paciente
-            : [];
+    paciente = getArray(paciente);
 
     return {
         tiposMovimiento: [

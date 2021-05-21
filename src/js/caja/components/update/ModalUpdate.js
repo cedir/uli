@@ -48,7 +48,7 @@ ModalUpdate.propTypes = {
     updateMovimiento: func.isRequired,
 };
 
-const UpdateCajaFormRedux = reduxForm({ // ver
+const UpdateCajaFormRedux = reduxForm({
     form: 'UpdateCajaFormRedux',
     destroyOnUnmount: false,
     enableReinitialize: true,

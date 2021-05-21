@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import { FETCH_MEDICOS } from '../../../medico/actionTypes';
 import CreateMovimientoForm from './CreateMovimientoForm';
+import { getArray } from '../../../utilities/utilFunctions';
 
 function CreateMovimientosForm({
     fetchMedicos,
@@ -65,11 +66,7 @@ function CreateMovimientosForm({
                       index={ movimiento }
                       key={ key }
                       idMovimiento={ key }
-                      medico={
-                        (movimiento.medico && Array.isArray(movimiento.medico))
-                        ? movimiento.medico
-                        : []
-                      }
+                      medico={ getArray(movimiento.medico) }
                       opcionesMedicos={ medicos }
                       isLoading={ medicoApiLoading }
                       renderMenu={ renderMedicoMenuItem }
