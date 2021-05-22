@@ -38,26 +38,62 @@ const asociarEstudio = (state, action) => ({
     estudioAsociado: action.estudio,
 });
 
-const updateMovimientoCajaSuccess = (state, action) => ({
-    ...state,
-    movimientos: state.movimientos.map((movimiento) => {
-        if (movimiento.id !== action.datos.id) {
-            return movimiento;
-        }
-        const tipo = tiposMovimiento.find(tipoMov => tipoMov.value === Number(action.datos.tipo));
+const updateMovimientoCajaSuccess = (state, action) => {
+    let tipoOld;
+    let monto;
+    const getMontosUpdate = (tipoMovimiento, montoMovimiento, tipoNew) => {
+        let montoGeneral = Number(state.montoGeneral);
+        let montoConsultorio1 = Number(state.montoConsultorio1);
+        let montoConsultorio2 = Number(state.montoConsultorio2);
 
-        return {
-            ...movimiento,
-            medico: action.datos.medico.length > 0 ? action.datos.medico[0] : {},
-            tipo: {
-                id: tipo.value,
-                descripcion: tipo.text,
-            },
-            concepto: action.datos.concepto,
-        };
-    }),
-    apiLoading: false,
-});
+        if (tipoNew === 9) {
+            montoConsultorio1 += montoMovimiento;
+        } else if (tipoNew === 12) {
+            montoConsultorio2 += montoMovimiento;
+        } else {
+            montoGeneral += montoMovimiento;
+        }
+
+        if (tipoMovimiento === 9) {
+            montoConsultorio1 -= montoMovimiento;
+        } else if (tipoMovimiento === 12) {
+            montoConsultorio2 -= montoMovimiento;
+        } else {
+            montoGeneral -= montoMovimiento;
+        }
+
+        montoGeneral = montoGeneral.toString();
+        montoConsultorio1 = montoConsultorio1.toString();
+        montoConsultorio2 = montoConsultorio2.toString();
+        return { montoGeneral, montoConsultorio1, montoConsultorio2 };
+    };
+
+    return {
+        ...state,
+        movimientos: state.movimientos.map((movimiento) => {
+            if (movimiento.id !== action.datos.id) {
+                return movimiento;
+            }
+            const tipo = tiposMovimiento.find(tipoMov =>
+                tipoMov.value === Number(action.datos.tipo));
+
+            monto = movimiento.monto;
+            tipoOld = movimiento.tipo.id;
+
+            return {
+                ...movimiento,
+                medico: action.datos.medico.length > 0 ? action.datos.medico[0] : {},
+                tipo: {
+                    id: tipo.value,
+                    descripcion: tipo.text,
+                },
+                concepto: action.datos.concepto,
+            };
+        }),
+        apiLoading: false,
+        ...getMontosUpdate(tipoOld, Number(monto), Number(action.datos.tipo)),
+    };
+};
 
 const fetchMontosAcumuladosSuccess = (state, action) => ({
     ...state,
