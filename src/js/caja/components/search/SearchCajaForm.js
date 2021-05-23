@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector, change } from 'redux-form';
 import { Row, Col, Button, Glyphicon, Form } from 'react-bootstrap';
+
 import InputRF from '../../../utilities/InputRF';
 import MedicoField from '../../../utilities/components/forms/MedicoField';
 import PacienteField from '../../../utilities/components/forms/PacienteField';
@@ -127,13 +128,13 @@ const { func, array, bool } = PropTypes;
 
 SearchCajaForm.propTypes = {
     handleSubmit: func.isRequired,
-    valid: bool.isRequired,
+    fetchMovimientosCaja: func.isRequired,
     closeModal: func.isRequired,
+    removeDate: func.isRequired,
+    valid: bool.isRequired,
     actuante: array,
     paciente: array,
     tiposMovimiento: array,
-    fetchMovimientosCaja: func.isRequired,
-    removeDate: func.isRequired,
 };
 
 const SearchCajaFormReduxForm = reduxForm({

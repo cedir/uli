@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
-import { formValueSelector } from 'redux-form';
-import { isEmpty } from 'lodash';
+import { formValueSelector, change } from 'redux-form';
 
 import CajaActionBar from './CajaActionBar';
 import SearchCajaModal from './search/SearchCajaModal';
@@ -17,15 +16,15 @@ function CajaMain({
     history,
     searchParams,
     pageNumber,
+    update,
 }) {
     const [modalOpened, setModalOpened] = useState(false);
 
     useEffect(() => {
-        if (!isEmpty(searchParams)) {
-            fetchMovimientosCaja(searchParams);
-        } else {
-            fetchMovimientosCaja(initialValues);
-        }
+        update('fechaDesde', initialValues.fechaDesde);
+        update('fechaHasta', initialValues.fechaHasta);
+
+        fetchMovimientosCaja(searchParams);
     }, []);
 
     return (
@@ -52,11 +51,12 @@ function CajaMain({
 const { array, func, object, number } = propTypes;
 
 CajaMain.propTypes = {
-    movimientos: array.isRequired,
+    update: func.isRequired,
     fetchMovimientosCaja: func.isRequired,
     history: object.isRequired,
     searchParams: object.isRequired,
     pageNumber: number.isRequired,
+    movimientos: array.isRequired,
 };
 
 const selector = formValueSelector('searchCaja');
@@ -76,6 +76,7 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchMovimientosCaja: (searchParams, pageNumber = 1) =>
             dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams, pageNumber }),
+        update: (name, value) => dispatch(change('searchCaja', name, value)),
     };
 }
 
