@@ -22,6 +22,7 @@ function SearchCajaForm({
 }) {
     const style = { marginTop: '2rem', cursor: 'pointer', padding: '1rem' };
     const booleanOptions = [{ text: 'Si', value: 'True' }, { text: 'No', value: 'False' }];
+
     return (
         <Form
           onSubmit={ handleSubmit((params) => { closeModal(); fetchMovimientosCaja(params); }) }
@@ -147,7 +148,7 @@ const selector = formValueSelector('searchCaja');
 
 function mapStateToProps(state) {
     let medicoActuante = selector(state, 'medicoActuante');
-    medicoActuante = getArray(paciente);
+    medicoActuante = getArray(medicoActuante);
 
     let paciente = selector(state, 'paciente');
     paciente = getArray(paciente);
