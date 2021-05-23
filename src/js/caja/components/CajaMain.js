@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import { formValueSelector, change } from 'redux-form';
+import { isEmpty } from 'lodash';
 
 import CajaActionBar from './CajaActionBar';
 import SearchCajaModal from './search/SearchCajaModal';
@@ -24,7 +25,11 @@ function CajaMain({
         update('fechaDesde', initialValues.fechaDesde);
         update('fechaHasta', initialValues.fechaHasta);
 
-        fetchMovimientosCaja(searchParams);
+        if (!isEmpty(searchParams)) {
+            fetchMovimientosCaja(searchParams);
+        } else {
+            fetchMovimientosCaja(initialValues);
+        }
     }, []);
 
     return (
