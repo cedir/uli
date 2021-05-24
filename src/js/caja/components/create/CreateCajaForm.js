@@ -20,7 +20,7 @@ function CreateCajaForm({
         pathname: '/estudios',
         state: { fromCaja: true },
     };
-
+    const goBack = () => history.push('/caja/main');
     const [totalGrilla, setTotalGrilla] = useState(0.00);
 
     const selectEstudio = () => history.push(fromCajaLocation);
@@ -33,7 +33,7 @@ function CreateCajaForm({
                 tipo.text === movimiento.tipoMovimiento),
             medico: movimiento.medico ? movimiento.medico[0] : '',
         })),
-    }, history.goBack, destruirForm);
+    }, goBack, destruirForm);
 
     return (
         <Form
