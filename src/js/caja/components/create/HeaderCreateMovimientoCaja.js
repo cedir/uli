@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Col, Panel, Row } from 'react-bootstrap';
 import BotonesForm from './BotonesForm';
 import ViewAsociado from './ViewAsociado';
+import { round } from '../../../utilities/utilFunctions';
 
 function HeaderCreateMovimientoCaja({
     selectEstudio,
@@ -11,7 +12,7 @@ function HeaderCreateMovimientoCaja({
     montoAcumulado,
     totalGrilla,
 }) {
-    const totalGrillaView = Math.round(totalGrilla * 100) / 100 || 0.00;
+    const totalGrillaView = round(totalGrilla) || 0.00;
     const style = { marginTop: '20px', marginBottom: '20px' };
     return (
         <Row>
@@ -51,13 +52,13 @@ function HeaderCreateMovimientoCaja({
     );
 }
 
-const { func, object, number } = PropTypes;
+const { func, object, number, string } = PropTypes;
 
 HeaderCreateMovimientoCaja.propTypes = {
     selectEstudio: func.isRequired,
     asociarEstudio: func.isRequired,
     estudioAsociado: object.isRequired,
-    montoAcumulado: number.isRequired,
+    montoAcumulado: string.isRequired,
     totalGrilla: number.isRequired,
 };
 

@@ -6,6 +6,7 @@ import { FETCH_MOVIMIENTOS_CAJA, LOAD_MOVIMIENTOS_CAJA_SUCCESS,
     FETCH_MONTOS_ACUMULADOS_SUCCESS, UPDATE_MOVIMIENTO_CAJA, UPDATE_MOVIMIENTO_CAJA_FAILED,
     UPDATE_MOVIMIENTO_CAJA_SUCCESS } from './actionTypes';
 import { tiposMovimiento } from '../utilities/generalUtilities';
+import { round } from '../utilities/utilFunctions';
 
 const PAGE_SIZE = 100;
 
@@ -100,6 +101,12 @@ const fetchMontosAcumuladosSuccess = (state, action) => ({
     montoConsultorio1: action.montos.consultorio_1,
     montoConsultorio2: action.montos.consultorio_2,
     montoGeneral: action.montos.general,
+    montoTotal: (
+                round(
+                Number(action.montos.consultorio_1) +
+                Number(action.montos.consultorio_2) +
+                Number(action.montos.general))
+                ).toString(),
     apiLoading: false,
 });
 
@@ -108,6 +115,7 @@ const fetchMontosAcumuladosFailed = state => ({
     montoConsultorio1: '0',
     montoConsultorio2: '0',
     montoGeneral: '0',
+    montoTotal: '0',
     apiLoading: false,
 });
 

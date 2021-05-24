@@ -14,14 +14,12 @@ function CreateCajaForm({
     estudioAsociado,
     asociarEstudio,
     destruirForm,
-    location,
+    montoTotal,
 }) {
     const fromCajaLocation = {
         pathname: '/estudios',
         state: { fromCaja: true },
     };
-
-    const montoAcumulado = location.state.montoAcumulado;
 
     const [totalGrilla, setTotalGrilla] = useState(0.00);
 
@@ -47,7 +45,7 @@ function CreateCajaForm({
               selectEstudio={ selectEstudio }
               asociarEstudio={ asociarEstudio }
               estudioAsociado={ estudioAsociado }
-              montoAcumulado={ montoAcumulado }
+              montoAcumulado={ montoTotal }
               totalGrilla={ totalGrilla }
             />
             <FieldArray
@@ -60,7 +58,7 @@ function CreateCajaForm({
     );
 }
 
-const { func, object } = PropTypes;
+const { func, object, string } = PropTypes;
 
 CreateCajaForm.propTypes = {
     createMovimiento: func.isRequired,
@@ -68,8 +66,8 @@ CreateCajaForm.propTypes = {
     history: object.isRequired,
     estudioAsociado: object.isRequired,
     asociarEstudio: func.isRequired,
-    location: object.isRequired,
     destruirForm: func.isRequired,
+    montoTotal: string.isRequired,
 };
 
 const CreateCajaFormRedux = reduxForm({
@@ -81,6 +79,7 @@ const CreateCajaFormRedux = reduxForm({
 function mapStateToProps(state) {
     return {
         estudioAsociado: state.cajaReducer.estudioAsociado,
+        montoTotal: state.cajaReducer.montoTotal,
     };
 }
 

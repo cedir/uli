@@ -7,6 +7,7 @@ const initialState = {
     montoConsultorio1: '0',
     montoConsultorio2: '0',
     montoGeneral: '0',
+    montoTotal: '0',
 };
 
 export default initialState;
