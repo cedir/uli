@@ -16,7 +16,6 @@ function ListadoMovimientosTableRow({
     const obraSocial = estudio ? estudio.obra_social.nombre : '-';
     const username = user || '-';
     const medicoName = medico && medico.nombre ? `${medico.apellido}, ${medico.nombre}` : '-';
-    // hace falta preguntar por medico.nombre?
     return (
         <tr>
             <td>{fecha} - {hora}</td>

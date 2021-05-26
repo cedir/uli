@@ -17,13 +17,13 @@ function CajaMain({
     history,
     searchParams,
     pageNumber,
-    update,
+    updateForm,
 }) {
     const [modalOpened, setModalOpened] = useState(false);
 
     useEffect(() => {
-        update('fechaDesde', initialValues.fechaDesde);
-        update('fechaHasta', initialValues.fechaHasta);
+        updateForm('fechaDesde', initialValues.fechaDesde);
+        updateForm('fechaHasta', initialValues.fechaHasta);
 
         if (!isEmpty(searchParams)) {
             fetchMovimientosCaja(searchParams);
@@ -56,7 +56,7 @@ function CajaMain({
 const { array, func, object, number } = propTypes;
 
 CajaMain.propTypes = {
-    update: func.isRequired,
+    updateForm: func.isRequired,
     fetchMovimientosCaja: func.isRequired,
     history: object.isRequired,
     searchParams: object.isRequired,
@@ -81,7 +81,7 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchMovimientosCaja: (searchParams, pageNumber = 1) =>
             dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams, pageNumber }),
-        update: (name, value) => dispatch(change('searchCaja', name, value)),
+        updateForm: (name, value) => dispatch(change('searchCaja', name, value)),
     };
 }
 

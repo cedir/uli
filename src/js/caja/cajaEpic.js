@@ -63,6 +63,7 @@ export function updateMovimientosCajaEpic(action$) {
                     closeModal: action.setModal(false),
                 },
                 { type: ADD_ALERT, alert: createAlert('Movimiento modificado correctamente') },
+                { type: FETCH_MONTOS_ACUMULADOS },
             ))
             .catch(data => Rx.Observable.of(
                 { type: UPDATE_MOVIMIENTO_CAJA_FAILED, closeModal: action.setModal(false) },

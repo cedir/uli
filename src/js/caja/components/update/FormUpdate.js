@@ -65,8 +65,7 @@ FormUpdate.propTypes = {
 };
 
 function mapStateToProps(state) {
-    let medico = selector(state, 'medico');
-    medico = getArray(medico);
+    const medico = getArray(selector(state, 'medico'));
 
     return { medico };
 }

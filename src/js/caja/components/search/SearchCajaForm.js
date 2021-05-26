@@ -147,11 +147,9 @@ const SearchCajaFormReduxForm = reduxForm({
 const selector = formValueSelector('searchCaja');
 
 function mapStateToProps(state) {
-    let medicoActuante = selector(state, 'medicoActuante');
-    medicoActuante = getArray(medicoActuante);
+    const medicoActuante = getArray(selector(state, 'medicoActuante'));
 
-    let paciente = selector(state, 'paciente');
-    paciente = getArray(paciente);
+    const paciente = getArray(selector(state, 'paciente'));
 
     return {
         tiposMovimiento: [
