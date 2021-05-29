@@ -26,6 +26,7 @@ class InputRF extends React.Component {
             // this is the key to be used for tracking repeated options
             optionKey,
             nullValue = null,
+            showNullValue = true,
             ...props
         } = this.props;
         let { componentClass } = this.props;
@@ -78,7 +79,10 @@ class InputRF extends React.Component {
                                 <option key={ key } value={ value }>{optionDisplay}</option>
                             );
                         });
-                        options.unshift(<option key={ uuidv1() } value={ nullValue }>--</option>);
+                        if (showNullValue) {
+                            options.unshift(
+                                <option key={ uuidv1() } value={ nullValue }>--</option>);
+                        }
                         return options;
                     })()
                     }
@@ -114,6 +118,7 @@ InputRF.propTypes = {
     customErrorMsg: string,
     optionKey: string,
     nullValue: string,
+    showNullValue: bool,
 };
 
 export default InputRF;

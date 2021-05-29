@@ -3,36 +3,15 @@ import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 import { formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
-import { FETCH_MEDICOS } from '../../../medico/actionTypes';
 import CreateMovimientoForm from './CreateMovimientoForm';
+import { getArray } from '../../../utilities/utilFunctions';
 
 function CreateMovimientosForm({
-    fetchMedicos,
-    medicos,
-    medicoApiLoading,
     setTotalGrilla,
     movimientos,
     fields,
     tiposMovimiento,
 }) {
-    const renderMedicoMenuItem = option => (
-        <div key={ option.id }>
-            { `${option.apellido}, ${option.nombre}` }
-        </div>
-    );
-
-    const medicosTypeaheadRenderFunc = (option) => {
-        if (!option.nombre || !option.apellido) {
-            return '-';
-        }
-
-        return `${option.apellido}, ${option.nombre}`;
-    };
-
-    const searchMedicos = (nombre) => {
-        fetchMedicos({ searchText: nombre });
-    };
-
     const descripcionMovimientos = tiposMovimiento.map(movimiento => movimiento.text);
 
     useEffect(() => {
@@ -64,11 +43,8 @@ function CreateMovimientosForm({
                       tiposMovimientos={ descripcionMovimientos }
                       index={ movimiento }
                       key={ key }
-                      opcionesMedicos={ medicos }
-                      isLoading={ medicoApiLoading }
-                      renderMenu={ renderMedicoMenuItem }
-                      onSearch={ searchMedicos }
-                      labelKey={ medicosTypeaheadRenderFunc }
+                      idMovimiento={ key }
+                      medico={ getArray(movimientos[key].medico) }
                     />
                 ))}
             </tbody>
@@ -76,12 +52,9 @@ function CreateMovimientosForm({
     );
 }
 
-const { array, func, bool, object } = PropTypes;
+const { array, func, object } = PropTypes;
 
 CreateMovimientosForm.propTypes = {
-    fetchMedicos: func.isRequired,
-    medicos: array.isRequired,
-    medicoApiLoading: bool.isRequired,
     setTotalGrilla: func.isRequired,
     movimientos: array.isRequired,
     fields: object,
@@ -96,18 +69,9 @@ const selector = formValueSelector('CreateCajaFormRedux');
 
 function mapStateToProps(state) {
     return {
-        medicos: state.medicoReducer.medicos,
-        medicoApiLoading: state.medicoReducer.medicoApiLoading,
         movimientos: selector(state, 'movimientos'),
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        fetchMedicos: searchParam =>
-            dispatch({ type: FETCH_MEDICOS, searchParam }),
-    };
-}
-
 export default
-    connect(mapStateToProps, mapDispatchToProps)(CreateMovimientosForm);
+    connect(mapStateToProps)(CreateMovimientosForm);

@@ -37,14 +37,14 @@ function MontosAcumulados({ fetchMontosAcumulados, consultorio1, consultorio2, g
     );
 }
 
-const { func, number } = PropTypes;
+const { func, string } = PropTypes;
 
 MontosAcumulados.propTypes = {
     fetchMontosAcumulados: func.isRequired,
-    consultorio1: number.isRequired,
-    consultorio2: number.isRequired,
-    general: number.isRequired,
-    total: number.isRequired,
+    consultorio1: string.isRequired,
+    consultorio2: string.isRequired,
+    general: string.isRequired,
+    total: string.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {

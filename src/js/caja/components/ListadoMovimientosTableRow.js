@@ -15,14 +15,7 @@ function ListadoMovimientosTableRow({
     const practica = estudio ? estudio.practica.descripcion : '-';
     const obraSocial = estudio ? estudio.obra_social.nombre : '-';
     const username = user || '-';
-
-    const getNombreMedico = () => {
-        if (medico && medico.nombre) {
-            return `${medico.apellido}, ${medico.nombre}`;
-        }
-        return estudio ? `${estudio.medico.apellido}, ${estudio.medico.nombre}` : '-';
-    };
-
+    const medicoName = medico && medico.nombre ? `${medico.apellido}, ${medico.nombre}` : '-';
     return (
         <tr>
             <td>{fecha} - {hora}</td>
@@ -34,7 +27,7 @@ function ListadoMovimientosTableRow({
             <td>{obraSocial}</td>
             <td>{practica}</td>
             <td>{nombrePaciente}</td>
-            <td>{getNombreMedico()}</td>
+            <td>{medicoName}</td>
             { !fromUpdate &&
                 <td>
                     <Button

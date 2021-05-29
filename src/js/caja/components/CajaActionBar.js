@@ -5,7 +5,6 @@ import { Button, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 import MontosAcumulados from './MontosAcumulados';
 import { querystring } from '../api';
 import { config } from '../../app/config';
-import { round } from '../../utilities/utilFunctions';
 
 function CajaActionBar({
     openSearchCajaModal,
@@ -14,14 +13,12 @@ function CajaActionBar({
     montoConsultorio1,
     montoConsultorio2,
     montoGeneral,
+    montoTotal,
     searchParams,
 }) {
-    const montoTotal = round(montoConsultorio1 + montoConsultorio2 + montoGeneral);
-    const location = {
-        pathname: '/caja/create',
-        state: { montoAcumulado: montoTotal },
-    };
+    const location = { pathname: '/caja/create' };
     const createMovimientos = () => history.push(location);
+
     return (
         <Row style={ { marginBottom: '3rem' } }>
             <Col md={ 7 }>
@@ -58,24 +55,26 @@ function CajaActionBar({
     );
 }
 
-const { func, object, bool, number } = PropTypes;
+const { func, object, bool, string } = PropTypes;
 
 CajaActionBar.propTypes = {
     openSearchCajaModal: func.isRequired,
     history: object.isRequired,
     apiLoading: bool.isRequired,
-    montoConsultorio1: number.isRequired,
-    montoConsultorio2: number.isRequired,
-    montoGeneral: number.isRequired,
+    montoConsultorio1: string.isRequired,
+    montoConsultorio2: string.isRequired,
+    montoGeneral: string.isRequired,
+    montoTotal: string.isRequired,
     searchParams: object.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         apiLoading: state.cajaReducer.apiLoading,
-        montoConsultorio1: Number(state.cajaReducer.montoConsultorio1),
-        montoConsultorio2: Number(state.cajaReducer.montoConsultorio2),
-        montoGeneral: Number(state.cajaReducer.montoGeneral),
+        montoConsultorio1: state.cajaReducer.montoConsultorio1,
+        montoConsultorio2: state.cajaReducer.montoConsultorio2,
+        montoGeneral: state.cajaReducer.montoGeneral,
+        montoTotal: state.cajaReducer.montoTotal,
     };
 }
 

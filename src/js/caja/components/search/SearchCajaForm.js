@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector, change } from 'redux-form';
 import { Row, Col, Button, Glyphicon, Form } from 'react-bootstrap';
+
 import InputRF from '../../../utilities/InputRF';
 import MedicoField from '../../../utilities/components/forms/MedicoField';
 import PacienteField from '../../../utilities/components/forms/PacienteField';
 import initialValues from '../../cajaSearchFormInitialState';
+import { getArray } from '../../../utilities/utilFunctions';
 
 function SearchCajaForm({
     actuante,
@@ -20,6 +22,7 @@ function SearchCajaForm({
 }) {
     const style = { marginTop: '2rem', cursor: 'pointer', padding: '1rem' };
     const booleanOptions = [{ text: 'Si', value: 'True' }, { text: 'No', value: 'False' }];
+
     return (
         <Form
           onSubmit={ handleSubmit((params) => { closeModal(); fetchMovimientosCaja(params); }) }
@@ -126,13 +129,13 @@ const { func, array, bool } = PropTypes;
 
 SearchCajaForm.propTypes = {
     handleSubmit: func.isRequired,
-    valid: bool.isRequired,
+    fetchMovimientosCaja: func.isRequired,
     closeModal: func.isRequired,
+    removeDate: func.isRequired,
+    valid: bool.isRequired,
     actuante: array,
     paciente: array,
     tiposMovimiento: array,
-    fetchMovimientosCaja: func.isRequired,
-    removeDate: func.isRequired,
 };
 
 const SearchCajaFormReduxForm = reduxForm({
@@ -144,15 +147,9 @@ const SearchCajaFormReduxForm = reduxForm({
 const selector = formValueSelector('searchCaja');
 
 function mapStateToProps(state) {
-    let medicoActuante = selector(state, 'medicoActuante');
-    medicoActuante = (medicoActuante && Array.isArray(medicoActuante))
-            ? medicoActuante
-            : [];
+    const medicoActuante = getArray(selector(state, 'medicoActuante'));
 
-    let paciente = selector(state, 'paciente');
-    paciente = (paciente && Array.isArray(paciente))
-            ? paciente
-            : [];
+    const paciente = getArray(selector(state, 'paciente'));
 
     return {
         tiposMovimiento: [
