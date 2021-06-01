@@ -7,7 +7,7 @@ import ThIcon from '../../utilities/components/ThIcon';
 
 function ListadoMovimientosTableHeader({ fromUpdate, sortMovimientos }) {
     const namesSort = ['Fecha Movimiento', 'Usuario', 'Tipo', 'Descripcion', 'Monto'];
-    const fieldSort = ['id', 'usuario', 'tipo', 'descripcion', 'monto'];
+    const fieldSort = ['id', 'user', 'tipo', 'concepto', 'monto'];
     const columnNames = ['Monto ac.', 'Obra social', 'Practica', 'Paciente', 'Medico'];
 
     const Icons = [MenuUpDownIcon, MenuDownIcon, MenuUpIcon];

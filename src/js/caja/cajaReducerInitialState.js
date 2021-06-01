@@ -8,7 +8,7 @@ const initialState = {
     montoConsultorio2: '0',
     montoGeneral: '0',
     montoTotal: '0',
-    ordering: '-id',
+    ordering: 'id',
 };
 
 export default initialState;
