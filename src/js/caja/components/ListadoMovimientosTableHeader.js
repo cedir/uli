@@ -5,12 +5,19 @@ import MenuUpIcon from 'mdi-react/MenuUpIcon';
 import MenuDownIcon from 'mdi-react/MenuDownIcon';
 
 function ListadoMovimientosTableHeader({ fromUpdate, sortMovimientos }) {
-    const columnNames = ['Fecha', 'Usuario', 'Tipo', 'Descripcion', 'Monto',
+    const columnNames = ['Fecha Movimiento', 'Usuario', 'Tipo', 'Descripcion', 'Monto',
         'Monto ac.', 'Obra social', 'Practica', 'Paciente', 'Medico'];
-    const columnField = ['fecha', 'usuario', 'tipo', 'descripcion', 'monto',
+    const columnField = ['id', 'usuario', 'tipo', 'descripcion', 'monto',
         'montoAcumulado', 'obraSocial', 'practica', 'paciente', 'medico'];
 
     const ArrowIcons = [MenuUpDownIcon, MenuDownIcon, MenuUpIcon];
+    const getName = (id, name) => {
+        switch (id) {
+            case 0: return '';
+            case 1: return name;
+            default: return `-${name}`;
+        }
+    };
 
     return (
         <tr>
@@ -23,7 +30,7 @@ function ListadoMovimientosTableHeader({ fromUpdate, sortMovimientos }) {
                       onClick={ () => {
                           setIdIcon((idIcon + 1) % ArrowIcons.length);
                           setIcon(ArrowIcons[idIcon]);
-                          sortMovimientos(columnField[index]);
+                          sortMovimientos(getName(idIcon, columnField[index]));
                       } }
                     >
                         {column}
