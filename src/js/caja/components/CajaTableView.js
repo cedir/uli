@@ -2,24 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Table } from 'react-bootstrap';
 import ListadoMovimientosTableRow from './ListadoMovimientosTableRow';
+import ListadoMovimientosTableHeader from './ListadoMovimientosTableHeader';
 
-function CajaTableView({ movimientos, setMovimiento, setModal, fromUpdate }) {
+function CajaTableView({ movimientos, setMovimiento, setModal, fromUpdate, sortMovimientos }) {
     return (
         <Table striped responsive>
             <thead>
-                <tr>
-                    <th>Fecha Movimiento</th>
-                    <th>Usuario</th>
-                    <th>Tipo Movimiento</th>
-                    <th>Descripcion Movimiento</th>
-                    <th>Monto</th>
-                    <th>Monto acumulado</th>
-                    <th>Obra social</th>
-                    <th>Practica</th>
-                    <th>Paciente</th>
-                    <th>Medico</th>
-                    {!fromUpdate && <th />}
-                </tr>
+                <ListadoMovimientosTableHeader
+                  fromUpdate={ fromUpdate }
+                  sortMovimientos={ sortMovimientos }
+                />
             </thead>
             <tbody>
                 { movimientos.map(movimiento => (
@@ -41,6 +33,7 @@ const { array, func, bool } = PropTypes;
 CajaTableView.propTypes = {
     movimientos: array.isRequired,
     setMovimiento: func,
+    sortMovimientos: func,
     setModal: func,
     fromUpdate: bool,
 };

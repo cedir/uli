@@ -18,6 +18,7 @@ function CajaMain({
     searchParams,
     pageNumber,
     updateForm,
+    ordering,
 }) {
     const [modalOpened, setModalOpened] = useState(false);
 
@@ -26,9 +27,9 @@ function CajaMain({
         updateForm('fechaHasta', initialValues.fechaHasta);
 
         if (!isEmpty(searchParams)) {
-            fetchMovimientosCaja(searchParams);
+            fetchMovimientosCaja(searchParams, ordering);
         } else {
-            fetchMovimientosCaja(initialValues);
+            fetchMovimientosCaja(initialValues, ordering);
         }
     }, []);
 
@@ -42,18 +43,19 @@ function CajaMain({
             <ListadoMovimientosTable
               movimientos={ movimientos }
               pageNumber={ pageNumber }
-              updatePageNumber={ pageNum => fetchMovimientosCaja(searchParams, pageNum) }
+              updatePageNumber={ pageNum => fetchMovimientosCaja(searchParams, ordering, pageNum) }
+              sortMovimientos={ name => fetchMovimientosCaja(searchParams, name) }
             />
             <SearchCajaModal
               modalOpened={ modalOpened }
               closeModal={ () => setModalOpened(false) }
-              fetchMovimientosCaja={ fetchMovimientosCaja }
+              fetchMovimientosCaja={ params => fetchMovimientosCaja(params, ordering) }
             />
         </div>
     );
 }
 
-const { array, func, object, number } = propTypes;
+const { array, func, object, number, string } = propTypes;
 
 CajaMain.propTypes = {
     updateForm: func.isRequired,
@@ -62,6 +64,7 @@ CajaMain.propTypes = {
     searchParams: object.isRequired,
     pageNumber: number.isRequired,
     movimientos: array.isRequired,
+    ordering: string.isRequired,
 };
 
 const selector = formValueSelector('searchCaja');
@@ -74,13 +77,14 @@ function mapStateToProps(state) {
         movimientos: state.cajaReducer.movimientos,
         pageNumber: state.cajaReducer.pageNumber,
         searchParams,
+        ordering: state.cajaReducer.ordering,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        fetchMovimientosCaja: (searchParams, pageNumber = 1) =>
-            dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams, pageNumber }),
+        fetchMovimientosCaja: (searchParams, name, pageNumber = 1) =>
+            dispatch({ type: FETCH_MOVIMIENTOS_CAJA, searchParams, pageNumber, ordering: name }),
         updateForm: (name, value) => dispatch(change('searchCaja', name, value)),
     };
 }
