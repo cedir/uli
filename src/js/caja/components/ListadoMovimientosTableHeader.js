@@ -12,9 +12,11 @@ function ListadoMovimientosTableHeader({ fromUpdate, sortMovimientos }) {
 
     const Icons = [MenuUpDownIcon, MenuDownIcon, MenuUpIcon];
 
+    const renderTh = ((name, id) => <th key={ id }>{name}</th>);
+
     return (
         <tr>
-            {namesSort.map((name, id) => (
+            {!fromUpdate && namesSort.map((name, id) => (
                 <ThIcon
                   key={ id }
                   Icons={ Icons }
@@ -23,9 +25,8 @@ function ListadoMovimientosTableHeader({ fromUpdate, sortMovimientos }) {
                   fieldCol={ fieldSort[id] }
                 />
             ))}
-            {columnNames.map((name, id) => (
-                <th key={ id }>{name}</th>
-            ))}
+            {fromUpdate && namesSort.map(renderTh)}
+            {columnNames.map(renderTh)}
             {!fromUpdate && <th />}
         </tr>
     );
@@ -34,7 +35,7 @@ function ListadoMovimientosTableHeader({ fromUpdate, sortMovimientos }) {
 const { func, bool } = PropTypes;
 
 ListadoMovimientosTableHeader.propTypes = {
-    sortMovimientos: func.isRequired,
+    sortMovimientos: func,
     fromUpdate: bool,
 };
 
