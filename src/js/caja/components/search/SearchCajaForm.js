@@ -141,6 +141,7 @@ SearchCajaForm.propTypes = {
 const SearchCajaFormReduxForm = reduxForm({
     form: 'searchCaja',
     destroyOnUnmount: false,
+    enableReinitialize: true,
     initialValues,
 })(SearchCajaForm);
 

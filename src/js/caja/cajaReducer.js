@@ -39,6 +39,12 @@ const asociarEstudio = (state, action) => ({
     estudioAsociado: action.estudio,
 });
 
+const fetchMovimientosCaja = (state, action) => ({
+    ...state,
+    apiLoading: false,
+    ordering: action.ordering,
+});
+
 const updateMovimientoCajaSuccess = (state, action) => {
     const tipo = tiposMovimiento.find(tipoMov =>
         tipoMov.value === Number(action.datos.tipo));
@@ -95,10 +101,11 @@ export function cajaReducer(state = initialState, action) {
         case LOAD_MOVIMIENTOS_CAJA_ERROR:
             return loadMovimientosCajaError(state, action);
         case CREATE_MOVIMIENTOS_CAJA:
-        case FETCH_MOVIMIENTOS_CAJA:
         case UPDATE_MOVIMIENTO_CAJA:
         case FETCH_MONTOS_ACUMULADOS:
             return actionsHandledByEpicReducer(state);
+        case FETCH_MOVIMIENTOS_CAJA:
+            return fetchMovimientosCaja(state, action);
         case ASOCIAR_ESTUDIO:
             return asociarEstudio(state, action);
         case UPDATE_MOVIMIENTO_CAJA_FAILED:

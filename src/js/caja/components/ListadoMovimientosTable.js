@@ -4,7 +4,12 @@ import CajaPaginacion from './CajaPaginacion';
 import ModalUpdate from './update/ModalUpdate';
 import CajaTableView from './CajaTableView';
 
-function ListadoMovimientosTable({ movimientos, pageNumber, updatePageNumber }) {
+function ListadoMovimientosTable({
+  movimientos,
+  pageNumber,
+  updatePageNumber,
+  sortMovimientos,
+}) {
     const [movimientoUpdate, setMovimientoUpdate] = useState({});
     const [modal, setModal] = useState(false);
     return (
@@ -13,6 +18,7 @@ function ListadoMovimientosTable({ movimientos, pageNumber, updatePageNumber }) 
               movimientos={ movimientos }
               setMovimiento={ setMovimientoUpdate }
               setModal={ setModal }
+              sortMovimientos={ sortMovimientos }
             />
             <CajaPaginacion pageNumber={ pageNumber } updatePageNumber={ updatePageNumber } />
             <ModalUpdate
@@ -30,6 +36,7 @@ ListadoMovimientosTable.propTypes = {
     movimientos: array.isRequired,
     pageNumber: number.isRequired,
     updatePageNumber: func.isRequired,
+    sortMovimientos: func.isRequired,
 };
 
 export default ListadoMovimientosTable;
