@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import MenuUpDownIcon from 'mdi-react/MenuSwapIcon';
+import MenuUpIcon from 'mdi-react/MenuUpIcon';
+import MenuDownIcon from 'mdi-react/MenuDownIcon';
 
 function ListadoMovimientosTableHeader({ fromUpdate, sortMovimientos }) {
     const columnNames = ['Fecha', 'Usuario', 'Tipo', 'Descripcion', 'Monto',
@@ -7,13 +10,27 @@ function ListadoMovimientosTableHeader({ fromUpdate, sortMovimientos }) {
     const columnField = ['fecha', 'usuario', 'tipo', 'descripcion', 'monto',
         'montoAcumulado', 'obraSocial', 'practica', 'paciente', 'medico'];
 
+    const ArrowIcons = [MenuUpDownIcon, MenuDownIcon, MenuUpIcon];
+
     return (
         <tr>
-            {columnNames.map((column, index) => (
-                <th key={ index } onClick={ () => sortMovimientos(columnField[index]) }>
-                    {column}
-                </th>
-            ))}
+            {columnNames.map((column, index) => {
+                const [idIcon, setIdIcon] = useState(0);
+                const [Icon, setIcon] = useState(ArrowIcons[idIcon]);
+                return (
+                    <th
+                      key={ index }
+                      onClick={ () => {
+                          setIdIcon((idIcon + 1) % ArrowIcons.length);
+                          setIcon(ArrowIcons[idIcon]);
+                          sortMovimientos(columnField[index]);
+                      } }
+                    >
+                        {column}
+                        <Icon style={ { position: 'absolute' } } />
+                    </th>
+                );
+            })}
             {!fromUpdate && <th />}
         </tr>
     );
