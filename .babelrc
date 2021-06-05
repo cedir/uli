@@ -1,10 +1,7 @@
 {
-  "presets": ["react", "es2015"],
-  "plugins": ["transform-object-rest-spread"],
-  "env": {
-    "development": {
-      "presets": ["react-hmre"]
-    }
-  }
+  "presets": [
+    "@babel/env",
+    "@babel/react"
+  ]
 }
 
