@@ -9,9 +9,7 @@
     "start": "webpack serve --config webpack.dev.js --open",
     "lint": "node_modules/.bin/esw webpack.*.config src tools",
     "lint:watch": "npm run lint -- --watch",
-    "clean-dist": "rm -rf ./dist && mkdir dist",
-    "build:html": "babel-node tools/buildHtml.js",
-    "prebuild": "npm-run-all clean-dist build:html",
+    "prebuild": "rm -rf ./dist && mkdir dist",
     "build": "webpack --config webpack.prod.js"
   },
   "dependencies": {
@@ -51,6 +49,8 @@
     "toastr": "2.1.2",
     "uuid": "^3.3.3",
     "validator": "^9.4.1",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0",
     "webpack-merge": "^5.7.3"
   },
   "devDependencies": {
@@ -83,8 +83,6 @@
     "redux-immutable-state-invariant": "^1.2.3",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "1.0.2",
-    "webpack": "^5.38.1",
-    "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2"
   },
   "repository": {

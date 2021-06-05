@@ -4,13 +4,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: [path.resolve(__dirname, 'src/js/main')],
-    plugins: [new HtmlWebpackPlugin({
-        template: './src/index.html',
-    }),
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true,
+            },
+        }),
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
             $: 'jquery',
-        })],
+        }),
+    ],
     module: {
         rules: [
             {
