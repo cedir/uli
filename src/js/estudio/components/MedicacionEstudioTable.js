@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
-import '../../../../node_modules/print-this';
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
 import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
 import './MedicacionEstudioTable.css';
