@@ -8,5 +8,6 @@ module.exports = merge(common, {
         path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
         filename: 'bundle.[contenthash].js',
+        clean: true,
     },
 });

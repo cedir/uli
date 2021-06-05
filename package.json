@@ -9,7 +9,6 @@
     "start": "webpack serve --config webpack.dev.js --open",
     "lint": "node_modules/.bin/esw webpack.*.config src tools",
     "lint:watch": "npm run lint -- --watch",
-    "prebuild": "rm -rf ./dist && mkdir dist",
     "build": "webpack --config webpack.prod.js"
   },
   "dependencies": {
