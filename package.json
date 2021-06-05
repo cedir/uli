@@ -27,6 +27,7 @@
     "lodash": "^4.17.15",
     "mdi-react": "^6.7.0",
     "metismenu": "^2.7.9",
+    "mini-css-extract-plugin": "^1.6.0",
     "moment": "^2.24.0",
     "prop-types": "^15.7.2",
     "query-string": "^5.1.1",

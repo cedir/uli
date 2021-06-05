@@ -16,4 +16,16 @@ module.exports = merge(common, {
         compress: true,
         port: PUERTO,
     },
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.less$/,
+                use: ['style-loader', 'css-loader', 'less-loader'],
+            },
+        ],
+    },
 });
