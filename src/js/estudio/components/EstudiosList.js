@@ -5,7 +5,7 @@ import { formValueSelector } from 'redux-form';
 import { Pagination }
     from 'react-bootstrap/dist/react-bootstrap';
 import EstudiosListTable from './EstudiosListTable';
-import { FETCH_ESTUDIOS_DIARIOS, FETCH_OBRAS_SOCIALES, FETCH_ESTUDIOS_CON_MOVIMIENTOS } from '../actionTypes';
+import { FETCH_ESTUDIOS_DIARIOS, FETCH_ESTUDIOS_CON_MOVIMIENTOS } from '../actionTypes';
 import estudioReducerInitialState from '../estudioReducerInitialState';
 
 function EstudiosList({
@@ -90,7 +90,6 @@ function mapDispatchToProps(dispatch) {
             dispatch({ type: FETCH_ESTUDIOS_DIARIOS, fetchEstudiosParams }),
         fetchEstudiosConMovimientos: fetchEstudiosParams =>
             dispatch({ type: FETCH_ESTUDIOS_CON_MOVIMIENTOS, fetchEstudiosParams }),
-        fetchObrasSociales: () => dispatch({ type: FETCH_OBRAS_SOCIALES }),
     };
 }
 

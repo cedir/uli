@@ -1,6 +1,5 @@
 import Rx from 'rxjs';
 import {
-    getEstudiosDeUnaPresentacion,
     getPresentaciones,
     patchAbrirPresentacion,
     patchCerrarPresentacion,
@@ -9,9 +8,6 @@ import {
     FETCH_PRESENTACIONES_OBRA_SOCIAL,
     LOAD_PRESENTACIONES_OBRA_SOCIAL,
     LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
-    FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
-    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR,
-    LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
     ABRIR_PRESENTACION,
     CERRAR_PRESENTACION,
     UPDATE_PRESENTACIONES_LIST,
@@ -26,17 +22,6 @@ export function presentacionEpic(action$) {
             .map(data => ({ type: LOAD_PRESENTACIONES_OBRA_SOCIAL, data }))
             .catch(() => (Rx.Observable.of({
                 type: LOAD_PRESENTACIONES_OBRA_SOCIAL_ERROR,
-            }))),
-    );
-}
-
-export function estudiosDeUnaPresentacionAgregarEpic(action$) {
-    return action$.ofType(FETCH_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR)
-        .mergeMap(action =>
-            getEstudiosDeUnaPresentacion(action.id, action.idPresentacion)
-            .map(data => ({ type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR, data }))
-            .catch(() => (Rx.Observable.of({
-                type: LOAD_ESTUDIOS_DE_UNA_PRESENTACION_AGREGAR_ERROR,
             }))),
     );
 }
