@@ -13,8 +13,8 @@ module.exports = merge(common, {
     },
     devServer: {
         contentBase: './src',
-        compress: true,
         port: PUERTO,
+        historyApiFallback: true,
     },
     module: {
         rules: [
