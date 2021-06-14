@@ -52,7 +52,8 @@ class PagoMedicos extends Component {
         const lineas = keysEstudiosImpagos
             .map(key => ({
                 estudio_id: key.split('-')[1],
-                importe: importesEstudiosPagoMedico[key] }));
+                importe: importesEstudiosPagoMedico[key],
+            }));
         const pago = {
             medico: this.props.selectedMedico[0].id,
             lineas,

@@ -39,13 +39,13 @@ function EstudioDetailPage({
             }
             { !isEmpty(estudioDetail) && <Row className='show-grid'>
                 <Col md={ 4 } style={ { border: 'none' } }>
-                    <h3 style={ { marginBottom: '25px' } } >Detalle</h3>
+                    <h3 style={ { marginBottom: '25px' } }>Detalle</h3>
                     <EstudioDetailMain
                       estudioDetailFormMode='edit'
                     />
                 </Col>
                 <Col md={ 4 } style={ { border: 'none' } }>
-                    <h3 style={ { marginBottom: '25px' } } >Medicacion</h3>
+                    <h3 style={ { marginBottom: '25px' } }>Medicacion</h3>
                     <MedicacionEstudio
                       paciente={ paciente }
                       practica={ practica }
@@ -53,9 +53,9 @@ function EstudioDetailPage({
                     />
                 </Col>
                 <Col md={ 4 } style={ { border: 'none' } }>
-                    <h3 style={ { marginBottom: '25px' } } >Facturacion</h3>
+                    <h3 style={ { marginBottom: '25px' } }>Facturacion</h3>
                     <DetalleFacturacionEstudio esPagoContraFactura={ esPagoContraFactura } />
-                    <h3 style={ { marginTop: '25px' } } >Importes</h3>
+                    <h3 style={ { marginTop: '25px' } }>Importes</h3>
                     <ImportesEstudio
                       setPagoContraFactura={ setPagoContraFactura }
                       esPagoContraFactura={ esPagoContraFactura }

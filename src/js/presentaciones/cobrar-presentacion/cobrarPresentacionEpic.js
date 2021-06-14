@@ -18,21 +18,21 @@ export function getDatosDeUnaPresentacionEpic(action$) {
     return action$.ofType(FETCH_DATOS_DE_UNA_PRESENTACION)
         .mergeMap(action =>
             getDatosDeUnaPresentacion(action.id)
-            .mergeMap(data => Rx.Observable.of(
-                {
-                    type: FETCH_DATOS_DE_UNA_PRESENTACION_SUCCESS,
-                    presentacion: data.response,
-                    obraSocial: action.obraSocial,
-                    id: action.id,
-                    fecha: action.fecha,
-                },
-                { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
-            ))
-            .catch(() => (Rx.Observable.of(
-                { type: FETCH_DATOS_DE_UNA_PRESENTACION_FAILED },
-                { type: ADD_ALERT, alert: createAlert('Error al intentar cargar estudios', 'danger') },
-            ))),
-    );
+                .mergeMap(data => Rx.Observable.of(
+                    {
+                        type: FETCH_DATOS_DE_UNA_PRESENTACION_SUCCESS,
+                        presentacion: data.response,
+                        obraSocial: action.obraSocial,
+                        id: action.id,
+                        fecha: action.fecha,
+                    },
+                    { type: ADD_ALERT, alert: createAlert('Estudios cargados correctamente') },
+                ))
+                .catch(() => (Rx.Observable.of(
+                    { type: FETCH_DATOS_DE_UNA_PRESENTACION_FAILED },
+                    { type: ADD_ALERT, alert: createAlert('Error al intentar cargar estudios', 'danger') },
+                ))),
+        );
 }
 
 export function cobrarPresentacionEpic(action$) {
@@ -44,18 +44,18 @@ export function cobrarPresentacionEpic(action$) {
                 action.nroRecibo,
                 action.retencionImpositiva,
             )
-            .mergeMap(data => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Presentacion cobrada') },
-                {
-                    type: COBRAR_PRESENTACION_SUCCESS,
-                    diferencia: data.response.diferencia_facturada,
-                },
-            ))
-            .catch(data => (Rx.Observable.of(
-                { type: COBRAR_PRESENTACION_FAILED },
-                { type: ADD_ALERT, alert: createAlert(`Error al dar de cobro la presentacion. ${data.response.error}`, 'danger') },
-            ))),
-    );
+                .mergeMap(data => Rx.Observable.of(
+                    { type: ADD_ALERT, alert: createAlert('Presentacion cobrada') },
+                    {
+                        type: COBRAR_PRESENTACION_SUCCESS,
+                        diferencia: data.response.diferencia_facturada,
+                    },
+                ))
+                .catch(data => (Rx.Observable.of(
+                    { type: COBRAR_PRESENTACION_FAILED },
+                    { type: ADD_ALERT, alert: createAlert(`Error al dar de cobro la presentacion. ${data.response.error}`, 'danger') },
+                ))),
+        );
 }
 
 export function refacturarEstudiosEpic(action$) {
@@ -65,15 +65,15 @@ export function refacturarEstudiosEpic(action$) {
                 action.idPresentacion,
                 action.estudios,
             )
-            .mergeMap(() => Rx.Observable.of(
-                { type: ADD_ALERT, alert: createAlert('Estudios refacturados correctamente') },
-                {
-                    type: REFACTURAR_ESTUDIOS_SUCCESS,
-                },
-            ))
-            .catch(data => (Rx.Observable.of(
-                { type: REFACTURAR_ESTUDIOS_FAILED },
-                { type: ADD_ALERT, alert: createAlert(`Error al refacturar los estudios. ${data.response.error}`, 'danger') },
-            ))),
-    );
+                .mergeMap(() => Rx.Observable.of(
+                    { type: ADD_ALERT, alert: createAlert('Estudios refacturados correctamente') },
+                    {
+                        type: REFACTURAR_ESTUDIOS_SUCCESS,
+                    },
+                ))
+                .catch(data => (Rx.Observable.of(
+                    { type: REFACTURAR_ESTUDIOS_FAILED },
+                    { type: ADD_ALERT, alert: createAlert(`Error al refacturar los estudios. ${data.response.error}`, 'danger') },
+                ))),
+        );
 }

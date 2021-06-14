@@ -25,7 +25,6 @@ import { connect } from 'react-redux';
 }]; */
 
 class LineasNoARAPres extends React.Component {
-
     componentDidMount() {
         // debugger;
         $('.footable').footable({ paginate: false, forceRefresh: true });
@@ -62,7 +61,7 @@ class LineasNoARAPres extends React.Component {
             <span> {nombreTipoComprobante} {subTipo} {numero} </span>
         );
     }
-/*
+    /*
     sortColumn(i){
         const context = this;
         return function(ev){
@@ -124,6 +123,7 @@ class LineasNoARAPres extends React.Component {
         return this.props.lineas || [];
     }
 */
+
     render() {
         const elems = this.props.lineas || [];
         return (
@@ -265,4 +265,3 @@ function mapDispatchToProps() {
 }
 
 export const LineasNoARA = connect(mapStateToProps, mapDispatchToProps)(LineasNoARAPres);
-

@@ -1,3 +1,4 @@
+/* eslint-disable */
 /*
  *
  *   INSPINIA - Responsive Admin Theme

@@ -7,9 +7,9 @@ export function pacienteEpic(action$) {
     return action$.ofType(FETCH_PACIENTES)
         .mergeMap(action =>
             getPacientes(action.searchText)
-            .map(data => ({ type: LOAD_PACIENTES, data }))
-            .catch(() => (Rx.Observable.of({
-                type: LOAD_PACIENTES_ERROR,
-            }))),
+                .map(data => ({ type: LOAD_PACIENTES, data }))
+                .catch(() => (Rx.Observable.of({
+                    type: LOAD_PACIENTES_ERROR,
+                }))),
         );
 }

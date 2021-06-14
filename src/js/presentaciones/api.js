@@ -30,7 +30,8 @@ export function getPresentacionFormatoOsde(presentacion) {
     const {
         id,
         obra_social: obraSocial,
-        fecha } = presentacion;
+        fecha,
+    } = presentacion;
 
     const url = `/api/presentacion/${id}/get_detalle_osde`;
     const customHeader = {
@@ -52,7 +53,8 @@ export function getPresentacionFormatoAMR(presentacion) {
     const {
         id,
         obra_social: obraSocial,
-        fecha } = presentacion;
+        fecha,
+    } = presentacion;
 
     const url = `/api/presentacion/${id}/get_detalle_amr`;
     const customHeader = {

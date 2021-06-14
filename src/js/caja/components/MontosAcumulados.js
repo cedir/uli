@@ -18,17 +18,17 @@ function MontosAcumulados({ fetchMontosAcumulados, consultorio1, consultorio2, g
     return (
         <Row>
             <Col md={ 12 }>
-                <ListGroup style={ style.listGroup } >
-                    <ListGroupItem style={ style.listGroupItem } id='list-group-primero' >
+                <ListGroup style={ style.listGroup }>
+                    <ListGroupItem style={ style.listGroupItem } id='list-group-primero'>
                         Total: ${ total }
                     </ListGroupItem>
-                    <ListGroupItem style={ style.listGroupItem } id='list-group-medio' >
+                    <ListGroupItem style={ style.listGroupItem } id='list-group-medio'>
                         Consultorio 1: ${ consultorio1 }
                     </ListGroupItem>
-                    <ListGroupItem style={ style.listGroupItem } id='list-group-medio' >
+                    <ListGroupItem style={ style.listGroupItem } id='list-group-medio'>
                         Consultorio 2: ${ consultorio2 }
                     </ListGroupItem>
-                    <ListGroupItem style={ style.listGroupItem } id='list-group-ultimo' >
+                    <ListGroupItem style={ style.listGroupItem } id='list-group-ultimo'>
                         General: ${ general }
                     </ListGroupItem>
                 </ListGroup>

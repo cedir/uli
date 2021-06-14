@@ -22,6 +22,7 @@ class SearchComprobantes extends Component {
         super(props);
         this.fetchComprobantesPago = this.fetchComprobantesPago.bind(this);
     }
+
     fetchComprobantesPago(params) {
         this.props.fetchComprobantesPago(params.anio, params.mes);
     }
@@ -97,5 +98,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default
-    connect(mapStateToProps, mapDispatchToProps)(SearchComprobantesReduxForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchComprobantesReduxForm);

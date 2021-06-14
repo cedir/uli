@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { reduxForm, formValueSelector, Form, change } from 'redux-form';
 import { Row, Col, Button } from 'react-bootstrap/dist/react-bootstrap';
 import obrasSocialesInitialState from '../../obraSocial/obraSocialReducerInitialState';
-import medicosInitialState from '../../medico/medicoReducerInitialState';
 import { FETCH_ESTUDIOS_DIARIOS, FETCH_ESTUDIOS_CON_MOVIMIENTOS } from '../actionTypes';
 import { FETCH_OBRAS_SOCIALES } from '../../obraSocial/actionTypes';
 import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medico/actionTypes';
@@ -108,7 +107,6 @@ function SearchEstudiosForm({
 
 SearchEstudiosForm.defaultProps = {
     obrasSociales: obrasSocialesInitialState.obrasSociales,
-    medicos: medicosInitialState.medicos,
 };
 
 const { func, array, bool } = PropTypes;
@@ -160,13 +158,13 @@ function mapStateToProps(state) {
 
     let medicoSolicitante = selector(state, 'medicoSolicitante');
     medicoSolicitante = (medicoSolicitante && Array.isArray(medicoSolicitante))
-            ? medicoSolicitante
-            : [];
+        ? medicoSolicitante
+        : [];
 
     let practica = selector(state, 'practica');
     practica = (practica && Array.isArray(practica))
-            ? practica
-            : [];
+        ? practica
+        : [];
 
     return {
         resultPages: state.estudiosReducer.resultPages,

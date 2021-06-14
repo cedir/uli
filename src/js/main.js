@@ -18,8 +18,8 @@ import App from './app/app';
 import store from './app/configureStore';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../../node_modules/font-awesome/css/font-awesome.css';
-import Custom from './../style/style.less';
-import FooTable from './../style/footable.core.css';
+import Custom from '../style/style.less';
+import FooTable from '../style/footable.core.css';
 
 const renderAppComponent = props => <App { ...props } />;
 
@@ -31,4 +31,3 @@ render(
     </Provider>,
     document.getElementById('wrapper'),
 );
-

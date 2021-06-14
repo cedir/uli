@@ -11,7 +11,7 @@ function MedicacionEstudio({
     paciente,
     practica,
     fechaEstudio,
- }) {
+}) {
     const params = useParams();
     const componentRef = useRef(null);
     const onBeforeGetContentResolve = useRef(Promise.resolve);

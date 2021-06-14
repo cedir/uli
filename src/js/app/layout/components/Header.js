@@ -44,7 +44,7 @@ class Header extends React.Component {
                     <ul className='nav navbar-top-links navbar-right'>
                         <span>{ this.getNombreSucursal() }</span>
                         <li>
-                            <Button bsStyle='link' onClick={ this.logout } >
+                            <Button bsStyle='link' onClick={ this.logout }>
                                 <i className='fa fa-sign-out' /> Log out
                             </Button>
                         </li>
@@ -74,4 +74,3 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, mapActionsToProps)(Header);
-

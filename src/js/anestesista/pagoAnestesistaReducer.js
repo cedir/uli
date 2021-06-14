@@ -44,4 +44,3 @@ export function pagoAnestesistaReducer(state = initialState, action) {
             return state;
     }
 }
-

@@ -4,7 +4,8 @@ export function querystring(searchParams, ordering, pageNumber) {
     const {
         fechaDesde = '', fechaHasta = '', medicoActuante = '',
         concepto = '', pagado = '', tipoMovimiento = '',
-        incluirEstudio = '', paciente = '' } = searchParams;
+        incluirEstudio = '', paciente = '',
+    } = searchParams;
     const idMedico = medicoActuante.length > 0 ? medicoActuante[0].id : '';
     const idPaciente = paciente.length > 0 ? paciente[0].id : '';
 

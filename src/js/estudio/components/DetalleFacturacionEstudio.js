@@ -25,7 +25,6 @@ function ComprobanteRender(comprobante) {
 }
 
 class DetalleFacturacionEstudio extends React.Component {
-
     render() {
         const { presentacion } = this.props.estudioDetail;
         const esPagoContraFactura = this.props.esPagoContraFactura;
@@ -77,4 +76,3 @@ function mapDispatchToProps() {
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DetalleFacturacionEstudio));
-

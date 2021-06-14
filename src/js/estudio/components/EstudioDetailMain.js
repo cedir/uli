@@ -11,7 +11,7 @@ import { FETCH_MEDICOS_ACTUANTES, FETCH_MEDICOS_SOLICITANTES } from '../../medic
 import { FETCH_ANESTESISTAS } from '../../anestesista/actionTypes';
 import { FETCH_PACIENTES } from '../../paciente/actionTypes';
 import { FETCH_PRACTICAS } from '../../practica/actionTypes';
-import { UPDATE_ESTUDIO, CREATE_ESTUDIO } from '../../estudio/actionTypes';
+import { UPDATE_ESTUDIO, CREATE_ESTUDIO } from '../actionTypes';
 import { ESTADOS, ANESTESIA_SIN_ANESTESISTA } from '../constants';
 import { config } from '../../app/config';
 import EliminarEstudioModal from './EliminarEstudioModal';
@@ -625,21 +625,21 @@ function mapStateToProps(state) {
 
     let medicoSolicitante = selector(state, 'medicoSolicitante');
     medicoSolicitante = (medicoSolicitante && Array.isArray(medicoSolicitante))
-            ? medicoSolicitante
-            : [];
+        ? medicoSolicitante
+        : [];
     let anestesista = selector(state, 'anestesista');
     anestesista = (anestesista && Array.isArray(anestesista))
-            ? anestesista
-            : [];
+        ? anestesista
+        : [];
     let paciente = selector(state, 'paciente');
     paciente = (paciente && Array.isArray(paciente))
-            ? paciente
-            : [];
+        ? paciente
+        : [];
 
     let practica = selector(state, 'practica');
     practica = (practica && Array.isArray(practica))
-            ? practica
-            : [];
+        ? practica
+        : [];
 
     return {
         estudioDetail: state.estudiosReducer.estudioDetail,

@@ -18,8 +18,8 @@ function ModalUpdate({
     updateMovimiento,
 }) {
     return (
-        <Modal show={ modalOpened } >
-            <Modal.Header >
+        <Modal show={ modalOpened }>
+            <Modal.Header>
                 <Modal.Title>Modificar Movimiento</Modal.Title>
             </Modal.Header>
             <Modal.Body>

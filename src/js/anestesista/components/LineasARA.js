@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class LineasARAPres extends React.Component {
-
     componentDidMount() {
         $('.footable').footable({ paginate: false, forceRefresh: true });
         $('.footable').trigger('footable_redraw');
@@ -126,4 +125,3 @@ function mapDispatchToProps() {
 }
 
 export const LineasARA = connect(mapStateToProps, mapDispatchToProps)(LineasARAPres);
-

@@ -16,55 +16,56 @@ import {
 } from './actionTypes';
 import { createAlert } from '../../utilities/components/alert/alertUtility';
 import { ADD_ALERT } from '../../utilities/components/alert/actionTypes';
-import { patchCerrarPresentacion } from '../../presentaciones/api';
+import { patchCerrarPresentacion } from '../api';
 import { UPDATE_PRESENTACIONES_LIST } from '../actionTypes';
 
 export function estudiosSinPresentarEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL)
         .mergeMap(action =>
             getEstudiosSinPresentarObraSocial(action.obraSocial.id)
-            .mergeMap(data => Rx.Observable.of(
-                {
-                    type: ADD_ALERT,
-                    alert: data.response.length ?
-                        createAlert('Estudios cargados correctamente', 'success') :
-                        createAlert('La obra social no cuenta con estudios sin presentar', 'danger'),
-                },
-                {
-                    type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL, data,
-                    obraSocial: action.obraSocial,
-                },
-            ))
-            .catch(() => (Rx.Observable.of(
-                { type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR },
-                { type: ADD_ALERT, alert: createAlert('Error al intentar cargar los estudios', 'danger') },
-            ))),
-    );
+                .mergeMap(data => Rx.Observable.of(
+                    {
+                        type: ADD_ALERT,
+                        alert: data.response.length ?
+                            createAlert('Estudios cargados correctamente', 'success') :
+                            createAlert('La obra social no cuenta con estudios sin presentar', 'danger'),
+                    },
+                    {
+                        type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL,
+                        data,
+                        obraSocial: action.obraSocial,
+                    },
+                ))
+                .catch(() => (Rx.Observable.of(
+                    { type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_ERROR },
+                    { type: ADD_ALERT, alert: createAlert('Error al intentar cargar los estudios', 'danger') },
+                ))),
+        );
 }
 
 export function estudiosSinPresentarAgregarEpic(action$) {
     return action$.ofType(FETCH_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR)
         .mergeMap(action =>
             getEstudiosSinPresentarObraSocial(action.id)
-            .map(data => ({ type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR, data }))
-            .catch(() => (Rx.Observable.of({
-                type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
-            }))),
-    );
+                .map(data => ({ type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR, data }))
+                .catch(() => (Rx.Observable.of({
+                    type: LOAD_ESTUDIOS_SIN_PRESENTAR_OBRA_SOCIAL_AGREGAR_ERROR,
+                }))),
+        );
 }
 
 export function guardarNuevaPresentacionEpic(action$) {
     return action$.ofType(CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL)
         .mergeMap(action =>
             guardarNuevaPresentacionObraSocial(action.presentacion)
-            .mergeMap(data => Rx.Observable.of(
-                { type: CLEAN_ESTUDIOS_FROM_STORE },
-                { type: UPDATE_PRESENTACIONES_LIST, data },
-                { type: ADD_ALERT, alert: createAlert('Presentación Creada con Exito') },
-            ))
-            .catch(() => (Rx.Observable.of({
-                type: ADD_ALERT, alert: createAlert('Error al intentar crear presentacion', 'danger'),
-            }))),
+                .mergeMap(data => Rx.Observable.of(
+                    { type: CLEAN_ESTUDIOS_FROM_STORE },
+                    { type: UPDATE_PRESENTACIONES_LIST, data },
+                    { type: ADD_ALERT, alert: createAlert('Presentación Creada con Exito') },
+                ))
+                .catch(() => (Rx.Observable.of({
+                    type: ADD_ALERT, alert: createAlert('Error al intentar crear presentacion', 'danger'),
+                }))),
         );
 }
 

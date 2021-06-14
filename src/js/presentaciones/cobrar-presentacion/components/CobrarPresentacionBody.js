@@ -8,7 +8,7 @@ import {
     RESETEAR_IMPORTE_ESTUDIO,
     IMPORTES_ACTUALIZADOS,
     SELECCIONAR_ESTUDIO,
-    } from '../actionTypes';
+} from '../actionTypes';
 
 function CobrarPresentacionBody({
     estudios,
@@ -66,7 +66,9 @@ function mapDispatchToProps(dispatch) {
         actualizarInput: (index, input, value) =>
             dispatch({
                 type: ACTUALIZAR_INPUT_ESTUDIO_DE_COBRAR_PRESENTACION,
-                index, input, value,
+                index,
+                input,
+                value,
             }),
         resetImporte: id =>
             dispatch({ type: RESETEAR_IMPORTE_ESTUDIO, estudioId: id }),

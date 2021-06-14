@@ -23,6 +23,7 @@ class PagoMedicosTable extends Component {
         $('.footable').footable({ paginate: false, forceRefresh: true });
         $('.footable').trigger('footable_redraw');
     }
+
     resetImporteToOriginalValue(estudioId) {
         const estudioToReset = this.props.estudiosImpagos
             .filter(estudio => estudio.id === estudioId)[0];
@@ -30,6 +31,7 @@ class PagoMedicosTable extends Component {
         // a custom importe just for the sake of showing the reset functionality.
         this.props.resetImporteForEstudio(estudioId, parseFloat(estudioToReset.total));
     }
+
     render() {
         return (
             <form className='pago-medicos-list'>

@@ -148,5 +148,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-
 export default withRouter(connect(null, mapDispatchToProps)(PresentacionesObraSocialTableRow));

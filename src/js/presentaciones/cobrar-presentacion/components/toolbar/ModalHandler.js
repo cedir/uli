@@ -12,7 +12,7 @@ import PorcentajeDescontadoModal from '../modals/porcentaje/PorcentajeDescontado
 import {
     DESCONTAR_A_ESTUDIOS,
     COBRAR_PRESENTACION,
-    } from '../../actionTypes';
+} from '../../actionTypes';
 
 function ModalHandler({
     modalName,
@@ -129,7 +129,7 @@ function ModalHandler({
                   titulo={ tituloModal }
                   modalBody={ modalBody }
                   handleClose={ handleModalClose }
-                  modalSize={ 'large' }
+                  modalSize='large'
                   modalFooter={ modalFooter }
                   childProps={ { cargando, cobrada, ...childProps } }
                 />

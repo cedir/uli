@@ -65,7 +65,7 @@ class MedicacionEstudiosTable extends React.Component {
                             <tr>
                                 <th>Medicamento</th>
                                 <th>Importe</th>
-                                <th className='hide-on-print' >Eliminar</th>
+                                <th className='hide-on-print'>Eliminar</th>
                             </tr>
                         </thead>
                         <tbody>

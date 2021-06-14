@@ -7,7 +7,6 @@ import { FETCH_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS, FETCH_ESTUDIO_DETAIL,
     ANULAR_PAGO_CONTRA_FACTURA, ELIMINAR_ESTUDIO, ELIMINAR_ESTUDIO_ERROR,
     ELIMINAR_ESTUDIO_SUCCES, FETCH_ESTUDIOS_CON_MOVIMIENTOS } from './actionTypes';
 
-
 const PAGE_SIZE = 100;
 
 const fetchEstudiosReducer = (state, action) => {
@@ -109,7 +108,6 @@ const eliminarEstudioSucces = state => ({
     estudioDetail: {},
 });
 
-
 export function estudioReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_DIARIOS:
@@ -150,4 +148,3 @@ export function estudioReducer(state = initialState, action) {
             return state;
     }
 }
-

@@ -22,4 +22,3 @@ EstudiosPagePre.propTypes = {
 };
 
 export default EstudiosPagePre;
-

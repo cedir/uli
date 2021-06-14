@@ -29,14 +29,12 @@ function ComprobanteRow({
     return (
         <tr>
             <td>
-                {
-                    <div
-                      style={ { paddingBottom: '1em' } }
-                      { ...propsNombreCliente }
-                    >
-                        {NombreCliente}
-                    </div>
-                }
+                <div
+                  style={ { paddingBottom: '1em' } }
+                  { ...propsNombreCliente }
+                >
+                    {NombreCliente}
+                </div>
             </td>
             <td>{Numero}</td>
             <td>{TotalFacturado}</td>

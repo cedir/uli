@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import { ELIMINAR_ESTUDIO } from '../actionTypes';
 
 function EliminarEstudioModal({
-      modalOpened,
-      setShowEliminarEstudioModal,
-      estudioId,
-      isLoading,
-      eliminarEstudio,
-      history,
+    modalOpened,
+    setShowEliminarEstudioModal,
+    estudioId,
+    isLoading,
+    eliminarEstudio,
+    history,
 }) {
     return (
         <Modal

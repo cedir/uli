@@ -40,7 +40,7 @@ function LineaForm({ iva, importe, hideLabel, key, prefijo, removeField, lockCom
                       className='control-label'
                       htmlFor='importeIva'
                     >
-                    Iva
+                        Iva
                     </label>
                 }
                 <p className='form-control-static'>

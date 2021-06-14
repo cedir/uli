@@ -28,7 +28,7 @@ function ToolbarCobrar({
                       setNroRecibo={ setNroRecibo }
                     />
                 </Col>
-                <Col md={ 2 } >
+                <Col md={ 2 }>
                     <Well bsSize='small' style={ styles.well }>
                         Retencion impositiva: {retencionImpositiva} - {retencionImpositiva === 32 ? 'AMR' : 'Directa'}
                     </Well>

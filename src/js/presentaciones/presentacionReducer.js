@@ -35,7 +35,6 @@ const loadPresentacionObraSocialId = (state, action) => ({
     idObraSocial: action.id,
 });
 
-
 const loadPresentacionDetailId = (state, action) => {
     const newState = {};
 

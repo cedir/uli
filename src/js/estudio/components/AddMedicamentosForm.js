@@ -135,7 +135,6 @@ AddMedicamentosForm.defaultProps = {
     importe: '',
 };
 
-
 const AddMedicamentosFormReduxForm = reduxForm({
     form: 'searchMedicamentos',
 })(AddMedicamentosForm);

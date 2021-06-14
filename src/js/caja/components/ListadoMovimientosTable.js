@@ -5,10 +5,10 @@ import ModalUpdate from './update/ModalUpdate';
 import CajaTableView from './CajaTableView';
 
 function ListadoMovimientosTable({
-  movimientos,
-  pageNumber,
-  updatePageNumber,
-  sortMovimientos,
+    movimientos,
+    pageNumber,
+    updatePageNumber,
+    sortMovimientos,
 }) {
     const [movimientoUpdate, setMovimientoUpdate] = useState({});
     const [modal, setModal] = useState(false);

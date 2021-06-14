@@ -21,7 +21,7 @@ function EstudiosList({
 }) {
     const searchEstudios = (actPage) => {
         const fetchEstudiosCorrespondientes = fromCaja ?
-          fetchEstudiosConMovimientos : fetchEstudios;
+            fetchEstudiosConMovimientos : fetchEstudios;
         fetchEstudiosCorrespondientes({ ...searchParams, actualPage: actPage });
     };
 
