@@ -17,6 +17,12 @@ module.exports = {
             $: 'jquery',
         }),
     ],
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        publicPath: '/',
+        filename: 'bundle.[contenthash].js',
+        clean: true,
+    },
     module: {
         rules: [
             {

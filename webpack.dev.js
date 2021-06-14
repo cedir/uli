@@ -1,6 +1,6 @@
 const { merge } = require('webpack-merge');
-const common = require('./webpack.common');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const common = require('./webpack.common');
 
 const PUERTO = 3000;
 
@@ -10,6 +10,7 @@ module.exports = merge(common, {
         contentBase: './src',
         port: PUERTO,
         historyApiFallback: true,
+        noInfo: true,
     },
     plugins: [new ESLintPlugin()],
     module: {
