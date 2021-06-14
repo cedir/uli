@@ -10,9 +10,9 @@ module.exports = merge(common, {
         contentBase: './src',
         port: PUERTO,
         historyApiFallback: true,
-        noInfo: true,
     },
     plugins: [new ESLintPlugin()],
+    stats: 'minimal',
     module: {
         rules: [
             {
