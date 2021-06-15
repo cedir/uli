@@ -9,7 +9,6 @@ import { ESTADOS } from '../constants';
 import { ACTULIZA_IMPORTES_ESTUDIO, REALIZAR_PAGO_CONTRA_FACTURA, ANULAR_PAGO_CONTRA_FACTURA } from '../actionTypes';
 
 class ImportesEstudio extends React.Component {
-
     constructor(props) {
         super(props);
         this.actulizarImportes = this.actulizarImportes.bind(this);
@@ -84,7 +83,7 @@ class ImportesEstudio extends React.Component {
                           disabled={ lockEstudioEdition }
                           onClick={ this.props.handleSubmit(this.actulizarImportes) }
                         >
-                        Actualizar
+                            Actualizar
                         </Button>
                     </div>
                     <br />
@@ -103,7 +102,7 @@ class ImportesEstudio extends React.Component {
                           disabled={ lockEstudioEdition || esPagoContraFactura }
                           onClick={ this.props.handleSubmit(this.realizarPago) }
                         >
-                        Realizar Pago
+                            Realizar Pago
                         </Button>
                         <Button
                           type='button'
@@ -112,7 +111,7 @@ class ImportesEstudio extends React.Component {
                           disabled={ lockEstudioEdition || !esPagoContraFactura }
                           onClick={ this.props.handleSubmit(this.anularPago) }
                         >
-                        Anular Pago
+                            Anular Pago
                         </Button>
                     </div>
                 </form>

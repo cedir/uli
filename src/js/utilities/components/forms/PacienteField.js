@@ -62,7 +62,6 @@ PacienteField.propTypes = {
     apiLoading: bool.isRequired,
 };
 
-
 function mapStateToProps(state) {
     return {
         pacientes: state.pacienteReducer.pacientes,

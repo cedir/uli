@@ -24,17 +24,17 @@ function CreateMovimientosForm({
     useEffect(() => {
         setTotalGrilla(
             movimientos.map(movimiento => Number(movimiento.monto || 0))
-            .reduce((importeTotal, importe) => importeTotal + importe, 0));
+                .reduce((importeTotal, importe) => importeTotal + importe, 0));
     });
 
     return (
-        <Table striped condensed hover responsive style={ { marginTop: '20px' } } >
+        <Table striped condensed hover responsive style={ { marginTop: '20px' } }>
             <thead>
                 <tr>
                     <th>Médico</th>
                     <th>Concepto</th>
                     <th>Tipo de Mov.</th>
-                    <th style={ { width: '15%' } } >Monto</th>
+                    <th style={ { width: '15%' } }>Monto</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,5 +73,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default
-    connect(mapStateToProps)(CreateMovimientosForm);
+export default connect(mapStateToProps)(CreateMovimientosForm);

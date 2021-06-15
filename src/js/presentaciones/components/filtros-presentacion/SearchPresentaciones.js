@@ -66,7 +66,6 @@ function SearchPresentaciones(props) {
     );
 }
 
-
 const SearchPresentacionesReduxForm =
     reduxForm({
         form: 'SearchPresentaciones',
@@ -126,5 +125,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default
-    connect(mapStateToProps, mapDispatchToProps)(SearchPresentacionesReduxForm);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchPresentacionesReduxForm);

@@ -17,7 +17,7 @@ function BotonesTitulo({
               className='pull-right'
               disabled={ desactivar || estudiosRefacturar.length === 0 }
             >
-              Refacturar
+                Refacturar
             </Button>
             <Button
               onClick={ resetImportes }

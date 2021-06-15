@@ -47,15 +47,12 @@ PresentacionesObraSocialList.propTypes = {
 
 PresentacionesObraSocialList.defaultProps = {
     presentaciones: initialState.presentaciones,
-    idObraSocial: initialState.idObraSocial,
 };
 
 function mapStateToProps(state) {
     return {
         presentaciones: state.presentacionReducer.presentaciones,
-        idObraSocial: state.presentacionReducer.idObraSocial,
     };
 }
 
-export default
-    connect(mapStateToProps, null)(PresentacionesObraSocialList);
+export default connect(mapStateToProps, null)(PresentacionesObraSocialList);

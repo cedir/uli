@@ -12,10 +12,9 @@ import {
     CREAR_NUEVA_PRESENTACION_OBRA_SOCIAL,
     FINALIZAR_NUEVA_PRESENTACION,
     SET_IMPORTE_MEDICACION_ESTUDIO_NUEVA,
- } from '../actionTypes';
+} from '../actionTypes';
 import initialState from '../estudiosSinPresentarReducerInitialState';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
-
 
 function NuevaPresentacionPage(props) {
     const {
@@ -118,7 +117,6 @@ NuevaPresentacionPage.defaultProps = {
     obraSocial: initialState.obraSocial,
     importesTotales: initialState.importesTotales,
 };
-
 
 function mapStateToProps(state) {
     return {

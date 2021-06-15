@@ -6,10 +6,6 @@ import { FETCH_CANTIDAD_TURNOS } from '../../actionTypes';
 import ContadorModalFecha from './ContadorModalFecha';
 
 function ContadorTurnos({ fetchCantidadTurnos, usuarios, cantidadTurnos }) {
-    useEffect(() => {
-        fetchCantidadTurnos(usuarios, fechas);
-    }, []);
-
     const dateToStr = date => `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
     const [modalOpened1, setModalOpened1] = useState(false);
@@ -36,8 +32,11 @@ function ContadorTurnos({ fetchCantidadTurnos, usuarios, cantidadTurnos }) {
 
     useEffect(() => {
         fetchCantidadTurnos(usuarios, fechas);
-    }, [date1, date2, date3]);
+    }, []);
 
+    useEffect(() => {
+        fetchCantidadTurnos(usuarios, fechas);
+    }, [date1, date2, date3]);
 
     return (
         <React.Fragment>

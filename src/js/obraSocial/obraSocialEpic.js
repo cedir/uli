@@ -7,9 +7,9 @@ export function obraSocialEpic(action$) {
     return action$.ofType(FETCH_OBRAS_SOCIALES)
         .mergeMap(action =>
             getObrasSociales(action.nombre)
-            .map(data => ({ type: LOAD_OBRAS_SOCIALES, data }))
-            .catch(() => (Rx.Observable.of({
-                type: LOAD_OBRAS_SOCIALES_ERROR,
-            }))),
-    );
+                .map(data => ({ type: LOAD_OBRAS_SOCIALES, data }))
+                .catch(() => (Rx.Observable.of({
+                    type: LOAD_OBRAS_SOCIALES_ERROR,
+                }))),
+        );
 }

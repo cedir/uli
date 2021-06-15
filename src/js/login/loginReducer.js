@@ -1,6 +1,7 @@
 import {
     SET_AUTHORIZATION_TOKEN, LOGIN_ERROR, LOGOUT,
-    ELEGIR_SUCURSAL } from './actionTypes';
+    ELEGIR_SUCURSAL,
+} from './actionTypes';
 
 const initialState = {
     token: '',
@@ -52,4 +53,3 @@ export function loginReducer(state = initialState, action) {
             return state;
     }
 }
-

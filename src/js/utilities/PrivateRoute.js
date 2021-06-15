@@ -30,7 +30,6 @@ class PrivateRoute extends React.Component {
     }
 }
 
-
 const { bool, string, func } = PropTypes;
 
 PrivateRoute.propTypes = {

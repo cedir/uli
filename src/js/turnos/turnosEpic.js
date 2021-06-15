@@ -18,6 +18,6 @@ export function contadorTurnosEpic(action$) {
             .catch(() => Rx.Observable.of(
                 { type: ADD_ALERT, alert: createAlert('Error al cargar los turnos', 'danger') },
                 { type: FETCH_CANTIDAD_TURNOS_FAILED },
-            {})),
+            )),
         );
 }

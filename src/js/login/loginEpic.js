@@ -7,10 +7,9 @@ export function loginEpic(action$) {
         .mergeMap((action) => {
             const { username, password } = action;
             return login(username, password)
-            .map(data => ({ type: SET_AUTHORIZATION_TOKEN, data: data.response }))
-            .catch(() => (Rx.Observable.of({
-                type: LOGIN_ERROR,
-            })));
-        },
-    );
+                .map(data => ({ type: SET_AUTHORIZATION_TOKEN, data: data.response }))
+                .catch(() => (Rx.Observable.of({
+                    type: LOGIN_ERROR,
+                })));
+        });
 }

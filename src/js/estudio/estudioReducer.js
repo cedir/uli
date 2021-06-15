@@ -1,13 +1,11 @@
 import initialState from './estudioReducerInitialState';
-import { FETCH_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS,
-    FETCH_ESTUDIO_DETAIL, FETCH_OBRAS_SOCIALES, LOAD_ESTUDIOS_DIARIOS,
-    LOAD_ESTUDIO_DETAIL, RESET_ESTUDIO_DETAIL, LOAD_ESTUDIO_DETAIL_ERROR,
-    UPDATE_SEARCH_PAGE, UPDATE_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
+import { FETCH_ESTUDIOS_DIARIOS, CANCEL_ESTUDIOS_DIARIOS, FETCH_ESTUDIO_DETAIL,
+    LOAD_ESTUDIOS_DIARIOS, LOAD_ESTUDIO_DETAIL, RESET_ESTUDIO_DETAIL, LOAD_ESTUDIO_DETAIL_ERROR,
+    UPDATE_ESTUDIO, CREATE_ESTUDIO, LOAD_ESTUDIO_DETAIL_ID,
     FETCH_ESTUDIOS_IMPAGOS, LOAD_ESTUDIOS_IMPAGOS, PAGO_MEDICO_SUCCESS,
     RESET_ESTUDIOS_IMPAGOS, ACTULIZA_IMPORTES_ESTUDIO, REALIZAR_PAGO_CONTRA_FACTURA,
     ANULAR_PAGO_CONTRA_FACTURA, ELIMINAR_ESTUDIO, ELIMINAR_ESTUDIO_ERROR,
     ELIMINAR_ESTUDIO_SUCCES, FETCH_ESTUDIOS_CON_MOVIMIENTOS } from './actionTypes';
-
 
 const PAGE_SIZE = 100;
 
@@ -73,14 +71,6 @@ const loadEstudioDetailErrorReducer = (state) => {
     return newState;
 };
 
-const updateSearchPage = (state, action) => {
-    const newState = {};
-
-    Object.assign(newState, state, { actualPage: action.actualPage });
-
-    return newState;
-};
-
 const loadEstudiosImpagos = (state, action) => {
     const newState = {};
     Object.assign(newState, state, { estudiosImpagos: action.data.response });
@@ -118,7 +108,6 @@ const eliminarEstudioSucces = state => ({
     estudioDetail: {},
 });
 
-
 export function estudioReducer(state = initialState, action) {
     switch (action.type) {
         case FETCH_ESTUDIOS_DIARIOS:
@@ -126,7 +115,6 @@ export function estudioReducer(state = initialState, action) {
             return fetchEstudiosReducer(state, action);
         case CANCEL_ESTUDIOS_DIARIOS:
         case FETCH_ESTUDIO_DETAIL:
-        case FETCH_OBRAS_SOCIALES:
         case UPDATE_ESTUDIO:
         case CREATE_ESTUDIO:
         case ACTULIZA_IMPORTES_ESTUDIO:
@@ -136,8 +124,6 @@ export function estudioReducer(state = initialState, action) {
             return actionsHandledByEpicReducer(state, action);
         case LOAD_ESTUDIOS_DIARIOS:
             return loadEstudiosDiariosReducer(state, action);
-        case UPDATE_SEARCH_PAGE:
-            return updateSearchPage(state, action);
         case LOAD_ESTUDIO_DETAIL:
             return loadEstudioDetail(state, action);
         case RESET_ESTUDIO_DETAIL:
@@ -162,4 +148,3 @@ export function estudioReducer(state = initialState, action) {
             return state;
     }
 }
-

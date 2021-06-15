@@ -29,7 +29,6 @@ function CamposCliente({
         }
     }, [selectedOption.nombre]);
 
-
     return (
         <React.Fragment>
             <Col md={ 7 }>

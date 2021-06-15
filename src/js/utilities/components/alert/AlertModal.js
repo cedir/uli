@@ -58,4 +58,3 @@ AlertModal.propTypes = {
     dontLabel: string.isRequired,
     title: string,
 };
-

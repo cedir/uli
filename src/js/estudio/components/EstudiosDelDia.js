@@ -28,7 +28,7 @@ function EstudiosDelDia({
     useEffect(() => {
         const { fecha, dniPaciente } = queryString.parse(location.search);
         const fetchEstudiosCorrespondientes = fromCaja ?
-          fetchEstudiosConMovimientos : fetchEstudios;
+            fetchEstudiosConMovimientos : fetchEstudios;
         // if search is executed
         if (fecha && dniPaciente) {
             fetchEstudiosCorrespondientes({

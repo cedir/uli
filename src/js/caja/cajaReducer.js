@@ -71,11 +71,11 @@ const fetchMontosAcumuladosSuccess = (state, action) => ({
     montoConsultorio2: action.montos.consultorio_2,
     montoGeneral: action.montos.general,
     montoTotal: (
-                round(
-                Number(action.montos.consultorio_1) +
-                Number(action.montos.consultorio_2) +
-                Number(action.montos.general))
-                ).toString(),
+        round(
+            Number(action.montos.consultorio_1) +
+            Number(action.montos.consultorio_2) +
+            Number(action.montos.general))
+    ).toString(),
     apiLoading: false,
 });
 

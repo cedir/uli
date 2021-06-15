@@ -7,9 +7,9 @@ export function medicamentosEpic(action$) {
     return action$.ofType(FETCH_MEDICAMENTOS)
         .mergeMap(action =>
             getMedicamentosByDescription(action.descripcion)
-            .map(data => ({ type: LOAD_MEDICAMENTOS, data }))
-            .catch(() => (Rx.Observable.of({
-                type: LOAD_MEDICAMENTOS_ERROR,
-            }))),
-    );
+                .map(data => ({ type: LOAD_MEDICAMENTOS, data }))
+                .catch(() => (Rx.Observable.of({
+                    type: LOAD_MEDICAMENTOS_ERROR,
+                }))),
+        );
 }

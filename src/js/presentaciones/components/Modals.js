@@ -270,7 +270,6 @@ export function ImprimirPresentacionModal({
     );
 }
 
-
 const { number, bool, func, object, string, array } = PropTypes;
 
 ImprimirPresentacionModal.propTypes = {

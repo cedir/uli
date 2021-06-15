@@ -45,7 +45,6 @@ const fetchEstudiosDeUnaPresentacionReducer = state => ({
     estudiosApiLoading: true,
 });
 
-
 const loadEstudiosDeUnaPresentacionReducer = (state, action) => {
     const estudios = [...action.data.response];
     const estudiosExistentes = [...action.data.response];

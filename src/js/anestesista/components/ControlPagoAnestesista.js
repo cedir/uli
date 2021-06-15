@@ -38,7 +38,6 @@ class ControlPagoAnestesistaPres extends React.Component {
         return nombre;
     }
 
-
     render() {
         return (
             <Form

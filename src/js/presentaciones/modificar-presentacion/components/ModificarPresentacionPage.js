@@ -16,7 +16,6 @@ import {
 import initialState from '../modificarPresentacionReducerInitialState';
 import NotFoundPage from '../../../utilities/components/NotFoundPage';
 
-
 function ModificarPresentacionPage(props) {
     const {
         actualizarInput,
@@ -125,7 +124,6 @@ ModificarPresentacionPage.defaultProps = {
     fecha: initialState.fecha,
     importesTotales: initialState.importesTotales,
 };
-
 
 function mapStateToProps(state) {
     return {

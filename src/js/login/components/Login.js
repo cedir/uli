@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button, FormGroup, FormControl }
-from 'react-bootstrap/dist/react-bootstrap';
+    from 'react-bootstrap/dist/react-bootstrap';
 import ConditionalComponent from '../../utilities/ConditionalComponent';
 
 /* eslint-disable arrow-body-style */
@@ -59,8 +59,8 @@ function Login(props) {
                     App desarrollada por C.E.Di.R
                 </p>
                 <p>Logueate para comenzar.</p>
-                <form className='m-t' onSubmit={ submitHandler } >
-                    <FormGroup controlId='sucursal' >
+                <form className='m-t' onSubmit={ submitHandler }>
+                    <FormGroup controlId='sucursal'>
                         <select
                           onChange={ onChangeSelectHandler }
                           className='form-control'
@@ -72,7 +72,7 @@ function Login(props) {
                             <option>HIR</option>
                         </select>
                     </FormGroup>
-                    <FormGroup controlId='username' >
+                    <FormGroup controlId='username'>
                         <FormControl
                           type='text'
                           value={ username }
@@ -80,7 +80,7 @@ function Login(props) {
                           onChange={ e => setUsername(e.target.value) }
                         />
                     </FormGroup>
-                    <FormGroup controlId='password' >
+                    <FormGroup controlId='password'>
                         <FormControl
                           type='password'
                           value={ password }

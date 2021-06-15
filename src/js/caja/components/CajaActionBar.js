@@ -29,7 +29,7 @@ function CajaActionBar({
                   total={ montoTotal }
                 />
             </Col>
-            <Col md={ 5 } >
+            <Col md={ 5 }>
                 <div className='pull-right'>
                     <Button
                       onClick={ openSearchCajaModal }

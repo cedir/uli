@@ -5,10 +5,10 @@ import InputRF from '../../../utilities/InputRF';
 import MedicoField from '../../../utilities/components/forms/MedicoField';
 
 function CreateMovimientoForm({
-  tiposMovimientos,
-  index,
-  idMovimiento,
-  medico,
+    tiposMovimientos,
+    index,
+    idMovimiento,
+    medico,
 }) {
     const style = { padding: '0 0.5rem', margin: 0 };
 

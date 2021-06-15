@@ -20,12 +20,12 @@ function BotonesForm({
               bsStyle='primary'
               onClick={ selectEstudio }
             >
-                    Asociar con Estudio
+                Asociar con Estudio
             </Button>
             { Object.keys(estudioAsociado).length !== 0 && <Button
               onClick={ () => asociarEstudio({}) }
             >
-                    Eliminar Estudio
+                Eliminar Estudio
             </Button>}
         </ButtonToolbar>
     );

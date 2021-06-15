@@ -4,7 +4,6 @@ import {
     FETCH_CANTIDAD_TURNOS_SUCCESS,
 } from './actionTypes';
 
-
 const actionsHandledByEpicReducer = state => ({
     ...state,
     turnosApiLoading: true,

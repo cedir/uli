@@ -31,7 +31,6 @@ CajaPaginacion.propTypes = {
     updatePageNumber: func.isRequired,
 };
 
-
 function mapStateToProps(state) {
     return {
         cantPages: state.cajaReducer.cantPages,
