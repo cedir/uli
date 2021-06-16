@@ -11,22 +11,22 @@ import PacienteField from '../../../../utilities/components/forms/PacienteField'
 
 function CamposCliente({
     tiposCondicionFiscal,
-    selectedOption,
+    selected,
     updateForm,
     lockComprobante,
     tipoCliente,
 }) {
     useEffect(() => {
-        if (tipoCliente !== 0 && selectedOption.length > 0) {
-            updateForm('domicilioCliente', selectedOption[0].direccion || selectedOption[0].domicilio);
-            updateForm('dni', (selectedOption[0].nro_cuit || selectedOption[0].dni).toString());
-            updateForm('condicionFiscal', selectedOption[0].condicion_fiscal);
+        if (selected[0] && selected[0].nombre) {
+            updateForm('domicilioCliente', selected[0].direccion || selected[0].domicilio);
+            updateForm('dni', (selected[0].nro_cuit || selected[0].dni).toString());
+            updateForm('condicionFiscal', selected[0].condicion_fiscal);
         } else {
             updateForm('domicilioCliente', '');
             updateForm('dni', '');
             updateForm('condicionFiscal', '');
         }
-    }, [selectedOption]);
+    }, [selected[0] && selected[0].nombre]);
 
     const clientProps = {
         name: 'nombreCliente',
@@ -34,8 +34,7 @@ function CamposCliente({
         type: 'text',
         component: InputRF,
         staticField: lockComprobante,
-        paciente: selectedOption,
-        obraSocial: selectedOption,
+        paciente: selected,
         validate: required,
         required: true,
     };
@@ -45,7 +44,12 @@ function CamposCliente({
             <Col md={ 7 }>
                 {tipoCliente === 0 && <Field { ...clientProps } />}
                 {tipoCliente === 1 && <PacienteField { ...clientProps } />}
-                {tipoCliente === 2 && <ObraSocialField { ...clientProps } />}
+                {tipoCliente === 2 &&
+                    <ObraSocialField
+                      obraSocial={ selected }
+                      { ...clientProps }
+                    />
+                }
                 <Field
                   name='domicilioCliente'
                   label='Domicilio'
@@ -87,7 +91,7 @@ const { array, func, bool, number } = PropTypes;
 
 CamposCliente.propTypes = {
     tiposCondicionFiscal: array.isRequired,
-    selectedOption: array,
+    selected: array,
     updateForm: func.isRequired,
     lockComprobante: bool.isRequired,
     tipoCliente: number.isRequired,

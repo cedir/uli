@@ -9,7 +9,7 @@ import { FETCH_OBRAS_SOCIALES, DELETE_OBRAS_SOCIALES } from '../../../../obraSoc
 import { FETCH_PACIENTES, DELETE_PACIENTES } from '../../../../paciente/actionTypes';
 
 function ClienteForm({
-    selectedOption,
+    selected,
     updateForm,
     borrarOpciones,
     lockComprobante,
@@ -34,7 +34,7 @@ function ClienteForm({
             <CamposCliente
               tipoCliente={ tipoCliente }
               tiposCondicionFiscal={ tiposCondicionFiscal }
-              selectedOption={ selectedOption }
+              selected={ selected }
               updateForm={ updateForm }
               lockComprobante={ lockComprobante }
             />
@@ -53,7 +53,7 @@ ClienteForm.fields = [
 const { func, bool, array } = PropTypes;
 
 ClienteForm.propTypes = {
-    selectedOption: array,
+    selected: array,
     updateForm: func.isRequired,
     borrarOpciones: func.isRequired,
     lockComprobante: bool.isRequired,
@@ -62,7 +62,7 @@ ClienteForm.propTypes = {
 const selector = formValueSelector('CreateComprobanteForm');
 
 function mapStateToProps(state) {
-    const selectedOption = selector(state, 'nombreCliente');
+    const selected = selector(state, 'nombreCliente');
 
     const opciones =
     state.obraSocialReducer.obrasSociales.length > 0
@@ -72,7 +72,7 @@ function mapStateToProps(state) {
     return {
         apiLoading: state.obraSocialReducer.apiLoading || state.pacienteReducer.pacienteApiLoading,
         opciones,
-        selectedOption: Array.isArray(selectedOption) ? selectedOption : [],
+        selected: Array.isArray(selected) ? selected : [],
     };
 }
 
