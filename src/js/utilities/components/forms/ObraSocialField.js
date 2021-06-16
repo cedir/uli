@@ -14,6 +14,7 @@ function ObraSocialField({
     obraSocial,
     fetchObrasSociales,
     apiLoading,
+    staticField,
 }) {
     const validate = required ? requiredOption : [];
 
@@ -35,6 +36,7 @@ function ObraSocialField({
           selected={ obraSocial }
           renderMenuItemChildren={ renderItem }
           isLoading={ apiLoading }
+          staticField={ staticField }
         />
     );
 }
@@ -49,6 +51,7 @@ ObraSocialField.propTypes = {
     obrasSociales: array.isRequired,
     fetchObrasSociales: func.isRequired,
     apiLoading: bool.isRequired,
+    staticField: bool.isRequired,
 };
 
 function mapStateToProps(state) {
