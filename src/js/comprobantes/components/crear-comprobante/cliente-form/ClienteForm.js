@@ -9,11 +9,7 @@ import { FETCH_OBRAS_SOCIALES, DELETE_OBRAS_SOCIALES } from '../../../../obraSoc
 import { FETCH_PACIENTES, DELETE_PACIENTES } from '../../../../paciente/actionTypes';
 
 function ClienteForm({
-    opciones,
-    apiLoading = false,
     selectedOption,
-    fetchObrasSociales,
-    fetchPacientes,
     updateForm,
     borrarOpciones,
     lockComprobante,
@@ -22,35 +18,6 @@ function ClienteForm({
     const [tipoCliente, setTipoCliente] = useState(0);
     const setTipoClienteHandler = value =>
         (tipoCliente === value ? setTipoCliente(0) : setTipoCliente(value));
-
-    const [asyncProps, setAsyncProps] = useState({});
-
-    const renderOptionSelector = option => (
-        <div key={ option.id }>
-            { option.apellido && `${option.apellido}, ` }
-            { option.nombre }
-            <div>DNI/CUIT: {option.nro_cuit || option.dni}</div>
-        </div>
-    );
-
-    const renderOption = (option) => {
-        if (option.apellido) {
-            return `${option.nombre} ${option.apellido}`;
-        }
-        return `${option.nombre}`;
-    };
-
-    useEffect(() => {
-        setAsyncProps(
-            !tipoCliente ? {} : {
-                options: opciones,
-                labelKey: renderOption,
-                onSearch: tipoCliente === 1 ? fetchPacientes : fetchObrasSociales,
-                renderMenuItemChildren: renderOptionSelector,
-                isLoading: apiLoading,
-            },
-        );
-    }, [tipoCliente, opciones]);
 
     useEffect(() => {
         borrarOpciones();
@@ -65,8 +32,8 @@ function ClienteForm({
               lockComprobante={ lockComprobante }
             />
             <CamposCliente
+              tipoCliente={ tipoCliente }
               tiposCondicionFiscal={ tiposCondicionFiscal }
-              optionalProps={ asyncProps }
               selectedOption={ selectedOption }
               updateForm={ updateForm }
               lockComprobante={ lockComprobante }
@@ -83,14 +50,10 @@ ClienteForm.fields = [
     'condicionFiscal',
 ];
 
-const { array, func, bool, object } = PropTypes;
+const { func, bool, array } = PropTypes;
 
 ClienteForm.propTypes = {
-    opciones: array,
-    apiLoading: bool,
-    selectedOption: object.isRequired,
-    fetchObrasSociales: func.isRequired,
-    fetchPacientes: func.isRequired,
+    selectedOption: array,
     updateForm: func.isRequired,
     borrarOpciones: func.isRequired,
     lockComprobante: bool.isRequired,
@@ -99,11 +62,7 @@ ClienteForm.propTypes = {
 const selector = formValueSelector('CreateComprobanteForm');
 
 function mapStateToProps(state) {
-    const cliente = selector(state, 'nombreCliente');
-    const selectedOption =
-        Array.isArray(cliente) && cliente.length !== 0
-            ? cliente[0]
-            : {};
+    const selectedOption = selector(state, 'nombreCliente');
 
     const opciones =
     state.obraSocialReducer.obrasSociales.length > 0
@@ -113,7 +72,7 @@ function mapStateToProps(state) {
     return {
         apiLoading: state.obraSocialReducer.apiLoading || state.pacienteReducer.pacienteApiLoading,
         opciones,
-        selectedOption,
+        selectedOption: Array.isArray(selectedOption) ? selectedOption : [],
     };
 }
 
