@@ -62,7 +62,7 @@ PacienteField.propTypes = {
     pacientes: array.isRequired,
     fetchPacientes: func.isRequired,
     apiLoading: bool.isRequired,
-    staticField: bool.isRequired,
+    staticField: bool,
 };
 
 function mapStateToProps(state) {

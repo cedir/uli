@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import Proptypes from 'prop-types';
 
 function ConfirmationModal({ formName, modalOpened, closeModal, apiLoading, lockComprobante }) {
-    useState(() => {
+    useEffect(() => {
         if (lockComprobante) {
             closeModal();
         }
@@ -14,10 +14,14 @@ function ConfirmationModal({ formName, modalOpened, closeModal, apiLoading, lock
           show={ modalOpened }
           onHide={ closeModal }
         >
-            <Modal.Header><Modal.Title>Confirmacion</Modal.Title></Modal.Header>
-            <Modal.Body>Esta seguro que quiere crear un comprobante?</Modal.Body>
+            <Modal.Header><Modal.Title>Confirmación</Modal.Title></Modal.Header>
+            <Modal.Body>Esta a punto de crear un comprobante</Modal.Body>
             <Modal.Footer>
-                <Button bsStyle='danger' onClick={ closeModal }>
+                <Button
+                  bsStyle='danger'
+                  onClick={ closeModal }
+                  disabled={ apiLoading || lockComprobante }
+                >
                     Cancelar
                 </Button>
                 <Button
