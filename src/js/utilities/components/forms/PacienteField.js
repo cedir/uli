@@ -15,6 +15,7 @@ function PacienteField({
     pacientes,
     fetchPacientes,
     apiLoading,
+    staticField,
 }) {
     const validate = required ? requiredOption : [];
     const renderText = (option) => {
@@ -45,6 +46,7 @@ function PacienteField({
           selected={ paciente }
           renderMenuItemChildren={ renderItem }
           isLoading={ apiLoading }
+          staticField={ staticField }
         />
     );
 }
@@ -60,6 +62,7 @@ PacienteField.propTypes = {
     pacientes: array.isRequired,
     fetchPacientes: func.isRequired,
     apiLoading: bool.isRequired,
+    staticField: bool,
 };
 
 function mapStateToProps(state) {

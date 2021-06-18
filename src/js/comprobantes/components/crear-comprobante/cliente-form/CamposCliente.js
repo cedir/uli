@@ -4,43 +4,52 @@ import { Col } from 'react-bootstrap';
 import { Field } from 'redux-form';
 
 import InputRF from '../../../../utilities/InputRF';
-import AsyncTypeaheadRF from '../../../../utilities/AsyncTypeaheadRF';
 import { required, dniOrCuit, alpha } from '../../../../utilities/reduxFormValidators';
 import { normalizeDniCuit } from '../../../../utilities/reduxFormNormalizers';
+import ObraSocialField from '../../../../utilities/components/forms/ObraSocialField';
+import PacienteField from '../../../../utilities/components/forms/PacienteField';
 
 function CamposCliente({
     tiposCondicionFiscal,
-    optionalProps,
-    selectedOption,
+    selected,
     updateForm,
     lockComprobante,
+    tipoCliente,
 }) {
-    const componente = Object.keys(optionalProps).length === 0 ? InputRF : AsyncTypeaheadRF;
-
     useEffect(() => {
-        if (selectedOption.nombre) {
-            updateForm('domicilioCliente', selectedOption.direccion || selectedOption.domicilio);
-            updateForm('dni', (selectedOption.nro_cuit || selectedOption.dni).toString());
-            updateForm('condicionFiscal', selectedOption.condicion_fiscal);
+        if (selected[0] && selected[0].nombre) {
+            updateForm('domicilioCliente', selected[0].direccion || selected[0].domicilio);
+            updateForm('dni', (selected[0].nro_cuit || selected[0].dni).toString());
+            updateForm('condicionFiscal', selected[0].condicion_fiscal);
         } else {
             updateForm('domicilioCliente', '');
             updateForm('dni', '');
             updateForm('condicionFiscal', '');
         }
-    }, [selectedOption.nombre]);
+    }, [selected[0] && selected[0].nombre]);
+
+    const clientProps = {
+        name: 'nombreCliente',
+        label: 'Nombre',
+        type: 'text',
+        component: InputRF,
+        staticField: lockComprobante,
+        paciente: selected,
+        validate: required,
+        required: true,
+    };
 
     return (
         <React.Fragment>
             <Col md={ 7 }>
-                <Field
-                  name='nombreCliente'
-                  label='Nombre'
-                  component={ componente }
-                  validate={ required }
-                  type='text'
-                  staticField={ lockComprobante }
-                  { ...optionalProps }
-                />
+                {tipoCliente === 0 && <Field { ...clientProps } />}
+                {tipoCliente === 1 && <PacienteField { ...clientProps } />}
+                {tipoCliente === 2 &&
+                    <ObraSocialField
+                      obraSocial={ selected }
+                      { ...clientProps }
+                    />
+                }
                 <Field
                   name='domicilioCliente'
                   label='Domicilio'
@@ -78,14 +87,14 @@ function CamposCliente({
     );
 }
 
-const { array, object, func, bool } = PropTypes;
+const { array, func, bool, number } = PropTypes;
 
 CamposCliente.propTypes = {
     tiposCondicionFiscal: array.isRequired,
-    optionalProps: object.isRequired,
-    selectedOption: object.isRequired,
+    selected: array,
     updateForm: func.isRequired,
     lockComprobante: bool.isRequired,
+    tipoCliente: number.isRequired,
 };
 
 export default CamposCliente;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, reduxForm, FieldArray } from 'redux-form';
 import Panel from 'react-bootstrap/lib/Panel';
@@ -7,6 +7,9 @@ import ClienteForm from './cliente-form/ClienteForm';
 import LineasForm from './linea-form/LineasForm';
 import { nonEmpty } from '../../../utilities/reduxFormValidators';
 import BotonesForm from './BotonesForm';
+import ConfirmationModal from './ConfirmationModal';
+
+const formName = 'CreateComprobanteForm';
 
 function CreateComprobante({
     crearComprobante,
@@ -32,6 +35,8 @@ function CreateComprobante({
         return nombreCliente;
     };
 
+    const [modalOpened, setModalOpened] = useState(false);
+
     return (
         <Form
           onSubmit={ handleSubmit(comprobante =>
@@ -40,6 +45,7 @@ function CreateComprobante({
                   nombreCliente: getNombreCliente(comprobante.nombreCliente),
               }),
           ) }
+          id={ formName }
         >
             <h1> Crear comprobante </h1>
             <Panel header='Cliente' collapsible defaultExpanded>
@@ -62,12 +68,19 @@ function CreateComprobante({
                   lockComprobante={ lockComprobante }
                 />
             </Panel>
+            <ConfirmationModal
+              modalOpened={ modalOpened }
+              closeModal={ () => setModalOpened(false) }
+              apiLoading={ apiLoading }
+              lockComprobante={ lockComprobante }
+              formName={ formName }
+            />
             <BotonesForm
               valid={ valid }
               cae={ cae }
-              apiLoading={ apiLoading }
               lockComprobante={ lockComprobante }
               viewMode={ viewMode }
+              openModal={ () => setModalOpened(true) }
             />
         </Form>
     );
@@ -87,7 +100,7 @@ CreateComprobante.propTypes = {
 };
 
 const CreateComprobanteForm = reduxForm({
-    form: 'CreateComprobanteForm',
+    form: formName,
 })(CreateComprobante);
 
 export default CreateComprobanteForm;
