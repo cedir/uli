@@ -11,21 +11,22 @@ describe('Listado de Comprobantes', () => {
     });
 
     it('Crear comprobante asociado funciona', () => {
-        cy.get('tbody').find('tr').contains('Factura').contains('Crear asociado')
+        cy.get('tbody').find('tr').contains('Factura').next()
+            .contains('Crear asociado')
             .click();
 
         cy.get('.modal').get('input[name=importe]').type('100');
         cy.get('.modal').get('input[name=concepto]').type('Concepto de prueba');
 
         cy.get('button').contains('Crear comprobante asociado').should('not.be.disabled').click()
-            .and()
-            .should('be.disabled');
+            .and('be.disabled');
 
         cy.contains('Comprobante creado correctamente');
     });
 
     it('Crear comprobante asociado sin concepto funciona', () => {
-        cy.get('tbody').find('tr').contains('Factura').contains('Crear asociado')
+        cy.get('tbody').find('tr').contains('Factura').next()
+            .contains('Crear asociado')
             .click();
 
         cy.get('.modal').get('input[name=importe]').type('123');
@@ -34,18 +35,25 @@ describe('Listado de Comprobantes', () => {
 
         cy.contains('Comprobante creado correctamente');
         cy.get('button').contains('Buscar').click();
-
-        cy.get('');
     });
 
     it('Crear comprobante asociado sin importe falla', () => {
-        cy.get('tbody').find('tr').contains('Factura').contains('Crear asociado')
+        cy.get('tbody').find('tr').contains('Factura').next()
+            .contains('Crear asociado')
             .click();
 
         cy.get('.modal').get('input[name=importe]').clear();
         cy.get('.modal').get('input[name=concepto]').type('asdasdasd');
 
         cy.get('button').contains('Crear comprobante asociado').should('be.disabled');
+    });
+
+    it('Crear comprobante asociado no deja ingresar mas de dos decimales', () => {
+        cy.get('tbody').find('tr').contains('Factura').next()
+            .contains('Crear asociado')
+            .click();
+
+        cy.get('.modal').get('input[name=importe]').type('1.163').should('have.value', '1.16');
     });
 });
 
