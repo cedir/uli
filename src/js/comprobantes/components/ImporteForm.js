@@ -1,70 +1,72 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { reduxForm, Field } from 'redux-form';
+import { Form, Button } from 'react-bootstrap';
 import { SEND_COMPROBANTE_ASOCIADO } from '../actionTypes';
+import InputRF from '../../utilities/InputRF';
 
 function ImporteForm({
     idComprobante,
-    crear_nota_de_credito_asociada,
+    crearComprobanteAsociado,
     setShowImporteModal,
-    importeDefault,
+    handleSubmit,
+    apiLoading,
 }) {
-    const [saving, setSaving] = useState(false);
-
-    const handleSave = (event) => {
-        event.preventDefault();
-        setSaving(true);
-        crear_nota_de_credito_asociada(
-            idComprobante,
-            event.target.importe.value,
-            event.target.concepto.value,
-            setShowImporteModal,
-        );
-    };
-
     return (
-        <form onSubmit={ handleSave }>
-            <div className='form-group'>
-                <label htmlFor='importe'>Importe</label>
-                <div className='field'>
-                    <input
-                      type='number'
-                      name='importe'
-                      className='form-control'
-                      placeholder='Importe'
-                      step='.01'
-                      defaultValue={ importeDefault }
-                    />
-                </div>
-            </div>
-            <div className='form-group'>
-                <label htmlFor='Concepto'>Concepto</label>
-                <div className='field'>
-                    <input
-                      type='text'
-                      name='concepto'
-                      className='form-control'
-                      placeholder='Concepto'
-                    />
-                </div>
-            </div>
-            <button type='submit' disabled={ saving } className='btn btn-primary'>
-                { saving ? 'Creando comprobante asociado...' : 'Crear comprobante asociado' }
-            </button>
-        </form>
+        <Form onSubmit={
+            handleSubmit((params) => {
+                crearComprobanteAsociado(
+                    idComprobante,
+                    params.importe,
+                    params.concepto,
+                    setShowImporteModal,
+                );
+            })
+        }
+        >
+            <Field
+              name='importe'
+              label='Importe'
+              component={ InputRF }
+            />
+            <Field
+              name='concepto'
+              label='Concepto'
+              component={ InputRF }
+            />
+            <Button type='submit' disabled={ apiLoading }>
+                Crear comprobante asociado
+            </Button>
+        </Form>
     );
 }
 
+const { number, func, bool } = PropTypes;
+
 ImporteForm.propTypes = {
-    idComprobante: PropTypes.number.isRequired,
-    crear_nota_de_credito_asociada: PropTypes.func.isRequired,
-    setShowImporteModal: PropTypes.func.isRequired,
-    importeDefault: PropTypes.number,
+    idComprobante: number.isRequired,
+    crearComprobanteAsociado: func.isRequired,
+    setShowImporteModal: func.isRequired,
+    apiLoading: bool.isRequired,
+    handleSubmit: func.isRequired,
 };
+
+const CreateAsociadoForm = reduxForm({
+    form: 'CreateAsociadoForm',
+    destroyOnUnmount: true,
+    enableReinitialize: true,
+})(ImporteForm);
+
+function mapStateToProps(state) {
+    return {
+        apiLoading: state.comprobantesReducer.comprobantesApiLoading,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
     return {
-        crear_nota_de_credito_asociada: (idComp, importe, concepto, mostrarModal) =>
+        crearComprobanteAsociado: (idComp, importe, concepto, mostrarModal) =>
             dispatch({
                 type: SEND_COMPROBANTE_ASOCIADO,
                 idComp,
@@ -75,4 +77,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(ImporteForm);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateAsociadoForm);

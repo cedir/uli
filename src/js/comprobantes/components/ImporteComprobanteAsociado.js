@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap/dist/react-bootstrap';
 import ImporteForm from './ImporteForm';
 
-function ImporteModal({ modalOpened, setShowImporteModal, idComprobante, importeDefault = 0 }) {
+function ImporteModal({ modalOpened, setShowImporteModal, idComprobante }) {
     return (
         <Modal
           show={ modalOpened }
@@ -17,7 +17,6 @@ function ImporteModal({ modalOpened, setShowImporteModal, idComprobante, importe
                 <ImporteForm
                   idComprobante={ idComprobante }
                   setShowImporteModal={ setShowImporteModal }
-                  importeDefault={ importeDefault }
                 />
             </Modal.Body>
         </Modal>
@@ -28,7 +27,6 @@ ImporteModal.propTypes = {
     modalOpened: PropTypes.bool.isRequired,
     setShowImporteModal: PropTypes.func.isRequired,
     idComprobante: PropTypes.number.isRequired,
-    importeDefault: PropTypes.number,
 };
 
 export default ImporteModal;
