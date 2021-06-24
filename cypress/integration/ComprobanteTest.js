@@ -15,6 +15,7 @@ describe('Crear comprobantes', () => {
     it('Crear comprobante simple', () => {
         cy.contains('Agregar').click();
         cy.url().should('include', 'comprobantes/create');
+        cy.get('button').contains('Crear comprobante').should('be.disabled');
 
         cy.get('input[name=nombreCliente]').type('Daniel');
         cy.get('input[name=dni]').type('123456789');
@@ -33,6 +34,9 @@ describe('Crear comprobantes', () => {
         cy.contains('Sub-total').next().contains('11.05');
         cy.contains('Total: $11.05');
 
-        cy.contains('Crear comprobante').click();
+        cy.get('button').contains('Crear comprobante').should('not.be.disabled').click();
+        cy.get('.modal').contains('Crear comprobante').click();
+        cy.get('.modal').should('not.exist');
+        cy.contains('Comprobante creado correctamente');
     });
 });
