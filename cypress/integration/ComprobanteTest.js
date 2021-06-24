@@ -9,6 +9,44 @@ describe('Listado de Comprobantes', () => {
     it('Carga listado correctamente', () => {
         cy.get('tbody').find('tr');
     });
+
+    it('Crear comprobante asociado funciona', () => {
+        cy.get('tbody').find('tr').contains('Factura').contains('Crear asociado')
+            .click();
+
+        cy.get('.modal').get('input[name=importe]').type('100');
+        cy.get('.modal').get('input[name=concepto]').type('Concepto de prueba');
+
+        cy.get('button').contains('Crear comprobante asociado').should('not.be.disabled').click()
+            .and()
+            .should('be.disabled');
+
+        cy.contains('Comprobante creado correctamente');
+    });
+
+    it('Crear comprobante asociado sin concepto funciona', () => {
+        cy.get('tbody').find('tr').contains('Factura').contains('Crear asociado')
+            .click();
+
+        cy.get('.modal').get('input[name=importe]').type('123');
+
+        cy.get('button').contains('Crear comprobante asociado').click();
+
+        cy.contains('Comprobante creado correctamente');
+        cy.get('button').contains('Buscar').click();
+
+        cy.get('');
+    });
+
+    it('Crear comprobante asociado sin importe falla', () => {
+        cy.get('tbody').find('tr').contains('Factura').contains('Crear asociado')
+            .click();
+
+        cy.get('.modal').get('input[name=importe]').clear();
+        cy.get('.modal').get('input[name=concepto]').type('asdasdasd');
+
+        cy.get('button').contains('Crear comprobante asociado').should('be.disabled');
+    });
 });
 
 describe('Crear comprobantes', () => {
