@@ -5,6 +5,8 @@ import { reduxForm, Field } from 'redux-form';
 import { Form, Button } from 'react-bootstrap';
 import { SEND_COMPROBANTE_ASOCIADO } from '../actionTypes';
 import InputRF from '../../utilities/InputRF';
+import { twoDecimals } from '../../utilities/reduxFormNormalizers';
+import { required } from '../../utilities/reduxFormValidators';
 
 function ImporteForm({
     idComprobante,
@@ -12,6 +14,7 @@ function ImporteForm({
     setShowImporteModal,
     handleSubmit,
     apiLoading,
+    valid,
 }) {
     return (
         <Form onSubmit={
@@ -29,13 +32,15 @@ function ImporteForm({
               name='importe'
               label='Importe'
               component={ InputRF }
+              normalize={ twoDecimals }
+              validate={ required }
             />
             <Field
               name='concepto'
               label='Concepto'
               component={ InputRF }
             />
-            <Button type='submit' disabled={ apiLoading }>
+            <Button type='submit' disabled={ apiLoading || !valid }>
                 Crear comprobante asociado
             </Button>
         </Form>
@@ -50,6 +55,7 @@ ImporteForm.propTypes = {
     setShowImporteModal: func.isRequired,
     apiLoading: bool.isRequired,
     handleSubmit: func.isRequired,
+    valid: bool.isRequired,
 };
 
 const CreateAsociadoForm = reduxForm({
