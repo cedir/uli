@@ -20,8 +20,7 @@ function ImporteForm({
             handleSubmit((params) => {
                 crearComprobanteAsociado(
                     idComprobante,
-                    params.importe,
-                    params.concepto,
+                    params,
                     setShowImporteModal,
                 );
             })
@@ -61,12 +60,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        crearComprobanteAsociado: (idComp, importe, concepto, mostrarModal) =>
+        crearComprobanteAsociado: (idComp, data, mostrarModal) =>
             dispatch({
                 type: SEND_COMPROBANTE_ASOCIADO,
                 idComp,
-                importe,
-                concepto,
+                data,
                 mostrarModal,
             }),
     };

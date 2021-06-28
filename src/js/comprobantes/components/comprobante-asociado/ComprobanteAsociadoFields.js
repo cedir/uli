@@ -40,6 +40,7 @@ function ComprobanteAsociadoFields() {
                       label='Tipo de comprobante'
                       component={ InputRF }
                       componentClass='select'
+                      validate={ required }
                       selectOptions={ tiposComprobante }
                       selectionValue='value'
                       renderOptionHandler={ opcion => opcion.text }
@@ -47,7 +48,6 @@ function ComprobanteAsociadoFields() {
                     />
                 </Col>
             </Row>
-
             <Row>
                 <Col md={ 12 }>
                     <Field

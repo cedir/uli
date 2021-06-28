@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row } from 'react-bootstrap';
-import { Button } from 'react-bootstrap/lib/InputGroup';
+import { Col, Row, Button } from 'react-bootstrap';
 
 function ComprobanteAsociadoFooter({ apiLoading, valid }) {
     return (
