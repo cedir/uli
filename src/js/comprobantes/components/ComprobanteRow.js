@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import FilePlusIcon from 'mdi-react/FilePlusIcon';
 import { Button, Glyphicon } from 'react-bootstrap';
 import { config } from '../../app/config';
 
@@ -16,10 +17,6 @@ function ComprobanteRow({
     cae,
     history,
 }) {
-    const setOnClick = () => {
-        setShowImporteModal(true);
-        setComprobanteId(idComprobante);
-    };
     const propsNombreCliente = cae ? {
         onClick: () => history.push(`/comprobantes/detail/${idComprobante}`),
         role: 'button',
@@ -42,14 +39,18 @@ function ComprobanteRow({
             <td>{FechaEmision}</td>
             <td>{TipoComprobante}</td>
             <td>
-                <a href='#' onClick={ setOnClick }>
-                    Crear asociado
-                </a>
+                <FilePlusIcon
+                  onClick={ () => {
+                      setShowImporteModal(true);
+                      setComprobanteId(idComprobante);
+                    } }
+                />
             </td>
             <td>
                 {cae &&
                     <Button
                       bsStyle='link'
+                      style={ { paddingTop: 0 } }
                       onClick={ () => window.open(`${config.baseUrl}/comprobante/imprimir/${cae}/`) }
                     >
                         <Glyphicon glyph='print' />
