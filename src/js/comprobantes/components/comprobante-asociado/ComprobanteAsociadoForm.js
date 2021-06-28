@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { Form } from 'react-bootstrap';
-import { SEND_COMPROBANTE_ASOCIADO } from '../actionTypes';
-import ComprobanteAsociadoFields from './comprobante-asociado/ComprobanteAsociadoFields';
-import ComprobanteAsociadoFooter from './comprobante-asociado/ComprobanteAsociadoFooter';
+import { SEND_COMPROBANTE_ASOCIADO } from '../../actionTypes';
+import ComprobanteAsociadoFields from './ComprobanteAsociadoFields';
+import ComprobanteAsociadoFooter from './ComprobanteAsociadoFooter';
 
-function ImporteForm({
+function ComprobanteAsociadoForm({
     idComprobante,
     crearComprobanteAsociado,
     setShowImporteModal,
@@ -37,7 +37,7 @@ function ImporteForm({
 
 const { number, func, bool } = PropTypes;
 
-ImporteForm.propTypes = {
+ComprobanteAsociadoForm.propTypes = {
     idComprobante: number.isRequired,
     crearComprobanteAsociado: func.isRequired,
     setShowImporteModal: func.isRequired,
@@ -50,7 +50,7 @@ const CreateAsociadoForm = reduxForm({
     form: 'CreateAsociadoForm',
     destroyOnUnmount: true,
     enableReinitialize: true,
-})(ImporteForm);
+})(ComprobanteAsociadoForm);
 
 function mapStateToProps(state) {
     return {

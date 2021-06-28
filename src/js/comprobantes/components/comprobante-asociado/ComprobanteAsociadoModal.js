@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap/dist/react-bootstrap';
-import ImporteForm from './ImporteForm';
+import ComprobanteAsociadoForm from './ComprobanteAsociadoForm';
 
 function ImporteModal({ modalOpened, setShowImporteModal, idComprobante }) {
     return (
@@ -14,7 +14,7 @@ function ImporteModal({ modalOpened, setShowImporteModal, idComprobante }) {
                 <Modal.Title>Crear Comprobante Asociado</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <ImporteForm
+                <ComprobanteAsociadoForm
                   idComprobante={ idComprobante }
                   setShowImporteModal={ setShowImporteModal }
                 />

@@ -6,7 +6,7 @@ import { Table } from 'react-bootstrap/dist/react-bootstrap';
 import ComprobanteRow from './ComprobanteRow';
 import initialState from '../comprobantesReducuerInitialState';
 import { FETCH_COMPROBANTES_LISTA } from '../actionTypes';
-import ImporteModal from './ImporteComprobanteAsociado';
+import ComprobanteAsociadoModal from './comprobante-asociado/ComprobanteAsociadoModal';
 import Buscador from './FilterComprobante';
 
 function BuscarComprobante({ comprobantesLista, cargar_comprobantes, history }) {
@@ -20,7 +20,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes, history }) 
     return (
         <div>
             <h1>Comprobantes</h1>
-            <ImporteModal
+            <ComprobanteAsociadoModal
               modalOpened={ showImporteModal }
               setShowImporteModal={ setShowImporteModal }
               idComprobante={ idComprobante }
