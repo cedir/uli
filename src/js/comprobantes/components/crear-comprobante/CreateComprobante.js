@@ -21,12 +21,6 @@ function CreateComprobante({
     updateForm,
     viewMode,
 }) {
-    const opcionesIva = [
-        { text: 'Exento', porcentaje: 0, gravado: 1 },
-        { text: 'Iva inscripto 10.5', porcentaje: 10.5, gravado: 2 },
-        { text: 'Iva inscripto 21', porcentaje: 21, gravado: 3 },
-    ];
-
     const getNombreCliente = (nombreCliente) => {
         if (Array.isArray(nombreCliente)) {
             const { apellido, nombre } = nombreCliente[0];
@@ -53,7 +47,6 @@ function CreateComprobante({
             </Panel>
             <Panel header='Cabecera' collapsible defaultExpanded>
                 <CabeceraForm
-                  opcionesIva={ opcionesIva }
                   lockComprobante={ lockComprobante }
                   updateForm={ updateForm }
                   viewMode={ viewMode }
@@ -64,7 +57,6 @@ function CreateComprobante({
                   name='lineas'
                   component={ LineasForm }
                   validate={ nonEmpty }
-                  opcionesIva={ opcionesIva }
                   lockComprobante={ lockComprobante }
                 />
             </Panel>

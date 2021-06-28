@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { reduxForm, Field } from 'redux-form';
-import { Form, Button } from 'react-bootstrap';
+import { reduxForm } from 'redux-form';
+import { Form } from 'react-bootstrap';
 import { SEND_COMPROBANTE_ASOCIADO } from '../actionTypes';
-import InputRF from '../../utilities/InputRF';
-import { twoDecimals } from '../../utilities/reduxFormNormalizers';
-import { required } from '../../utilities/reduxFormValidators';
+import ComprobanteAsociadoFields from './comprobante-asociado/ComprobanteAsociadoFields';
+import ComprobanteAsociadoFooter from './comprobante-asociado/ComprobanteAsociadoFooter';
 
 function ImporteForm({
     idComprobante,
@@ -28,21 +27,11 @@ function ImporteForm({
             })
         }
         >
-            <Field
-              name='importe'
-              label='Importe'
-              component={ InputRF }
-              normalize={ twoDecimals }
-              validate={ required }
+            <ComprobanteAsociadoFields />
+            <ComprobanteAsociadoFooter
+              apiLoading={ apiLoading }
+              valid={ valid }
             />
-            <Field
-              name='concepto'
-              label='Concepto'
-              component={ InputRF }
-            />
-            <Button type='submit' disabled={ apiLoading || !valid }>
-                Crear comprobante asociado
-            </Button>
         </Form>
     );
 }
