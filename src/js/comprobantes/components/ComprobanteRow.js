@@ -12,7 +12,7 @@ function ComprobanteRow({
     FechaEmision,
     TipoComprobante,
     setShowImporteModal,
-    setComprobanteId,
+    setComprobante,
     idComprobante,
     cae,
     history,
@@ -42,7 +42,7 @@ function ComprobanteRow({
                 <FilePlusIcon
                   onClick={ () => {
                       setShowImporteModal(true);
-                      setComprobanteId(idComprobante);
+                      setComprobante();
                     } }
                 />
             </td>
@@ -69,7 +69,7 @@ ComprobanteRow.propTypes = {
     FechaEmision: PropTypes.string.isRequired,
     TipoComprobante: PropTypes.string.isRequired,
     setShowImporteModal: PropTypes.func.isRequired,
-    setComprobanteId: PropTypes.func.isRequired,
+    setComprobante: PropTypes.func.isRequired,
     idComprobante: PropTypes.number.isRequired,
     cae: PropTypes.string,
     history: PropTypes.object,

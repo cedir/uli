@@ -1,25 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { reduxForm, change } from 'redux-form';
 import { Form } from 'react-bootstrap';
 import { SEND_COMPROBANTE_ASOCIADO } from '../../actionTypes';
 import ComprobanteAsociadoFields from './ComprobanteAsociadoFields';
 import ComprobanteAsociadoFooter from './ComprobanteAsociadoFooter';
+import { tiposAsociadoDefault } from '../../../utilities/generalUtilities';
 
 function ComprobanteAsociadoForm({
-    idComprobante,
+    comprobante,
     crearComprobanteAsociado,
     setShowImporteModal,
     handleSubmit,
+    updateForm,
     apiLoading,
     valid,
 }) {
+    useEffect(() => {
+        updateForm('iva', comprobante.gravado.id);
+        updateForm('tipo', tiposAsociadoDefault[comprobante.tipo_comprobante.id - 1]);
+    }, []);
+
     return (
         <Form onSubmit={
             handleSubmit((params) => {
                 crearComprobanteAsociado(
-                    idComprobante,
+                    comprobante.id,
                     params,
                     setShowImporteModal,
                 );
@@ -35,15 +42,16 @@ function ComprobanteAsociadoForm({
     );
 }
 
-const { number, func, bool } = PropTypes;
+const { object, func, bool } = PropTypes;
 
 ComprobanteAsociadoForm.propTypes = {
-    idComprobante: number.isRequired,
+    comprobante: object.isRequired,
     crearComprobanteAsociado: func.isRequired,
     setShowImporteModal: func.isRequired,
     apiLoading: bool.isRequired,
     handleSubmit: func.isRequired,
     valid: bool.isRequired,
+    updateForm: func.isRequired,
 };
 
 const CreateAsociadoForm = reduxForm({
@@ -67,6 +75,7 @@ function mapDispatchToProps(dispatch) {
                 data,
                 mostrarModal,
             }),
+        updateForm: (name, value) => dispatch(change('CreateAsociadoForm', name, value)),
     };
 }
 

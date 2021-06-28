@@ -11,7 +11,7 @@ import Buscador from './FilterComprobante';
 
 function BuscarComprobante({ comprobantesLista, cargar_comprobantes, history }) {
     const [showImporteModal, setShowImporteModal] = useState(false);
-    const [idComprobante, setComprobanteId] = useState(0);
+    const [comprobanteObj, setComprobante] = useState({});
 
     useEffect(() => {
         cargar_comprobantes();
@@ -23,7 +23,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes, history }) 
             <ComprobanteAsociadoModal
               modalOpened={ showImporteModal }
               setShowImporteModal={ setShowImporteModal }
-              idComprobante={ idComprobante }
+              comprobante={ comprobanteObj }
             />
             <Buscador history={ history } />
             <Table striped responsive style={ { marginTop: '20px' } }>
@@ -50,7 +50,7 @@ function BuscarComprobante({ comprobantesLista, cargar_comprobantes, history }) 
                           FechaEmision={ comprobante.fecha_emision }
                           TipoComprobante={ comprobante.tipo_comprobante.nombre }
                           setShowImporteModal={ setShowImporteModal }
-                          setComprobanteId={ setComprobanteId }
+                          setComprobante={ () => setComprobante(comprobante) }
                           idComprobante={ comprobante.id }
                           cae={ comprobante.cae }
                           history={ history }
