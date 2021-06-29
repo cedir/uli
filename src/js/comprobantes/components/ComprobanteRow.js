@@ -39,12 +39,14 @@ function ComprobanteRow({
             <td>{FechaEmision}</td>
             <td>{TipoComprobante}</td>
             <td>
-                <FilePlusIcon
-                  onClick={ () => {
-                      setShowImporteModal(true);
-                      setComprobante();
-                    } }
-                />
+                {cae &&
+                    <FilePlusIcon
+                      onClick={ () => {
+                          setShowImporteModal(true);
+                          setComprobante();
+                        } }
+                    />
+                }
             </td>
             <td>
                 {cae &&

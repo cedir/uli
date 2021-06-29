@@ -13,13 +13,13 @@ export const tiposMovimiento = [
     { text: 'Consultorio 2', value: 12 },
 ];
 
-const ID_FACTURA = 1;
-const ID_LIQUIDACION = 2;
-const ID_NOTA_DE_DEBITO = 3;
-const ID_NOTA_DE_CREDITO = 4;
-const ID_FACTURA_ELECTRONICA = 5;
-const ID_NOTA_DE_DEBITO_ELECTRONICA = 6;
-const ID_NOTA_DE_CREDITO_ELECTRONICA = 7;
+export const ID_FACTURA = 1;
+export const ID_LIQUIDACION = 2;
+export const ID_NOTA_DE_DEBITO = 3;
+export const ID_NOTA_DE_CREDITO = 4;
+export const ID_FACTURA_ELECTRONICA = 5;
+export const ID_NOTA_DE_DEBITO_ELECTRONICA = 6;
+export const ID_NOTA_DE_CREDITO_ELECTRONICA = 7;
 
 export const tiposComprobante = [
     { text: 'Factura', value: ID_FACTURA },
