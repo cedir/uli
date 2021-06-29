@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
-import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
+import { DELETE_MEDICACION_ESTUDIO } from '../../../medicacion/actionTypes';
 import './MedicacionEstudioTable.css';
-import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
+import { calculateImporteTotal } from '../../../medicacion/medicacionHelper';
 
 class MedicacionEstudiosTable extends React.Component {
     constructor(props) {
@@ -73,7 +73,7 @@ class MedicacionEstudiosTable extends React.Component {
                                 <MedicacionEstudioTableRow
                                   key={ medicacion.id }
                                   medicacion={ medicacion }
-                                  onRowClick={ this.removeMedicacionEstudio }
+                                  removeMedicacion={ this.removeMedicacionEstudio }
                                 />
                             )) }
                         </tbody>
@@ -103,12 +103,6 @@ MedicacionEstudiosTable.defaultProps = {
     medicaciones: [],
 };
 
-function mapStateToProps(state) {
-    return {
-        medicaciones: state.medicacionReducer.medicaciones,
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         removeMedicacionEstudio: (medicacion, seccion) =>
@@ -116,4 +110,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MedicacionEstudiosTable);
+export default connect(null, mapDispatchToProps)(MedicacionEstudiosTable);

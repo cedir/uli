@@ -1,16 +1,22 @@
 import React, { useRef, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { useReactToPrint } from 'react-to-print';
 import { useParams } from 'react-router';
-import { Button } from 'react-bootstrap/dist/react-bootstrap';
 import MedicacionEstudioTable from './MedicacionEstudioTable';
-import AddMedicamentosForm from './AddMedicamentosForm';
+import AddMedicamentosForm from '../AddMedicamentosForm';
+import BotonesMedicacionFooter from './BotonesMedicacionFooter';
+import { DELETE_ALL_MEDICACION } from '../../../medicacion/actionTypes';
 import './MedicacionEstudioTable.css';
 
 function MedicacionEstudio({
     paciente,
     practica,
     fechaEstudio,
+    removeMedicacion,
+    idEstudio,
+    apiLoading,
+    medicaciones,
 }) {
     const params = useParams();
     const componentRef = useRef(null);
@@ -57,18 +63,41 @@ function MedicacionEstudio({
               practica={ practica }
               fechaEstudio={ fechaEstudio }
               filtrarEspecificos={ filtrarEspecificos }
+              medicaciones={ medicaciones }
             />
-            <Button bsStyle='primary' onClick={ handlePrint }> Imprimir medicación</Button>
+            <BotonesMedicacionFooter
+              handlePrint={ handlePrint }
+              removeMedicacion={ () => removeMedicacion(idEstudio) }
+              apiLoading={ apiLoading }
+              medicacion={ medicaciones.length }
+            />
         </div>
     );
 }
 
-const { string, object } = PropTypes;
+const { string, object, func, number, bool, array } = PropTypes;
 
 MedicacionEstudio.propTypes = {
     paciente: object,
     practica: object,
     fechaEstudio: string,
+    removeMedicacion: func.isRequired,
+    idEstudio: number.isRequired,
+    apiLoading: bool.isRequired,
+    medicaciones: array.isRequired,
 };
 
-export default MedicacionEstudio;
+function mapStateToProps(state) {
+    return {
+        apiLoading: state.medicacionReducer.apiLoading,
+        medicaciones: state.medicacionReducer.medicaciones || [],
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        removeMedicacion: idEstudio => dispatch({ type: DELETE_ALL_MEDICACION, idEstudio }),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MedicacionEstudio);

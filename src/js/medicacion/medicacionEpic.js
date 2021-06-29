@@ -1,16 +1,18 @@
 import Rx from 'rxjs';
 import { getMedicacion, addMedicactionToEstudio,
-    removeMedicacionFromEstudio, addDefaultMedicacionToEstudio } from './api';
+    removeMedicacionFromEstudio, addDefaultMedicacionToEstudio,
+    deleteAllMedicacion } from './api';
 import { FETCH_MEDICACION_ESTUDIO, LOAD_MEDICACION_ESTUDIO,
     LOAD_MEDICACION_ESTUDIO_ERROR, ADD_MEDICACION_ESTUDIO,
     ADD_MEDICACION_ESTUDIO_ERROR, DELETE_MEDICACION_ESTUDIO,
-    DELETE_MEDICACION_ESTUDIO_ERROR,
-    ADD_DEFAULT_MEDICACION_ESTUDIO,
-    ADD_DEFAULT_MEDICACION_ESTUDIO_ERROR }
-    from './actionTypes';
+    DELETE_MEDICACION_ESTUDIO_ERROR, ADD_DEFAULT_MEDICACION_ESTUDIO,
+    ADD_DEFAULT_MEDICACION_ESTUDIO_ERROR, DELETE_ALL_MEDICACION,
+    DELETE_ALL_MEDICACION_SUCCESS, DELETE_ALL_MEDICACION_FAILED } from './actionTypes';
 import { UPDATE_MEDICACION_ESTUDIO_MODIFICAR } from '../presentaciones/modificar-presentacion/actionTypes';
 import { UPDATE_MEDICACION_ESTUDIO_NUEVA } from '../presentaciones/nueva-presentacion/actionTypes';
 import { UPDATE_MEDICACION_ESTUDIO_COBRAR } from '../presentaciones/cobrar-presentacion/actionTypes';
+import { ADD_ALERT } from '../utilities/components/alert/actionTypes';
+import { createAlert } from '../utilities/components/alert/alertUtility';
 
 export function medicacionEpic(action$) {
     return action$.ofType(FETCH_MEDICACION_ESTUDIO)
@@ -89,4 +91,17 @@ export function addDefaultMedicacionToEstudioEpic(action$) {
                     type: ADD_DEFAULT_MEDICACION_ESTUDIO_ERROR,
                 }))),
         );
+}
+
+export function deleteAllMedicacionEpic(action$) {
+    return action$.ofType(DELETE_ALL_MEDICACION)
+        .mergeMap(action =>
+            deleteAllMedicacion(action.idEstudio)
+                .mergeMap(() => Rx.Observable.of(
+                    { type: DELETE_ALL_MEDICACION_SUCCESS },
+                ))
+                .catch(data => Rx.Observable.of(
+                    { type: DELETE_ALL_MEDICACION_FAILED },
+                    { type: ADD_ALERT, alert: createAlert(`Ocurrio un error al crear los montos: ${data.response.error}`, 'danger') },
+                )));
 }
