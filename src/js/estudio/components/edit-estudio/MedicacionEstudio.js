@@ -15,6 +15,8 @@ function MedicacionEstudio({
     fechaEstudio,
     removeMedicacion,
     idEstudio,
+    apiLoading,
+    medicaciones,
 }) {
     const params = useParams();
     const componentRef = useRef(null);
@@ -61,16 +63,19 @@ function MedicacionEstudio({
               practica={ practica }
               fechaEstudio={ fechaEstudio }
               filtrarEspecificos={ filtrarEspecificos }
+              medicaciones={ medicaciones }
             />
             <BotonesMedicacionFooter
               handlePrint={ handlePrint }
               removeMedicacion={ () => removeMedicacion(idEstudio) }
+              apiLoading={ apiLoading }
+              medicacion={ medicaciones.length }
             />
         </div>
     );
 }
 
-const { string, object, func, number } = PropTypes;
+const { string, object, func, number, bool, array } = PropTypes;
 
 MedicacionEstudio.propTypes = {
     paciente: object,
@@ -78,11 +83,14 @@ MedicacionEstudio.propTypes = {
     fechaEstudio: string,
     removeMedicacion: func.isRequired,
     idEstudio: number.isRequired,
+    apiLoading: bool.isRequired,
+    medicaciones: array.isRequired,
 };
 
 function mapStateToProps(state) {
     return {
         apiLoading: state.medicacionReducer.apiLoading,
+        medicaciones: state.medicacionReducer.medicaciones || [],
     };
 }
 

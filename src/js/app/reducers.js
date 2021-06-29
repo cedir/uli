@@ -32,7 +32,8 @@ import { medicosActuantesEpic, medicosSolicitantesEpic,
     medicosEpic } from '../medico/medicoEpic';
 import { pagoAnestesistaEpic, anestesistaEpic } from '../anestesista/pagoAnestesistaEpic';
 import { medicacionEpic, addMedicacionToEstudioEpic,
-    removeMedicacionFromEstudioEpic, addDefaultMedicacionToEstudioEpic } from '../medicacion/medicacionEpic';
+    removeMedicacionFromEstudioEpic, addDefaultMedicacionToEstudioEpic,
+    deleteAllMedicacionEpic } from '../medicacion/medicacionEpic';
 import { medicamentosEpic } from '../medicamento/medicamentoEpic';
 import { pacienteEpic } from '../paciente/pacienteEpic';
 import { practicaEpic } from '../practica/practicaEpic';
@@ -87,6 +88,7 @@ export const rootEpic = combineEpics(
     addMedicacionToEstudioEpic,
     removeMedicacionFromEstudioEpic,
     addDefaultMedicacionToEstudioEpic,
+    deleteAllMedicacionEpic,
     medicamentosEpic,
     pacienteEpic,
     practicaEpic,

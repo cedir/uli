@@ -103,12 +103,6 @@ MedicacionEstudiosTable.defaultProps = {
     medicaciones: [],
 };
 
-function mapStateToProps(state) {
-    return {
-        medicaciones: state.medicacionReducer.medicaciones,
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         removeMedicacionEstudio: (medicacion, seccion) =>
@@ -116,4 +110,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MedicacionEstudiosTable);
+export default connect(null, mapDispatchToProps)(MedicacionEstudiosTable);
