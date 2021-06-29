@@ -22,3 +22,9 @@ export function removeMedicacionFromEstudio(medicacion) {
 
     return remove(url);
 }
+
+export function deleteAllMedicacion(idEstudio) {
+    const url = `/api/medicacion/delete_medicacion/?estudio=${idEstudio}`;
+
+    return remove(url);
+}
