@@ -73,7 +73,7 @@ class MedicacionEstudiosTable extends React.Component {
                                 <MedicacionEstudioTableRow
                                   key={ medicacion.id }
                                   medicacion={ medicacion }
-                                  onRowClick={ this.removeMedicacionEstudio }
+                                  removeMedicacion={ this.removeMedicacionEstudio }
                                 />
                             )) }
                         </tbody>
