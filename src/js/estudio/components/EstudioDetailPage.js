@@ -50,6 +50,7 @@ function EstudioDetailPage({
                       paciente={ paciente }
                       practica={ practica }
                       fechaEstudio={ fecha }
+                      idEstudio={ estudioDetail.id }
                     />
                 </Col>
                 <Col md={ 4 } style={ { border: 'none' } }>
