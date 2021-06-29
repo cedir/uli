@@ -104,6 +104,24 @@ describe('Listado de Comprobantes', () => {
         selectAsociado('Nota de Debito Electronica MiPyME');
         tipoHaveValue(ID_NOTA_DE_CREDITO_ELECTRONICA);
     });
+
+    it('Crear comprobante asociado permite seleccionar todos los datos', () => {
+        cy.createComprobanteAsociado(/^Factura$/, 5, 'Pruebas', 'Exento', 'Nota De Debito');
+        cy.get('button').contains('Buscar').click().should('not.be.disabled');
+        cy.get('tbody > tr').eq(0).contains(/^Nota De Debito$/);
+        cy.get('tbody > tr > td > div').eq(0).click();
+        cy.contains('Nota De Debito');
+        cy.contains('Pruebas');
+        cy.contains('Nota De Debito');
+        cy.contains('Importe Neto').next().contains('5.00').parent()
+            .parent()
+            .next()
+            .contains('Iva')
+            .next()
+            .contains('-');
+        cy.contains('Sub-total').next().contains('5');
+        cy.contains('Total: $5');
+    });
 });
 
 describe('Crear comprobantes', () => {
