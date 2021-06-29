@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap/dist/react-bootstrap';
 import { isEmpty } from 'lodash';
 import EstudioDetailMain from './EstudioDetailMain';
-import MedicacionEstudio from './MedicacionEstudio';
+import MedicacionEstudio from './edit-estudio/MedicacionEstudio';
 import DetalleFacturacionEstudio from './DetalleFacturacionEstudio';
 import ImportesEstudio from './ImportesEstudio';
 import { FETCH_ESTUDIO_DETAIL, RESET_ESTUDIO_DETAIL } from '../actionTypes';

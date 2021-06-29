@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Table, Col, Row } from 'react-bootstrap/dist/react-bootstrap';
 import MedicacionEstudioTableRow from './MedicacionEstudioTableRow';
-import { DELETE_MEDICACION_ESTUDIO } from '../../medicacion/actionTypes';
+import { DELETE_MEDICACION_ESTUDIO } from '../../../medicacion/actionTypes';
 import './MedicacionEstudioTable.css';
-import { calculateImporteTotal } from '../../medicacion/medicacionHelper';
+import { calculateImporteTotal } from '../../../medicacion/medicacionHelper';
 
 class MedicacionEstudiosTable extends React.Component {
     constructor(props) {
