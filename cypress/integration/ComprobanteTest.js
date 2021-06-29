@@ -1,22 +1,36 @@
 /// <reference types="Cypress" />
 
+import { ID_NOTA_DE_CREDITO, ID_NOTA_DE_DEBITO,
+    ID_NOTA_DE_DEBITO_ELECTRONICA, ID_NOTA_DE_CREDITO_ELECTRONICA } from '../../src/js/utilities/generalUtilities';
+
 beforeEach(() => {
     cy.login();
     cy.contains('Comprobantes').click();
 });
 
 describe('Listado de Comprobantes', () => {
+    before(() => {
+        cy.login();
+        cy.contains('Comprobantes').click();
+        cy.contains('Agregar').click();
+        cy.createComprobante('Iva inscripto 10.5', 'Factura', 123);
+        cy.visit('/comprobantes');
+        cy.contains('Agregar').click();
+        cy.createComprobante('Iva inscripto 10.5', 'Factura Electronica', 123, 'A');
+        cy.contains('Log out').click();
+    });
+
     it('Carga listado correctamente', () => {
         cy.get('tbody').find('tr');
     });
 
     it('Crear comprobante asociado funciona', () => {
-        cy.get('tbody').find('tr').contains('Factura').next()
-            .contains('Crear asociado')
+        cy.get('tbody').find('tr').contains(/^Factura$/).next()
+            .find('.mdi-icon')
             .click();
 
-        cy.get('.modal').get('input[name=importe]').type('100');
-        cy.get('.modal').get('input[name=concepto]').type('Concepto de prueba');
+        cy.get('.modal').find('input[name=importe]').type('100');
+        cy.get('.modal').find('input[name=concepto]').type('Concepto de prueba');
 
         cy.get('button').contains('Crear comprobante asociado').should('not.be.disabled').click()
             .and('be.disabled');
@@ -25,11 +39,11 @@ describe('Listado de Comprobantes', () => {
     });
 
     it('Crear comprobante asociado sin concepto funciona', () => {
-        cy.get('tbody').find('tr').contains('Factura').next()
-            .contains('Crear asociado')
+        cy.get('tbody').find('tr').contains(/^Factura$/).next()
+            .find('.mdi-icon')
             .click();
 
-        cy.get('.modal').get('input[name=importe]').type('123');
+        cy.get('.modal').find('input[name=importe]').type('123');
 
         cy.get('button').contains('Crear comprobante asociado').click();
 
@@ -38,22 +52,57 @@ describe('Listado de Comprobantes', () => {
     });
 
     it('Crear comprobante asociado sin importe falla', () => {
-        cy.get('tbody').find('tr').contains('Factura').next()
-            .contains('Crear asociado')
+        cy.get('tbody').find('tr').contains(/^Factura$/).next()
+            .find('.mdi-icon')
             .click();
 
-        cy.get('.modal').get('input[name=importe]').clear();
-        cy.get('.modal').get('input[name=concepto]').type('asdasdasd');
+        cy.get('.modal').find('input[name=importe]').clear();
+        cy.get('.modal').find('input[name=concepto]').type('asdasdasd');
 
         cy.get('button').contains('Crear comprobante asociado').should('be.disabled');
     });
 
     it('Crear comprobante asociado no deja ingresar mas de dos decimales', () => {
-        cy.get('tbody').find('tr').contains('Factura').next()
-            .contains('Crear asociado')
+        cy.get('tbody').find('tr').contains(/^Factura$/).next()
+            .find('.mdi-icon')
             .click();
 
-        cy.get('.modal').get('input[name=importe]').type('1.163').should('have.value', '1.16');
+        cy.get('.modal').find('input[name=importe]').type('1.163').should('have.value', '1.16');
+    });
+
+    it('Crear comprobante asociado autocompleta correctamente el tipo por defecto', () => {
+        cy.createComprobanteAsociado('Nota De Credito', 10);
+        cy.createComprobanteAsociado('Factura Electronica', 10);
+        cy.createComprobanteAsociado('Factura Electronica', 10, '', '', 'Nota de Debito Electronica');
+
+        const selectAsociado = (tipo) => {
+            cy.get('tbody').find('tr').contains(tipo).next()
+                .find('.mdi-icon')
+                .click();
+        };
+
+        const tipoHaveValue = (tipo) => {
+            cy.get('.modal').find('select[name=tipo]').should('have.value', tipo);
+            cy.contains('×').click();
+        };
+
+        selectAsociado(/^Factura$/);
+        tipoHaveValue(ID_NOTA_DE_CREDITO);
+
+        selectAsociado('Nota De Credito');
+        tipoHaveValue(ID_NOTA_DE_DEBITO);
+
+        selectAsociado('Nota De Debito');
+        tipoHaveValue(ID_NOTA_DE_CREDITO);
+
+        selectAsociado('Factura Electronica');
+        tipoHaveValue(ID_NOTA_DE_CREDITO_ELECTRONICA);
+
+        selectAsociado('Nota de Credito Electronica MiPyME');
+        tipoHaveValue(ID_NOTA_DE_DEBITO_ELECTRONICA);
+
+        selectAsociado('Nota de Debito Electronica MiPyME');
+        tipoHaveValue(ID_NOTA_DE_CREDITO_ELECTRONICA);
     });
 });
 
