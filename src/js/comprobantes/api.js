@@ -13,13 +13,15 @@ export function getComprobantes() {
     return get(url);
 }
 
-export function saveComprobanteAsociado(idComp, importe, concepto) {
+export function saveComprobanteAsociado(idComp, data) {
     const url = '/api/comprobante/crear_comprobante_asociado';
 
     return post(url, {
         'id-comprobante-asociado': idComp,
-        importe,
-        concepto,
+        importe: data.importe,
+        concepto: data.concepto || '',
+        tipo: data.tipo,
+        iva: data.iva,
     });
 }
 

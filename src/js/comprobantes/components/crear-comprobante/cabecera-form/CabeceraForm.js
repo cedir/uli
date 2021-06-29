@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { formValueSelector } from 'redux-form';
 import { connect } from 'react-redux';
 import CabeceraFormView from './CabeceraFormView';
+import { tiposComprobante, opcionesIva } from '../../../../utilities/generalUtilities';
 
 function CabeceraForm({
-    opcionesIva,
     lockComprobante,
     updateForm,
     iva,
@@ -13,15 +13,6 @@ function CabeceraForm({
     viewMode,
 }) {
     const opcionesResponsable = ['Cedir', 'Brunetti'];
-    const tiposComprobante = [
-        { text: 'Factura', value: 1 },
-        { text: 'Liquidacion', value: 2 },
-        { text: 'Nota De Debito', value: 3 },
-        { text: 'Nota De Credito', value: 4 },
-        { text: 'Factura Electronica', value: 5 },
-        { text: 'Nota de Debito Electronica', value: 6 },
-        { text: 'Nota de Credito Electronica', value: 7 },
-    ];
     const subTiposComprobante = ['A', 'B'];
 
     useEffect(() => {
@@ -51,10 +42,9 @@ function CabeceraForm({
     );
 }
 
-const { array, bool, func, number } = PropTypes;
+const { bool, func, number } = PropTypes;
 
 CabeceraForm.propTypes = {
-    opcionesIva: array.isRequired,
     lockComprobante: bool.isRequired,
     updateForm: func.isRequired,
     iva: number.isRequired,

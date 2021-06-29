@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ImporteModal from '../../../../comprobantes/components/ImporteComprobanteAsociado';
+import ComprobanteAsociadoModal from '../../../../comprobantes/components/comprobante-asociado/ComprobanteAsociadoModal';
 import DefaultModal from '../../../../utilities/components/DefaultModal';
 import CobrarModal from '../modals/cobrar/CobrarModal';
 import CobrarModalFooter from '../modals/cobrar/CobrarModalFooter';
@@ -116,7 +116,7 @@ function ModalHandler({
     return (
         <React.Fragment>
             {showAsociadoModal && (
-                <ImporteModal
+                <ComprobanteAsociadoModal
                   modalOpened={ showAsociadoModal }
                   setShowImporteModal={ setShowAsociadoModal }
                   idComprobante={ comprobante.id || 0 }

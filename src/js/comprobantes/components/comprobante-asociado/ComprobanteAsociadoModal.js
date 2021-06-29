@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap/dist/react-bootstrap';
-import ImporteForm from './ImporteForm';
+import ComprobanteAsociadoForm from './ComprobanteAsociadoForm';
 
-function ImporteModal({ modalOpened, setShowImporteModal, idComprobante, importeDefault = 0 }) {
+function ComprobanteAsociadoModal({ modalOpened, setShowImporteModal, comprobante }) {
     return (
         <Modal
           show={ modalOpened }
@@ -14,21 +14,19 @@ function ImporteModal({ modalOpened, setShowImporteModal, idComprobante, importe
                 <Modal.Title>Crear Comprobante Asociado</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <ImporteForm
-                  idComprobante={ idComprobante }
+                <ComprobanteAsociadoForm
+                  comprobante={ comprobante }
                   setShowImporteModal={ setShowImporteModal }
-                  importeDefault={ importeDefault }
                 />
             </Modal.Body>
         </Modal>
     );
 }
 
-ImporteModal.propTypes = {
+ComprobanteAsociadoModal.propTypes = {
     modalOpened: PropTypes.bool.isRequired,
     setShowImporteModal: PropTypes.func.isRequired,
-    idComprobante: PropTypes.number.isRequired,
-    importeDefault: PropTypes.number,
+    comprobante: PropTypes.object.isRequired,
 };
 
-export default ImporteModal;
+export default ComprobanteAsociadoModal;

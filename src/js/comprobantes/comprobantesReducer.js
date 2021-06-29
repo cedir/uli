@@ -25,6 +25,11 @@ const loadComprobantesErrorReducer = (state) => {
     return newState;
 };
 
+const comprobanteApiSuccess = state => ({
+    ...state,
+    comprobantesApiLoading: false,
+});
+
 const loadComprobantesAsociadosReducer = (state, action) => ({
     ...state,
     comprobantes_lista: action.data.response.results,
@@ -34,25 +39,6 @@ const loadComprobantesAsociadosReducer = (state, action) => ({
 const loadComprobantesAsociadosErrorReducer = state => ({
     ...state,
     comprobantesLista: initialState.comprobantesLista,
-    comprobantesApiLoading: false,
-});
-
-const sendComprobanteAsociadoReducer = (state, action) => ({
-    ...state,
-    idComp: action.idComp,
-    importe: action.importe,
-    comprobantesApiLoading: true,
-});
-
-const createdComprobanteAsociadoSuccessReducer = (state, action) => ({
-    ...state,
-    comprobanteAsociado: action.comprobante.data,
-    comprobantesApiLoading: false,
-});
-
-const createdComprobanteAsociadoFailedReducer = state => ({
-    ...state,
-    comprobanteAsociadoCreado: false,
     comprobantesApiLoading: false,
 });
 
@@ -109,21 +95,19 @@ export function comprobantesReducer(state = initialState, action) {
         case types.FETCH_COMPROBANTES_PAGO:
         case types.FETCH_COMPROBANTES_LISTA:
         case types.FETCH_COMPROBANTE:
+        case types.SEND_COMPROBANTE_ASOCIADO:
             return actionsHandledByEpicReducer(state);
         case types.LOAD_COMPROBANTES_PAGO:
             return loadComprobantesReducer(state, action);
+        case types.CREATED_COMPROBANTE_ASOCIADO_FAILED:
         case types.LOAD_COMPROBANTES_PAGO_ERROR:
             return loadComprobantesErrorReducer(state);
         case types.LOAD_COMPROBANTES_LISTA_SUCCESS:
             return loadComprobantesAsociadosReducer(state, action);
         case types.LOAD_COMPROBANTES_LISTA_FAILED:
             return loadComprobantesAsociadosErrorReducer(state);
-        case types.SEND_COMPROBANTE_ASOCIADO:
-            return sendComprobanteAsociadoReducer(state, action);
         case types.CREATED_COMPROBANTE_ASOCIADO_SUCCESS:
-            return createdComprobanteAsociadoSuccessReducer(state, action);
-        case types.CREATED_COMPROBANTE_ASOCIADO_FAILED:
-            return createdComprobanteAsociadoFailedReducer(state);
+            return comprobanteApiSuccess(state);
         case types.CREATE_COMPROBANTE:
             return createComprobante(state, action);
         case types.CREATE_COMPROBANTE_SUCCESS:
