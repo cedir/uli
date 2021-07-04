@@ -45,6 +45,7 @@ function EstudiosDelDia({
             <div className='pull-right'>
                 <EstudiosActionBar
                   setModalOpened={ setModalOpened }
+                  searchParams={ searchParams }
                   history={ history }
                   fromCaja={ fromCaja }
                 />

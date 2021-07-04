@@ -1,7 +1,7 @@
 import { get, update, post, patch, remove } from '../utilities/rest';
 import { getSucursal } from '../app/storeHelper';
 
-function createSearchQueryString(fetchEstudiosParams) {
+export function createSearchQueryString(fetchEstudiosParams) {
     const { fechaDesde = '', fechaHasta = '', obraSocial = '', dniPaciente = '',
         nombrePaciente = '', apellidoPaciente = '', medicoActuante = '',
         medicoSolicitante = '', practica = '' } = fetchEstudiosParams;
