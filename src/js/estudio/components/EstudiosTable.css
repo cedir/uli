@@ -6,31 +6,6 @@
     text-align: left;
 }
 
-@media print {    
-    .hide-on-print {
-        display: none;
-        visibility: hidden 
-    }
-
-    .div-estudios-table {
-        overflow-x: hidden!important;
-    }
-
-    .estudios-table tr {
-        margin: 0;
-        padding: 0;
-        font-size: 13px;
-    }
-    
-    .estudios-table td {
-        padding: 0;
-        padding: 0.3em;
-        margin: 0.3em;
-        font-size: 13px;
-    }
-
-}
-
 @page {
     margin: 3rem;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
@@ -22,8 +22,6 @@ function EstudiosDelDia({
     fromCaja,
 }) {
     const [modalOpened, setModalOpened] = useState(false);
-    const [printMode, setPrintMode] = useState(false);
-    const estudiosRef = useRef(null);
 
     useEffect(() => {
         const { fecha, dniPaciente } = queryString.parse(location.search);
@@ -47,10 +45,8 @@ function EstudiosDelDia({
             <div className='pull-right'>
                 <EstudiosActionBar
                   setModalOpened={ setModalOpened }
+                  searchParams={ searchParams }
                   history={ history }
-                  estudiosRef={ estudiosRef }
-                  setPrintMode={ setPrintMode }
-                  printMode={ printMode }
                   fromCaja={ fromCaja }
                 />
             </div>
@@ -58,8 +54,6 @@ function EstudiosDelDia({
             { estudios.length > 0 && (
                 <EstudiosList
                   history={ history }
-                  estudiosRef={ estudiosRef }
-                  printMode={ printMode }
                   fromCaja={ fromCaja }
                 />
             ) }

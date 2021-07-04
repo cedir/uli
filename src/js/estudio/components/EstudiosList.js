@@ -15,8 +15,6 @@ function EstudiosList({
     fetchEstudiosConMovimientos,
     resultPages,
     history,
-    estudiosRef,
-    printMode,
     fromCaja,
 }) {
     const searchEstudios = (actPage) => {
@@ -29,8 +27,6 @@ function EstudiosList({
         <div>
             <EstudiosListTable
               history={ history }
-              estudiosRef={ estudiosRef }
-              printMode={ printMode }
               fromCaja={ fromCaja }
             />
             <div style={ { textAlign: 'center' } }>
@@ -62,8 +58,6 @@ EstudiosList.propTypes = {
     fetchEstudiosConMovimientos: func,
     resultPages: number,
     actualPage: number,
-    estudiosRef: object,
-    printMode: bool.isRequired,
     fromCaja: bool.isRequired,
 };
 

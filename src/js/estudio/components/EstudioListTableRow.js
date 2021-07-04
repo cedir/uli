@@ -12,7 +12,6 @@ function formatDate(dateString) {
 function EstudioListTableRow({
     estudio,
     onRowClick,
-    printMode,
     fromCaja,
     asociarEstudio,
     history,
@@ -36,7 +35,7 @@ function EstudioListTableRow({
             <td>{ practica.descripcion }</td>
             <td>{ estado }</td>
             <td>{ `${medico.apellido}, ${medico.nombre}` }</td>
-            { !printMode && !fromCaja && <td>{ `${medicoSolicitante.apellido}, ${medicoSolicitante.nombre}` }</td> }
+            { !fromCaja && <td>{ `${medicoSolicitante.apellido}, ${medicoSolicitante.nombre}` }</td> }
             { fromCaja && <td>
                 <CheckCircle onClick={ () => { asociarEstudio(estudio); history.goBack(); } } />
             </td> }
@@ -49,7 +48,6 @@ const { object, func, bool } = PropTypes;
 EstudioListTableRow.propTypes = {
     estudio: object.isRequired,
     onRowClick: func.isRequired,
-    printMode: bool.isRequired,
     fromCaja: bool.isRequired,
     asociarEstudio: func.isRequired,
     history: object.isRequired,
