@@ -7,6 +7,7 @@ Cypress.Commands.add('login', () => {
     cy.get('#password').type(Cypress.env('loginPassword'));
     cy.get('select').select('Cedir');
     cy.contains('Login').click();
+    cy.url().should('eq', `${Cypress.config().baseUrl}/`);
 });
 
 Cypress.Commands.add('createComprobante', (iva, tipo, importe, subTipo = 'B') => {
