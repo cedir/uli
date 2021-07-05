@@ -37,17 +37,22 @@ const crearEstudio = (
 };
 
 describe('Crear estudio', () => {
+    /* Setup section */
+
     beforeEach(() => {
         cy.login();
         cy.visit('/estudios/create');
     });
 
+    /* Testing section */
     it('Crear estudio funciona', () => {
         crearEstudio();
     });
 });
 
 describe('Listado de estudios', () => {
+    /* Setup section */
+
     before(() => {
         cy.login();
         cy.visit('/estudios/create');
@@ -59,6 +64,8 @@ describe('Listado de estudios', () => {
         cy.login();
         cy.visit('/estudios');
     });
+
+    /* Testing section */
 
     it('Listado de estudios ejecuta busqueda al ingresar al listado', () => {
         cy.get('tbody').find('tr');
