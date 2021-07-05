@@ -3,48 +3,81 @@
 const date = new Date();
 const today = date.toISOString().substring(0, 10);
 
-const typeAsyncInput = (input, text) => {
-    cy.get(`input[name=${input}]`).type(text);
-    cy.contains('Type to search').should('not.exist');
-    cy.contains('Searching').should('not.exist');
+const crearEstudio = (
+    fecha = today, obraSocial = 'OSDE BINARIO', paciente = 'DANIEL',
+    actuante = 'DANIEL', solicitante = 'DANIEL', anestesista = 'DANIEL',
+    practica = 'CONSULTA', motivo = '',
+) => {
+    cy.get('input[name=fecha]').type(fecha);
+
+    cy.typeAsyncInput('obraSocial', obraSocial);
+    cy.clickFirstOption();
+
+    cy.typeAsyncInput('paciente', paciente);
+    cy.clickFirstOption();
+
+    cy.typeAsyncInput('medicoActuante', actuante);
+    cy.clickFirstOption();
+
+    cy.typeAsyncInput('medicoSolicitante', solicitante);
+    cy.clickFirstOption();
+
+    cy.typeAsyncInput('anestesista', anestesista);
+    cy.clickFirstOption();
+
+    cy.typeAsyncInput('practica', practica);
+    cy.clickFirstOption();
+
+    if (motivo) {
+        cy.get('input[name=motivo]').type(motivo);
+    }
+
+    cy.get('button').contains('Crear').click();
+    cy.contains('Estudio creado correctamente');
 };
 
-const clickFirstOption = () => cy.get('form').find('ul > li > a').eq(0).click();
-
 describe('Crear estudio', () => {
-    before(() => {
+    beforeEach(() => {
         cy.login();
         cy.visit('/estudios/create');
     });
 
-    afterEach(() => {
-        cy.visit('/estudios/create');
-    });
-
     it('Crear estudio funciona', () => {
-        cy.get('input[name=fecha]').type(today);
-
-        typeAsyncInput('obraSocial', 'osde');
-        cy.contains('OSDE BINARIO').click();
-
-        typeAsyncInput('paciente', 'daniel');
-        clickFirstOption();
-
-        typeAsyncInput('medicoActuante', 'brun');
-        clickFirstOption();
-
-        typeAsyncInput('medicoSolicitante', 'dan');
-        clickFirstOption();
-
-        typeAsyncInput('anestesista', 'dan');
-        clickFirstOption();
-
-        typeAsyncInput('practica', 'colangio');
-        clickFirstOption();
-
-        cy.get('input[name=motivo]').type('pruebas');
-
-        cy.get('button').contains('Crear').click();
-        cy.contains('Estudio creado correctamente');
+        crearEstudio();
     });
+});
+
+describe('Listado de estudios', () => {
+    before(() => {
+        cy.login();
+        cy.visit('/estudios/create');
+        crearEstudio(today);
+        cy.contains('Log out').click();
+    });
+
+    beforeEach(() => {
+        cy.login();
+        cy.visit('/estudios');
+    });
+
+    it('Listado de estudios ejecuta busqueda al ingresar al listado', () => {
+        cy.get('tbody').find('tr');
+    });
+
+    it('Seleccionar estudio envia a editar estudio', () => {
+        cy.get('tbody').find('tr').eq(0).click();
+        cy.url().should('include', 'estudios/detail');
+    });
+});
+
+describe('Detalle y edicion de datos de estudios', () => {
+
+});
+
+describe('Detalle y edicion de medicacion de estudios', () => {
+
+});
+
+describe('Detalle y edicion de facturacion de estudios', () => {
+
 });
