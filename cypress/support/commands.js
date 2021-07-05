@@ -7,6 +7,7 @@ Cypress.Commands.add('login', () => {
     cy.get('#password').type(Cypress.env('loginPassword'));
     cy.get('select').select('Cedir');
     cy.contains('Login').click();
+    cy.url().should('eq', `${Cypress.config().baseUrl}/`);
 });
 
 Cypress.Commands.add('createComprobante', (iva, tipo, importe, subTipo = 'B') => {
@@ -42,4 +43,13 @@ Cypress.Commands.add('createComprobanteAsociado', (tipoAsociado, importe, concep
 
     cy.contains('Comprobante creado correctamente');
     cy.get('button').contains('Buscar').click();
+});
+
+Cypress.Commands.add('clickFirstOption', () =>
+    cy.get('form').find('ul > li > a').eq(0).click());
+
+Cypress.Commands.add('typeAsyncInput', (input, text) => {
+    cy.get(`input[name=${input}]`).type(text);
+    cy.contains('Type to search').should('not.exist');
+    cy.contains('Searching').should('not.exist');
 });
