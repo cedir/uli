@@ -54,6 +54,7 @@ jobs:
       - name: Setup settings
         run: |
           cp src/js/app/config.js.bak src/js/app/config.js
+          cp cypress.json.bak cypress.json
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
