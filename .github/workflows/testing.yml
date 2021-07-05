@@ -30,25 +30,25 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: cedir/web
-          path: master
+          path: web
       - name: Install project dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r web/requirements.txt
       - name: Setup settings
         run: |
           mkdir logs cache
-          cp settings.py.bak settings.py
+          cp web/settings.py.bak web/settings.py
       - name: Migrate
         run: |
-          python manage.py migrate
-          python manage.py loaddata fixtures/*.json
+          python web/manage.py migrate
+          python web/manage.py loaddata web/fixtures/*.json
       - name: Create user for testing
         run: |
-          python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_user('asd', 'asd@asd.com', 'asd')"
+          python web/manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_user('asd', 'asd@asd.com', 'asd')"
       - name: Run server
         run: |
-          python manage.py runserver &
+          python web/manage.py runserver &
       - name: Checkout uli
         uses: actions/checkout@v2
       - name: Cypress run
