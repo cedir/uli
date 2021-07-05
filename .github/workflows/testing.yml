@@ -51,6 +51,9 @@ jobs:
           python web/manage.py runserver &
       - name: Checkout uli
         uses: actions/checkout@v2
+      - name: Setup settings
+        run: |
+          cp src/js/app/config.js.bak src/js/app/config.js
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
