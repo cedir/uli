@@ -37,8 +37,8 @@ jobs:
           pip install -r web/requirements.txt
       - name: Setup settings
         run: |
-          mkdir logs cache
           cp web/settings.py.bak web/settings.py
+          mkdir logs cache
       - name: Migrate
         run: |
           python web/manage.py migrate
@@ -46,18 +46,19 @@ jobs:
       - name: Create user for testing
         run: |
           python web/manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_user('asd', 'asd@asd.com', 'asd')"
-      - name: Run server
-        run: |
-          python web/manage.py runserver &
       - name: Checkout uli
         uses: actions/checkout@v2
+        with:
+          path: uli
       - name: Setup settings
         run: |
-          cp src/js/app/config.js.bak src/js/app/config.js
-          cp cypress.json.bak cypress.json
+          cp uli/src/js/app/config.js.bak uli/src/js/app/config.js
+          cp uli/cypress.json.bak uli/cypress.json
+          mkdir uli/logs uli/cache
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          start: python web/manage.py runserver && npm start
+          start: npm start, python ../web/manage.py runserver
           browser: chrome
           wait-on: 'http://localhost:8000, http://localhost:3000'
+          working-directory: uli
