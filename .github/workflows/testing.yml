@@ -1,0 +1,27 @@
+name: E2E tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup settings
+        run: |
+          cp src/js/app/config.js.bak src/js/app/config.js
+          cp cypress.json.bak cypress.json
+  tests:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm start
+          browser: chrome
+          wait-on: 'http://localhost:3000'
