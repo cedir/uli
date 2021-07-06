@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      SUPER_SECRET_USER: ${{ secrets.SuperSecretUser }}
-      SUPER_SECRET_PASS: ${{ secrets.SuperSecretPass }}
     steps:
       - uses: actions/checkout@v2
       - name: Copy settings
@@ -20,8 +17,8 @@ jobs:
           cp cypress.json.bak cypress.json
       - name: Adding user for testing
         run: |
-          sed -i 's/usuario/"$SUPER_SECRET_USER"/' cypress.json 
-          sed -i 's/password/"$SUPER_SECRET_PASS"/' cypress.json
+          sed -i 's/usuario/${{ secrets.SUPER_SECRET_USER }}/' cypress.json 
+          sed -i 's/password/${{ secrets.SUPER_SECRET_PASS }}/' cypress.json
       - name: Update base url
         run: |
           sed -i 's/http/https/' src/js/app/config.js
