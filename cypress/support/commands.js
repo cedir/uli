@@ -1,13 +1,16 @@
 /// <reference types="Cypress" />
 /* eslint-disable no-unused-expressions */
 
+import { config } from '../../src/js/app/config';
+
 Cypress.Commands.add('login', () => {
-    cy.visit('/login');
-    cy.get('#username').type(Cypress.env('loginUser'));
-    cy.get('#password').type(Cypress.env('loginPassword'));
-    cy.get('select').select('Cedir');
-    cy.contains('Login').click();
-    cy.url().should('eq', `${Cypress.config().baseUrl}/`);
+    cy.request('POST', `${config.baseUrl}/api/security/auth/`, {
+        username: Cypress.env('loginUser'),
+        password: Cypress.env('loginPassword'),
+    }).then((response) => {
+        window.localStorage.setItem('state', `{"login":{"token":"${response.body.token}","sucursal":1}}`);
+        cy.visit('/');
+    });
 });
 
 Cypress.Commands.add('createComprobante', (iva, tipo, importe, subTipo = 'B') => {
