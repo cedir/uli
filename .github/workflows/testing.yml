@@ -1,0 +1,31 @@
+name: E2E tests
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy settings
+        run: |
+          cp src/js/app/config.js.bak src/js/app/config.js
+          cp cypress.json.bak cypress.json
+      - name: Adding user for testing
+        run: |
+          sed -i 's/usuario/${{ secrets.SUPER_SECRET_USER }}/' cypress.json 
+          sed -i 's/password/${{ secrets.SUPER_SECRET_PASS }}/' cypress.json
+      - name: Update base url
+        run: |
+          sed -i 's/http/https/' src/js/app/config.js
+          sed -i 's/127.0.0.1:8000/staging.cedir.com.ar/' src/js/app/config.js
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: npm start
+          browser: chrome
+          wait-on: 'http://localhost:3000'
