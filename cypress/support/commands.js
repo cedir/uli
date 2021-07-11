@@ -56,3 +56,5 @@ Cypress.Commands.add('typeAsyncInput', (input, text) => {
     cy.contains('Type to search').should('not.exist');
     cy.contains('Searching').should('not.exist');
 });
+
+Cypress.Commands.add('firstRowType', type => cy.get('tbody > tr').contains(type).parent());
