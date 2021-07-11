@@ -1,5 +1,7 @@
 /// <reference types="Cypress" />
-import { listadoCols } from '../support/PresentacionUtilities';
+import { listadoCols } from '../support/utilities/PresentacionUtilities';
+import { crearEstudio } from '../support/utilities/EstudiosUtilities';
+import { today } from '../support/utilities/GeneralUtilities';
 
 /* General setup */
 beforeEach(() => {
@@ -49,5 +51,41 @@ describe('Cobrar presentacion', () => {
         cy.get('.modal').contains('×').click();
         cy.get('.modal').should('not.exist');
         cy.contains('button', 'Cobrar').should('be.disabled');
+    });
+});
+
+describe('Crear Presentacion', () => {
+    /* Setup section */
+    beforeEach(() => {
+        cy.visit('/estudios/create');
+        crearEstudio();
+        cy.visit('/presentaciones-obras-sociales');
+        cy.typeAsyncInput('obraSocial', 'OSDE BINARIO');
+        cy.clickFirstOption();
+        cy.contains('button', 'Nueva').click();
+        cy.contains('Estudios cargados correctamente');
+    });
+
+    /* Test section */
+    it('Crear presentacion con factura funciona', () => {
+        cy.get('input[name=date]').type(today);
+
+        cy.contains('button', 'Comprobante').click();
+        cy.get('.modal').find('select').eq(0).select('Factura');
+        cy.get('.modal').find('select').eq(1).select('A');
+        cy.get('.modal').find('select').eq(2).select('CeDIR');
+        cy.contains('button', 'Cerrar').click();
+
+        cy.contains('button', 'Finalizar').click();
+        cy.get('.modal').find('input[name=periodo]').type('1 MES');
+        cy.get('.modal').contains('button', 'Finalizar').should('not.be.disabled').click();
+
+        cy.contains('Presentación creada y cerrada con éxito');
+
+        cy.visit('/presentaciones-obras-sociales');
+        cy.typeAsyncInput('obraSocial', 'OSDE BINARIO');
+        cy.clickFirstOption();
+        cy.contains('button', 'Buscar').click();
+        cy.get('tbody > tr').contains('td', 'OSDE BINARIO').parent().contains('td', 'Pendiente');
     });
 });

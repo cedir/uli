@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-import { crearEstudio } from '../support/EstudiosUtilities';
+import { crearEstudio } from '../support/utilities/EstudiosUtilities';
 
 describe('Crear estudio', () => {
     /* Setup section */
