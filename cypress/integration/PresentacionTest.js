@@ -31,14 +31,38 @@ describe('Listado de presentaciones', () => {
 
     it('Abrir presentacion funciona correctamente', () => {
         cy.contains('button', 'Buscar').click();
-        cy.firstRowType('Pendiente').find('td').eq(columnas.nroComprobante).invoke('text')
+        cy.firstRowType('Pendiente').eq(columnas.nroComprobante).invoke('text')
             .then((numero) => {
-                cy.contains(numero).parent().find('td').eq(columnas.abrir)
+                cy.contains('td', numero).parent().find('td').eq(columnas.abrir)
+                    .children()
                     .click();
                 cy.get('.modal').contains('button', 'Abrir').click();
                 cy.contains('La presentacion fue abierta exitosamente');
                 cy.contains(numero).should('not.exist');
                 cy.get('tbody > tr').contains('Abierto');
             });
+    });
+});
+
+describe('Cobrar presentacion', () => {
+    /* Setup section */
+    beforeEach(() => {
+        cy.login();
+        cy.visit('/presentaciones-obras-sociales');
+        cy.contains('button', 'Buscar').click();
+        cy.firstRowType('Pendiente').eq(columnas.cobrar).children().click();
+        cy.contains('Estudios cargados correctamente');
+    });
+
+    /* Test section */
+    it('Cobrar presentacion funciona correctamente', () => {
+        cy.get('input[name=recibo]').type('asd123');
+        cy.contains('button', 'Cobrar').click();
+        cy.get('.modal').contains('button', 'Confirmar').click();
+        cy.get('.modal').contains('button', 'Confirmar').should('be.disabled');
+        cy.contains('Presentacion cobrada');
+        cy.get('.modal').contains('×').click();
+        cy.get('.modal').should('not.exist');
+        cy.contains('button', 'Cobrar').should('be.disabled');
     });
 });
