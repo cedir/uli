@@ -27,9 +27,13 @@ jobs:
         run: |
           sed -i 's/http/https/' src/js/app/config.js
           sed -i 's/127.0.0.1:8000/staging.cedir.com.ar/' src/js/app/config.js
+      - name: Delete ESlint for speed
+        run: |
+          sed '17d' webpack.dev.js
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           start: npm start
           browser: chrome
+          record: false
           wait-on: 'http://localhost:3000'
