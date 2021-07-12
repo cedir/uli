@@ -8,6 +8,10 @@ on:
 
 jobs:
   build:
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -35,5 +39,6 @@ jobs:
         with:
           start: npm start
           browser: chrome
-          record: false
+          parallel: true
+          record: true
           wait-on: 'http://localhost:3000'
