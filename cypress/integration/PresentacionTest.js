@@ -4,6 +4,8 @@ import { crearEstudio } from '../support/utilities/EstudiosUtilities';
 import { today } from '../support/utilities/GeneralUtilities';
 
 /* General setup */
+const obraSocial = Cypress.env('obraSocial');
+
 beforeEach(() => {
     cy.login();
     cy.visit('/presentaciones-obras-sociales');
@@ -14,9 +16,9 @@ describe('Crear Presentacion', () => {
     beforeEach(() => {
         /* Create a study and open presentation for the study */
         cy.visit('/estudios/create');
-        crearEstudio();
+        crearEstudio({ obraSocial });
         cy.visit('/presentaciones-obras-sociales');
-        cy.typeAsyncInput('obraSocial', 'OSDE BINARIO');
+        cy.typeAsyncInput('obraSocial', obraSocial);
         cy.clickFirstOption();
         cy.contains('button', 'Nueva').click();
         cy.contains('Estudios cargados correctamente');
@@ -44,10 +46,10 @@ describe('Crear Presentacion', () => {
 
         /* Check existence and status */
         cy.visit('/presentaciones-obras-sociales');
-        cy.typeAsyncInput('obraSocial', 'OSDE BINARIO');
+        cy.typeAsyncInput('obraSocial', obraSocial);
         cy.clickFirstOption();
         cy.contains('button', 'Buscar').click();
-        cy.get('tbody > tr').contains('td', 'OSDE BINARIO').parent().contains('td', 'Pendiente');
+        cy.get('tbody > tr').contains('td', obraSocial).parent().contains('td', 'Pendiente');
     });
 });
 
@@ -108,10 +110,10 @@ describe('Modificar presentacion', () => {
 
         /* Check status */
         cy.visit('/presentaciones-obras-sociales');
-        cy.typeAsyncInput('obraSocial', 'OSDE BINARIO');
+        cy.typeAsyncInput('obraSocial', obraSocial);
         cy.clickFirstOption();
         cy.contains('button', 'Buscar').click();
-        cy.get('tbody > tr').contains('td', 'OSDE BINARIO').parent().contains('td', 'Pendiente');
+        cy.get('tbody > tr').contains('td', obraSocial).parent().contains('td', 'Pendiente');
     });
 });
 

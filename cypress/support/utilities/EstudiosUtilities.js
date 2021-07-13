@@ -1,10 +1,10 @@
 import { today } from './GeneralUtilities';
 
-export const crearEstudio = (
-    fecha = today, obraSocial = 'OSDE BINARIO', paciente = 'DANIEL',
-    actuante = 'DANIEL', solicitante = 'DANIEL', anestesista = 'DANIEL',
-    practica = 'CONSULTA', motivo = '',
-) => {
+export const crearEstudio = ({
+    fecha = today, obraSocial = Cypress.env('obraSocial'), paciente = Cypress.env('paciente'),
+    actuante = Cypress.env('actuante'), solicitante = Cypress.env('solicitante'), anestesista = Cypress.env('anestesista'),
+    practica = Cypress.env('practica'), motivo = '',
+}) => {
     cy.get('input[name=fecha]').type(fecha);
 
     cy.typeAsyncInput('obraSocial', obraSocial);
