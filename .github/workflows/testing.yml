@@ -36,3 +36,5 @@ jobs:
           start: npm start
           browser: chrome
           wait-on: 'http://localhost:3000'
+          spec: |
+            cypress/integration/*.js
