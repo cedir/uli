@@ -11,7 +11,7 @@ describe('Crear estudio', () => {
 
     /* Testing section */
     it('Crear estudio funciona', () => {
-        crearEstudio();
+        crearEstudio({});
     });
 });
 
@@ -21,7 +21,7 @@ describe('Listado de estudios', () => {
     before(() => {
         cy.login();
         cy.visit('/estudios/create');
-        crearEstudio();
+        crearEstudio({});
         cy.contains('Log out').click();
     });
 
