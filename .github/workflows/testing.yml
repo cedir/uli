@@ -19,13 +19,22 @@ jobs:
         run: |
           sed -i 's/usuario/${{ secrets.SUPER_SECRET_USER }}/' cypress.json 
           sed -i 's/password/${{ secrets.SUPER_SECRET_PASS }}/' cypress.json
+      - name: Change timeout settings
+        run: |
+          sed -i 's/4000/10000/' cypress.json 
+          sed -i 's/30000/50000/' cypress.json
       - name: Update base url
         run: |
           sed -i 's/http/https/' src/js/app/config.js
           sed -i 's/127.0.0.1:8000/staging.cedir.com.ar/' src/js/app/config.js
+      - name: Delete ESlint for speed
+        run: |
+          sed '17d' webpack.dev.js
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           start: npm start
           browser: chrome
           wait-on: 'http://localhost:3000'
+          spec: |
+            cypress/integration/*.js

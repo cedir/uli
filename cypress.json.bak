@@ -5,5 +5,7 @@
     "env": {
         "loginUser": "usuario",
         "loginPassword": "password"
-    }
+    },
+    "defaultCommandTimeout": 4000,
+    "responseTimeout": 30000
 }

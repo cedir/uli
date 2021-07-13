@@ -17,6 +17,7 @@ function ReciboInput({ nroRecibo, setNroRecibo }) {
                     <FormControl
                       type='text'
                       value={ nroRecibo }
+                      name='recibo'
                       onChange={ e => setNroRecibo(e.target.value) }
                     />
                 </InputGroup>
