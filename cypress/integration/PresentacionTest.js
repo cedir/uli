@@ -22,22 +22,37 @@ describe('Crear Presentacion', () => {
         cy.contains('Estudios cargados correctamente');
     });
 
+    /* Utilities section */
+    const comprobanteModal = (tipo, subTipo = 'A', responsable = 'CeDIR', gravado = '%0.00') => {
+        cy.contains('button', 'Comprobante').click();
+        cy.get('.modal').find('select').eq(0).select(tipo);
+
+        /* Liquidacion type disable the next inputs */
+        if (tipo !== 'Liquidacion') {
+            cy.get('.modal').find('select').eq(1).select(subTipo);
+            cy.get('.modal').find('select').eq(2).select(responsable);
+            cy.get('.modal').find('select').eq(3).select(gravado);
+        }
+
+        cy.contains('button', 'Cerrar').click();
+    };
+
+    const finalizarModal = (periodo = '1 MES') => {
+        cy.contains('button', 'Finalizar').click();
+        cy.get('.modal').find('input[name=periodo]').type(periodo);
+        cy.get('.modal').contains('button', 'Finalizar').should('not.be.disabled').click();
+    };
+
     /* Test section */
     it('Crear presentacion con factura funciona', () => {
         /* Date input */
         cy.get('input[name=date]').type(today);
 
         /* Comprobante modal */
-        cy.contains('button', 'Comprobante').click();
-        cy.get('.modal').find('select').eq(0).select('Factura');
-        cy.get('.modal').find('select').eq(1).select('A');
-        cy.get('.modal').find('select').eq(2).select('CeDIR');
-        cy.contains('button', 'Cerrar').click();
+        comprobanteModal('Factura');
 
         /* Finalizar modal */
-        cy.contains('button', 'Finalizar').click();
-        cy.get('.modal').find('input[name=periodo]').type('1 MES');
-        cy.get('.modal').contains('button', 'Finalizar').should('not.be.disabled').click();
+        finalizarModal();
 
         /* ok confirmation */
         cy.contains('Presentación creada y cerrada con éxito');
@@ -48,6 +63,81 @@ describe('Crear Presentacion', () => {
         cy.clickFirstOption();
         cy.contains('button', 'Buscar').click();
         cy.get('tbody > tr').contains('td', 'OSDE BINARIO').parent().contains('td', 'Pendiente');
+    });
+
+    // it('Boton finalizar esta desactivado hasta que se completan todos los datos necesarios', () => {
+    //     /* Finalizar button needs fecha input */
+    //     cy.get('input[name=date]').type('');
+
+    //     comprobanteModal('Factura');
+
+    //     cy.contains('button', 'Finalizar').click();
+    //     cy.get('.modal').find('input[name=periodo]').type('1 MES');
+    //     cy.get('.modal').contains('button', 'Finalizar').should('be.disabled');
+    //     cy.contains('button', 'Cerrar').click();
+
+    //     /* Fill date input and check */
+    //     cy.get('input[name=date]').type(today);
+
+    //     cy.contains('button', 'Finalizar').click();
+    //     cy.get('.modal').find('input[name=periodo]').type('1 MES');
+    //     cy.get('.modal').contains('button', 'Finalizar').should('be.disabled');
+    // });
+
+    it('Crear presentacion funciona con comprobante liquidacion', () => {
+
+    });
+
+    it('Boton borrar elimina el estudio de la presentacion', () => {
+
+    });
+
+    it('Agregar estudios a una presentacion funciona', () => {
+
+    });
+
+    it('Agregar estudios solo permite agregar estudios de la obra social de la presentacion', () => {
+
+    });
+
+    it('Seleccionar un gravado diferente aplica el porcentaje extra al total', () => {
+
+    });
+
+    it('Seleccionar un gravado diferente aplica el porcentaje extra al total', () => {
+
+    });
+
+    it('Seleccionar fecha de estudio envia a editar estudio', () => {
+
+    });
+
+    it('Estudios dados de pago contra factura no estan permitidos en presentaciones', () => {
+
+    });
+
+    it('Liquidaciones no permiten ingresar gravado', () => {
+
+    });
+
+    it('Cambiar importes actualiza el total', () => {
+
+    });
+
+    it('Total de medicacion no tiene problemas de redondeo', () => {
+
+    });
+
+    it('Realizar pago contra factura elimina el estudio de la presentacion', () => {
+
+    });
+
+    it('Borrar todos los estudios pregunta si quiere eliminar la presentacion', () => {
+
+    });
+
+    it('Crear presentacion crea comprobante', () => {
+
     });
 });
 
